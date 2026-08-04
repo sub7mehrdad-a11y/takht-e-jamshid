@@ -277,6 +277,50 @@
   let currentGame = null;
   let currentPlayer = null;
   let pollTimer = null;
+  let myRoleId = null, mySide = null;
+
+  // ---------------- حافظه‌ی جلسه (تا رفرشِ صفحه از بازی خارجت نکنه) ----------------
+  const SESSION_KEY = 'tj_session_v1';
+  function saveSession(){
+    try{
+      localStorage.setItem(SESSION_KEY, JSON.stringify({ gameId: currentGame.id, playerId: currentPlayer.id }));
+    }catch(e){ console.error(e); }
+  }
+  function clearSession(){
+    try{ localStorage.removeItem(SESSION_KEY); }catch(e){}
+  }
+  async function tryResumeSession(){
+    let saved;
+    try{ saved = JSON.parse(localStorage.getItem(SESSION_KEY)); }catch(e){ saved = null; }
+    if(!saved || !saved.gameId || !saved.playerId) return false;
+    try{
+      const player = await tjGetPlayer(saved.playerId);
+      const game = await tjGetGame(saved.gameId);
+      if(!player || !game || player.game_id !== game.id){ clearSession(); return false; }
+      currentPlayer = player; currentGame = game;
+      myRoleId = player.role_id; mySide = player.side;
+
+      if(player.is_host){
+        document.getElementById('hostRoomCode').textContent = game.code;
+        go('screen-host-lobby');
+        if(game.status === 'lobby'){
+          startHostPolling();
+        } else {
+          document.getElementById('scenarioPicker').style.display = 'none';
+          document.getElementById('hostPhaseControl').style.display = 'block';
+          startHostPhasePolling();
+        }
+      } else {
+        go('screen-player-lobby');
+        startPlayerPolling();
+      }
+      return true;
+    }catch(e){
+      console.error(e);
+      clearSession();
+      return false;
+    }
+  }
 
   function go(id){
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -300,6 +344,7 @@
     try{
       const { game, player } = await tjCreateGame(name);
       currentGame = game; currentPlayer = player;
+      saveSession();
       document.getElementById('hostRoomCode').textContent = game.code;
       go('screen-host-lobby');
       startHostPolling();
@@ -321,6 +366,7 @@
     try{
       const { game, player } = await tjJoinGame(code, name);
       currentGame = game; currentPlayer = player;
+      saveSession();
       document.getElementById('playerRoomTitle').textContent = 'به اتاقِ ' + game.code + ' پیوستی';
       go('screen-player-lobby');
       startPlayerPolling();
@@ -365,7 +411,7 @@
       }
     }
     await tick();
-    pollTimer = setInterval(tick, 3000);
+    pollTimer = setInterval(tick, 2000);
   }
 
   async function pickScenario(layoutId){
@@ -376,28 +422,27 @@
       const players = await tjListPlayers(currentGame.id);
       const nonHost = players.filter(p => !p.is_host);
       await tjAssignRoles(currentGame.id, nonHost, layout);
-      await tjUpdatePhase(currentGame.id, { status: 'running', current_phase: 'role_reveal', day_number: 0 });
-      document.getElementById('scenarioPicker').innerHTML = `
-        <div style="text-align:center; padding:10px;">
-          <div style="color:var(--green); font-weight:700; margin-bottom:14px;">✓ نقش‌ها پخش شدن</div>
-          <p style="font-size:12px; color:var(--parchment-dim); margin-bottom:16px;">صبر کن همه نقششون رو ببینن، بعد بزن بریم روزِ اول.</p>
-          <button class="btn-crimson" onclick="startDayOne()">شروعِ روزِ اول ▶</button>
-        </div>
-      `;
+      await tjUpdatePhaseRetry({ status: 'running', current_phase: 'role_reveal', day_number: 0 });
+      document.getElementById('scenarioPicker').style.display = 'none';
+      document.getElementById('hostPhaseControl').style.display = 'block';
+      startHostPhasePolling();
     }catch(e){
       showError(e.message);
       startHostPolling();
     }
   }
 
-  async function startDayOne(){
+  // تلاشِ دوباره‌ی خودکار اگه یه‌بار خطای شبکه‌ای موقتی خورد (مثلاً افزونه‌ی VPN/آنتی‌ویروس درخواست رو قطع کرده باشه)
+  async function tjUpdatePhaseRetry(updates, attempt){
+    attempt = attempt || 1;
     try{
-      await tjUpdatePhase(currentGame.id, { current_phase: 'day', day_number: 1 });
-      document.getElementById('scenarioPicker').style.display = 'none';
-      document.getElementById('hostPhaseControl').style.display = 'block';
-      startHostPhasePolling();
+      return await tjUpdatePhase(currentGame.id, updates);
     }catch(e){
-      showError(e.message);
+      if(attempt < 3){
+        await new Promise(r => setTimeout(r, 800));
+        return tjUpdatePhaseRetry(updates, attempt + 1);
+      }
+      throw e;
     }
   }
 
@@ -405,40 +450,52 @@
     async function tick(){
       try{
         const game = await tjGetGame(currentGame.id);
-        const pill = document.getElementById('hostPhasePill');
-        const btn = document.getElementById('hostPhaseBtn');
-        if(game.current_phase === 'day'){
-          pill.textContent = 'روزِ ' + game.day_number;
-          btn.textContent = 'پایانِ روز — شروعِ شب 🌙';
-          btn.onclick = () => handlePhaseAdvance('night');
-        } else if(game.current_phase === 'night'){
-          pill.textContent = 'شبِ ' + game.day_number;
-          btn.textContent = 'پایانِ شب — شروعِ روزِ بعد ☀️';
-          btn.onclick = () => handlePhaseAdvance('day');
-        }
+        renderHostPhaseUI(game);
       }catch(e){ console.error(e); }
     }
     await tick();
-    setInterval(tick, 4000);
+    clearInterval(pollTimer);
+    pollTimer = setInterval(tick, 2000);
   }
 
-  async function handlePhaseAdvance(nextPhase){
-    try{
-      if(nextPhase === 'day'){
-        const game = await tjGetGame(currentGame.id);
-        await tjUpdatePhase(currentGame.id, { current_phase: 'day', day_number: game.day_number + 1 });
-      } else {
-        await tjUpdatePhase(currentGame.id, { current_phase: 'night' });
-      }
-    }catch(e){
-      showError(e.message);
+  function renderHostPhaseUI(game){
+    const pill = document.getElementById('hostPhasePill');
+    const btn = document.getElementById('hostPhaseBtn');
+    if(game.current_phase === 'role_reveal'){
+      pill.textContent = 'در انتظارِ دیدنِ نقش‌ها';
+      btn.textContent = 'شروعِ روزِ اول ▶';
+      btn.disabled = false;
+      btn.onclick = () => handlePhaseAdvance({ current_phase: 'day', day_number: 1 });
+    } else if(game.current_phase === 'day'){
+      pill.textContent = 'روزِ ' + game.day_number;
+      btn.textContent = 'پایانِ روز — شروعِ شب 🌙';
+      btn.disabled = false;
+      btn.onclick = () => handlePhaseAdvance({ current_phase: 'night' });
+    } else if(game.current_phase === 'night'){
+      pill.textContent = 'شبِ ' + game.day_number;
+      btn.textContent = 'پایانِ شب — شروعِ روزِ بعد ☀️';
+      btn.disabled = false;
+      btn.onclick = () => handlePhaseAdvance({ current_phase: 'day', day_number: game.day_number + 1 });
     }
   }
 
-  let myRoleId = null, mySide = null;
+  async function handlePhaseAdvance(updates){
+    const btn = document.getElementById('hostPhaseBtn');
+    const prevText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'در حالِ اعمال…';
+    try{
+      const game = await tjUpdatePhaseRetry(updates);
+      renderHostPhaseUI(game); // به‌روزرسانیِ فوری — منتظرِ پولینگِ بعدی نمی‌مونیم
+    }catch(e){
+      showError('خطا در تغییرِ فازِ بازی: ' + e.message + ' — (اگه از VPN استفاده می‌کنی، امتحان کن خاموشش کنی یا سرورش رو عوض کنی)');
+      btn.disabled = false;
+      btn.textContent = prevText;
+    }
+  }
 
   async function startPlayerPolling(){
-    let roleShown = false;
+    let roleShown = !!myRoleId;
     let lastRenderedKey = '';
 
     async function tick(){
@@ -484,7 +541,7 @@
       }
     }
     await tick();
-    pollTimer = setInterval(tick, 3000);
+    pollTimer = setInterval(tick, 2000);
   }
 
   async function showMyRole(){
@@ -582,12 +639,15 @@
           <div class="center-name" id="dvCenterName">—</div>
         </div>
       </div>
-      <div id="dvNote" style="text-align:center; font-size:11.5px; color:var(--parchment-dim);"></div>
+      <div id="dvNote" style="text-align:center; font-size:11.5px; color:var(--parchment-dim); margin-bottom:10px;"></div>
+      <button class="btn-gold" id="dvFinalizeBtn" style="display:none;" onclick="dvFinalize()">ثبتِ نهاییِ رأی 🔒</button>
+      <div id="dvLockedNote" style="display:none; text-align:center; font-size:13px; color:var(--gold-soft); font-weight:700; background:var(--night-3); border:1px solid var(--gold); border-radius:10px; padding:12px;">✓ رأیت ثبتِ نهایی شد — دیگه قابلِ تغییر نیست</div>
     `;
 
     dvOthers = others;
     dvMode = 'peyman';
     dvVotes = { peyman:null, goman:null };
+    dvLocked = false;
     const stage = document.getElementById('dvStage');
     const n = others.length;
     others.forEach((p, i) => {
@@ -604,17 +664,31 @@
     });
 
     go('screen-day-vote');
+
+    // اگه قبلاً (مثلاً قبل از رفرشِ صفحه) رأی داده بودی، دیگه اجازه‌ی تغییر نده
+    try{
+      const { data: existing } = await sb.from('day_votes').select('*').eq('game_id', currentGame.id).eq('day_number', dayNumber).eq('voter_id', currentPlayer.id);
+      if(existing && existing.length >= 2){
+        const p1 = existing.find(v=>v.vote_type==='peyman');
+        const p2 = existing.find(v=>v.vote_type==='goman');
+        if(p1) { dvVotes.peyman = p1.target_id; document.getElementById('dvdot_'+p1.target_id)?.classList.add('peyman'); }
+        if(p2) { dvVotes.goman = p2.target_id; document.getElementById('dvdot_'+p2.target_id)?.classList.add('goman'); }
+        dvLockUI();
+      }
+    }catch(e){ console.error(e); }
   }
 
-  let dvOthers = [], dvMode = 'peyman', dvVotes = { peyman:null, goman:null };
+  let dvOthers = [], dvMode = 'peyman', dvVotes = { peyman:null, goman:null }, dvLocked = false;
   function dvSetMode(m){
+    if(dvLocked) return;
     dvMode = m;
     document.querySelectorAll('#dayVoteCardBody .mode-btn').forEach(b=>b.classList.toggle('active', b.dataset.mode===m));
     document.getElementById('dvCenterLabel').textContent = m==='peyman' ? 'در حالِ انتخابِ پیمان' : 'در حالِ انتخابِ گمان';
     const cur = dvVotes[m];
     document.getElementById('dvCenterName').textContent = cur ? dvOthers.find(p=>p.id===cur).display_name : '—';
   }
-  async function dvSelect(id, name){
+  function dvSelect(id, name){
+    if(dvLocked) return;
     const other = dvMode === 'peyman' ? 'goman' : 'peyman';
     if(dvVotes[other] === id){
       document.getElementById('dvNote').textContent = 'این نفر رو قبلاً برای ' + (other==='peyman'?'پیمان':'گمان') + ' انتخاب کردی.';
@@ -624,19 +698,39 @@
     dvVotes[dvMode] = id;
     document.getElementById('dvdot_' + id).classList.add(dvMode);
     document.getElementById('dvCenterName').textContent = name;
+    const btn = document.getElementById('dvFinalizeBtn');
     if(dvVotes.peyman && dvVotes.goman){
-      document.getElementById('dvNote').textContent = '✓ آماده‌ای — پیمان به ' + dvOthers.find(p=>p.id===dvVotes.peyman).display_name + '، گمان به ' + dvOthers.find(p=>p.id===dvVotes.goman).display_name;
-      try{
-        await sb.from('day_votes').insert([
-          { game_id: currentGame.id, day_number: dayNumberInt(), voter_id: currentPlayer.id, target_id: dvVotes.peyman, vote_type: 'peyman' },
-          { game_id: currentGame.id, day_number: dayNumberInt(), voter_id: currentPlayer.id, target_id: dvVotes.goman, vote_type: 'goman' },
-        ]);
-      }catch(e){ console.error(e); }
+      document.getElementById('dvNote').textContent = 'پیمان به ' + dvOthers.find(p=>p.id===dvVotes.peyman).display_name + '، گمان به ' + dvOthers.find(p=>p.id===dvVotes.goman).display_name + ' — اگه مطمئنی، ثبتِ نهایی کن.';
+      btn.style.display = 'block';
     } else {
       document.getElementById('dvNote').textContent = 'حالا «' + (dvMode==='peyman'?'گمان':'پیمان') + '» رو هم انتخاب کن.';
+      btn.style.display = 'none';
     }
   }
+  async function dvFinalize(){
+    if(!dvVotes.peyman || !dvVotes.goman || dvLocked) return;
+    const btn = document.getElementById('dvFinalizeBtn');
+    btn.disabled = true; btn.textContent = 'در حالِ ثبت…';
+    try{
+      await sb.from('day_votes').insert([
+        { game_id: currentGame.id, day_number: dayNumberInt(), voter_id: currentPlayer.id, target_id: dvVotes.peyman, vote_type: 'peyman' },
+        { game_id: currentGame.id, day_number: dayNumberInt(), voter_id: currentPlayer.id, target_id: dvVotes.goman, vote_type: 'goman' },
+      ]);
+      dvLockUI();
+    }catch(e){
+      showError('ثبتِ رأی شکست خورد: ' + e.message);
+      btn.disabled = false; btn.textContent = 'ثبتِ نهاییِ رأی 🔒';
+    }
+  }
+  function dvLockUI(){
+    dvLocked = true;
+    document.getElementById('dvFinalizeBtn').style.display = 'none';
+    document.getElementById('dvNote').style.display = 'none';
+    document.getElementById('dvLockedNote').style.display = 'block';
+    document.querySelectorAll('.player-dot').forEach(el => el.style.pointerEvents = 'none');
+  }
   function dayNumberInt(){ return parseInt(document.getElementById('dayNumLabel').textContent, 10); }
+
 
   function copyCode(){
     const code = document.getElementById('hostRoomCode').textContent;
@@ -647,6 +741,11 @@
       setTimeout(() => btn.textContent = old, 1500);
     });
   }
+
+  // شروعِ اپ: اگه جلسه‌ی قبلی تو حافظه بود، برگرد بهش؛ وگرنه صفحه‌ی شروع (که پیش‌فرضِ HTML‌ه) بمونه
+  (async function init(){
+    try{ await tryResumeSession(); }catch(e){ console.error(e); }
+  })();
 </script>
 </body>
 </html>
