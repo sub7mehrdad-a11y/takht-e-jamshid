@@ -151,6 +151,10 @@
   <div class="live-tag">🟢 متصل به Supabase</div>
 </div>
 
+<button id="exitBtn" onclick="handleExit()" style="display:none; position:fixed; top:12px; left:12px; width:auto; padding:7px 13px; border-radius:9px; background:var(--night-2); border:1px solid var(--line); color:var(--parchment-dim); font-family:'Vazirmatn'; font-size:11.5px; font-weight:600; cursor:pointer; z-index:100;">
+  ✕ خروج از بازی
+</button>
+
 <div class="wrap">
 
   <div class="err-box" id="errBox"></div>
@@ -315,9 +319,26 @@
     try{
       localStorage.setItem(SESSION_KEY, JSON.stringify({ gameId: currentGame.id, playerId: currentPlayer.id }));
     }catch(e){ console.error(e); }
+    showExitBtn(true);
   }
   function clearSession(){
     try{ localStorage.removeItem(SESSION_KEY); }catch(e){}
+    showExitBtn(false);
+  }
+  function showExitBtn(show){
+    const b = document.getElementById('exitBtn');
+    if(b) b.style.display = show ? 'block' : 'none';
+  }
+  function handleExit(){
+    const isHost = currentPlayer && currentPlayer.is_host;
+    const msg = isHost
+      ? 'از این بازی خارج می‌شی؟\n\n(بازی روی سرور باقی می‌مونه — اگه دوباره با همین مرورگر برگردی، دسترسیِ گرداننده رو از دست می‌دی. مطمئنی؟)'
+      : 'از این بازی خارج می‌شی؟\n\n(بعداً می‌تونی با همون کدِ اتاق دوباره بپیوندی، ولی به‌عنوان یه بازیکنِ جدید.)';
+    if(!confirm(msg)) return;
+    clearInterval(pollTimer);
+    clearSession();
+    currentGame = null; currentPlayer = null; myRoleId = null; mySide = null;
+    location.reload();
   }
   async function tryResumeSession(){
     let saved;
@@ -329,6 +350,7 @@
       if(!player || !game || player.game_id !== game.id){ clearSession(); return false; }
       currentPlayer = player; currentGame = game;
       myRoleId = player.role_id; mySide = player.side;
+      showExitBtn(true);
 
       if(player.is_host){
         document.getElementById('hostRoomCode').textContent = game.code;
