@@ -165,3 +165,58 @@ async function tjCountEliminated(gameId) {
   const zahhakiEliminated = players.filter(p => p.side === 'zahhaki' && p.role_id !== 'zahhak' && !p.is_alive).length;
   return { jamshidiEliminated, zahhakiEliminated };
 }
+
+// ---------- گرفتنِ آرای پیمان/گمانِ یک روز و ساختنِ جدولِ جمع‌بندی ----------
+async function tjGetDayTally(gameId, dayNumber) {
+  const { data: votes, error } = await sb
+    .from('day_votes')
+    .select('*')
+    .eq('game_id', gameId)
+    .eq('day_number', dayNumber);
+  if (error) throw new Error('خطا در گرفتنِ آرا: ' + error.message);
+
+  const players = await tjListPlayers(gameId);
+  const tally = {};
+  players.filter(p => !p.is_host).forEach(p => {
+    tally[p.id] = { id: p.id, name: p.display_name, is_alive: p.is_alive, peyman: 0, goman: 0 };
+  });
+  (votes || []).forEach(v => {
+    if (!tally[v.target_id]) return;
+    if (v.vote_type === 'peyman') tally[v.target_id].peyman += 1;
+    else if (v.vote_type === 'goman') tally[v.target_id].goman += 1;
+  });
+
+  const rows = Object.values(tally).filter(r => r.is_alive);
+  rows.sort((a, b) => (b.peyman - a.peyman) || (b.goman - a.goman));
+  const votersCount = new Set((votes || []).map(v => v.voter_id)).size;
+  return { rows, votersCount };
+}
+
+// ---------- حذفِ یک بازیکن (کشته‌ی روز یا شب) ----------
+async function tjEliminatePlayer(playerId, cause, dayNumber, isNight) {
+  const patch = { is_alive: false, eliminated_by: cause };
+  if (isNight) patch.eliminated_on_night = dayNumber;
+  else patch.eliminated_on_day = dayNumber;
+  const { data, error } = await sb
+    .from('players')
+    .update(patch)
+    .eq('id', playerId)
+    .select()
+    .single();
+  if (error) throw new Error('خطا در حذفِ بازیکن: ' + error.message);
+  return data;
+}
+
+// ---------- ثبتِ یک رویداد در تاریخچه ----------
+async function tjLogEvent(gameId, num, type, payload) {
+  const { error } = await sb
+    .from('events_log')
+    .insert({ game_id: gameId, day_or_night_number: num, type, payload: payload || {} });
+  if (error) console.error('خطا در ثبتِ رویداد:', error.message);
+}
+
+// ---------- کشته‌های یک روز/شبِ مشخص (برای اطلاعِ جاماسپ و اعلامِ صبح) ----------
+async function tjGetEliminatedIn(gameId, num) {
+  const players = await tjListPlayers(gameId);
+  return players.filter(p => !p.is_alive && (p.eliminated_on_day === num || p.eliminated_on_night === num));
+}
