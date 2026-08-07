@@ -225,6 +225,49 @@
 
   .player-dot.host-dot .avatar{ background:rgba(201,151,47,0.18); border-color:var(--gold); color:var(--gold-soft); }
   .player-dot.host-dot .pname{ color:var(--gold-soft); font-weight:700; }
+
+  /* ============ سیستمِ octagon-frame — بر اساسِ «طراحیِ مبنا» ============ */
+  .oct{
+    clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px), 0 14px);
+  }
+  .oct-btn{
+    display:block; width:100%; padding:15px; text-align:center; cursor:pointer;
+    background:linear-gradient(180deg, #3a3020, #221b10);
+    border:1.5px solid var(--gold); color:var(--gold-soft);
+    font-family:'Vazirmatn'; font-size:14px; font-weight:700; margin-bottom:10px;
+  }
+  .oct-btn:hover{ border-color:var(--gold-soft); }
+  .oct-title{
+    display:inline-block; padding:12px 26px; margin-bottom:18px; text-align:center;
+    background:linear-gradient(180deg, #2a2216, #1a150c);
+    border:1.5px solid var(--gold); color:var(--gold-soft); font-size:15px; font-weight:900;
+  }
+  .oct-wrap{ text-align:center; }
+  .oct-small{ padding:10px 18px; font-size:12.5px; width:auto; display:inline-block; }
+
+  .hero-imagemap{ position:relative; width:100%; aspect-ratio:740/770; border-radius:16px; overflow:hidden; border:1px solid var(--gold); margin-bottom:14px; background:#000 center/cover no-repeat; }
+  .hero-hotspot{ position:absolute; width:auto; background:transparent; border:none; border-radius:0; padding:0; margin:0; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+
+  .yn-divider{ display:flex; align-items:center; justify-content:center; gap:10px; color:var(--parchment-dim); font-size:12px; margin:14px 0; }
+  .yn-divider .ln{ flex:1; height:1px; background:var(--line); max-width:60px; }
+
+  .security-badge{
+    display:flex; align-items:center; justify-content:center; gap:8px; margin-top:14px; padding:11px;
+    background:var(--night-3); border:1px solid rgba(90,155,107,0.4); border-radius:10px; color:var(--green); font-size:11.5px;
+  }
+
+  .guide-section{ margin-bottom:16px; }
+  .guide-section h3{ font-size:13px; color:var(--gold-soft); margin:0 0 8px; }
+  .guide-section p, .guide-section li{ font-size:12.5px; color:var(--parchment); line-height:2; margin:0 0 4px; }
+  .guide-section ul{ margin:0; padding-inline-start:18px; }
+
+  .role-team{ font-size:12.5px; font-weight:700; margin:18px 0 8px; padding-bottom:6px; border-bottom:1px solid var(--line); }
+  .role-team.t-jamshidi{ color:var(--gold-soft); }
+  .role-team.t-zahhaki{ color:var(--crimson-soft); }
+  .role-team.t-neutral{ color:var(--parchment-dim); }
+  .role-item{ background:var(--night-3); border-radius:10px; padding:10px 12px; margin-bottom:7px; }
+  .role-item .rn{ font-size:13px; font-weight:700; color:var(--parchment); margin-bottom:3px; }
+  .role-item .rd{ font-size:11.5px; color:var(--parchment-dim); line-height:1.8; }
 </style>
 </head>
 <body>
@@ -246,43 +289,129 @@
 
   <!-- صفحه ۱: اسپلش -->
   <div class="screen active" id="screen-splash">
-    <div class="splash-wrap">
-      <div class="splash-emblem"></div>
-      <h1>تخت جمشید</h1>
-      <p>در حالِ آماده‌سازیِ جهانِ شاهنامه…</p>
-      <div class="splash-bar"></div>
+    <div class="hero-imagemap" style="background-image:url('assets/splash-jamshid.jpg'); aspect-ratio:400/530;">
+      <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(14,14,23,0.1) 0%, rgba(14,14,23,0.55) 55%, var(--night) 100%); display:flex; flex-direction:column; align-items:center; justify-content:flex-end; text-align:center; padding:24px 16px;">
+        <h1 style="font-size:24px; font-weight:900; margin:0 0 6px; background:linear-gradient(90deg, var(--gold-soft), var(--parchment) 60%); -webkit-background-clip:text; background-clip:text; color:transparent;">تخت جمشید</h1>
+        <p style="font-size:12px; color:var(--parchment-dim); margin:0 0 18px;">در حالِ آماده‌سازیِ جهانِ شاهنامه…</p>
+        <div class="splash-bar"></div>
+      </div>
     </div>
   </div>
 
   <!-- صفحه ۲: ورود -->
   <div class="screen" id="screen-entry">
-    <div class="hero-bg" style="background-image:url('assets/hero-kings.jpg');">
-      <h1>تخت جمشید</h1>
-      <p class="tagline">بازیِ نقشِ مخفی بر پایه‌ی اساطیرِ شاهنامه</p>
-      <button class="pill-btn gold" onclick="go('screen-create')">ساختِ بازیِ جدید</button>
-      <button class="pill-btn outline" onclick="go('screen-join')">پیوستن با کد</button>
-      <div class="ver-tag">نسخه ۱.۰.۰ · متصل به Supabase</div>
+    <div class="hero-imagemap" style="background-image:url('assets/hero-kings-v2.jpg');">
+      <button class="hero-hotspot" style="left:20%; right:20%; top:67%; bottom:24%;" onclick="go('screen-create')" aria-label="ساختِ بازیِ جدید"></button>
+      <button class="hero-hotspot" style="left:20%; right:20%; top:79%; bottom:13%;" onclick="go('screen-join')" aria-label="پیوستن با کد"></button>
+      <button class="hero-hotspot" style="left:30%; right:30%; top:91%; bottom:1%;" onclick="go('screen-guide')" aria-label="راهنمای بازی"></button>
+    </div>
+    <div class="oct-wrap">
+      <button class="oct oct-btn oct-small" onclick="go('screen-roles')">📜 نقش‌های بازی</button>
+    </div>
+    <div class="ver-tag" style="text-align:center;">نسخه ۱.۰.۰ · متصل به Supabase</div>
+  </div>
+
+  <!-- صفحه‌ی راهنمای بازی -->
+  <div class="screen" id="screen-guide">
+    <div class="back-arrow" onclick="go('screen-entry')">→</div>
+    <div class="card ornate-frame">
+      <div class="oct-wrap"><div class="oct oct-title">راهنمای بازی</div></div>
+      <div class="guide-section">
+        <h3>ساختار کلی</h3>
+        <ul>
+          <li>بازی دو گروه داره: <b style="color:var(--gold-soft);">یارانِ جمشید</b> (اکثریت، نقشِ هم رو نمی‌دونن) و <b style="color:var(--crimson-soft);">ضحاکیان</b> (اقلیت، فقط توسطِ ضحاک شناخته می‌شن).</li>
+          <li>جمشید و ضحاک از ابتدا برای همه آشکارن.</li>
+          <li>بازی تو چرخه‌ی <b>روز → مجلسِ مهان/مشورت → خوابِ نیم‌روزی → شب</b> پیش می‌ره.</li>
+          <li>با مرگِ تمامِ یارانِ یک پادشاه، بازی به نفعِ پادشاهِ دیگه تموم می‌شه.</li>
+        </ul>
+      </div>
+      <div class="guide-section">
+        <h3>فازِ روز</h3>
+        <ul>
+          <li>همه (به‌جز جمشید و ضحاک) نوبتِ صحبت دارن.</li>
+          <li>هرکس بعدِ نوبتش یه کارتِ <b>پیمان</b> (اعتماد) و یه کارتِ <b>گمان</b> (بی‌اعتمادی) به دو نفرِ مجزا می‌ده.</li>
+          <li>جمشید یکی از این مسیرها رو انتخاب می‌کنه: تشکیلِ مجلسِ مهان، مشورتِ عمومی، انتخابِ مستقیم، یا حذف‌نکردنِ کسی.</li>
+        </ul>
+      </div>
+      <div class="guide-section">
+        <h3>خوابِ نیم‌روزی</h3>
+        <ul>
+          <li>همه چشم می‌بندن؛ جمشید تصمیمش رو به گرداننده می‌گه.</li>
+          <li>کیکاووس می‌تونه با نوشدارو کشته رو نجات بده.</li>
+        </ul>
+      </div>
+      <div class="guide-section">
+        <h3>فازِ شب</h3>
+        <ul>
+          <li>ضحاک دو نفر رو برای مارهاش انتخاب می‌کنه؛ ارمایل یکی رو نجات می‌ده.</li>
+          <li>اگه ضحاک دو شبِ پیاپی نتونه بکشه، ناتوان می‌شه (نامیرا می‌مونه ولی دیگه رهبری/کشتن نمی‌کنه).</li>
+          <li>بقیه‌ی نقش‌ها به‌ترتیب از قابلیت‌شون استفاده می‌کنن؛ در پایان، جاماسپ از کشته‌های اخیر باخبر می‌شه.</li>
+        </ul>
+      </div>
+      <div class="guide-section">
+        <h3>هنگامه‌های ویژه</h3>
+        <p>در طولِ بازی ممکنه رویدادهای خاصی مثلِ <b>قیام</b>، <b>کودتا</b>، <b>سیاوشان</b> یا <b>جنگ</b> فعال بشه که قوانینِ فاز رو موقتاً تغییر می‌ده — گرداننده در لحظه توضیح می‌ده.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- صفحه‌ی نقش‌های بازی -->
+  <div class="screen" id="screen-roles">
+    <div class="back-arrow" onclick="go('screen-entry')">→</div>
+    <div class="card ornate-frame">
+      <div class="oct-wrap"><div class="oct oct-title">نقش‌های بازی</div></div>
+
+      <div class="role-team t-jamshidi">پادشاهان (آشکار)</div>
+      <div class="role-item"><div class="rn">جمشید</div><div class="rd">پادشاهِ روز، نامیرا. جامِ جم (یک‌بار: تعدادِ یارانِ زنده‌اش) و فراخواندنِ سروش.</div></div>
+      <div class="role-item"><div class="rn">ضحاک</div><div class="rd">پادشاهِ شب، نامیرا. اهریمن (روز بدونِ صحبت) و زندان (سکوتِ یک نفر تا پایانِ نیم‌روز).</div></div>
+
+      <div class="role-team t-jamshidi">یارانِ جمشید</div>
+      <div class="role-item"><div class="rn">ارمایل</div><div class="rd">هر شب بینِ دو گزینه‌ی ضحاک، یکی رو نجات می‌ده.</div></div>
+      <div class="role-item"><div class="rn">سیاوش</div><div class="rd">اگه جمشید اشتباهاً بکشدش، برمی‌گرده و هنگامه‌ی سیاوشان شروع می‌شه.</div></div>
+      <div class="role-item"><div class="rn">کاوه</div><div class="rd">با کشته‌شدنِ کارن به‌دستِ ضحاک، هنگامه‌ی قیام رو فعال می‌کنه و مشاورِ جمشید می‌شه.</div></div>
+      <div class="role-item"><div class="rn">فریدون</div><div class="rd">بعدِ قیام، مشاورِ دومِ جمشیده و می‌تونه روزی ۲ نفر رو به قیام اضافه کنه.</div></div>
+      <div class="role-item"><div class="rn">کارن</div><div class="rd">پسرِ کاوه — تریگرِ هنگامه‌ی قیام (اگه ضحاک بکشدش) یا کودتا (اگه جمشید اشتباهاً بکشدش).</div></div>
+      <div class="role-item"><div class="rn">کیکاووس</div><div class="rd">نوشدارو داره؛ یک‌بار می‌تونه کشته‌ی جمشید رو نجات بده.</div></div>
+      <div class="role-item"><div class="rn">رستم</div><div class="rd">زره‌ی یک‌بارمصرف؛ هر شب می‌تونه به یه مظنونِ ضحاکی تیر بندازه.</div></div>
+      <div class="role-item"><div class="rn">زال</div><div class="rd">پرِ سیمرغ: یک‌بار در کل بازی، همه‌ی کشته‌های اون شبِ ضحاک رو نجات می‌ده.</div></div>
+      <div class="role-item"><div class="rn">جاماسپ</div><div class="rd">پایانِ هر شب، گرداننده کشته‌های اخیر رو (با نقش) بهش می‌گه.</div></div>
+      <div class="role-item"><div class="rn">بیژن</div><div class="rd">تا وقتی منیژه زنده‌ست، عملاً نامیراست — فقط با رأیِ مستقیمِ جمشید حذف می‌شه.</div></div>
+      <div class="role-item"><div class="rn">منیژه</div><div class="rd">زندگیِ بیژن به زندگیِ اون گره خورده.</div></div>
+      <div class="role-item"><div class="rn">گردآفرید</div><div class="rd">اگه سهراب به ضحاکیان بپیونده، می‌شناسدش.</div></div>
+      <div class="role-item"><div class="rn">اسفندیار</div><div class="rd">باید هفت‌خان رو رد کنه: ۷ روز و شب زنده بمونه.</div></div>
+
+      <div class="role-team t-zahhaki">ضحاکیان (مخفی)</div>
+      <div class="role-item"><div class="rn">افراسیاب</div><div class="rd">هر شب از یک نفر استعلام می‌گیره (ضحاکی هست یا نه).</div></div>
+      <div class="role-item"><div class="rn">پیران</div><div class="rd">در هنگامه‌ی قیام می‌تونه کاوه/فریدون رو همون شب بکشه و قیام رو متوقف کنه.</div></div>
+      <div class="role-item"><div class="rn">سودابه</div><div class="rd">دو بار می‌تونه یک نفر رو افسون کنه (روی چندتا نقشِ خاص بی‌اثره).</div></div>
+      <div class="role-item"><div class="rn">گرسیوز</div><div class="rd">یک‌بار می‌تونه با فداکردنِ جانِ خودش، یک نفرِ دیگه رو هم حذف کنه.</div></div>
+      <div class="role-item"><div class="rn">هومان</div><div class="rd">اگه نقشِ یه ایرانی رو درست حدس بزنه می‌کشدش؛ اگه نقشِ ضحاکی رو حدس بزنه، قابلیتش رو کپی می‌کنه.</div></div>
+      <div class="role-item"><div class="rn">ارجاسب</div><div class="rd">اسفندیار رو می‌شناسه؛ اگه اسفندیار ۴ روز زنده بمونه، خودش می‌میره.</div></div>
+
+      <div class="role-team t-neutral">بی‌طرف</div>
+      <div class="role-item"><div class="rn">سهراب</div><div class="rd">اولش بی‌طرفه؛ شبِ سوم بر اساسِ حدسِ درست، به یکی از دو گروه می‌پیونده.</div></div>
     </div>
   </div>
 
   <!-- صفحه ۳: ساختِ بازی -->
   <div class="screen" id="screen-create">
     <div class="back-arrow" onclick="go('screen-entry')">→</div>
-    <div class="card ornate-frame">
-      <h2>می‌خوای اهورامزدا (گرداننده) بشی؟</h2>
+    <div class="card ornate-frame" style="text-align:center;">
+      <div class="oct-wrap"><div class="oct oct-title">می‌خوای اهورامزدا (گرداننده) بشی؟</div></div>
       <input type="text" id="hostNameInput" placeholder="اسمِ تو">
-      <div style="font-size:11px; color:var(--parchment-dim); background:var(--night-3); border-radius:9px; padding:9px 11px; margin-bottom:14px; line-height:1.8;">
+      <div style="font-size:11px; color:var(--parchment-dim); background:var(--night-3); border-radius:9px; padding:9px 11px; margin-bottom:14px; line-height:1.8; text-align:right;">
         این بازی برای ۱۰ تا ۱۵ نفر طراحی شده — بعد از ساختِ اتاق، بقیه با کد بهت می‌پیوندن و سناریو بر اساسِ تعدادِ نفرات انتخاب می‌شه.
       </div>
-      <button class="btn-gold" id="createBtn" onclick="handleCreate()">ساختِ یک بازیِ جدید</button>
+      <button class="oct oct-btn" id="createBtn" onclick="handleCreate()">ساختِ یک بازیِ جدید</button>
     </div>
   </div>
 
   <!-- صفحه ۴: پیوستن با کد -->
   <div class="screen" id="screen-join">
     <div class="back-arrow" onclick="go('screen-entry')">→</div>
-    <div class="card ornate-frame">
-      <h2>پیوستن به یک بازیِ موجود</h2>
+    <div class="card ornate-frame" style="text-align:center;">
+      <div class="oct-wrap"><div class="oct oct-title">پیوستن با کد</div></div>
+      <div style="font-size:12px; color:var(--parchment-dim); margin-bottom:10px;">کدِ اتاق را وارد کنید</div>
       <div class="code-box-row" id="codeBoxRow">
         <input class="code-box" maxlength="1" data-i="0">
         <input class="code-box" maxlength="1" data-i="1">
@@ -291,9 +420,12 @@
         <input class="code-box" maxlength="1" data-i="4">
         <input class="code-box" maxlength="1" data-i="5">
       </div>
+      <div style="font-size:11px; color:var(--parchment-dim); margin:8px 0 16px;">کدِ اتاق را از میزبان دریافت کنید.</div>
       <input type="hidden" id="joinCodeInput">
-      <input type="text" id="joinNameInput" placeholder="اسمِ تو در بازی" style="margin-top:16px;">
-      <button class="btn-outline" id="joinBtn" onclick="handleJoin()">پیوستن</button>
+      <div style="font-size:12px; color:var(--parchment-dim); margin-bottom:8px; text-align:center;">نامِ خود را وارد کنید</div>
+      <input type="text" id="joinNameInput" placeholder="نامِ شما" style="margin-bottom:16px;">
+      <button class="oct oct-btn" id="joinBtn" onclick="handleJoin()">پیوستن به بازی</button>
+      <div class="security-badge">🛡️ اتصال امن و رمزگذاری‌شده</div>
     </div>
   </div>
 
