@@ -1,0 +1,317 @@
+{
+  "_meta": {
+    "توضیح": "دیتاست کامل نقش‌های تخت جمشید — مبنای جدول roles و منطق موتور بازی. مطابق با takht-e-jamshid-spec.md",
+    "زبان_فیلدها": "id و type ها انگلیسی (برای کد)، description فارسی"
+  },
+
+  "kings": [
+    {
+      "id": "jamshid",
+      "name_fa": "جمشید",
+      "side": "jamshidi",
+      "revealed_from_start": true,
+      "immortal": true,
+      "day_role": true,
+      "abilities": [
+        {
+          "id": "jam_e_jam",
+          "name_fa": "جام جم",
+          "uses_total": 1,
+          "timing": "anytime",
+          "effect": "info",
+          "description": "تعداد یارانِ زنده‌ی خودش (یاران جمشید) رو می‌فهمه."
+        },
+        {
+          "id": "call_soroush",
+          "name_fa": "فراخواندن سروش",
+          "uses_total": 1,
+          "timing": "day_anytime",
+          "effect": "trigger_soroush",
+          "description": "با اعلام علنی در روز، مکانیزم نامه‌نگاری رو برای همون روز+شبِ بعد فعال می‌کنه."
+        }
+      ],
+      "night_action": null,
+      "day_action": {
+        "type": "elimination_decision",
+        "options": ["mahaan (مجلس مهان)", "public_consult", "private_consult", "direct_elimination", "no_elimination"],
+        "description": "بعد از گفتگوی روز، یکی از مسیرها رو انتخاب می‌کنه؛ نتیجه در نیم‌روز نهایی می‌شه."
+      }
+    },
+    {
+      "id": "zahhak",
+      "name_fa": "ضحاک",
+      "side": "zahhaki",
+      "revealed_from_start": true,
+      "immortal": true,
+      "incapacitation_rule": "۲ شب پیاپیِ ناکامی در کشتن → ناتوان (بدون کشتن/رهبری، ولی در بازی می‌مونه)",
+      "abilities": [
+        {
+          "id": "ahriman",
+          "name_fa": "اهریمن",
+          "uses_total": 1,
+          "timing": "day_start",
+          "effect": "skip_day_talk",
+          "description": "روز بدون صحبت مستقیم به نیم‌روز می‌ره."
+        },
+        {
+          "id": "zendan",
+          "name_fa": "زندان",
+          "uses_total": 1,
+          "timing": "day_start",
+          "effect": "silence_and_protect",
+          "description": "یک نفر تا پایان نیم‌روز نمی‌تونه صحبت کنه؛ جمشید نمی‌تونه اون فرد رو در همون روز حذف کنه."
+        }
+      ],
+      "night_action": {
+        "type": "kill_pick_two",
+        "recurring": true,
+        "order": 1,
+        "description": "هر شب ۲ نفر رو برای طعمه‌ی مارها انتخاب می‌کنه. اگه ارمایل جزو دو نفر باشه، هر دو می‌میرن. اگه اشتباهاً یکی از یارانش رو انتخاب کنه، هیچ‌کس نمی‌میره."
+      },
+      "initial_knowledge": "یارانش (به‌همراه ارمایل) رو در شب معارفه می‌شناسه، ولی نقش دقیق هرکدوم رو نه."
+    }
+  ],
+
+  "zahhaki_roles": [
+    {
+      "id": "afrasiab",
+      "name_fa": "افراسیاب",
+      "night_action": { "type": "inquiry", "recurring": true, "order": 3, "target_scope": "any_player", "description": "می‌فهمه هدف ضحاکیه یا نه." },
+      "initial_knowledge": "سهراب از ابتدای بازی به او معرفی می‌شه."
+    },
+    {
+      "id": "pirans",
+      "name_fa": "پیران",
+      "night_action": {
+        "type": "conditional_kill_qiam_counter",
+        "recurring": false,
+        "condition": "فقط وقتی هنگامه‌ی قیام فعاله",
+        "order": 3,
+        "description": "با اشاره (بدون نیاز به حدس نقش دقیق) به کاوه و فریدون، همون شب هردو رو می‌کشه و قیام رو متوقف می‌کنه. اگه فقط یکی زنده باشه، فقط همون یکی."
+      },
+      "initial_knowledge": "بیژن و منیژه رو از ابتدا می‌شناسه (بدون دونستن نقش دقیق‌شون)."
+    },
+    {
+      "id": "sudabeh",
+      "name_fa": "سودابه",
+      "night_action": {
+        "type": "enchant_disable",
+        "uses_total": 2,
+        "order": 3,
+        "target_scope": "any_player_except_immune",
+        "immune_targets": ["kaveh", "fereydun", "siavash", "armayil"],
+        "side_effect": "اگه هدف بیژن یا منیژه باشه، می‌تونه پیوندشون رو برای همیشه از بین ببره.",
+        "description": "یک نفر رو افسون می‌کنه؛ قابلیت اون فرد همون شب باطل می‌شه."
+      },
+      "initial_knowledge": "سیاوش رو از ابتدا می‌شناسه."
+    },
+    {
+      "id": "gersivaz",
+      "name_fa": "گرسیوز",
+      "night_action": {
+        "type": "self_sacrifice_kill",
+        "uses_total": 1,
+        "timing": "anytime_day_or_night",
+        "ignores_turn_order": true,
+        "description": "با اعلام نقشش به گرداننده، جانش رو فدا می‌کنه و یک نفر رو با خودش می‌کشه. اگه هدف ضحاکی باشه، گرداننده رد می‌کنه و یک شانس دیگه می‌ده؛ اگه بازم ضحاکی بود، بدون کشتن کسی ادامه می‌ده و شانسش تموم می‌شه. اگه در روز اجرا بشه، نیم‌روز می‌شه."
+      }
+    },
+    {
+      "id": "homan",
+      "name_fa": "هومان",
+      "night_action": {
+        "type": "guess_kill_or_copy",
+        "recurring": true,
+        "order": 3,
+        "on_correct_guess_iranian": "instant_kill (به‌جز ارمایل که مصونه)",
+        "on_correct_guess_zahhaki": "copy_ability (قابلیت اون نقش رو برای خودش کپی می‌کنه)",
+        "description": "نقش یک بازیکن رو حدس می‌زنه."
+      }
+    },
+    {
+      "id": "arjasb",
+      "name_fa": "ارجاسب",
+      "night_action": null,
+      "scripted_event": {
+        "trigger": "اگه اسفندیار مجموعاً ۷ روز/شب زنده بمونه، پایانِ روز چهارم",
+        "effect": "ارجاسب خودکار می‌میره (توسط گرداننده اعلام می‌شه، اکشن بازیکنی نیست)"
+      },
+      "initial_knowledge": "اسفندیار رو می‌شناسه."
+    }
+  ],
+
+  "jamshidi_roles": [
+    {
+      "id": "armayil",
+      "name_fa": "ارمایل",
+      "special_note": "ایرانیه ولی در دربار ضحاک می‌گنجه؛ در همه‌ی استعلام‌ها «ضحاکی» نشون داده می‌شه ولی در شمارشِ پیروزی جزو ایرانی‌هاست.",
+      "night_action": { "type": "save_one_of_two", "recurring": true, "order": 2, "description": "از دو گزینه‌ی ضحاک، یکی رو نجات می‌ده." },
+      "restrictions": [
+        "بعد از فراخوانی سروش نمی‌تونه نامه بنویسه",
+        "بعد از ناتوان‌شدنِ ضحاک، با ضحاکیان بیدار نمی‌شه",
+        "در هنگامه‌ی جنگ، همراه ضحاکیان بیدار می‌شه و می‌شناسدشون"
+      ]
+    },
+    {
+      "id": "siavash",
+      "name_fa": "سیاوش",
+      "note": "در دفترچه‌ی اول اشتباهاً «یاوش» تایپ شده بود.",
+      "night_action": null,
+      "triggered_events": [
+        { "trigger": "اعدام اشتباهیِ سیاوش توسط جمشید", "effect": "نقشش آشکار می‌شه، به بازی برمی‌گرده، هنگامه‌ی سیاوشان شروع می‌شه" },
+        { "trigger": "بعد از اون، مرگش به‌دستِ ضحاک", "effect": "روز کینِ سیاوش: جمشید ۲ نفر رو انتخاب می‌کنه، نوشدارو بی‌اثره" }
+      ]
+    },
+    {
+      "id": "kaveh",
+      "name_fa": "کاوه",
+      "note": "پدرِ کارن.",
+      "triggered_events": [
+        { "trigger": "مرگ کارن به‌دستِ ضحاک (و کاوه زنده)", "effect": "هنگامه‌ی قیام شروع می‌شه؛ همون شب با فریدون (اگه زنده باشه) و جمشید بیدار می‌شن و همدیگه رو می‌بینن (جمشید نقششون رو نمی‌دونه)." }
+      ],
+      "night_action": {
+        "type": "qiam_recruit",
+        "recurring": true,
+        "starts_after": "شبِ اول قیام",
+        "with": "fereydun",
+        "description": "از شبِ دوم به بعد، فقط با فریدون (بدون جمشید) بیدار می‌شه و در افزودنِ عضو جدید مشارکت می‌کنه."
+      }
+    },
+    {
+      "id": "fereydun",
+      "name_fa": "فریدون",
+      "triggered_events": [
+        { "trigger": "مرگ کارن به‌دستِ ضحاک", "effect": "همراه کاوه هنگامه‌ی قیام رو شروع می‌کنه." }
+      ],
+      "night_action": {
+        "type": "qiam_recruit",
+        "recurring": true,
+        "starts_after": "شبِ اول قیام (شبِ ملاقات با جمشید)",
+        "recruits_per_night": 1,
+        "max_recruiting_nights": 2,
+        "total_max_recruits": 2,
+        "sequence_example": "شبِ اول قیام: کاوه+فریدون با جمشید بیدار می‌شن. شبِ دوم: کاوه+فریدون تنها بیدار می‌شن، فریدون نفرِ اول رو انتخاب می‌کنه (اگه ایرانی باشه، همون شب با هم بیدار می‌شن و همو می‌بینن). شبِ سوم: نفرِ دوم انتخاب می‌شه (آخرین فرصتِ استخدام).",
+        "on_wrong_recruit_zahhaki": "شبِ اول (بعد از اضافه‌شدنش) کاوه می‌میره، شبِ دوم فریدون می‌میره؛ فقط افراد اضافه‌شده‌ی درست ادامه می‌دن.",
+        "description": "هر شب دقیقاً یک نفر رو به قیام اضافه می‌کنه؛ این استخدام حداکثر ۲ شب ادامه داره (یعنی حداکثر ۲ عضوِ جدید در کل بازی)."
+      },
+      "initial_knowledge": "کارن رو می‌شناسه."
+    },
+    {
+      "id": "karen",
+      "name_fa": "کارن",
+      "note": "پسرِ کاوه؛ خودش هیچ قابلیتی نداره — فقط تریگرِ دو هنگامه‌ست.",
+      "night_action": null,
+      "triggered_events": [
+        { "trigger": "کشته‌شدن به‌دستِ ضحاک", "effect": "هنگامه‌ی قیام (اگه کاوه زنده باشه)" },
+        { "trigger": "کشته‌شدن به‌دستِ جمشید", "effect": "هنگامه‌ی کودتا" }
+      ]
+    },
+    {
+      "id": "keykavous",
+      "name_fa": "کیکاووس",
+      "night_action": null,
+      "day_nimrooz_action": {
+        "type": "noshdaru_save",
+        "uses_total": 1,
+        "ineffective_on": ["sohrab", "kin_e_siavash_day"],
+        "description": "کشته‌ی روزِ جمشید رو نجات می‌ده."
+      },
+      "initial_knowledge": "ارمایل رو می‌شناسه."
+    },
+    {
+      "id": "rostam",
+      "name_fa": "رستم",
+      "passive": { "id": "armor", "uses_total": 1, "description": "یک‌بار زره‌ی پوستِ ببر جلوی کشته‌شدنش به‌دستِ ضحاک رو می‌گیره." },
+      "night_action": {
+        "type": "guess_shoot",
+        "recurring": true,
+        "order": 4,
+        "on_correct": "هدف (اگه ضحاکی باشه) می‌میره",
+        "on_wrong": "اگه زره داره، زره رو از دست می‌ده؛ اگه زره نداره، خودش می‌میره. فردِ ایرانیِ هدف آسیب نمی‌بینه.",
+        "description": "تیر به سمتِ یک مظنونِ ضحاکی پرتاب می‌کنه."
+      }
+    },
+    {
+      "id": "zaal",
+      "name_fa": "زال",
+      "night_action": {
+        "type": "block_all_zahhak_kills",
+        "uses_total": 1,
+        "order": 4,
+        "description": "با سوزوندنِ پرِ سیمرغ، اون شب هیچ‌کس توسط ضحاک کشته نمی‌شه (سایر نقش‌ها هنوز فعالن)."
+      }
+    },
+    {
+      "id": "jamasp",
+      "name_fa": "جاماسپ",
+      "night_action": {
+        "type": "info_only",
+        "recurring": true,
+        "order": "end_of_night",
+        "description": "گرداننده نقشِ کشته‌های روز و شبِ قبل رو بهش می‌گه."
+      }
+    },
+    {
+      "id": "bijan",
+      "name_fa": "بیژن",
+      "special_note": "🔴 تا وقتی منیژه زنده‌ست، بیژن فقط با رأیِ مستقیمِ جمشید حذف می‌شه (مصون از هر کشتنِ شبانه/قابلیتی). با مرگِ منیژه (به هر دلیل)، بیژن هم می‌میره.",
+      "night_action": null,
+      "initial_knowledge": "پیران و منیژه او را می‌شناسند."
+    },
+    {
+      "id": "manijeh",
+      "name_fa": "منیژه",
+      "special_note": "زندگیِ بیژن به زندگیِ او گره خورده (نه برعکس).",
+      "night_action": null,
+      "initial_knowledge": "منیژه بیژن را می‌شناسد؛ پیران هردو را می‌شناسد."
+    },
+    {
+      "id": "gordafarid",
+      "name_fa": "گردآفرید",
+      "night_action": null,
+      "triggered_events": [
+        { "trigger": "پیوستنِ سهراب به ضحاکیان", "effect": "گردآفرید او را می‌شناسد." }
+      ]
+    },
+    {
+      "id": "esfandiar",
+      "name_fa": "اسفندیار",
+      "night_action": null,
+      "goal": "هفت‌خان: مجموعاً ۷ روز و شب زنده بمونه.",
+      "linked_scripted_event": "اگه تا پایانِ روزِ چهارم زنده بمونه، ارجاسب خودکار می‌میره.",
+      "initial_knowledge": "ارجاسب او را می‌شناسد (نه برعکس)."
+    }
+  ],
+
+  "neutral_roles": [
+    {
+      "id": "sohrab",
+      "name_fa": "سهراب",
+      "starting_side": "none",
+      "join_mechanic": {
+        "night": 3,
+        "type": "guess_rostam_among_two",
+        "on_correct": "به یاران جمشید می‌پیونده",
+        "on_wrong": "به ضحاکیان می‌پیونده",
+        "announced_by": "گرداننده (فقط نتیجه‌ی پیوستن، نه نقشش)"
+      },
+      "triggered_events": [
+        { "trigger": "کشته‌شدن به‌دستِ جمشید پیش از پیوستن به تیمی", "effect": "هنگامه‌ی جنگ: ضحاکیان + ارمایل بیدار می‌شن و همدیگه رو می‌شناسن." }
+      ],
+      "initial_knowledge": "افراسیاب از ابتدا او را می‌شناسد؛ اگر به ضحاکیان بپیوندد، گردآفرید هم او را می‌شناسد.",
+      "restrictions": ["در شبِ سروش نمی‌تواند نامه بدهد."]
+    }
+  ],
+
+  "night_order_summary": [
+    "1) ضحاک (انتخاب دو نفر)",
+    "2) ارمایل (نجاتِ یکی)",
+    "3) بقیه‌ی ضحاکیان: افراسیاب، پیران (شرطی)، سودابه، هومان",
+    "4) ایرانیان: رستم، زال",
+    "* گرسیوز: خارج از این ترتیب، هر لحظه ممکنه",
+    "* جاماسپ: پایانِ شب (فقط اطلاع‌رسانی)",
+    "✅ تایید شد: بین سودابه/افراسیاب/پیران/هومان (هرکدوم order=3) و بین رستم/زال (order=4) هیچ تفاوتِ عملکردی وجود نداره — هر ترتیبی که موتور بازی داخلی پردازش‌شون کنه نتیجه یکسانه، چون افکت‌هاشون روی هم اثر متقابل نداره (فقط افسونِ سودابه یک استثناست که در بخشِ resolve، همیشه اول اعمال می‌شه)."
+  ],
+
+  "open_questions": []
+}

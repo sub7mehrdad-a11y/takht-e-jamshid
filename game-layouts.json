@@ -1,0 +1,660 @@
+{
+  "hengameh_labels": {
+    "qiam": "قیام (درفشِ کاویانی)",
+    "kudeta": "کودتا",
+    "siavashan": "سیاوشان",
+    "jang": "جنگ (سهراب)",
+    "bijan_manijeh": "پیوندِ بیژن و منیژه",
+    "haftkhan": "هفت‌خانِ اسفندیار"
+  },
+  "layouts": [
+    {
+      "id": "10a",
+      "player_count": 10,
+      "display_name": "پایه — با جاماسپِ خبررسان",
+      "hengameh_possible": [],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "jamasp"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "sudabeh"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "10b",
+      "player_count": 10,
+      "display_name": "سناریوی سیاوشان",
+      "hengameh_possible": [
+        "siavashan"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "siavash"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "sudabeh"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "10c",
+      "player_count": 10,
+      "display_name": "سناریوی جنگ (سهراب)",
+      "hengameh_possible": [
+        "jang"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "gordafarid"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz"
+      ],
+      "neutral_roles": [
+        "sohrab"
+      ]
+    },
+    {
+      "id": "11a",
+      "player_count": 11,
+      "display_name": "سیاوشان + جاماسپ",
+      "hengameh_possible": [
+        "siavashan"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "jamasp",
+        "siavash"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "sudabeh"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "11b",
+      "player_count": 11,
+      "display_name": "سناریوی بیژن و منیژه",
+      "hengameh_possible": [
+        "bijan_manijeh"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "bijan",
+        "manijeh"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "sudabeh"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "12a",
+      "player_count": 12,
+      "display_name": "قیام و کودتا",
+      "hengameh_possible": [
+        "qiam",
+        "kudeta"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "karen",
+        "kaveh",
+        "fereydun"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "12b",
+      "player_count": 12,
+      "display_name": "جنگ + بیژن‌ومنیژه",
+      "hengameh_possible": [
+        "jang",
+        "bijan_manijeh"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "bijan",
+        "manijeh"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "pirans",
+        "gersivaz"
+      ],
+      "neutral_roles": [
+        "sohrab"
+      ]
+    },
+    {
+      "id": "12c",
+      "player_count": 12,
+      "display_name": "جنگ + جاماسپ",
+      "hengameh_possible": [
+        "jang"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "jamasp",
+        "gordafarid"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans"
+      ],
+      "neutral_roles": [
+        "sohrab"
+      ]
+    },
+    {
+      "id": "12d",
+      "player_count": 12,
+      "display_name": "بیژن‌ومنیژه + جاماسپ",
+      "hengameh_possible": [
+        "bijan_manijeh"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "bijan",
+        "manijeh",
+        "jamasp"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "pirans",
+        "gersivaz"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "13a",
+      "player_count": 13,
+      "display_name": "قیام و کودتا (پیشرفته)",
+      "hengameh_possible": [
+        "qiam",
+        "kudeta"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "karen",
+        "kaveh",
+        "fereydun"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "13b",
+      "player_count": 13,
+      "display_name": "سیاوشان + بیژن‌ومنیژه",
+      "hengameh_possible": [
+        "siavashan",
+        "bijan_manijeh"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "bijan",
+        "manijeh",
+        "siavash"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "13c",
+      "player_count": 13,
+      "display_name": "هفت‌خانِ اسفندیار + بیژن‌ومنیژه",
+      "hengameh_possible": [
+        "haftkhan",
+        "bijan_manijeh"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "bijan",
+        "manijeh",
+        "esfandiar"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "arjasb"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "13d",
+      "player_count": 13,
+      "display_name": "بیژن‌ومنیژه + جاماسپ",
+      "hengameh_possible": [
+        "bijan_manijeh"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "bijan",
+        "manijeh",
+        "jamasp"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "14a",
+      "player_count": 14,
+      "display_name": "جنگ + بیژن‌ومنیژه",
+      "hengameh_possible": [
+        "jang",
+        "bijan_manijeh"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "bijan",
+        "manijeh",
+        "gordafarid"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh"
+      ],
+      "neutral_roles": [
+        "sohrab"
+      ]
+    },
+    {
+      "id": "14b",
+      "player_count": 14,
+      "display_name": "سیاوشان + بیژن‌ومنیژه + جاماسپ",
+      "hengameh_possible": [
+        "siavashan",
+        "bijan_manijeh"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "bijan",
+        "manijeh",
+        "siavash",
+        "jamasp"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "14c",
+      "player_count": 14,
+      "display_name": "قیام و کودتا (رأی‌گیریِ کامل)",
+      "hengameh_possible": [
+        "qiam",
+        "kudeta"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "karen",
+        "kaveh",
+        "fereydun",
+        "jamasp"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "14d",
+      "player_count": 14,
+      "display_name": "قیام و کودتا + سیاوشان",
+      "hengameh_possible": [
+        "qiam",
+        "kudeta",
+        "siavashan"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "karen",
+        "kaveh",
+        "fereydun",
+        "siavash"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "14e",
+      "player_count": 14,
+      "display_name": "جنگ + سیاوشان",
+      "hengameh_possible": [
+        "jang",
+        "siavashan"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "jamasp",
+        "siavash",
+        "gordafarid"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh"
+      ],
+      "neutral_roles": [
+        "sohrab"
+      ]
+    },
+    {
+      "id": "15a",
+      "player_count": 15,
+      "display_name": "قیام و کودتا (با هومان)",
+      "hengameh_possible": [
+        "qiam",
+        "kudeta"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "karen",
+        "kaveh",
+        "fereydun",
+        "jamasp"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh",
+        "homan"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "15b",
+      "player_count": 15,
+      "display_name": "قیام و کودتا و سیاوشان (کامل)",
+      "hengameh_possible": [
+        "qiam",
+        "kudeta",
+        "siavashan"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "karen",
+        "kaveh",
+        "fereydun",
+        "siavash"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh",
+        "homan"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "15c",
+      "player_count": 15,
+      "display_name": "سیاوشان + بیژن‌ومنیژه (با هومان)",
+      "hengameh_possible": [
+        "siavashan",
+        "bijan_manijeh"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "bijan",
+        "manijeh",
+        "siavash",
+        "jamasp"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh",
+        "homan"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "15d",
+      "player_count": 15,
+      "display_name": "هفت‌خان + بیژن‌ومنیژه",
+      "hengameh_possible": [
+        "haftkhan",
+        "bijan_manijeh"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "bijan",
+        "manijeh",
+        "esfandiar",
+        "jamasp"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh",
+        "arjasb"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "15e",
+      "player_count": 15,
+      "display_name": "هفت‌خان + بیژن‌ومنیژه + سیاوشان (بزرگ)",
+      "hengameh_possible": [
+        "haftkhan",
+        "bijan_manijeh",
+        "siavashan"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "bijan",
+        "manijeh",
+        "esfandiar",
+        "siavash"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh",
+        "arjasb"
+      ],
+      "neutral_roles": []
+    },
+    {
+      "id": "15f",
+      "player_count": 15,
+      "display_name": "جنگ + سیاوشان + بیژن‌ومنیژه (بزرگ)",
+      "hengameh_possible": [
+        "jang",
+        "siavashan",
+        "bijan_manijeh"
+      ],
+      "jamshidi_roles": [
+        "jamshid",
+        "armayil",
+        "keykavous",
+        "rostam",
+        "zaal",
+        "bijan",
+        "manijeh",
+        "siavash",
+        "gordafarid"
+      ],
+      "zahhaki_roles": [
+        "zahhak",
+        "afrasiab",
+        "gersivaz",
+        "pirans",
+        "sudabeh"
+      ],
+      "neutral_roles": [
+        "sohrab"
+      ]
+    }
+  ]
+}
