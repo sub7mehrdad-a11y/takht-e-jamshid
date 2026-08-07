@@ -140,11 +140,96 @@
   .tally-counts{ display:flex; gap:12px; font-variant-numeric:tabular-nums; }
   .tally-counts .tc-g{ color:var(--gold-soft); }
   .tally-counts .tc-r{ color:var(--crimson-soft); }
+
+  /* ============ سیستمِ بصریِ ornate — بازطراحیِ صفحاتِ ورود/لابی ============ */
+  .ornate-frame{ position:relative; }
+  .ornate-frame::before, .ornate-frame::after,
+  .ornate-frame .corner-tl, .ornate-frame .corner-tr, .ornate-frame .corner-bl, .ornate-frame .corner-br{ display:none; }
+  .ornate-frame{
+    border-image: none;
+    border: 1px solid var(--gold);
+    box-shadow: inset 0 0 0 1px rgba(201,151,47,0.15), 0 6px 24px rgba(0,0,0,0.35);
+  }
+  .ornate-frame::before{
+    content:''; display:block; position:absolute; inset:-1px; pointer-events:none; border-radius:inherit;
+    background:
+      linear-gradient(135deg, var(--gold-soft) 0 14px, transparent 14px) top left / 30px 30px no-repeat,
+      linear-gradient(-135deg, var(--gold-soft) 0 14px, transparent 14px) top right / 30px 30px no-repeat,
+      linear-gradient(45deg, var(--gold-soft) 0 14px, transparent 14px) bottom left / 30px 30px no-repeat,
+      linear-gradient(-45deg, var(--gold-soft) 0 14px, transparent 14px) bottom right / 30px 30px no-repeat;
+    opacity:0.55;
+  }
+
+  /* --- splash --- */
+  #screen-splash .splash-wrap{ min-height:70vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+  .splash-emblem{ width:74px; height:74px; border-radius:16px; margin-bottom:16px; background:var(--night-2) center/cover; border:1px solid var(--gold); box-shadow:0 0 22px rgba(201,151,47,0.28); }
+  .splash-wrap h1{
+    font-size:24px; font-weight:900; margin:0 0 6px;
+    background:linear-gradient(90deg, var(--gold-soft), var(--parchment) 60%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .splash-wrap p{ font-size:12px; color:var(--parchment-dim); margin:0 0 22px; }
+  .splash-bar{ width:160px; height:3px; border-radius:3px; background:var(--night-3); overflow:hidden; }
+  .splash-bar::after{ content:''; display:block; width:40%; height:100%; background:linear-gradient(90deg, var(--gold), var(--gold-soft)); animation:splashLoad 1.1s ease-in-out infinite; }
+  @keyframes splashLoad{ 0%{ transform:translateX(-100%); } 100%{ transform:translateX(350%); } }
+
+  /* --- hero entry --- */
+  .hero-bg{
+    position:relative; border-radius:20px; overflow:hidden; margin-bottom:16px;
+    background:#000 center/cover no-repeat;
+    padding:26px 20px 24px; text-align:center;
+    border:1px solid var(--gold);
+  }
+  .hero-bg::before{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(14,14,23,0.35) 0%, rgba(14,14,23,0.75) 62%, var(--night) 100%);
+  }
+  .hero-bg > *{ position:relative; z-index:1; }
+  .hero-bg h1{
+    font-size:26px; font-weight:900; margin:130px 0 6px;
+    background:linear-gradient(90deg, var(--gold-soft), var(--parchment) 60%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero-bg p.tagline{ font-size:12px; color:var(--parchment-dim); margin:0 0 22px; }
+  .hero-bg .ver-tag{ font-size:10px; color:var(--parchment-dim); margin-top:14px; opacity:0.7; }
+
+  .pill-btn{
+    display:block; width:100%; padding:15px; border-radius:999px; font-family:'Vazirmatn'; font-size:14px; font-weight:700;
+    border:1px solid var(--gold); cursor:pointer; margin-bottom:10px;
+  }
+  .pill-btn.gold{ background:linear-gradient(135deg, var(--gold-soft), var(--gold)); color:#241a05; }
+  .pill-btn.outline{ background:rgba(23,23,36,0.55); color:var(--parchment); }
+
+  .back-arrow{
+    width:38px; height:38px; border-radius:50%; background:var(--night-2); border:1px solid var(--line);
+    color:var(--parchment); display:flex; align-items:center; justify-content:center; cursor:pointer; margin-bottom:14px;
+    font-size:16px;
+  }
+  .back-arrow:hover{ border-color:var(--gold); color:var(--gold-soft); }
+
+  /* --- ورودیِ کدِ اتاق (۶ خونه) --- */
+  .code-box-row{ display:flex; gap:7px; justify-content:center; direction:ltr; margin-bottom:6px; }
+  .code-box{
+    width:15%; aspect-ratio:1; max-width:46px; text-align:center; font-size:19px; font-weight:900;
+    background:var(--night-3); border:1px solid var(--line); border-radius:10px; color:var(--gold-soft);
+    font-family:'Vazirmatn'; text-transform:uppercase;
+  }
+  .code-box:focus{ outline:none; border-color:var(--gold); }
+
+  /* --- پرترهٔ کوچیکِ داشبورد --- */
+  .portrait-badge{
+    width:52px; height:52px; border-radius:50%; margin:0 auto 8px; background-position:center; background-size:cover;
+    border:2px solid var(--gold);
+  }
+  #screen-zahhak-dash .portrait-badge{ border-color:var(--crimson-soft); }
+
+  .player-dot.host-dot .avatar{ background:rgba(201,151,47,0.18); border-color:var(--gold); color:var(--gold-soft); }
+  .player-dot.host-dot .pname{ color:var(--gold-soft); font-weight:700; }
 </style>
 </head>
 <body>
 
-<div class="brand">
+<div class="brand" style="display:none;">
   <div class="mini-logo"></div>
   <h1>تخت جمشید</h1>
   <p>بازیِ نقشِ مخفی بر پایه‌ی اساطیرِ شاهنامه</p>
@@ -159,25 +244,62 @@
 
   <div class="err-box" id="errBox"></div>
 
-  <!-- صفحه ۱: شروع -->
-  <div class="screen active" id="screen-start">
-    <div class="card">
+  <!-- صفحه ۱: اسپلش -->
+  <div class="screen active" id="screen-splash">
+    <div class="splash-wrap">
+      <div class="splash-emblem"></div>
+      <h1>تخت جمشید</h1>
+      <p>در حالِ آماده‌سازیِ جهانِ شاهنامه…</p>
+      <div class="splash-bar"></div>
+    </div>
+  </div>
+
+  <!-- صفحه ۲: ورود -->
+  <div class="screen" id="screen-entry">
+    <div class="hero-bg" style="background-image:url('assets/hero-kings.jpg');">
+      <h1>تخت جمشید</h1>
+      <p class="tagline">بازیِ نقشِ مخفی بر پایه‌ی اساطیرِ شاهنامه</p>
+      <button class="pill-btn gold" onclick="go('screen-create')">ساختِ بازیِ جدید</button>
+      <button class="pill-btn outline" onclick="go('screen-join')">پیوستن با کد</button>
+      <div class="ver-tag">نسخه ۱.۰.۰ · متصل به Supabase</div>
+    </div>
+  </div>
+
+  <!-- صفحه ۳: ساختِ بازی -->
+  <div class="screen" id="screen-create">
+    <div class="back-arrow" onclick="go('screen-entry')">→</div>
+    <div class="card ornate-frame">
       <h2>می‌خوای اهورامزدا (گرداننده) بشی؟</h2>
       <input type="text" id="hostNameInput" placeholder="اسمِ تو">
+      <div style="font-size:11px; color:var(--parchment-dim); background:var(--night-3); border-radius:9px; padding:9px 11px; margin-bottom:14px; line-height:1.8;">
+        این بازی برای ۱۰ تا ۱۵ نفر طراحی شده — بعد از ساختِ اتاق، بقیه با کد بهت می‌پیوندن و سناریو بر اساسِ تعدادِ نفرات انتخاب می‌شه.
+      </div>
       <button class="btn-gold" id="createBtn" onclick="handleCreate()">ساختِ یک بازیِ جدید</button>
     </div>
-    <div class="divider">یا</div>
-    <div class="card">
+  </div>
+
+  <!-- صفحه ۴: پیوستن با کد -->
+  <div class="screen" id="screen-join">
+    <div class="back-arrow" onclick="go('screen-entry')">→</div>
+    <div class="card ornate-frame">
       <h2>پیوستن به یک بازیِ موجود</h2>
-      <input type="text" id="joinCodeInput" placeholder="کدِ اتاق را وارد کن" maxlength="6">
-      <input type="text" id="joinNameInput" placeholder="اسمِ تو در بازی">
+      <div class="code-box-row" id="codeBoxRow">
+        <input class="code-box" maxlength="1" data-i="0">
+        <input class="code-box" maxlength="1" data-i="1">
+        <input class="code-box" maxlength="1" data-i="2">
+        <input class="code-box" maxlength="1" data-i="3">
+        <input class="code-box" maxlength="1" data-i="4">
+        <input class="code-box" maxlength="1" data-i="5">
+      </div>
+      <input type="hidden" id="joinCodeInput">
+      <input type="text" id="joinNameInput" placeholder="اسمِ تو در بازی" style="margin-top:16px;">
       <button class="btn-outline" id="joinBtn" onclick="handleJoin()">پیوستن</button>
     </div>
   </div>
 
   <!-- صفحه ۲: لابیِ گرداننده -->
   <div class="screen" id="screen-host-lobby">
-    <div class="card">
+    <div class="card ornate-frame">
       <div style="display:flex; align-items:center; gap:10px; background:var(--night-3); border:1px solid var(--gold); border-radius:10px; padding:10px 14px; margin-bottom:16px; font-size:12.5px;">
         <span style="font-size:18px;">☉</span>
         <span>تو <b style="color:var(--gold-soft);">اهورامزدا (گرداننده)</b> این بازی‌ای — نقشی نمی‌گیری، فقط بازی رو اجرا می‌کنی.</span>
@@ -189,8 +311,14 @@
         </div>
         <button class="copy-btn" onclick="copyCode()">کپی</button>
       </div>
-      <h2>بازیکنانِ حاضر (<span id="hostPlayerCount">0</span> نفر — نقش می‌گیرن)</h2>
-      <div class="player-list" id="hostPlayerList"></div>
+      <div class="stage" style="margin-top:10px;">
+        <div class="ring-bg"></div>
+        <div class="center-info">
+          <div class="center-label">بازیکنانِ حاضر</div>
+          <div class="center-name"><span id="hostPlayerCount">0</span> نفر</div>
+        </div>
+        <div id="hostPlayerList"></div>
+      </div>
       <div class="count-hint" id="hostCountHint">حداقل ۱۰ نفر لازمه — منتظرِ بقیه بمون</div>
       <div id="scenarioPicker" style="display:none; margin-top:14px;">
         <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:10px;">یه سناریو انتخاب کن:</div>
@@ -229,31 +357,39 @@
 
   <!-- صفحه ۳: لابیِ بازیکن -->
   <div class="screen" id="screen-player-lobby">
-    <div class="card" style="text-align:center;">
+    <div class="card ornate-frame" style="text-align:center;">
       <h2 style="margin-bottom:6px;" id="playerRoomTitle">به اتاق پیوستی</h2>
       <div style="display:flex; align-items:center; gap:10px; background:var(--night-3); border:1px solid var(--gold); border-radius:10px; padding:10px 14px; margin:10px 0; font-size:12px; text-align:right;">
         <span style="font-size:16px;">☉</span>
         <span id="playerHostInfo">گرداننده مشخص می‌شه…</span>
       </div>
-      <p style="font-size:12.5px; color:var(--parchment-dim); margin-bottom:14px;">منتظرِ شروعِ بازی باش…</p>
-      <div class="player-list" id="playerLobbyList"></div>
-      <div class="spinner-note">🔄 وضعیت هر ۳ ثانیه چک می‌شه</div>
+      <p style="font-size:12.5px; color:var(--parchment-dim); margin-bottom:6px;">منتظرِ شروعِ بازی باش…</p>
+      <div class="stage">
+        <div class="ring-bg"></div>
+        <div class="center-info">
+          <div class="center-label">اتاقِ بازی</div>
+          <div class="center-name">🎭</div>
+        </div>
+        <div id="playerLobbyList"></div>
+      </div>
+      <div class="spinner-note">🔄 وضعیت هر ۲ ثانیه چک می‌شه</div>
     </div>
   </div>
 
   <!-- صفحه ۴: فازِ روز — حلقه‌ی رأی (بازیکنانِ عادی) -->
   <div class="screen" id="screen-day-vote">
-    <div class="card" style="text-align:center; padding:16px;">
+    <div class="card ornate-frame" style="text-align:center; padding:16px;">
       <div style="font-size:11.5px; color:var(--gold-soft); font-weight:700; margin-bottom:2px;">روزِ <span id="dayNumLabel">۱</span></div>
       <div id="kingsRow" style="display:flex; justify-content:space-between; margin:10px 0 16px; font-size:12px;"></div>
     </div>
-    <div class="card" id="dayVoteCardBody"></div>
+    <div class="card ornate-frame" id="dayVoteCardBody"></div>
   </div>
 
   <!-- صفحه ۵: داشبوردِ جمشید -->
   <div class="screen" id="screen-jamshid-dash">
-    <div class="card">
+    <div class="card ornate-frame">
       <div style="text-align:center; margin-bottom:14px;">
+        <div class="portrait-badge" style="background-image:url('assets/jamshid-glory.jpg');"></div>
         <div style="font-size:11.5px; color:var(--gold-soft); font-weight:700;">داشبوردِ جمشید</div>
         <div id="jamPhasePill" style="font-size:12px; color:var(--parchment-dim); margin-top:4px;">—</div>
       </div>
@@ -271,8 +407,9 @@
 
   <!-- صفحه ۶: داشبوردِ ضحاک -->
   <div class="screen" id="screen-zahhak-dash">
-    <div class="card">
+    <div class="card ornate-frame">
       <div style="text-align:center; margin-bottom:14px;">
+        <div class="portrait-badge" style="background-image:url('assets/zahhak.jpg');"></div>
         <div style="font-size:11.5px; color:var(--crimson-soft); font-weight:700;">داشبوردِ ضحاک</div>
         <div id="zahPhasePill" style="font-size:12px; color:var(--parchment-dim); margin-top:4px;">—</div>
       </div>
@@ -289,7 +426,7 @@
 
   <!-- صفحه ۷: شب برای بازیکنانِ عادی -->
   <div class="screen" id="screen-night-wait">
-    <div class="card" style="text-align:center; padding:30px 20px;">
+    <div class="card ornate-frame" style="text-align:center; padding:30px 20px;">
       <div style="font-size:34px; margin-bottom:10px;">🌙</div>
       <div style="font-size:14px; font-weight:700; color:var(--gold-soft); margin-bottom:6px;">شب است</div>
       <p style="font-size:12px; color:var(--parchment-dim);">چشمانت را ببند — اگه نقشِ فعالِ شبانه داری، به‌زودی نوبتت اعلام می‌شه.</p>
@@ -377,6 +514,8 @@
   function go(id){
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+    const brand = document.querySelector('.brand');
+    if(brand) brand.style.display = (id === 'screen-splash' || id === 'screen-entry') ? 'none' : '';
   }
   function showError(msg){
     const box = document.getElementById('errBox');
@@ -434,13 +573,31 @@
     return `<div class="player-row"><div class="av">${p.display_name[0]}</div>${p.display_name}</div>`;
   }
 
+  function renderPlayerDot(p, i, n){
+    const angle = (i / n) * 2 * Math.PI - Math.PI/2;
+    const x = 50 + 36 * Math.cos(angle);
+    const y = 50 + 36 * Math.sin(angle);
+    return `<div class="player-dot${p.is_host ? ' host-dot' : ''}" style="left:${x}%; top:${y}%;">
+      <div class="avatar">${p.display_name[0]}</div>
+      <div class="pname">${p.display_name}</div>
+    </div>`;
+  }
+  function renderPlayerRing(containerId, players){
+    const container = document.getElementById(containerId);
+    if(!players.length){
+      container.innerHTML = '<div class="spinner-note" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:80%;">هنوز کسی نپیوسته…</div>';
+      return;
+    }
+    container.innerHTML = players.map((p,i) => renderPlayerDot(p, i, players.length)).join('');
+  }
+
   async function startHostPolling(){
     async function tick(){
       try{
         const players = await tjListPlayers(currentGame.id);
         const nonHost = players.filter(p => !p.is_host);
         document.getElementById('hostPlayerCount').textContent = nonHost.length;
-        document.getElementById('hostPlayerList').innerHTML = nonHost.map(renderPlayerRow).join('') || '<div class="spinner-note">هنوز کسی نپیوسته…</div>';
+        renderPlayerRing('hostPlayerList', nonHost);
 
         const matching = GAME_LAYOUTS.layouts.filter(l => l.player_count === nonHost.length);
         const picker = document.getElementById('scenarioPicker');
@@ -659,11 +816,7 @@
 
         if(game.status === 'lobby'){
           const players = await tjListPlayers(currentGame.id);
-          document.getElementById('playerLobbyList').innerHTML = players.map(p =>
-            p.is_host
-              ? `<div class="player-row"><div class="av" style="background:var(--gold); color:#241a05;">${p.display_name[0]}</div>${p.display_name}</div>`
-              : renderPlayerRow(p)
-          ).join('');
+          renderPlayerRing('playerLobbyList', players);
           const host = players.find(p => p.is_host);
           if(host){
             document.getElementById('playerHostInfo').innerHTML = 'گرداننده: <b style="color:var(--gold-soft);">' + host.display_name + ' (اهورامزدا)</b> — نقشی نمی‌گیره.';
@@ -704,8 +857,10 @@
     myRoleId = me.role_id; mySide = me.side;
     const roleName = ROLE_NAMES_FA[me.role_id] || me.role_id;
     const sideLabel = me.side === 'jamshidi' ? 'یارانِ جمشید' : me.side === 'zahhaki' ? 'ضحاکیان' : 'بی‌طرف';
+    const sidePortrait = me.side === 'jamshidi' ? 'assets/jamshid-glory.jpg' : me.side === 'zahhaki' ? 'assets/zahhak.jpg' : '';
     document.querySelector('#screen-player-lobby .card').innerHTML = `
       <div class="role-reveal-card">
+        ${sidePortrait ? `<div class="portrait-badge" style="background-image:url('${sidePortrait}'); width:72px; height:72px;"></div>` : ''}
         <span class="side-tag ${me.side}">${sideLabel}</span>
         <div class="rname">${roleName}</div>
         <p style="font-size:11.5px; color:var(--parchment-dim);">این نقش فقط برای خودِ توئه — به کسی نشونش نده</p>
@@ -886,6 +1041,30 @@
   }
   function dayNumberInt(){ return parseInt(document.getElementById('dayNumLabel').textContent, 10); }
 
+  // ---------------- ورودیِ کدِ اتاق (۶ خونه) ----------------
+  (function wireCodeBoxes(){
+    const boxes = Array.from(document.querySelectorAll('#codeBoxRow .code-box'));
+    const hidden = document.getElementById('joinCodeInput');
+    function syncHidden(){ hidden.value = boxes.map(b => b.value).join(''); }
+    boxes.forEach((box, i) => {
+      box.addEventListener('input', () => {
+        box.value = box.value.toUpperCase().slice(-1);
+        syncHidden();
+        if(box.value && boxes[i+1]) boxes[i+1].focus();
+      });
+      box.addEventListener('keydown', (e) => {
+        if(e.key === 'Backspace' && !box.value && boxes[i-1]){ boxes[i-1].focus(); }
+      });
+      box.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const text = (e.clipboardData.getData('text') || '').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6);
+        text.split('').forEach((ch,j) => { if(boxes[j]) boxes[j].value = ch; });
+        syncHidden();
+        (boxes[Math.min(text.length,5)] || boxes[5]).focus();
+      });
+    });
+  })();
+
 
   function copyCode(){
     const code = document.getElementById('hostRoomCode').textContent;
@@ -897,9 +1076,13 @@
     });
   }
 
-  // شروعِ اپ: اگه جلسه‌ی قبلی تو حافظه بود، برگرد بهش؛ وگرنه صفحه‌ی شروع (که پیش‌فرضِ HTML‌ه) بمونه
+  // شروعِ اپ: اگه جلسه‌ی قبلی تو حافظه بود، برگرد بهش؛ وگرنه بعدِ اسپلش برو صفحه‌ی ورود
   (async function init(){
-    try{ await tryResumeSession(); }catch(e){ console.error(e); }
+    let resumed = false;
+    try{ resumed = await tryResumeSession(); }catch(e){ console.error(e); }
+    if(!resumed){
+      setTimeout(() => go('screen-entry'), 700);
+    }
   })();
 </script>
 </body>

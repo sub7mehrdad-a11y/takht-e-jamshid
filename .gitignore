@@ -4,3 +4,6 @@ _backup-pre-sync-*/
 *.jpeg
 *.png
 *.pdf
+!assets/*.jpg
+!assets/*.jpeg
+!assets/*.png
