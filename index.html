@@ -73,29 +73,6 @@
   }
   .err-box.show{ display:block; }
 
-  .room-code-box{
-    display:flex; align-items:center; justify-content:space-between;
-    background:var(--night-3); border:1px dashed var(--gold); border-radius:12px; padding:14px 18px; margin-bottom:18px;
-  }
-  .room-code-box .code{ font-size:26px; font-weight:900; letter-spacing:0.12em; color:var(--gold-soft); }
-  .room-code-box .lbl{ font-size:11px; color:var(--parchment-dim); }
-  .copy-btn{ width:auto; padding:8px 14px; font-size:12px; background:var(--night-2); border:1px solid var(--line); color:var(--parchment-dim); }
-
-  .player-list{ display:flex; flex-direction:column; gap:8px; margin-bottom:18px; min-height:40px; }
-  .player-row{ display:flex; align-items:center; gap:10px; background:var(--night-3); border-radius:10px; padding:10px 12px; font-size:13.5px; }
-  .player-row .av{ width:30px; height:30px; border-radius:50%; background:var(--night); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; }
-  .count-hint{ font-size:11.5px; color:var(--parchment-dim); text-align:center; margin-bottom:16px; }
-  .spinner-note{ font-size:11px; color:var(--parchment-dim); text-align:center; }
-
-  .scenario-card{
-    background:var(--night-3); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:8px; cursor:pointer;
-    transition:border-color .15s ease;
-  }
-  .scenario-card:hover{ border-color:var(--gold); }
-  .scenario-card .sname{ font-size:13.5px; font-weight:700; margin-bottom:6px; }
-  .scenario-card .stags{ display:flex; flex-wrap:wrap; gap:5px; }
-  .scenario-card .tag{ font-size:9.5px; padding:2px 8px; border-radius:7px; background:rgba(147,90,201,0.15); color:#c9a6ec; border:1px solid #a874d8; }
-  .scenario-card .scount{ font-size:10.5px; color:var(--parchment-dim); margin-top:6px; }
   .role-reveal-card{
     background:var(--night-2); border:1px solid var(--gold); border-radius:18px; padding:30px 20px; text-align:center;
   }
@@ -207,6 +184,66 @@
     background:linear-gradient(180deg, transparent, var(--night) 92%);
   }
   .full-actions{ position:relative; z-index:2; padding:0 20px 30px; margin-top:-26px; }
+
+  /* ============ صفحه‌ی اتاق/لابی — طراحیِ «صفحه دوم.png» ============ */
+  .lobby-header-bg{
+    width:100%; aspect-ratio:854/360; background:url('assets/lobby-hero.jpg') center/cover no-repeat;
+    margin-bottom:14px;
+  }
+  .lobby-card{
+    position:relative; background:linear-gradient(160deg, #493d2c, #3a3025 60%, #322920);
+    border:1px solid #8a6d3c; border-radius:16px; padding:20px 16px 18px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  }
+  .lobby-card::after{
+    content:''; position:absolute; inset:-1px; pointer-events:none; border-radius:inherit;
+    background:
+      linear-gradient(135deg, var(--gold-soft) 0 13px, transparent 13px) top left / 26px 26px no-repeat,
+      linear-gradient(-135deg, var(--gold-soft) 0 13px, transparent 13px) top right / 26px 26px no-repeat,
+      linear-gradient(45deg, var(--gold-soft) 0 13px, transparent 13px) bottom left / 26px 26px no-repeat,
+      linear-gradient(-45deg, var(--gold-soft) 0 13px, transparent 13px) bottom right / 26px 26px no-repeat;
+  }
+  .lb-title{ display:flex; align-items:center; gap:8px; justify-content:center; margin-bottom:14px; }
+  .lb-title .ln{ flex:1; max-width:44px; height:1px; background:linear-gradient(90deg, transparent, rgba(230,196,130,0.6)); }
+  .lb-title .ln.r{ background:linear-gradient(90deg, rgba(230,196,130,0.6), transparent); }
+  .lb-title span.tt{ font-size:13.5px; font-weight:800; color:var(--gold-soft); white-space:nowrap; }
+
+  .lb-code-row{ display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:8px; }
+  .lb-copy{
+    display:flex; align-items:center; gap:6px; background:rgba(0,0,0,0.25); border:1px solid rgba(230,196,130,0.4);
+    color:var(--gold-soft); border-radius:9px; padding:9px 14px; font-family:'Vazirmatn'; font-size:12px; cursor:pointer;
+  }
+  .lb-code{ font-size:26px; font-weight:900; letter-spacing:0.1em; color:var(--gold-soft); font-variant-numeric:tabular-nums; }
+  .lb-caption{ text-align:center; font-size:11px; color:var(--parchment-dim); margin-bottom:12px; }
+  .lb-divider{ height:1px; background:rgba(230,196,130,0.3); margin:14px 0; }
+
+  .lb-players-header{ display:flex; align-items:center; justify-content:center; gap:8px; font-size:12.5px; color:var(--parchment); margin-bottom:10px; font-weight:700; }
+  .lb-player-list{ border:1px solid rgba(230,196,130,0.25); border-radius:12px; overflow:hidden; margin-bottom:6px; }
+  .lb-row{ display:flex; align-items:center; gap:10px; padding:10px 12px; background:rgba(0,0,0,0.18); border-bottom:1px solid rgba(230,196,130,0.12); }
+  .lb-row:last-child{ border-bottom:none; }
+  .lb-avatar{ width:38px; height:38px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; }
+  .lb-row.filled .lb-avatar{ background:linear-gradient(160deg, var(--gold-soft), var(--gold)); color:#241a05; }
+  .lb-row.empty .lb-avatar{ background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.25); }
+  .lb-name{ flex:1; font-size:13px; font-weight:700; color:var(--parchment); }
+  .lb-row.empty .lb-name{ color:var(--parchment-dim); font-weight:400; font-size:12px; }
+  .lb-status{ display:flex; align-items:center; gap:6px; font-size:11px; color:var(--green); }
+  .lb-status .dot{ width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); }
+  .lb-crown{ font-size:14px; margin-inline-start:4px; }
+
+  .lb-settings-row{ display:flex; gap:10px; margin-bottom:12px; }
+  .lb-settings-col{ flex:1; }
+  .lb-settings-col label{ display:block; font-size:11px; color:var(--parchment-dim); text-align:center; margin-bottom:6px; }
+  .lb-settings-col select, .lb-count-box{
+    width:100%; background:rgba(0,0,0,0.25); border:1px solid rgba(230,196,130,0.4); border-radius:9px;
+    color:var(--gold-soft); font-family:'Vazirmatn'; font-size:12.5px; padding:11px 10px; text-align:center;
+  }
+  .lb-start-btn{
+    display:block; width:100%; padding:15px; text-align:center; cursor:pointer; margin-top:4px;
+    background:linear-gradient(180deg, var(--gold-soft), var(--gold)); color:#241a05;
+    border:1.5px solid #8a6420; font-family:'Vazirmatn'; font-size:14.5px; font-weight:800;
+  }
+  .lb-start-btn:disabled{ opacity:0.45; cursor:not-allowed; }
+  .lb-waiting{ display:flex; align-items:center; justify-content:center; gap:8px; font-size:12px; color:var(--parchment-dim); margin-top:14px; }
 
   /* ============ صفحه‌ی ورود — عکسِ کاملِ «صفحه اول.png» + المان‌های نامرئیِ واقعی ============ */
   .entry-map{
@@ -383,32 +420,37 @@
 
   <!-- صفحه ۲: لابیِ گرداننده -->
   <div class="screen" id="screen-host-lobby">
-    <div class="card ornate-frame">
-      <div style="display:flex; align-items:center; gap:10px; background:var(--night-3); border:1px solid var(--gold); border-radius:10px; padding:10px 14px; margin-bottom:16px; font-size:12.5px;">
-        <span style="font-size:18px;">☉</span>
-        <span>تو <b style="color:var(--gold-soft);">اهورامزدا (گرداننده)</b> این بازی‌ای — نقشی نمی‌گیری، فقط بازی رو اجرا می‌کنی.</span>
+    <div class="lobby-header-bg"></div>
+    <div class="lobby-card">
+      <div class="lb-title"><span class="ln"></span><span class="tt">کد اتاق</span><span class="ln r"></span></div>
+      <div class="lb-code-row">
+        <button class="lb-copy" onclick="copyCode()">📋 کپی</button>
+        <div class="lb-code" id="hostRoomCode">——————</div>
       </div>
-      <div class="room-code-box">
-        <div>
-          <div class="lbl">کدِ اتاق — این رو به بقیه بده</div>
-          <div class="code" id="hostRoomCode">——————</div>
+      <div class="lb-caption">این کد را با سایر بازیکنان به اشتراک بگذارید.</div>
+      <div class="lb-divider"></div>
+
+      <div class="lb-players-header">👥 بازیکنانِ حاضر (<span id="hostPlayerCount">0</span> از ۱۵)</div>
+      <div class="lb-player-list" id="hostPlayerList"></div>
+
+      <div id="scenarioPicker" style="display:none; margin-top:16px;">
+        <div class="lb-divider"></div>
+        <div class="lb-title"><span class="ln"></span><span class="tt">تنظیمات بازی</span><span class="ln r"></span></div>
+        <div class="lb-settings-row">
+          <div class="lb-settings-col">
+            <label>تعداد بازیکنان</label>
+            <div class="lb-count-box"><span id="scenarioPlayerCount">0</span> نفر</div>
+          </div>
+          <div class="lb-settings-col">
+            <label>سناریو</label>
+            <select id="scenarioSelect"></select>
+          </div>
         </div>
-        <button class="copy-btn" onclick="copyCode()">کپی</button>
+        <button class="lb-start-btn" onclick="pickScenario(document.getElementById('scenarioSelect').value)">شروع بازی</button>
       </div>
-      <div class="stage" style="margin-top:10px;">
-        <div class="ring-bg"></div>
-        <div class="center-info">
-          <div class="center-label">بازیکنانِ حاضر</div>
-          <div class="center-name"><span id="hostPlayerCount">0</span> نفر</div>
-        </div>
-        <div id="hostPlayerList"></div>
-      </div>
-      <div class="count-hint" id="hostCountHint">حداقل ۱۰ نفر لازمه — منتظرِ بقیه بمون</div>
-      <div id="scenarioPicker" style="display:none; margin-top:14px;">
-        <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:10px;">یه سناریو انتخاب کن:</div>
-        <div id="scenarioList"></div>
-      </div>
-      <div id="hostPhaseControl" style="display:none; margin-top:14px; text-align:center;">
+      <div class="lb-waiting" id="hostCountHint"><span>⏳</span><span id="hostCountHintText">حداقل ۱۰ نفر لازمه — منتظرِ بقیه بمون</span></div>
+
+      <div id="hostPhaseControl" style="display:none; margin-top:16px; text-align:center;">
         <div class="phase-pill" id="hostPhasePill" style="display:inline-block; margin-bottom:12px;">—</div>
         <button class="btn-crimson" id="hostPhaseBtn" onclick="handlePhaseAdvance()">—</button>
       </div>
@@ -418,11 +460,11 @@
         <div id="tallyList"></div>
 
         <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin:16px 0 8px;">پایانِ روز — تصمیمِ جمشید</div>
-        <div id="mahaanHint" style="font-size:11px; color:var(--parchment-dim); background:var(--night-3); border-radius:9px; padding:9px 11px; margin-bottom:10px; line-height:1.8;"></div>
-        <select id="killSelect" style="width:100%; padding:11px; border-radius:9px; background:var(--night-3); border:1px solid var(--line); color:var(--parchment); font-family:'Vazirmatn'; font-size:13px; margin-bottom:8px;">
+        <div id="mahaanHint" style="font-size:11px; color:var(--parchment-dim); background:rgba(0,0,0,0.25); border-radius:9px; padding:9px 11px; margin-bottom:10px; line-height:1.8;"></div>
+        <select id="killSelect" style="width:100%; padding:11px; border-radius:9px; background:rgba(0,0,0,0.25); border:1px solid rgba(230,196,130,0.4); color:var(--parchment); font-family:'Vazirmatn'; font-size:13px; margin-bottom:8px;">
           <option value="">— کسی کشته نشد —</option>
         </select>
-        <div id="noshdaruBox" style="display:none; background:var(--night-3); border-radius:9px; padding:10px 12px; margin-bottom:8px; font-size:12px;">
+        <div id="noshdaruBox" style="display:none; background:rgba(0,0,0,0.25); border-radius:9px; padding:10px 12px; margin-bottom:8px; font-size:12px;">
           <div style="margin-bottom:8px;">🏺 کیکاووس نوشدارو داد؟ <span style="color:var(--parchment-dim); font-size:11px;">(کشته رو بهش نشون بده)</span></div>
           <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
             <input type="checkbox" id="noshdaruCheck"> بله، نجاتش داد
@@ -434,29 +476,27 @@
 
       <div id="hostNightPanel" style="display:none; margin-top:16px;">
         <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:8px;">🔮 اطلاعاتی که به جاماسپ می‌دی</div>
-        <div id="jamaspInfo" style="background:var(--night-3); border-radius:9px; padding:11px 13px; font-size:12.5px; line-height:1.9;"></div>
+        <div id="jamaspInfo" style="background:rgba(0,0,0,0.25); border-radius:9px; padding:11px 13px; font-size:12.5px; line-height:1.9;"></div>
       </div>
     </div>
   </div>
 
   <!-- صفحه ۳: لابیِ بازیکن -->
   <div class="screen" id="screen-player-lobby">
-    <div class="card ornate-frame" style="text-align:center;">
-      <h2 style="margin-bottom:6px;" id="playerRoomTitle">به اتاق پیوستی</h2>
-      <div style="display:flex; align-items:center; gap:10px; background:var(--night-3); border:1px solid var(--gold); border-radius:10px; padding:10px 14px; margin:10px 0; font-size:12px; text-align:right;">
-        <span style="font-size:16px;">☉</span>
-        <span id="playerHostInfo">گرداننده مشخص می‌شه…</span>
+    <div class="lobby-header-bg"></div>
+    <div class="lobby-card">
+      <div class="lb-title"><span class="ln"></span><span class="tt">کد اتاق</span><span class="ln r"></span></div>
+      <div class="lb-code-row">
+        <button class="lb-copy" onclick="copyCode()">📋 کپی</button>
+        <div class="lb-code" id="playerRoomCodeDisplay">——————</div>
       </div>
-      <p style="font-size:12.5px; color:var(--parchment-dim); margin-bottom:6px;">منتظرِ شروعِ بازی باش…</p>
-      <div class="stage">
-        <div class="ring-bg"></div>
-        <div class="center-info">
-          <div class="center-label">اتاقِ بازی</div>
-          <div class="center-name">🎭</div>
-        </div>
-        <div id="playerLobbyList"></div>
-      </div>
-      <div class="spinner-note">🔄 وضعیت هر ۲ ثانیه چک می‌شه</div>
+      <div class="lb-caption" id="playerHostInfo">گرداننده مشخص می‌شه…</div>
+      <div class="lb-divider"></div>
+
+      <div class="lb-players-header">👥 بازیکنانِ حاضر (<span id="playerVisibleCount">0</span> از ۱۵)</div>
+      <div class="lb-player-list" id="playerLobbyList"></div>
+
+      <div class="lb-waiting"><span>⏳</span><span>منتظرِ شروعِ بازی توسطِ گرداننده هستید…</span></div>
     </div>
   </div>
 
@@ -598,7 +638,7 @@
   function go(id){
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    const isFull = (id === 'screen-splash' || id === 'screen-entry');
+    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby');
     const brand = document.querySelector('.brand');
     if(brand) brand.style.display = isFull ? 'none' : '';
     document.body.classList.toggle('fullbleed', isFull);
@@ -644,7 +684,7 @@
       const { game, player } = await tjJoinGame(code, name);
       currentGame = game; currentPlayer = player;
       saveSession();
-      document.getElementById('playerRoomTitle').textContent = 'به اتاقِ ' + game.code + ' پیوستی';
+      document.getElementById('playerRoomCodeDisplay').textContent = game.code;
       go('screen-player-lobby');
       startPlayerPolling();
     }catch(e){
@@ -655,26 +695,25 @@
     }
   }
 
-  function renderPlayerRow(p){
-    return `<div class="player-row"><div class="av">${p.display_name[0]}</div>${p.display_name}</div>`;
-  }
-
-  function renderPlayerDot(p, i, n){
-    const angle = (i / n) * 2 * Math.PI - Math.PI/2;
-    const x = 50 + 36 * Math.cos(angle);
-    const y = 50 + 36 * Math.sin(angle);
-    return `<div class="player-dot${p.is_host ? ' host-dot' : ''}" style="left:${x}%; top:${y}%;">
-      <div class="avatar">${p.display_name[0]}</div>
-      <div class="pname">${p.display_name}</div>
+  function renderLobbyRow(p){
+    return `<div class="lb-row filled">
+      <div class="lb-avatar">${p.display_name[0]}</div>
+      <div class="lb-name">${p.display_name}</div>
+      <div class="lb-status"><span class="dot"></span>متصل</div>
+      ${p.is_host ? '<span class="lb-crown">👑</span>' : ''}
     </div>`;
   }
-  function renderPlayerRing(containerId, players){
-    const container = document.getElementById(containerId);
-    if(!players.length){
-      container.innerHTML = '<div class="spinner-note" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:80%;">هنوز کسی نپیوسته…</div>';
-      return;
-    }
-    container.innerHTML = players.map((p,i) => renderPlayerDot(p, i, players.length)).join('');
+  function renderLobbyEmptyRow(){
+    return `<div class="lb-row empty"><div class="lb-avatar">؟</div><div class="lb-name">در انتظار…</div></div>`;
+  }
+  function renderLobbyPlayerList(containerId, allPlayers){
+    const host = allPlayers.find(p => p.is_host);
+    const others = allPlayers.filter(p => !p.is_host);
+    const rows = [];
+    if(host) rows.push(renderLobbyRow(host));
+    rows.push(...others.map(renderLobbyRow));
+    for(let i = others.length; i < 15; i++) rows.push(renderLobbyEmptyRow());
+    document.getElementById(containerId).innerHTML = rows.join('');
   }
 
   async function startHostPolling(){
@@ -683,23 +722,22 @@
         const players = await tjListPlayers(currentGame.id);
         const nonHost = players.filter(p => !p.is_host);
         document.getElementById('hostPlayerCount').textContent = nonHost.length;
-        renderPlayerRing('hostPlayerList', nonHost);
+        renderLobbyPlayerList('hostPlayerList', players);
 
         const matching = GAME_LAYOUTS.layouts.filter(l => l.player_count === nonHost.length);
         const picker = document.getElementById('scenarioPicker');
+        const hint = document.getElementById('hostCountHint');
         if(matching.length > 0){
-          document.getElementById('hostCountHint').textContent = matching.length + ' سناریو برای ' + nonHost.length + ' نفر موجوده — یکی رو انتخاب کن:';
           picker.style.display = 'block';
-          document.getElementById('scenarioList').innerHTML = matching.map(l => `
-            <div class="scenario-card" onclick="pickScenario('${l.id}')">
-              <div class="sname">${l.display_name}</div>
-              <div class="stags">${l.hengameh_possible.map(h => `<span class="tag">${GAME_LAYOUTS.hengameh_labels[h]}</span>`).join('') || '<span class="tag" style="background:rgba(201,151,47,.15); color:var(--gold-soft); border-color:var(--gold);">پایه</span>'}</div>
-              <div class="scount">${l.jamshidi_roles.length} یارِ جمشید، ${l.zahhaki_roles.length} ضحاکی${l.neutral_roles.length ? '، ' + l.neutral_roles.length + ' بی‌طرف' : ''}</div>
-            </div>
-          `).join('');
+          hint.style.display = 'none';
+          document.getElementById('scenarioPlayerCount').textContent = nonHost.length;
+          document.getElementById('scenarioSelect').innerHTML = matching.map(l => `<option value="${l.id}">${l.display_name}</option>`).join('');
         } else {
           picker.style.display = 'none';
-          document.getElementById('hostCountHint').textContent = 'سناریوها فقط برای ۱۰ تا ۱۵ نفرن — الان ' + nonHost.length + ' نفرید';
+          hint.style.display = 'flex';
+          document.getElementById('hostCountHintText').textContent = nonHost.length < 10
+            ? 'حداقل ۱۰ نفر لازمه — الان ' + nonHost.length + ' نفرید'
+            : 'سناریوها فقط برای ۱۰ تا ۱۵ نفرن — الان ' + nonHost.length + ' نفرید';
         }
       }catch(e){
         console.error(e);
@@ -902,7 +940,10 @@
 
         if(game.status === 'lobby'){
           const players = await tjListPlayers(currentGame.id);
-          renderPlayerRing('playerLobbyList', players);
+          const nonHost = players.filter(p => !p.is_host);
+          document.getElementById('playerRoomCodeDisplay').textContent = game.code;
+          document.getElementById('playerVisibleCount').textContent = nonHost.length;
+          renderLobbyPlayerList('playerLobbyList', players);
           const host = players.find(p => p.is_host);
           if(host){
             document.getElementById('playerHostInfo').innerHTML = 'گرداننده: <b style="color:var(--gold-soft);">' + host.display_name + ' (اهورامزدا)</b> — نقشی نمی‌گیره.';
@@ -944,7 +985,7 @@
     const roleName = ROLE_NAMES_FA[me.role_id] || me.role_id;
     const sideLabel = me.side === 'jamshidi' ? 'یارانِ جمشید' : me.side === 'zahhaki' ? 'ضحاکیان' : 'بی‌طرف';
     const sidePortrait = me.side === 'jamshidi' ? 'assets/jamshid-glory.jpg' : me.side === 'zahhaki' ? 'assets/zahhak.jpg' : '';
-    document.querySelector('#screen-player-lobby .card').innerHTML = `
+    document.querySelector('#screen-player-lobby .lobby-card').innerHTML = `
       <div class="role-reveal-card">
         ${sidePortrait ? `<div class="portrait-badge" style="background-image:url('${sidePortrait}'); width:72px; height:72px;"></div>` : ''}
         <span class="side-tag ${me.side}">${sideLabel}</span>
