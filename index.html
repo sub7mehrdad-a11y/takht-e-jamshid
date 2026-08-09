@@ -231,7 +231,7 @@
   .lb-row.empty .lb-name{ color:var(--parchment-dim); font-weight:400; font-size:12px; }
   .lb-status{ display:flex; align-items:center; gap:6px; font-size:11px; color:var(--green); }
   .lb-status .dot{ width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); }
-  .lb-crown{ font-size:14px; margin-inline-start:4px; }
+  .lb-crown{ width:18px; height:18px; margin-inline-start:4px; flex-shrink:0; }
 
   .lb-settings-row{ display:flex; gap:10px; margin-bottom:12px; }
   .lb-settings-col{ flex:1; }
@@ -247,6 +247,8 @@
   }
   .lb-start-btn:disabled{ opacity:0.45; cursor:not-allowed; }
   .lb-waiting{ display:flex; align-items:center; justify-content:center; gap:8px; font-size:12px; color:var(--parchment-dim); margin-top:14px; }
+  .ic{ width:15px; height:15px; vertical-align:-2px; }
+  .ic.sm{ width:12px; height:12px; }
 
   /* ============ صفحه‌ی ورود — عکسِ کاملِ «صفحه اول.png» + المان‌های نامرئیِ واقعی ============ */
   .entry-map{
@@ -320,7 +322,7 @@
   <!-- صفحه ۲: ورود -->
   <div class="screen" id="screen-entry">
     <div class="entry-map">
-      <button class="eh-guide" onclick="go('screen-guide')">📖 دفترچه راهنما</button>
+      <button class="eh-guide" onclick="go('screen-guide')"><img class="ic" src="assets/icon-guide.png" alt=""> دفترچه راهنما</button>
 
       <input type="text" id="hostNameInput" class="eh-field" placeholder="نام شما"
         style="left:13.5%; right:17.9%; top:54.8%; height:3.6%;">
@@ -427,13 +429,13 @@
     <div class="lobby-card">
       <div class="lb-title"><span class="ln"></span><span class="tt">کد اتاق</span><span class="ln r"></span></div>
       <div class="lb-code-row">
-        <button class="lb-copy" onclick="copyCode()">📋 کپی</button>
+        <button class="lb-copy" onclick="copyCode()"><img class="ic" src="assets/icon-copy.png" alt=""> کپی</button>
         <div class="lb-code" id="hostRoomCode">——————</div>
       </div>
       <div class="lb-caption">این کد را با سایر بازیکنان به اشتراک بگذارید.</div>
       <div class="lb-divider"></div>
 
-      <div class="lb-players-header">👥 بازیکنانِ حاضر (<span id="hostPlayerCount">0</span> از ۱۵)</div>
+      <div class="lb-players-header"><img class="ic" src="assets/icon-group.png" alt=""> بازیکنانِ حاضر (<span id="hostPlayerCount">0</span> از ۱۵)</div>
       <div class="lb-player-list" id="hostPlayerList"></div>
 
       <div id="scenarioPicker" style="display:none; margin-top:16px;">
@@ -451,7 +453,7 @@
         </div>
         <button class="lb-start-btn" onclick="pickScenario(document.getElementById('scenarioSelect').value)">شروع بازی</button>
       </div>
-      <div class="lb-waiting" id="hostCountHint"><span>⏳</span><span id="hostCountHintText">حداقل ۱۰ نفر لازمه — منتظرِ بقیه بمون</span></div>
+      <div class="lb-waiting" id="hostCountHint"><img class="ic" src="assets/icon-hourglass.png" alt=""><span id="hostCountHintText">حداقل ۱۰ نفر لازمه — منتظرِ بقیه بمون</span></div>
 
       <div id="hostPhaseControl" style="display:none; margin-top:16px; text-align:center;">
         <div class="phase-pill" id="hostPhasePill" style="display:inline-block; margin-bottom:12px;">—</div>
@@ -490,16 +492,16 @@
     <div class="lobby-card">
       <div class="lb-title"><span class="ln"></span><span class="tt">کد اتاق</span><span class="ln r"></span></div>
       <div class="lb-code-row">
-        <button class="lb-copy" onclick="copyCode()">📋 کپی</button>
+        <button class="lb-copy" onclick="copyCode()"><img class="ic" src="assets/icon-copy.png" alt=""> کپی</button>
         <div class="lb-code" id="playerRoomCodeDisplay">——————</div>
       </div>
       <div class="lb-caption" id="playerHostInfo">گرداننده مشخص می‌شه…</div>
       <div class="lb-divider"></div>
 
-      <div class="lb-players-header">👥 بازیکنانِ حاضر (<span id="playerVisibleCount">0</span> از ۱۵)</div>
+      <div class="lb-players-header"><img class="ic" src="assets/icon-group.png" alt=""> بازیکنانِ حاضر (<span id="playerVisibleCount">0</span> از ۱۵)</div>
       <div class="lb-player-list" id="playerLobbyList"></div>
 
-      <div class="lb-waiting"><span>⏳</span><span>منتظرِ شروعِ بازی توسطِ گرداننده هستید…</span></div>
+      <div class="lb-waiting"><img class="ic" src="assets/icon-hourglass.png" alt=""><span>منتظرِ شروعِ بازی توسطِ گرداننده هستید…</span></div>
     </div>
   </div>
 
@@ -703,7 +705,7 @@
       <div class="lb-avatar">${p.display_name[0]}</div>
       <div class="lb-name">${p.display_name}</div>
       <div class="lb-status"><span class="dot"></span>متصل</div>
-      ${p.is_host ? '<span class="lb-crown">👑</span>' : ''}
+      ${p.is_host ? '<img class="lb-crown" src="assets/icon-crown.png" alt="">' : ''}
     </div>`;
   }
   function renderLobbyEmptyRow(){
