@@ -326,6 +326,12 @@
   .role-item{ background:var(--night-3); border-radius:10px; padding:10px 12px; margin-bottom:7px; }
   .role-item .rn{ font-size:13px; font-weight:700; color:var(--parchment); margin-bottom:3px; }
   .role-item .rd{ font-size:11.5px; color:var(--parchment-dim); line-height:1.8; }
+
+  .dp-select{
+    width:100%; padding:10px; border-radius:9px; background:rgba(0,0,0,0.25);
+    border:1px solid rgba(230,196,130,0.4); color:var(--parchment); font-family:'Vazirmatn'; font-size:12.5px;
+  }
+  #decideKillBtn.active, #decideSpareBtn.active{ outline:2px solid var(--gold-soft); outline-offset:1px; }
 </style>
 </head>
 <body class="fullbleed">
@@ -516,19 +522,60 @@
         <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:8px;">جمعِ آرای امروز <span id="tallyVoters" style="color:var(--parchment-dim); font-weight:400;"></span></div>
         <div id="tallyList"></div>
 
-        <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin:16px 0 8px;">پایانِ روز — تصمیمِ جمشید</div>
+        <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin:16px 0 8px;">مجلسِ مهان (اجباری)</div>
         <div id="mahaanHint" style="font-size:11px; color:var(--parchment-dim); background:rgba(0,0,0,0.25); border-radius:9px; padding:9px 11px; margin-bottom:10px; line-height:1.8;"></div>
-        <select id="killSelect" style="width:100%; padding:11px; border-radius:9px; background:rgba(0,0,0,0.25); border:1px solid rgba(230,196,130,0.4); color:var(--parchment); font-family:'Vazirmatn'; font-size:13px; margin-bottom:8px;">
-          <option value="">— کسی کشته نشد —</option>
+
+        <div style="display:flex; gap:8px; margin-bottom:8px;">
+          <div style="flex:1;">
+            <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:4px;">عضوِ اولِ مهان (بیشترین پیمان)</div>
+            <select id="mahaanMember1" class="dp-select"></select>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:4px;">عضوِ دومِ مهان (بیشترین پیمان)</div>
+            <select id="mahaanMember2" class="dp-select"></select>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px; margin-bottom:10px;">
+          <div style="flex:1;">
+            <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:4px;">متهمِ اول (بیشترین گمان)</div>
+            <select id="mahaanAccused1" class="dp-select"></select>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:4px;">متهمِ دوم (بیشترین گمان)</div>
+            <select id="mahaanAccused2" class="dp-select"></select>
+          </div>
+        </div>
+
+        <div style="font-size:11px; color:var(--parchment-dim); background:rgba(0,0,0,0.18); border-radius:9px; padding:9px 11px; margin-bottom:8px; line-height:1.8;">
+          ⏱️ به هرکدوم از دو متهم ۱ دقیقه وقتِ دفاع بده. جمشید می‌تونه از یک نفرِ دیگه (غیر از دو عضوِ مجلس) هم یک سوال بپرسه — اختیاری، فقط برای یادداشت:
+        </div>
+        <select id="mahaanExtraQuestion" class="dp-select" style="margin-bottom:12px;">
+          <option value="">— بدونِ سوالِ اضافه —</option>
         </select>
+
+        <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:4px;">مجلس کدوم متهم رو به جمشید معرفی می‌کنه؟</div>
+        <select id="mahaanFinalAccused" class="dp-select" style="margin-bottom:12px;">
+          <option value="">— اول دو متهم رو بالا مشخص کن —</option>
+        </select>
+
+        <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:8px;">تصمیمِ جمشید</div>
+        <div style="display:flex; gap:8px; margin-bottom:10px;">
+          <button class="btn-crimson" id="decideKillBtn" onclick="setJamshidDecision(true)" disabled style="flex:1;">بکشدش</button>
+          <button class="btn-outline" id="decideSpareBtn" onclick="setJamshidDecision(false)" disabled style="flex:1;">نکشدش</button>
+        </div>
+
         <div id="noshdaruBox" style="display:none; background:rgba(0,0,0,0.25); border-radius:9px; padding:10px 12px; margin-bottom:8px; font-size:12px;">
-          <div style="margin-bottom:8px;">🏺 کیکاووس نوشدارو داد؟ <span style="color:var(--parchment-dim); font-size:11px;">(کشته رو بهش نشون بده)</span></div>
+          <div style="margin-bottom:8px;">🏺 کیکاووس نوشدارو داد؟ <span style="color:var(--parchment-dim); font-size:11px;">(کشته رو بهش نشون بده، بدونِ اینکه بگی چرا)</span></div>
           <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
             <input type="checkbox" id="noshdaruCheck"> بله، نجاتش داد
           </label>
         </div>
-        <button class="btn-gold" id="applyKillBtn" onclick="applyDayKill()">ثبتِ نتیجه‌ی روز</button>
+        <button class="btn-gold" id="applyKillBtn" onclick="applyDayKill()" disabled>ثبتِ نتیجه‌ی روز</button>
         <div id="dayResultNote" style="font-size:12px; text-align:center; margin-top:10px;"></div>
+        <div id="dayAnnounceBox" style="display:none; background:var(--night-3); border:1px solid var(--gold); border-radius:9px; padding:11px 13px; margin-top:10px;">
+          <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:6px;">📢 فقط همینو بلند اعلام کن — چیزِ دیگه‌ای (دلیل/تصمیمِ کی) نگو:</div>
+          <div id="dayAnnounceText" style="font-size:14px; font-weight:800; color:var(--gold-soft); text-align:center;"></div>
+        </div>
       </div>
 
       <div id="hostNightPanel" style="display:none; margin-top:16px;">
@@ -882,6 +929,8 @@
 
   // ---------------- پنلِ پایانِ روز (جمعِ آرا + مجلسِ مهان + کشته + نوشدارو) ----------------
   let dayPanelForDay = 0;
+  let jamshidWillKill = null;
+
   async function refreshDayPanel(dayNumber){
     try{
       const { rows, votersCount } = await tjGetDayTally(currentGame.id, dayNumber);
@@ -895,55 +944,114 @@
         </div>
       `).join('') || '<div style="font-size:11.5px; color:var(--parchment-dim);">هنوز رأیی ثبت نشده…</div>';
 
-      const topNames = rows.filter(r => maxPeyman > 0 && r.peyman === maxPeyman).map(r => r.name);
-      document.getElementById('mahaanHint').innerHTML = topNames.length
-        ? 'بیشترین پیمان: <b style="color:var(--gold-soft);">' + topNames.join('، ') + '</b><br>اگه جمشید بخواد، از بینِ این‌ها مجلسِ مهان تشکیل می‌شه. در تساوی، خودِ جمشید انتخاب می‌کنه.'
-        : 'هنوز رأی کافی نیست تا نامزدهای مجلسِ مهان مشخص بشن.';
+      const byPeyman = [...rows].sort((a,b) => b.peyman - a.peyman);
+      const byGoman = [...rows].sort((a,b) => b.goman - a.goman);
+      const peymanTop2 = byPeyman.filter(r => r.peyman > 0).slice(0, 2);
+      const gomanTop2 = byGoman.filter(r => r.goman > 0).slice(0, 2);
 
-      // فقط یک‌بار در هر روز لیستِ انتخابِ کشته رو بساز تا انتخابِ گرداننده پاک نشه
+      document.getElementById('mahaanHint').innerHTML = rows.length
+        ? 'پیشنهادِ بیشترین پیمان: <b style="color:var(--gold-soft);">' + (peymanTop2.map(r => r.name).join('، ') || '—') +
+          '</b><br>پیشنهادِ بیشترین گمان: <b style="color:var(--crimson-soft);">' + (gomanTop2.map(r => r.name).join('، ') || '—') +
+          '</b><br>این‌ها فقط پیشنهادِ خودکاره — در تساوی یا هر حالتِ دیگه، خودت پایین دستی اصلاح کن.'
+        : 'هنوز رأیی ثبت نشده.';
+
+      // فقط یک‌بار در هر روز پنل رو بساز تا انتخاب‌های گرداننده هر ۲ ثانیه پاک نشه
       if(dayPanelForDay !== dayNumber){
         dayPanelForDay = dayNumber;
-        const sel = document.getElementById('killSelect');
-        sel.innerHTML = '<option value="">— کسی کشته نشد —</option>' +
+        jamshidWillKill = null;
+
+        const optionsHtml = '<option value="">— انتخاب کن —</option>' + rows.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+        ['mahaanMember1', 'mahaanMember2', 'mahaanAccused1', 'mahaanAccused2'].forEach(id => {
+          document.getElementById(id).innerHTML = optionsHtml;
+        });
+        document.getElementById('mahaanExtraQuestion').innerHTML = '<option value="">— بدونِ سوالِ اضافه —</option>' +
           rows.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
-        sel.onchange = () => {
-          document.getElementById('noshdaruBox').style.display = sel.value ? 'block' : 'none';
+
+        if(peymanTop2[0]) document.getElementById('mahaanMember1').value = peymanTop2[0].id;
+        if(peymanTop2[1]) document.getElementById('mahaanMember2').value = peymanTop2[1].id;
+        if(gomanTop2[0]) document.getElementById('mahaanAccused1').value = gomanTop2[0].id;
+        if(gomanTop2[1]) document.getElementById('mahaanAccused2').value = gomanTop2[1].id;
+
+        function resetDecision(){
+          jamshidWillKill = null;
+          document.getElementById('decideKillBtn').classList.remove('active');
+          document.getElementById('decideSpareBtn').classList.remove('active');
+          document.getElementById('noshdaruBox').style.display = 'none';
+          document.getElementById('noshdaruCheck').checked = false;
+          document.getElementById('applyKillBtn').disabled = true;
+          document.getElementById('dayResultNote').textContent = '';
+          document.getElementById('dayAnnounceBox').style.display = 'none';
+        }
+        function rebuildFinalAccused(){
+          const a1 = document.getElementById('mahaanAccused1');
+          const a2 = document.getElementById('mahaanAccused2');
+          const sel = document.getElementById('mahaanFinalAccused');
+          const seen = new Set();
+          const opts = [a1, a2].filter(el => el.value && !seen.has(el.value) && seen.add(el.value))
+            .map(el => `<option value="${el.value}">${el.options[el.selectedIndex].textContent}</option>`);
+          sel.innerHTML = (opts.length ? '<option value="">— انتخاب کن —</option>' : '<option value="">— اول دو متهم رو بالا مشخص کن —</option>') + opts.join('');
+          document.getElementById('decideKillBtn').disabled = true;
+          document.getElementById('decideSpareBtn').disabled = true;
+          resetDecision();
+        }
+        document.getElementById('mahaanAccused1').onchange = rebuildFinalAccused;
+        document.getElementById('mahaanAccused2').onchange = rebuildFinalAccused;
+        document.getElementById('mahaanFinalAccused').onchange = () => {
+          const has = !!document.getElementById('mahaanFinalAccused').value;
+          document.getElementById('decideKillBtn').disabled = !has;
+          document.getElementById('decideSpareBtn').disabled = !has;
+          resetDecision();
         };
-        document.getElementById('noshdaruBox').style.display = 'none';
-        document.getElementById('noshdaruCheck').checked = false;
-        document.getElementById('dayResultNote').textContent = '';
-        document.getElementById('applyKillBtn').disabled = false;
+        rebuildFinalAccused();
       }
     }catch(e){ console.error(e); }
   }
 
+  function setJamshidDecision(kill){
+    jamshidWillKill = kill;
+    document.getElementById('decideKillBtn').classList.toggle('active', kill === true);
+    document.getElementById('decideSpareBtn').classList.toggle('active', kill === false);
+    document.getElementById('noshdaruBox').style.display = kill ? 'block' : 'none';
+    if(!kill){ document.getElementById('noshdaruCheck').checked = false; }
+    document.getElementById('applyKillBtn').disabled = false;
+    document.getElementById('dayResultNote').textContent = '';
+    document.getElementById('dayAnnounceBox').style.display = 'none';
+  }
+
   async function applyDayKill(){
-    const sel = document.getElementById('killSelect');
+    if(jamshidWillKill === null) return;
     const note = document.getElementById('dayResultNote');
     const btn = document.getElementById('applyKillBtn');
-    const targetId = sel.value;
+    const announceBox = document.getElementById('dayAnnounceBox');
+    const announceText = document.getElementById('dayAnnounceText');
+    const targetId = document.getElementById('mahaanFinalAccused').value;
+    if(!targetId) return;
     btn.disabled = true;
     try{
       const game = await tjGetGame(currentGame.id);
-      if(!targetId){
-        note.style.color = 'var(--parchment-dim)';
-        note.textContent = 'امروز کسی از بازی خارج نشد.';
-        await tjLogEvent(currentGame.id, game.day_number, 'statement', { text: 'no_day_kill' });
-        return;
-      }
-      const saved = document.getElementById('noshdaruCheck').checked;
       const target = (await tjListPlayers(currentGame.id)).find(p => p.id === targetId);
-      if(saved){
-        note.style.color = 'var(--green)';
-        note.textContent = '🏺 ' + target.display_name + ' با نوشدارویِ کیکاووس نجات پیدا کرد — کسی خارج نشد.';
-        await tjLogEvent(currentGame.id, game.day_number, 'statement', { text: 'noshdaru_saved', playerId: targetId });
-      }else{
+      const council = [document.getElementById('mahaanMember1').value, document.getElementById('mahaanMember2').value].filter(Boolean);
+      const extraQuestion = document.getElementById('mahaanExtraQuestion').value || null;
+      const saved = jamshidWillKill && document.getElementById('noshdaruCheck').checked;
+
+      if(jamshidWillKill && !saved){
         await tjEliminatePlayer(targetId, 'jamshid_day_vote', game.day_number, false);
         note.style.color = 'var(--crimson-soft)';
-        note.textContent = '☠️ ' + target.display_name + ' با رأیِ جمشید از بازی خارج شد.';
-        await tjLogEvent(currentGame.id, game.day_number, 'death', { playerId: targetId, cause: 'jamshid_day_vote' });
+        note.textContent = 'ثبت شد (فقط برای خودت — چیزی که تویِ ‹اعلامِ عمومی› زیرشه رو بلند بخون): ' + target.display_name + ' با تصمیمِ جمشید از بازی خارج شد.';
+        await tjLogEvent(currentGame.id, game.day_number, 'death', { playerId: targetId, cause: 'jamshid_day_vote', mahaanCouncil: council, extraQuestion });
         checkHengameh(target);
+        announceText.textContent = target.display_name + ' امروز از بازی خارج شد.';
+      }else{
+        note.style.color = saved ? 'var(--green)' : 'var(--parchment-dim)';
+        note.textContent = 'ثبت شد (فقط برای خودت): ' + (saved
+          ? '🏺 ' + target.display_name + ' با نوشدارویِ کیکاووس نجات پیدا کرد.'
+          : 'جمشید تصمیم گرفت ' + target.display_name + ' رو نکشه.');
+        await tjLogEvent(currentGame.id, game.day_number, 'statement', {
+          text: saved ? 'noshdaru_saved' : 'jamshid_spared', playerId: targetId, mahaanCouncil: council, extraQuestion
+        });
+        announceText.textContent = 'امروز کسی از بازی خارج نشد.';
       }
+      announceBox.style.display = 'block';
     }catch(e){
       note.style.color = 'var(--crimson-soft)';
       note.textContent = 'خطا: ' + e.message;
