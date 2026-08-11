@@ -243,65 +243,27 @@
   .ic{ width:15px; height:15px; vertical-align:-2px; }
   .ic.sm{ width:12px; height:12px; }
 
-  /* ============ صفحه‌ی ورود — پکِ لایه‌ایِ v3 (صفحه اول) ============ */
-  .e3-page{
-    width:100%; aspect-ratio:2559/5532; background:url('assets/e3-bg.png') center/100% 100% no-repeat;
-    position:relative; margin:0 auto;
+  /* ============ صفحه‌ی ورود — عکسِ کاملِ «صفحه اول.png» + المان‌های نامرئیِ واقعی ============ */
+  .entry-map{
+    position:relative; width:100%; aspect-ratio:853/1844;
+    background:url('assets/entry-screen.jpg') center top no-repeat;
+    background-size:100% 100%;
+    margin:0 auto;
   }
-  .e3-top{ position:absolute; left:0; right:0; top:2.5%; text-align:center; }
-  .e3-logo{ width:16%; }
-  .e3-plaque{
-    width:56%; aspect-ratio:276/115; margin:2% auto 0;
-    background:url('assets/e3-plaque.png') center/100% 100% no-repeat;
-    display:flex; align-items:center; justify-content:center;
+  .eh-field{
+    position:absolute; width:auto !important; background:transparent; border:none; border-radius:0; outline:none; padding:0 10px;
+    color:#e9dab8; font-family:'Vazirmatn'; text-align:center; font-size:clamp(11px, 3.4vw, 15px);
   }
-  .e3-plaque span{
-    font-size:clamp(12px,3.6vw,16px); font-weight:900; white-space:nowrap;
-    background:linear-gradient(90deg, var(--gold-soft), #fff3d6 55%, var(--gold-soft));
-    -webkit-background-clip:text; background-clip:text; color:transparent;
+  .eh-field::placeholder{ color:transparent; }
+  .eh-btn{
+    position:absolute; width:auto; background:transparent; border:none; border-radius:0; padding:0; margin:0; cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
   }
-  .e3-tagline{ font-size:clamp(7px,1.9vw,9px); color:#e9dab8; margin-top:1.5%; opacity:0.92; white-space:nowrap; }
-
-  .e3-frame{
-    position:absolute; left:9%; width:82%; top:18%;
-    aspect-ratio:1012/2172; background:url('assets/e3-frame.png') center/100% 100% no-repeat;
-  }
-  .e3-frame-inner{ position:absolute; inset:8.5% 11%; overflow:hidden; }
-
-  .e2-title{ display:flex; align-items:center; gap:8px; justify-content:center; margin:2% 0 1.5%; }
-  .e2-title .ln{ flex:1; max-width:40px; height:1px; background:linear-gradient(90deg, transparent, rgba(230,196,130,0.6)); }
-  .e2-title .ln.r{ background:linear-gradient(90deg, rgba(230,196,130,0.6), transparent); }
-  .e2-title span.tt{ font-size:clamp(11px,3vw,14px); font-weight:800; color:var(--gold-soft); white-space:nowrap; }
-  .e2-sub{ text-align:center; font-size:clamp(8px,2.3vw,10.5px); color:#c9b48f; margin-bottom:2.5%; }
-
-  .e3-input{
-    display:block; width:100%; aspect-ratio:1758/195;
-    background:url('assets/e3-input.png') center/100% 100% no-repeat;
-    border:none; outline:none; text-align:center; margin-bottom:2.5%;
-    color:#e9dab8; font-family:'Vazirmatn'; font-size:clamp(10px,2.8vw,13px);
-  }
-  .e3-input::placeholder{ color:#8a7a5e; }
-  .e3-code-row{ position:relative; }
-  .e3-code-row .e3-input{ background-image:url('assets/e3-input-code.png'); padding-inline-end:13%; }
-  .e3-qr{ position:absolute; left:2.5%; top:50%; transform:translateY(-50%); width:9%; opacity:0.9; pointer-events:none; }
-
-  .e3-btn{
-    display:flex; align-items:center; justify-content:center; gap:6px; width:100%; aspect-ratio:1758/255;
-    background-size:100% 100%; background-repeat:no-repeat; border:none; cursor:pointer;
-    font-family:'Vazirmatn'; font-size:clamp(11px,3.2vw,14px); font-weight:800; margin-bottom:1.5%;
-  }
-  .e3-btn.gold{ background-image:url('assets/e3-btn-gold.png'); color:#2e1c05; }
-  .e3-btn.dark{ background-image:url('assets/e3-btn-dark.png'); color:#f1e0bd; }
-  .e3-btn .chev{ font-size:1.1em; }
-
-  .e3-divider{ width:100%; margin:3% 0; aspect-ratio:2160/144; background:url('assets/e3-divider.png') center/100% 100% no-repeat; }
-
-  .e3-version{ text-align:center; font-size:clamp(8px,2vw,10px); color:#a8916a; margin-top:1%; }
-
   .eh-guide{
-    display:flex; align-items:center; justify-content:center; gap:5px; width:auto; margin:2% auto 0;
+    position:absolute; left:3%; top:1.2%; width:19%; height:4%;
     background:rgba(20,15,8,0.55); border:1px solid rgba(230,196,130,0.55); border-radius:8px;
-    color:#e6c482; font-size:clamp(9px,2.4vw,11px); padding:2% 4%; cursor:pointer;
+    color:#e6c482; font-size:clamp(9px,2.4vw,11px); display:flex; align-items:center; justify-content:center; gap:3px;
+    cursor:pointer;
   }
 
   .yn-divider{ display:flex; align-items:center; justify-content:center; gap:10px; color:var(--parchment-dim); font-size:12px; margin:14px 0; }
@@ -358,34 +320,20 @@
 
   <!-- صفحه ۲: ورود -->
   <div class="screen" id="screen-entry">
-    <div class="e3-page">
-      <div class="e3-top">
-        <img class="e3-logo" src="assets/e3-logo.png" alt="">
-        <div class="e3-plaque"><span>تخت جمشید</span></div>
-        <div class="e3-tagline">بازیِ نقشِ مخفی بر پایه‌ی اساطیرِ شاهنامه</div>
-      </div>
-      <div class="e3-frame">
-        <div class="e3-frame-inner">
-          <div class="e2-title"><span class="ln"></span><span class="tt">ساخت بازی جدید</span><span class="ln r"></span></div>
-          <div class="e2-sub">برای ساختِ بازیِ جدید، نامِ خود را وارد کنید.</div>
-          <input type="text" id="hostNameInput" class="e3-input" placeholder="نام شما">
-          <button class="e3-btn gold" id="createBtn" onclick="handleCreate()"><span class="chev">›</span><span>ساخت بازی جدید</span></button>
+    <div class="entry-map">
+      <button class="eh-guide" onclick="go('screen-guide')"><img class="ic" src="assets/icon-guide.png" alt=""> دفترچه راهنما</button>
 
-          <div class="e3-divider"></div>
+      <input type="text" id="hostNameInput" class="eh-field" placeholder="نام شما"
+        style="left:13.5%; right:17.9%; top:54.8%; height:3.6%;">
+      <button class="eh-btn" id="createBtn" onclick="handleCreate()" aria-label="ساخت بازی جدید"
+        style="left:13.5%; right:17.9%; top:60.5%; height:4.6%;"></button>
 
-          <div class="e2-title"><span class="ln"></span><span class="tt">پیوستن به بازی</span><span class="ln r"></span></div>
-          <div class="e2-sub">برای پیوستن به بازی، نام و کد اتاق را وارد کنید.</div>
-          <input type="text" id="joinNameInput" class="e3-input" placeholder="نام شما">
-          <div class="e3-code-row">
-            <input type="text" id="joinCodeInput" class="e3-input" placeholder="کد اتاق" maxlength="6">
-            <img class="e3-qr" src="assets/e3-qr.png" alt="">
-          </div>
-          <button class="e3-btn dark" id="joinBtn" onclick="handleJoin()"><span class="chev">›</span><span>پیوستن به بازی</span></button>
-
-          <div class="e3-version">نسخه ۱.۰.۰</div>
-          <button class="eh-guide" onclick="go('screen-guide')"><img class="ic" src="assets/icon-guide.png" alt=""> دفترچه راهنما</button>
-        </div>
-      </div>
+      <input type="text" id="joinNameInput" class="eh-field" placeholder="نام شما"
+        style="left:13.5%; right:17.9%; top:77.3%; height:3.6%;">
+      <input type="text" id="joinCodeInput" class="eh-field" placeholder="کد اتاق" maxlength="6"
+        style="left:13.5%; right:26%; top:82.2%; height:3.6%;">
+      <button class="eh-btn" id="joinBtn" onclick="handleJoin()" aria-label="پیوستن به بازی"
+        style="left:13.5%; right:17.9%; top:88.1%; height:4.4%;"></button>
     </div>
   </div>
 
