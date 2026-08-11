@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <linearGradient id="goldMain" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e3b85a"/>
+      <stop offset="0.5" stop-color="#c9972f"/>
+      <stop offset="1" stop-color="#a67a22"/>
+    </linearGradient>
+  </defs>
+
+  <!-- outer octagon-cut frame line -->
+  <path d="M28,7 L272,7 L293,28 L293,272 L272,293 L28,293 L7,272 L7,28 Z"
+        fill="none" stroke="url(#goldMain)" stroke-width="4"/>
+
+  <!-- inner thin line (double-line effect) -->
+  <path d="M34,15 L266,15 L285,34 L285,266 L266,285 L34,285 L15,266 L15,34 Z"
+        fill="none" stroke="#e3b85a" stroke-width="1.5" opacity="0.75"/>
+
+  <!-- corner flourish triangles -->
+  <path d="M7,28 L7,60 L18,49 Z" fill="url(#goldMain)"/>
+  <path d="M28,7 L60,7 L49,18 Z" fill="url(#goldMain)"/>
+  <path d="M293,28 L293,60 L282,49 Z" fill="url(#goldMain)"/>
+  <path d="M272,7 L240,7 L251,18 Z" fill="url(#goldMain)"/>
+  <path d="M7,272 L7,240 L18,251 Z" fill="url(#goldMain)"/>
+  <path d="M28,293 L60,293 L49,282 Z" fill="url(#goldMain)"/>
+  <path d="M293,272 L293,240 L282,251 Z" fill="url(#goldMain)"/>
+  <path d="M272,293 L240,293 L251,282 Z" fill="url(#goldMain)"/>
+
+  <!-- corner diamond gems -->
+  <g fill="#e3b85a" stroke="#8a6420" stroke-width="1">
+    <path d="M17,10 L24,17 L17,24 L10,17 Z"/>
+    <path d="M283,10 L290,17 L283,24 L276,17 Z"/>
+    <path d="M17,276 L24,283 L17,290 L10,283 Z"/>
+    <path d="M283,276 L290,283 L283,290 L276,283 Z"/>
+  </g>
+</svg>
