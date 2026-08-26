@@ -69,11 +69,25 @@
   .divider::before, .divider::after{ content:''; position:absolute; top:50%; width:38%; height:1px; background:var(--line); }
   .divider::before{ right:0; } .divider::after{ left:0; }
 
+  /* توستِ شناور: صفحه‌ی ورود یک عکسِ خیلی بلنده و اگه خطا جریانِ عادیِ صفحه باشه،
+     بالای عکس گم می‌شه و کاربر فکر می‌کنه «هیچ اتفاقی نیفتاد». */
   .err-box{
-    display:none; background:rgba(138,36,54,0.15); border:1px solid var(--crimson-soft); color:var(--crimson-soft);
-    border-radius:10px; padding:10px 12px; font-size:12px; margin-bottom:12px;
+    display:none; position:fixed; z-index:200; top:10px; left:50%; transform:translateX(-50%);
+    width:min(440px, 92vw); box-sizing:border-box;
+    background:#3a0e18; border:1px solid var(--crimson-soft); color:#ffd9df;
+    border-radius:10px; padding:10px 12px; font-size:12px; line-height:1.8;
+    box-shadow:0 6px 20px rgba(0,0,0,0.55);
   }
   .err-box.show{ display:block; }
+
+  .busy-box{
+    display:none; position:fixed; z-index:200; top:10px; left:50%; transform:translateX(-50%);
+    width:min(440px, 92vw); box-sizing:border-box; text-align:center;
+    background:#1f1f30; border:1px solid var(--gold); color:var(--gold-soft);
+    border-radius:10px; padding:10px 12px; font-size:12px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.55);
+  }
+  .busy-box.show{ display:block; }
 
   .role-reveal-card{
     background:var(--night-2); border:1px solid var(--gold); border-radius:18px; padding:30px 20px; text-align:center;
@@ -305,6 +319,7 @@
 <div class="wrap">
 
   <div class="err-box" id="errBox"></div>
+  <div class="busy-box" id="busyBox"></div>
 
   <!-- صفحه ۱: اسپلش -->
   <div class="screen active" id="screen-splash">
@@ -696,13 +711,31 @@
   function clearError(){
     document.getElementById('errBox').classList.remove('show');
   }
+  function showBusy(msg){
+    const box = document.getElementById('busyBox');
+    box.textContent = msg;
+    box.classList.add('show');
+  }
+  function hideBusy(){
+    document.getElementById('busyBox').classList.remove('show');
+  }
+
+  // اگه supabase-client.js لود نشده باشه، بدونِ این چک دکمه‌ها بی‌صدا بی‌اثر می‌شن.
+  function tjBackendReady(){
+    if(typeof tjCreateGame === 'function') return true;
+    showError('اتصال به بک‌اند برقرار نیست: فایلِ supabase-client.js لود نشده یا پروژه‌ی Supabase در دسترس نیست.');
+    return false;
+  }
 
   async function handleCreate(){
     clearError();
     const name = document.getElementById('hostNameInput').value.trim();
     if(!name){ showError('اول اسمت رو بنویس.'); return; }
+    if(!tjBackendReady()) return;
+    // createBtn یه هات‌اسپاتِ نامرئی روی عکسِ صفحه‌ی ورودِ؛ نوشتنِ متن روش طرح رو خراب
+    // می‌کنه. به‌جاش یه نوارِ وضعیتِ جدا نشون می‌دیم.
     document.getElementById('createBtn').disabled = true;
-    document.getElementById('createBtn').textContent = 'در حالِ ساخت…';
+    showBusy('در حالِ ساختِ اتاق…');
     try{
       const { game, player } = await tjCreateGame(name);
       currentGame = game; currentPlayer = player;
@@ -714,7 +747,7 @@
       showError(e.message);
     }finally{
       document.getElementById('createBtn').disabled = false;
-      document.getElementById('createBtn').textContent = 'ساختِ یک بازیِ جدید';
+      hideBusy();
     }
   }
 
@@ -723,8 +756,9 @@
     const code = document.getElementById('joinCodeInput').value.trim();
     const name = document.getElementById('joinNameInput').value.trim();
     if(!code || !name){ showError('کدِ اتاق و اسمت رو وارد کن.'); return; }
+    if(!tjBackendReady()) return;
     document.getElementById('joinBtn').disabled = true;
-    document.getElementById('joinBtn').textContent = 'در حالِ پیوستن…';
+    showBusy('در حالِ پیوستن به اتاق…');
     try{
       const { game, player } = await tjJoinGame(code, name);
       currentGame = game; currentPlayer = player;
@@ -736,7 +770,7 @@
       showError(e.message);
     }finally{
       document.getElementById('joinBtn').disabled = false;
-      document.getElementById('joinBtn').textContent = 'پیوستن';
+      hideBusy();
     }
   }
 

@@ -6,7 +6,35 @@
 const SUPABASE_URL = 'https://wdzfngsszluwepgomstv.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_WJkEk_rRAuDHySGRZuNYWQ_TRpsk1qr';
 
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+// اگه کتابخانه‌ی Supabase از CDN لود نشده باشه (فیلتر/قطعیِ اینترنت)، بدونِ این گارد
+// کلِ همین فایل همون‌جا می‌ترکه و هیچ‌کدوم از توابعِ tj* تعریف نمی‌شن — یعنی دکمه‌ها
+// بی‌صدا هیچ‌کاری نمی‌کنن. با این گارد، پیغامِ روشن می‌گیریم.
+if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+  throw new Error(
+    'کتابخانه‌ی Supabase لود نشد. اینترنت یا دسترسی به unpkg.com رو چک کن.'
+  );
+}
+
+// هر درخواست حداکثر ۱۵ ثانیه؛ وگرنه وقتی بک‌اند در دسترس نباشه، UI تا ابد
+// روی حالتِ «در حالِ ساخت…» گیر می‌کنه و کاربر فکر می‌کنه دکمه کار نمی‌کنه.
+const TJ_TIMEOUT_MS = 15000;
+
+function tjFetchWithTimeout(input, init = {}) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TJ_TIMEOUT_MS);
+  return fetch(input, { ...init, signal: controller.signal })
+    .catch(err => {
+      if (err && err.name === 'AbortError') {
+        throw new Error('سرور جواب نداد (تایم‌اوت). اتصالِ اینترنت یا آدرسِ Supabase رو چک کن.');
+      }
+      throw new Error('اتصال به سرور برقرار نشد. اینترنت یا آدرسِ Supabase رو چک کن.');
+    })
+    .finally(() => clearTimeout(timer));
+}
+
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  global: { fetch: tjFetchWithTimeout },
+});
 
 // ---------- تولیدِ کدِ اتاقِ ۶ رقمی ----------
 function generateRoomCode() {
