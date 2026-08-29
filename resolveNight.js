@@ -23,6 +23,16 @@
 // سقفِ افسونِ سودابه در کلِ بازی (بخشِ ۵ سند)
 const SUDABEH_MAX_CHARGES = 2;
 
+// ارمایل در دربارِ ضحاک آشپزه و «در همه‌ی استعلام‌ها ضحاکی نشون داده می‌شه»
+// (سطرِ ۷۸ سند) — با اینکه در شمارشِ پیروزی ایرانی حساب می‌شه. دقیقاً همین
+// دوگانگی چیزیه که ارمایل رو خطرناک می‌کنه.
+//
+// این تابع فقط برای استعلامه. جای دیگه‌ای (شمارشِ برد، هدف‌گیریِ ضحاک، حدسِ
+// هومان) نباید ازش استفاده بشه — اونجاها side واقعی ملاکه.
+function appearsZahhakiInInquiry(player) {
+  return player.side === 'zahhaki' || player.role_id === 'armayil';
+}
+
 function findPlayer(players, id) {
   return players.find(p => p.id === id) || null;
 }
@@ -183,7 +193,7 @@ function resolveNight(players, actions, gameState) {
     if (inquiryAction) {
       const target = findPlayer(state, inquiryAction.target_player_id);
       if (target) {
-        events.push({ type: 'inquiry_result', forPlayerId: afrasiab.id, targetId: target.id, isZahhaki: target.side === 'zahhaki' });
+        events.push({ type: 'inquiry_result', forPlayerId: afrasiab.id, targetId: target.id, isZahhaki: appearsZahhakiInInquiry(target) });
       }
     }
   }

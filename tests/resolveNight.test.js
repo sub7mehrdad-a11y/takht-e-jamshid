@@ -153,6 +153,36 @@ t('Gersivaz targeting a Zahhaki => no deaths', () => {
   eq(deaths(r), []);
 });
 
+console.log('\n=== Afrasiab inquiry (spec line 78) ===');
+const inq = (players, targetId) => {
+  const r = resolveNight(players, [{ actor_player_id: 'af', action_type: 'inquiry', target_player_id: targetId }], gs());
+  const e = r.events.find(x => x.type === 'inquiry_result');
+  if (!e) throw new Error('no inquiry_result event');
+  return e.isZahhaki;
+};
+t('a real Zahhaki reads as Zahhaki', () => {
+  eq(inq([P('af', 'afrasiab', 'zahhaki'), P('s', 'sudabeh', 'zahhaki')], 's'), true);
+});
+t('a plain Jamshidi reads as not Zahhaki', () => {
+  eq(inq([P('af', 'afrasiab', 'zahhaki'), P('r', 'rostam', 'jamshidi')], 'r'), false);
+});
+t('Armayil reads as Zahhaki even though his side is jamshidi', () => {
+  eq(inq([P('af', 'afrasiab', 'zahhaki'), P('a', 'armayil', 'jamshidi')], 'a'), true);
+});
+t('the inquiry disguise does NOT leak into the win count', () => {
+  // Armayil must still keep the Jamshidi side alive
+  const ps = [P('j', 'jamshid', 'jamshidi'), P('z', 'zahhak', 'zahhaki'), P('a', 'armayil', 'jamshidi'), P('af', 'afrasiab', 'zahhaki')];
+  const alive = ps.filter(p => p.is_alive && p.side === 'jamshidi' && p.role_id !== 'jamshid').length;
+  eq(alive, 1, 'Armayil counts as Jamshidi for victory');
+});
+t('the inquiry disguise does NOT protect Armayil from Homan', () => {
+  // Homan kills correctly-guessed Jamshidi except Armayil, who is immune by his own rule
+  const ps = [P('h', 'homan', 'zahhaki'), P('a', 'armayil', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'h', action_type: 'guess_kill_or_copy', target_player_id: 'a', extra: { guessed_role_id: 'armayil' } }], gs());
+  eq(deaths(r), [], 'Armayil survives Homan by the armayil exception, not by the disguise');
+  eq(r.events.some(e => e.type === 'homan_copied_ability'), false, 'and Homan must not copy him either');
+});
+
 console.log('\n=== Sudabeh charge limit (spec section 5: twice per game) ===');
 t('first enchant spends charge 1', () => {
   const ps = [P('s', 'sudabeh', 'zahhaki'), P('h', 'homan', 'zahhaki')];

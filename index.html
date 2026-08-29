@@ -116,6 +116,10 @@
   }
   .nc-btn.primary{ border-color:var(--gold); color:var(--gold-soft); }
   .nc-btn.active{ background:var(--gold); border-color:var(--gold); color:#241a06; }
+  .nc-answer:not(:empty){
+    display:block; background:rgba(0,0,0,0.3); border-radius:8px;
+    padding:9px 11px; margin-top:4px; font-size:12.5px; line-height:1.7;
+  }
   .nc-err{ display:none; font-size:11px; color:var(--crimson-soft); margin-top:5px; }
   .nc-err.show{ display:block; }
   .nc-chip{
@@ -1224,7 +1228,7 @@
   const NIGHT_ROLES = [
     { role_id:'zahhak',   icon:'🐍', title:'ضحاک — انتخابِ دو نفر',   desc:'دو نفر رو برای طعمه‌ی مارها انتخاب کن.', type:'pick_two', action:'kill_pick_two' },
     { role_id:'armayil',  icon:'🍲', title:'ارمایل — نجاتِ یکی',      desc:'از بینِ دو انتخابِ ضحاک، یکی رو نجات بده.', type:'save_from_zahhak', action:'save_one_of_two' },
-    { role_id:'afrasiab', icon:'👁️', title:'افراسیاب — استعلام',      desc:'یک نفر رو برای فهمیدنِ ضحاکی‌بودن انتخاب کن.', type:'pick_one', action:'inquiry' },
+    { role_id:'afrasiab', icon:'👁️', title:'افراسیاب — استعلام',      desc:'یک نفر رو انتخاب کن — جوابش همین‌جا می‌آد تا به افراسیاب بگی.', type:'pick_one', action:'inquiry', instantAnswer:true },
     { role_id:'sudabeh',  icon:'🔮', title:'سودابه — افسون',          desc:'اختیاری. یک نفر رو افسون کن یا رد شو.', type:'pick_one', optional:true, action:'enchant', immune:['kaveh','fereydun','siavash','armayil'], maxCharges:2, chargeFlag:'sudabeh_charges_used' },
     { role_id:'homan',    icon:'🗡️', title:'هومان — حدسِ نقش',        desc:'یک نفر و یک نقشِ حدسی انتخاب کن.', type:'guess', optional:true, lethal:true, action:'guess_kill_or_copy' },
     { role_id:'rostam',   icon:'🏹', title:'رستم — تیر',              desc:'یک مظنونِ ضحاکی رو نشونه بگیر.', type:'pick_one', optional:true, lethal:true, action:'guess_shoot' },
@@ -1363,7 +1367,24 @@
       </div>
       <div class="nc-desc">${cfg.desc}${charge} <b style="color:var(--gold-soft);">(${actor.display_name})</b></div>
       ${body}
+      ${cfg.instantAnswer ? `<div class="nc-answer" id="nans_${cfg.role_id}"></div>` : ''}
       <div class="nc-err" id="nerr_${cfg.role_id}"></div>`;
+  }
+
+  // استعلام از خودِ گرداننده پرسیده می‌شه، پس جواب باید همون لحظه‌ی ثبت دیده بشه
+  // نه بعد از حلِ شب. قاعده‌ی «ارمایل ضحاکی نشون داده می‌شه» از همون تابعِ موتور
+  // میاد تا این دو جا هیچ‌وقت از هم جدا نیفتن.
+  function renderInstantAnswer(roleId){
+    const box = document.getElementById('nans_' + roleId);
+    if(!box) return;
+    const sel = nightSelections[roleId];
+    if(!sel || sel.skipped || !sel.target){ box.innerHTML = ''; return; }
+    const target = nightPlayers.find(p => p.id === sel.target);
+    if(!target){ box.innerHTML = ''; return; }
+    const yes = appearsZahhakiInInquiry(target);
+    box.innerHTML = `<b>${target.display_name}</b> → ` +
+      `<b style="color:${yes ? 'var(--crimson-soft)' : 'var(--green)'};">${yes ? 'ضحاکی است' : 'ضحاکی نیست'}</b>` +
+      `<div style="font-size:10.5px; color:var(--parchment-dim); margin-top:3px;">همینو به افراسیاب علامت بده.</div>`;
   }
 
   async function nightChange(roleId){
@@ -1468,6 +1489,7 @@
       if(s2 && sel.target2) s2.value = sel.target2;
       if(g && sel.guessedRole) g.value = sel.guessedRole;
     }
+    renderInstantAnswer(roleId);
   }
 
   function updateNightProgress(){
