@@ -250,6 +250,130 @@ async function tjGetEliminatedIn(gameId, num) {
 }
 
 // ============================================================================
+//                       سروش (مکانیزمِ نامه‌نگاری)
+// ============================================================================
+// «پنجره‌ی سروش» با شماره‌ی روزِ فعال‌شدن شناخته می‌شه (ستونِ soroush_window_night)
+// و تا پایانِ شبِ همون روز باز می‌مونه — طبقِ بخشِ ۷ سند.
+//
+// حریمِ خصوصی: sender_id در دیتابیس ذخیره می‌شه (برای لاگِ گرداننده) ولی هیچ‌وقت
+// به گیرنده نشون داده نمی‌شه؛ نامه‌ها بی‌نامن.
+
+// ---------- بازکردنِ پنجره‌ی سروش ----------
+async function tjActivateSoroush(gameId, dayNumber) {
+  const { data, error } = await sb
+    .from('games')
+    .update({ soroush_active_until_night: dayNumber })
+    .eq('id', gameId)
+    .select()
+    .single();
+  if (error) throw new Error('خطا در فراخوانیِ سروش: ' + error.message);
+  return data;
+}
+
+// ---------- فرستادنِ نامه ----------
+async function tjSendLetter(gameId, windowNight, senderId, toPlayerId, body) {
+  const { data, error } = await sb
+    .from('letters')
+    .insert({
+      game_id: gameId,
+      soroush_window_night: windowNight,
+      sender_id: senderId,
+      addressed_to_player_id: toPlayerId,
+      body,
+      is_night_letter: false,
+      delivered: false,
+    })
+    .select()
+    .single();
+  if (error) throw new Error('خطا در فرستادنِ نامه: ' + error.message);
+  return data;
+}
+
+// ---------- نامه‌هایی که خودم توی این پنجره فرستادم (برای محدودیتِ یک نامه) ----------
+async function tjMySentLetters(gameId, windowNight, senderId) {
+  const { data, error } = await sb
+    .from('letters')
+    .select('*')
+    .eq('game_id', gameId)
+    .eq('soroush_window_night', windowNight)
+    .eq('sender_id', senderId);
+  if (error) throw new Error('خطا در خواندنِ نامه‌های فرستاده‌شده: ' + error.message);
+  return data || [];
+}
+
+// ---------- صندوقِ ورودیِ من: فقط نامه‌های تحویل‌شده، بدونِ نامِ فرستنده ----------
+async function tjMyInbox(gameId, playerId) {
+  const { data, error } = await sb
+    .from('letters')
+    .select('id, body, soroush_window_night, created_at')  // sender_id عمداً انتخاب نمی‌شه
+    .eq('game_id', gameId)
+    .eq('addressed_to_player_id', playerId)
+    .eq('delivered', true)
+    .order('created_at', { ascending: true });
+  if (error) throw new Error('خطا در خواندنِ نامه‌ها: ' + error.message);
+  return data || [];
+}
+
+// ---------- همه‌ی نامه‌های یک پنجره (برای گرداننده) ----------
+async function tjGetLetters(gameId, windowNight) {
+  const { data, error } = await sb
+    .from('letters')
+    .select('*')
+    .eq('game_id', gameId)
+    .eq('soroush_window_night', windowNight)
+    .order('created_at', { ascending: true });
+  if (error) throw new Error('خطا در خواندنِ نامه‌ها: ' + error.message);
+  return data || [];
+}
+
+// ---------- شنودِ ضحاک: نامه‌های یک نفر، چه فرستاده چه گرفته ----------
+async function tjInterceptLetters(gameId, windowNight, spiedPlayerId) {
+  // اول پاک‌کردنِ شنودِ قبلی، چون ممکنه گرداننده فردِ دیگه‌ای رو انتخاب کنه
+  const { error: clearErr } = await sb
+    .from('letters')
+    .update({ zahhak_intercepted: false })
+    .eq('game_id', gameId)
+    .eq('soroush_window_night', windowNight);
+  if (clearErr) throw new Error('خطا در پاک‌کردنِ شنودِ قبلی: ' + clearErr.message);
+
+  if (!spiedPlayerId) return 0;
+
+  const all = await tjGetLetters(gameId, windowNight);
+  const hit = all.filter(l => l.sender_id === spiedPlayerId || l.addressed_to_player_id === spiedPlayerId);
+  for (const l of hit) {
+    const { error } = await sb.from('letters').update({ zahhak_intercepted: true }).eq('id', l.id);
+    if (error) throw new Error('خطا در ثبتِ شنود: ' + error.message);
+  }
+  return hit.length;
+}
+
+// ---------- نامه‌های شنودشده (برای ضحاک) — باز هم بدونِ نامِ فرستنده ----------
+async function tjInterceptedLetters(gameId, windowNight) {
+  const { data, error } = await sb
+    .from('letters')
+    .select('id, body, addressed_to_player_id, soroush_window_night')
+    .eq('game_id', gameId)
+    .eq('soroush_window_night', windowNight)
+    .eq('zahhak_intercepted', true)
+    .eq('delivered', true);
+  if (error) throw new Error('خطا در خواندنِ نامه‌های شنودشده: ' + error.message);
+  return data || [];
+}
+
+// ---------- تحویلِ نامه‌ها در پایانِ شب ----------
+async function tjDeliverLetters(gameId, windowNight) {
+  const { data, error } = await sb
+    .from('letters')
+    .update({ delivered: true })
+    .eq('game_id', gameId)
+    .eq('soroush_window_night', windowNight)
+    .eq('delivered', false)
+    .select();
+  if (error) throw new Error('خطا در تحویلِ نامه‌ها: ' + error.message);
+  return (data || []).length;
+}
+
+// ============================================================================
 //                            فازِ شب
 // ============================================================================
 // نکته‌ی شماره‌گذاری: بقیه‌ی اپ شبِ N رو با همون day_number ثبت می‌کنه (ستونِ

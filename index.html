@@ -128,6 +128,50 @@
   .night-death{ color:var(--crimson-soft); font-weight:700; }
   .night-event{ color:var(--parchment-dim); }
 
+  /* ============ سروش — نامه‌نگاری ============ */
+  /* نوارِ شناور، چون بازیکن بسته به نقش و فاز روی صفحه‌های مختلفیه و نامه باید
+     از همه‌جا در دسترس باشه. */
+  .soroush-bar{
+    display:none; position:fixed; z-index:150; bottom:0; left:0; right:0;
+    background:linear-gradient(180deg, rgba(14,14,23,0), var(--night) 32%);
+    padding:16px 12px 12px; text-align:center;
+  }
+  .soroush-bar.show{ display:block; }
+  /* نوار fixed پایینِ صفحه‌ست و بدونِ این، دکمه‌ی آخرِ صفحه (مثلاً ثبتِ نهاییِ رأی) زیرش گم می‌شه */
+  body.soroush-open{ padding-bottom:76px; }
+  .soroush-bar button{
+    width:min(420px, 92vw); background:linear-gradient(180deg, #3a3020, #221b10);
+    border:1.5px solid var(--gold); border-radius:11px; color:var(--gold-soft);
+    font-family:'Vazirmatn'; font-size:13px; font-weight:700; padding:11px; cursor:pointer;
+  }
+  .soroush-badge{
+    display:inline-block; background:var(--crimson); color:#fff; border-radius:99px;
+    font-size:10.5px; font-weight:800; padding:1px 7px; margin-right:5px;
+  }
+
+  .modal-back{
+    display:none; position:fixed; inset:0; z-index:160; background:rgba(6,6,11,0.82);
+    padding:18px 12px; overflow-y:auto;
+  }
+  .modal-back.show{ display:block; }
+  .modal-card{
+    width:min(440px, 100%); margin:0 auto; background:var(--night-2);
+    border:1px solid var(--gold); border-radius:14px; padding:16px;
+  }
+  .modal-card h3{ font-size:14px; color:var(--gold-soft); margin:0 0 3px; text-align:center; }
+  .modal-card .sub{ font-size:11px; color:var(--parchment-dim); text-align:center; margin-bottom:14px; }
+  .modal-card select, .modal-card textarea{
+    width:100%; background:var(--night-3); border:1px solid var(--line); border-radius:9px;
+    color:var(--parchment); font-family:'Vazirmatn'; font-size:12.5px; padding:9px 11px; margin-bottom:9px;
+  }
+  .modal-card textarea{ min-height:96px; resize:vertical; line-height:1.9; }
+  .letter{
+    background:var(--night-3); border:1px solid var(--line); border-right:3px solid var(--gold);
+    border-radius:9px; padding:10px 12px; margin-bottom:9px; font-size:12.5px; line-height:2; white-space:pre-wrap;
+  }
+  .letter .from{ font-size:10.5px; color:var(--parchment-dim); display:block; margin-bottom:4px; }
+  .letter.spied{ border-right-color:var(--crimson-soft); }
+
   .role-reveal-card{
     background:var(--night-2); border:1px solid var(--gold); border-radius:18px; padding:30px 20px; text-align:center;
   }
@@ -511,6 +555,13 @@
       <div id="hostPhaseControl" style="display:none; margin-top:16px; text-align:center;">
         <div class="phase-pill" id="hostPhasePill" style="display:inline-block; margin-bottom:12px;">—</div>
         <button class="btn-crimson" id="hostPhaseBtn" onclick="handlePhaseAdvance()">—</button>
+
+        <div id="hostSoroushRow" style="margin-top:12px; border-top:1px solid var(--line); padding-top:12px;">
+          <button class="btn-outline" id="hostSoroushBtn" onclick="hostActivateSoroush()">🕊️ فراخواندنِ سروش</button>
+          <div id="hostSoroushNote" style="font-size:11px; color:var(--parchment-dim); margin-top:7px;">
+            پنجره‌ی نامه‌نگاری رو برای همه باز می‌کنه تا پایانِ شبِ همین روز.
+          </div>
+        </div>
       </div>
 
       <div id="hostDayPanel" style="display:none; margin-top:16px;">
@@ -583,6 +634,23 @@
         <div id="nightProgressLabel" style="font-size:11px; color:var(--parchment-dim); text-align:center; margin-bottom:12px;"></div>
 
         <div id="nightCards"></div>
+
+        <div id="soroushNightBox" style="display:none; background:var(--night-2); border:1px solid var(--line); border-right:3px solid var(--gold); border-radius:10px; padding:11px 13px; margin-bottom:10px;">
+          <div class="nc-head">
+            <span class="nc-icon">🕊️</span>
+            <span class="nc-title">سروش — نامه‌ها</span>
+            <span class="nc-status" id="soroushNightStatus">—</span>
+          </div>
+          <div class="nc-desc">
+            ضحاک می‌تونه یک نفر رو شنود کنه: همه‌ی نامه‌های اون فرد (فرستاده یا گرفته) به ضحاک هم می‌رسه.
+          </div>
+          <select id="spyTarget" onchange="setSpyTarget()">
+            <option value="">— ضحاک کسی رو شنود نمی‌کنه —</option>
+          </select>
+          <div id="spyNote" style="font-size:11px; color:var(--parchment-dim); margin-bottom:8px;"></div>
+          <button class="nc-btn primary" id="deliverLettersBtn" onclick="deliverLetters()">تحویلِ نامه‌ها به گیرنده‌ها</button>
+          <div id="deliverNote" style="font-size:11px; color:var(--parchment-dim); margin-top:7px;"></div>
+        </div>
 
         <button class="btn-gold" id="nightResolveBtn" onclick="resolveNightPhase()" disabled>حلِ شب و محاسبه‌ی نتیجه 🌅</button>
         <div id="nightHint" style="font-size:11px; color:var(--parchment-dim); text-align:center; margin-top:8px;"></div>
@@ -669,6 +737,29 @@
           <div class="ci">🌑 اهریمن<small>یک‌بار — لغوِ گفتگو/رأیِ امروز</small></div>
           <button class="card-use-btn" id="zahAhrimanBtn" onclick="useZahAhriman()">فراخوانی</button>
         </div>
+    </div>
+  </div>
+
+  <!-- نوارِ شناورِ سروش + پنجره‌ی نامه‌نگاری (روی همه‌ی صفحه‌های بازیکن) -->
+  <div class="soroush-bar" id="soroushBar">
+    <button onclick="openSoroush()"><span id="soroushBarText">🕊️ سروش فرا خوانده شد — نامه بنویس</span></button>
+  </div>
+
+  <div class="modal-back" id="soroushModal">
+    <div class="modal-card">
+      <h3>🕊️ سروش</h3>
+      <div class="sub">نامه‌ها بی‌نامن — گیرنده نمی‌فهمه از طرفِ کیه.</div>
+
+      <div id="soroushCompose">
+        <select id="letterTo"><option value="">— گیرنده‌ی نامه —</option></select>
+        <textarea id="letterBody" maxlength="600" placeholder="متنِ نامه‌ات رو بنویس…"></textarea>
+        <button class="btn-gold" id="letterSendBtn" onclick="sendMyLetter()">فرستادنِ نامه</button>
+        <div id="letterNote" style="font-size:11px; text-align:center; margin-top:8px; color:var(--parchment-dim);"></div>
+      </div>
+
+      <div id="soroushInbox" style="margin-top:14px;"></div>
+
+      <button class="btn-outline" style="margin-top:14px;" onclick="closeSoroush()">بستن</button>
     </div>
   </div>
 
@@ -940,6 +1031,7 @@
     const btn = document.getElementById('hostPhaseBtn');
     const dayPanel = document.getElementById('hostDayPanel');
     const nightPanel = document.getElementById('hostNightPanel');
+    renderHostSoroushRow(game);
 
     if(game.current_phase === 'role_reveal'){
       pill.textContent = 'در انتظارِ دیدنِ نقش‌ها';
@@ -1154,6 +1246,7 @@
       });
 
       renderNightCards();
+      await refreshSoroushNightBox(nightNumber);
     }catch(e){
       showError('خطا در آماده‌سازیِ کنسولِ شب: ' + e.message);
       nightPanelForNight = -1; // بذار دفعه‌ی بعد دوباره تلاش کنه
@@ -1444,6 +1537,82 @@
     zahhak_incapacitated:'ناتوانیِ ضحاک', kin_e_siavash:'کینِ سیاوش',
   };
 
+  // ================= سروش — سمتِ گرداننده =================
+  async function hostActivateSoroush(){
+    const btn = document.getElementById('hostSoroushBtn');
+    btn.disabled = true;
+    try{
+      const game = await tjGetGame(currentGame.id);
+      await tjActivateSoroush(currentGame.id, game.day_number);
+      await tjLogEvent(currentGame.id, game.day_number, 'statement', { text: 'soroush_called' });
+      renderHostSoroushRow(await tjGetGame(currentGame.id));
+    }catch(e){
+      showError(e.message);
+      btn.disabled = false;
+    }
+  }
+
+  function renderHostSoroushRow(game){
+    const active = game.soroush_active_until_night !== null && game.soroush_active_until_night !== undefined;
+    const btn = document.getElementById('hostSoroushBtn');
+    const note = document.getElementById('hostSoroushNote');
+    btn.disabled = active;
+    btn.textContent = active ? '🕊️ سروش فعال است ✓' : '🕊️ فراخواندنِ سروش';
+    note.textContent = active
+      ? 'پنجره‌ی نامه‌نگاریِ روزِ ' + game.soroush_active_until_night + ' بازه — نامه‌ها آخرِ شب تحویل می‌شن.'
+      : 'پنجره‌ی نامه‌نگاری رو برای همه باز می‌کنه تا پایانِ شبِ همین روز.';
+  }
+
+  // بخشِ سروش داخلِ کنسولِ شب — فقط وقتی پنجره‌ی این شب بازه دیده می‌شه
+  async function refreshSoroushNightBox(nightNumber){
+    const box = document.getElementById('soroushNightBox');
+    const game = await tjGetGame(currentGame.id);
+    if(game.soroush_active_until_night !== nightNumber){
+      box.style.display = 'none';
+      return;
+    }
+    box.style.display = 'block';
+
+    const letters = await tjGetLetters(currentGame.id, nightNumber);
+    const undelivered = letters.filter(l => !l.delivered).length;
+    document.getElementById('soroushNightStatus').textContent =
+      letters.length ? letters.length + ' نامه' : 'نامه‌ای نیست';
+    document.getElementById('deliverNote').textContent = letters.length === 0
+      ? 'کسی نامه‌ای نفرستاده.'
+      : (undelivered ? undelivered + ' نامه هنوز تحویل نشده.' : 'همه‌ی نامه‌ها تحویل شدن ✓');
+    document.getElementById('deliverLettersBtn').disabled = undelivered === 0;
+
+    const sel = document.getElementById('spyTarget');
+    if(sel.options.length <= 1){
+      sel.innerHTML = '<option value="">— ضحاک کسی رو شنود نمی‌کنه —</option>' +
+        nightPlayers.filter(p => p.is_alive && p.role_id !== 'zahhak')
+          .map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
+    }
+  }
+
+  async function setSpyTarget(){
+    const id = document.getElementById('spyTarget').value;
+    const note = document.getElementById('spyNote');
+    try{
+      const n = await tjInterceptLetters(currentGame.id, nightPanelForNight, id);
+      note.textContent = id
+        ? (n ? n + ' نامه برای ضحاک علامت خورد.' : 'این فرد هیچ نامه‌ای نفرستاده و نگرفته.')
+        : 'شنود لغو شد.';
+    }catch(e){ showError(e.message); }
+  }
+
+  async function deliverLetters(){
+    const btn = document.getElementById('deliverLettersBtn');
+    btn.disabled = true;
+    try{
+      const n = await tjDeliverLetters(currentGame.id, nightPanelForNight);
+      document.getElementById('deliverNote').textContent = n + ' نامه تحویل شد ✓';
+    }catch(e){
+      showError(e.message);
+      btn.disabled = false;
+    }
+  }
+
   // ---------------- اطلاعِ جاماسپ در پایانِ شب ----------------
   async function refreshJamaspInfo(num){
     try{
@@ -1497,6 +1666,10 @@
           roleShown = true;
           return; // یه دورِ بعدی صبر کن تا نقش دیده بشه، بعد وارد فاز شو
         }
+
+        // قبل از early-return زیر صدا زده می‌شه: پنجره‌ی سروش و رسیدنِ نامه‌ها
+        // مستقل از تغییرِ فازن و باید هر دور چک بشن.
+        await refreshSoroush(game);
 
         const key = game.current_phase + '-' + game.day_number;
         if(lastRenderedKey === key) return; // چیزی عوض نشده، دوباره رندر نکن
@@ -1555,6 +1728,114 @@
     await tjUpdatePlayerFlags(currentPlayer.id, { jam_e_jam_used: true });
     document.getElementById('jamEJamBtn').disabled = true;
   }
+  // ================= سروش — سمتِ بازیکن =================
+  let soroushWindow = null;   // شماره‌ی پنجره‌ی فعال، یا null
+  let soroushSent = false;    // توی این پنجره نامه فرستادم؟
+  let soroushInbox = [];      // نامه‌های تحویل‌شده به من
+  let soroushSpied = [];      // فقط برای ضحاک: نامه‌های شنودشده
+  let soroushSeen = 0;        // چندتاش رو قبلاً دیدم (برای نشانِ «جدید»)
+
+  async function refreshSoroush(game){
+    const win = game.soroush_active_until_night;
+    const bar = document.getElementById('soroushBar');
+
+    if(win === null || win === undefined){
+      soroushWindow = null;
+      bar.classList.remove('show');
+      document.body.classList.remove('soroush-open');
+      return;
+    }
+
+    // پنجره‌ی جدید => وضعیتِ «فرستادم» ریست می‌شه
+    if(soroushWindow !== win){
+      soroushWindow = win;
+      soroushSent = (await tjMySentLetters(currentGame.id, win, currentPlayer.id)).length > 0;
+      await populateLetterTargets();
+    }
+
+    soroushInbox = await tjMyInbox(currentGame.id, currentPlayer.id);
+    if(myRoleId === 'zahhak'){
+      soroushSpied = await tjInterceptedLetters(currentGame.id, win);
+    }
+
+    const unread = Math.max(0, soroushInbox.length + soroushSpied.length - soroushSeen);
+    document.getElementById('soroushBarText').innerHTML = unread
+      ? `<span class="soroush-badge">${unread}</span>🕊️ نامه‌ی جدید داری`
+      : (soroushSent ? '🕊️ سروش — نامه‌هایت' : '🕊️ سروش فرا خوانده شد — نامه بنویس');
+    bar.classList.add('show');
+    document.body.classList.add('soroush-open');
+  }
+
+  async function populateLetterTargets(){
+    const sel = document.getElementById('letterTo');
+    const players = (await tjListPlayers(currentGame.id))
+      .filter(p => !p.is_host && p.is_alive && p.id !== currentPlayer.id);
+    sel.innerHTML = '<option value="">— گیرنده‌ی نامه —</option>' +
+      players.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
+  }
+
+  function openSoroush(){
+    document.getElementById('soroushModal').classList.add('show');
+    renderSoroushModal();
+    soroushSeen = soroushInbox.length + soroushSpied.length;
+    document.getElementById('soroushBarText').textContent =
+      soroushSent ? '🕊️ سروش — نامه‌هایت' : '🕊️ سروش فرا خوانده شد — نامه بنویس';
+  }
+  function closeSoroush(){
+    document.getElementById('soroushModal').classList.remove('show');
+  }
+
+  function renderSoroushModal(){
+    // هر بازیکن فقط یک نامه در هر پنجره
+    document.getElementById('soroushCompose').style.display = soroushSent ? 'none' : 'block';
+    if(soroushSent){
+      document.getElementById('letterNote').textContent = '';
+    }
+
+    let html = '';
+    if(soroushSent){
+      html += '<div style="font-size:11.5px; color:var(--parchment-dim); text-align:center; margin-bottom:12px;">نامه‌ات فرستاده شد. آخرِ شب به دستش می‌رسه.</div>';
+    }
+
+    html += '<div style="font-size:12px; color:var(--gold-soft); font-weight:700; margin-bottom:8px;">📬 نامه‌های رسیده</div>';
+    html += soroushInbox.length
+      ? soroushInbox.map(l => `<div class="letter"><span class="from">از طرفِ ناشناس</span>${escapeHtml(l.body)}</div>`).join('')
+      : '<div style="font-size:11.5px; color:var(--parchment-dim);">هنوز نامه‌ای بهت نرسیده.</div>';
+
+    if(myRoleId === 'zahhak' && soroushSpied.length){
+      html += '<div style="font-size:12px; color:var(--crimson-soft); font-weight:700; margin:14px 0 8px;">🕷️ نامه‌های شنودشده</div>';
+      html += soroushSpied.map(l => `<div class="letter spied"><span class="from">شنودشده — فرستنده و گیرنده ناشناس</span>${escapeHtml(l.body)}</div>`).join('');
+    }
+    document.getElementById('soroushInbox').innerHTML = html;
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  async function sendMyLetter(){
+    const to = document.getElementById('letterTo').value;
+    const body = document.getElementById('letterBody').value.trim();
+    const note = document.getElementById('letterNote');
+    const btn = document.getElementById('letterSendBtn');
+    if(!to){ note.style.color='var(--crimson-soft)'; note.textContent='اول گیرنده رو انتخاب کن.'; return; }
+    if(!body){ note.style.color='var(--crimson-soft)'; note.textContent='متنِ نامه خالیه.'; return; }
+
+    btn.disabled = true;
+    note.style.color = 'var(--parchment-dim)';
+    note.textContent = 'در حالِ فرستادن…';
+    try{
+      await tjSendLetter(currentGame.id, soroushWindow, currentPlayer.id, to, body);
+      soroushSent = true;
+      document.getElementById('letterBody').value = '';
+      renderSoroushModal();
+    }catch(e){
+      note.style.color = 'var(--crimson-soft)';
+      note.textContent = e.message;
+      btn.disabled = false;
+    }
+  }
+
   async function useJamSoroush(){
     const me = await tjGetPlayer(currentPlayer.id);
     if(me.state_flags?.soroush_called) return;
