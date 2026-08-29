@@ -248,3 +248,95 @@ async function tjGetEliminatedIn(gameId, num) {
   const players = await tjListPlayers(gameId);
   return players.filter(p => !p.is_alive && (p.eliminated_on_day === num || p.eliminated_on_night === num));
 }
+
+// ============================================================================
+//                            فازِ شب
+// ============================================================================
+// نکته‌ی شماره‌گذاری: بقیه‌ی اپ شبِ N رو با همون day_number ثبت می‌کنه (ستونِ
+// جداگانه‌ی night_number در جدولِ games استفاده نمی‌شه). اینجا هم همون قرارداد
+// رعایت شده تا tjGetEliminatedIn و اطلاعاتِ جاماسپ درست کار کنن.
+
+// ---------- ثبتِ یک اکشنِ شبانه (قابلِ اصلاح تا قبل از resolve) ----------
+async function tjSubmitNightAction(gameId, nightNumber, actorId, actionType, targetId, targetId2, extra) {
+  const row = {
+    game_id: gameId,
+    night_number: nightNumber,
+    actor_player_id: actorId,
+    action_type: actionType,
+    target_player_id: targetId || null,
+    target_player_id_2: targetId2 || null,
+    extra: extra || {},
+  };
+  // اسکیما روی (game_id, night_number, actor_player_id, action_type) یکتاست،
+  // پس اگه گرداننده انتخابش رو عوض کنه رکوردِ قبلی جایگزین می‌شه نه تکراری.
+  const { data, error } = await sb
+    .from('night_actions')
+    .upsert(row, { onConflict: 'game_id,night_number,actor_player_id,action_type' })
+    .select()
+    .single();
+  if (error) throw new Error('خطا در ثبتِ اکشنِ شب: ' + error.message);
+  return data;
+}
+
+// ---------- حذفِ یک اکشنِ شبانه (وقتی گرداننده «رد شو» می‌زنه) ----------
+async function tjDeleteNightAction(gameId, nightNumber, actorId, actionType) {
+  const { error } = await sb
+    .from('night_actions')
+    .delete()
+    .eq('game_id', gameId)
+    .eq('night_number', nightNumber)
+    .eq('actor_player_id', actorId)
+    .eq('action_type', actionType);
+  if (error) throw new Error('خطا در حذفِ اکشنِ شب: ' + error.message);
+}
+
+// ---------- خواندنِ همه‌ی اکشن‌های خامِ یک شب ----------
+async function tjGetNightActions(gameId, nightNumber) {
+  const { data, error } = await sb
+    .from('night_actions')
+    .select('*')
+    .eq('game_id', gameId)
+    .eq('night_number', nightNumber);
+  if (error) throw new Error('خطا در خواندنِ اکشن‌های شب: ' + error.message);
+  return data || [];
+}
+
+// ---------- ذخیره‌سازیِ نتیجه‌ی resolve ----------
+// خروجیِ resolveNight() رو می‌گیره و به‌صورت ماندگار می‌نویسه: کشته‌ها، فلگ‌های
+// تغییرکرده‌ی بازیکن‌ها، وضعیتِ بازی، و لاگِ رویدادها.
+async function tjApplyNightResolve(gameId, nightNumber, originalPlayers, result) {
+  // ۱) کشته‌ها
+  for (const d of result.deaths) {
+    await tjEliminatePlayer(d.playerId, d.cause, nightNumber, true);
+    await tjLogEvent(gameId, nightNumber, 'death', { playerId: d.playerId, cause: d.cause });
+  }
+
+  // ۲) فلگ‌های بازیکن‌ها — فقط اونایی که واقعاً عوض شدن
+  for (const updated of result.updatedPlayers) {
+    const before = originalPlayers.find(p => p.id === updated.id);
+    if (!before) continue;
+    const a = JSON.stringify(before.state_flags || {});
+    const b = JSON.stringify(updated.state_flags || {});
+    if (a !== b) {
+      const { error } = await sb
+        .from('players')
+        .update({ state_flags: updated.state_flags })
+        .eq('id', updated.id);
+      if (error) throw new Error('خطا در ذخیره‌ی وضعیتِ بازیکن: ' + error.message);
+    }
+  }
+
+  // ۳) وضعیتِ بازی. ستونی برای zahhak_hungry_streak نداریم، پس داخلِ همون
+  //    hengameh_flags نگهش می‌داریم تا نیازی به مهاجرتِ اسکیما نباشه.
+  const flags = {
+    ...(result.updatedGameState.hengameh_flags || {}),
+    zahhak_hungry_streak: result.updatedGameState.zahhak_hungry_streak || 0,
+  };
+  const { error: gErr } = await sb.from('games').update({ hengameh_flags: flags }).eq('id', gameId);
+  if (gErr) throw new Error('خطا در ذخیره‌ی وضعیتِ بازی: ' + gErr.message);
+
+  // ۴) رویدادهای غیرمرگ (افسون، هنگامه، استعلام و…)
+  for (const e of result.events) {
+    await tjLogEvent(gameId, nightNumber, e.type === 'hengameh_start' ? 'hengameh_start' : 'statement', e);
+  }
+}

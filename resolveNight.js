@@ -17,6 +17,9 @@
  *   { deaths: [{playerId, cause}], events: [...], updatedPlayers, updatedGameState }
  */
 
+// توجه: این فایل عمداً ESM نیست. index.html بدونِ هیچ بیلدی و با یه <script src>
+// ساده لود می‌شه، پس توابع باید سراسری تعریف بشن نه export.
+
 function findPlayer(players, id) {
   return players.find(p => p.id === id) || null;
 }
@@ -25,7 +28,7 @@ function actionOf(actions, actorId, type) {
   return actions.find(a => a.actor_player_id === actorId && a.action_type === type) || null;
 }
 
-export function resolveNight(players, actions, gameState) {
+function resolveNight(players, actions, gameState) {
   // یک کپیِ قابل‌تغییر از بازیکن‌ها می‌سازیم تا اصل داده دست‌نخورده بمونه
   const state = players.map(p => ({ ...p, state_flags: { ...p.state_flags } }));
   const events = [];

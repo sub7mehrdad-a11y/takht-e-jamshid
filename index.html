@@ -89,6 +89,45 @@
   }
   .busy-box.show{ display:block; }
 
+  /* ============ کنسولِ شبِ گرداننده ============ */
+  .night-progress{ height:6px; background:rgba(0,0,0,0.35); border-radius:99px; overflow:hidden; margin-bottom:6px; }
+  .night-progress-bar{ height:100%; width:0%; background:linear-gradient(90deg, var(--gold), var(--gold-soft)); transition:width .25s ease; }
+
+  .night-card{
+    background:var(--night-2); border:1px solid var(--line); border-right:3px solid var(--line);
+    border-radius:10px; padding:11px 13px; margin-bottom:10px;
+  }
+  .night-card.done{ border-right-color:var(--green); }
+  .night-card.skipped{ border-right-color:var(--parchment-dim); opacity:.72; }
+  .nc-head{ display:flex; align-items:center; gap:8px; margin-bottom:5px; }
+  .nc-icon{ font-size:17px; }
+  .nc-title{ font-size:12.5px; font-weight:800; color:var(--gold-soft); flex:1; }
+  .nc-status{ font-size:10.5px; color:var(--parchment-dim); white-space:nowrap; }
+  .night-card.done .nc-status{ color:var(--green); }
+  .nc-desc{ font-size:11.5px; color:var(--parchment-dim); line-height:1.85; margin-bottom:8px; }
+  .night-card select{
+    width:100%; background:var(--night-3); border:1px solid var(--line); border-radius:8px;
+    color:var(--parchment); font-family:'Vazirmatn'; font-size:12.5px; padding:8px 10px; margin-bottom:7px;
+  }
+  .nc-actions{ display:flex; gap:7px; flex-wrap:wrap; }
+  .nc-btn{
+    background:var(--night-3); border:1px solid var(--line); border-radius:8px; color:var(--parchment-dim);
+    font-family:'Vazirmatn'; font-size:11.5px; font-weight:600; padding:7px 12px; cursor:pointer;
+  }
+  .nc-btn.primary{ border-color:var(--gold); color:var(--gold-soft); }
+  .nc-btn.active{ background:var(--gold); border-color:var(--gold); color:#241a06; }
+  .nc-err{ display:none; font-size:11px; color:var(--crimson-soft); margin-top:5px; }
+  .nc-err.show{ display:block; }
+  .nc-chip{
+    display:inline-block; background:var(--night-3); border:1px solid var(--line); border-radius:99px;
+    padding:6px 14px; font-size:12px; cursor:pointer; margin:0 0 6px 6px;
+  }
+  .nc-chip.selected{ background:var(--gold); border-color:var(--gold); color:#241a06; font-weight:700; }
+  .nc-wait{ font-size:11.5px; color:var(--parchment-dim); }
+
+  .night-death{ color:var(--crimson-soft); font-weight:700; }
+  .night-event{ color:var(--parchment-dim); }
+
   .role-reveal-card{
     background:var(--night-2); border:1px solid var(--gold); border-radius:18px; padding:30px 20px; text-align:center;
   }
@@ -535,8 +574,33 @@
       </div>
 
       <div id="hostNightPanel" style="display:none; margin-top:16px;">
-        <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:8px;">🔮 اطلاعاتی که به جاماسپ می‌دی</div>
-        <div id="jamaspInfo" style="background:rgba(0,0,0,0.25); border-radius:9px; padding:11px 13px; font-size:12.5px; line-height:1.9;"></div>
+        <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:4px;">🌙 کنسولِ شب</div>
+        <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:10px;">
+          به‌ترتیب هر نقش رو بیدار کن، انتخابش رو اینجا ثبت کن، و آخر «حلِ شب» رو بزن.
+        </div>
+
+        <div class="night-progress"><div class="night-progress-bar" id="nightProgressBar"></div></div>
+        <div id="nightProgressLabel" style="font-size:11px; color:var(--parchment-dim); text-align:center; margin-bottom:12px;"></div>
+
+        <div id="nightCards"></div>
+
+        <button class="btn-gold" id="nightResolveBtn" onclick="resolveNightPhase()" disabled>حلِ شب و محاسبه‌ی نتیجه 🌅</button>
+        <div id="nightHint" style="font-size:11px; color:var(--parchment-dim); text-align:center; margin-top:8px;"></div>
+
+        <div id="nightResultBox" style="display:none; background:rgba(0,0,0,0.28); border:1px solid var(--line); border-radius:9px; padding:11px 13px; margin-top:12px;">
+          <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:7px;">🔒 نتیجه‌ی کامل — فقط برای خودت:</div>
+          <div id="nightResultBody" style="font-size:12.5px; line-height:2;"></div>
+        </div>
+
+        <div id="nightAnnounceBox" style="display:none; background:var(--night-3); border:1px solid var(--gold); border-radius:9px; padding:11px 13px; margin-top:10px;">
+          <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:6px;">📢 فقط همینو بلند اعلام کن — علت و جزئیات رو نگو:</div>
+          <div id="nightAnnounceText" style="font-size:14px; font-weight:800; color:var(--gold-soft); text-align:center;"></div>
+        </div>
+
+        <div id="jamaspBox" style="display:none; margin-top:14px;">
+          <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:8px;">🔮 اطلاعاتی که به جاماسپ می‌دی</div>
+          <div id="jamaspInfo" style="background:rgba(0,0,0,0.25); border-radius:9px; padding:11px 13px; font-size:12.5px; line-height:1.9;"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -620,6 +684,7 @@
 </div>
 
 <script src="supabase-client.js"></script>
+<script src="resolveNight.js"></script>
 <script>
   const GAME_LAYOUTS = {"hengameh_labels": {"qiam": "قیام (درفشِ کاویانی)", "kudeta": "کودتا", "siavashan": "سیاوشان", "jang": "جنگ (سهراب)", "bijan_manijeh": "پیوندِ بیژن و منیژه", "haftkhan": "هفت‌خانِ اسفندیار"}, "layouts": [{"id": "10a", "player_count": 10, "display_name": "پایه — با جاماسپِ خبررسان", "hengameh_possible": [], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "jamasp"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "sudabeh"], "neutral_roles": []}, {"id": "10b", "player_count": 10, "display_name": "سناریوی سیاوشان", "hengameh_possible": ["siavashan"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "siavash"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "sudabeh"], "neutral_roles": []}, {"id": "10c", "player_count": 10, "display_name": "سناریوی جنگ (سهراب)", "hengameh_possible": ["jang"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "gordafarid"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz"], "neutral_roles": ["sohrab"]}, {"id": "11a", "player_count": 11, "display_name": "سیاوشان + جاماسپ", "hengameh_possible": ["siavashan"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "jamasp", "siavash"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "sudabeh"], "neutral_roles": []}, {"id": "11b", "player_count": 11, "display_name": "سناریوی بیژن و منیژه", "hengameh_possible": ["bijan_manijeh"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "bijan", "manijeh"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "sudabeh"], "neutral_roles": []}, {"id": "12a", "player_count": 12, "display_name": "قیام و کودتا", "hengameh_possible": ["qiam", "kudeta"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "karen", "kaveh", "fereydun"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans"], "neutral_roles": []}, {"id": "12b", "player_count": 12, "display_name": "جنگ + بیژن‌ومنیژه", "hengameh_possible": ["jang", "bijan_manijeh"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "bijan", "manijeh"], "zahhaki_roles": ["zahhak", "afrasiab", "pirans", "gersivaz"], "neutral_roles": ["sohrab"]}, {"id": "12c", "player_count": 12, "display_name": "جنگ + جاماسپ", "hengameh_possible": ["jang"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "jamasp", "gordafarid"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans"], "neutral_roles": ["sohrab"]}, {"id": "12d", "player_count": 12, "display_name": "بیژن‌ومنیژه + جاماسپ", "hengameh_possible": ["bijan_manijeh"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "bijan", "manijeh", "jamasp"], "zahhaki_roles": ["zahhak", "afrasiab", "pirans", "gersivaz"], "neutral_roles": []}, {"id": "13a", "player_count": 13, "display_name": "قیام و کودتا (پیشرفته)", "hengameh_possible": ["qiam", "kudeta"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "karen", "kaveh", "fereydun"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh"], "neutral_roles": []}, {"id": "13b", "player_count": 13, "display_name": "سیاوشان + بیژن‌ومنیژه", "hengameh_possible": ["siavashan", "bijan_manijeh"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "bijan", "manijeh", "siavash"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh"], "neutral_roles": []}, {"id": "13c", "player_count": 13, "display_name": "هفت‌خانِ اسفندیار + بیژن‌ومنیژه", "hengameh_possible": ["haftkhan", "bijan_manijeh"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "bijan", "manijeh", "esfandiar"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "arjasb"], "neutral_roles": []}, {"id": "13d", "player_count": 13, "display_name": "بیژن‌ومنیژه + جاماسپ", "hengameh_possible": ["bijan_manijeh"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "bijan", "manijeh", "jamasp"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh"], "neutral_roles": []}, {"id": "14a", "player_count": 14, "display_name": "جنگ + بیژن‌ومنیژه", "hengameh_possible": ["jang", "bijan_manijeh"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "bijan", "manijeh", "gordafarid"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh"], "neutral_roles": ["sohrab"]}, {"id": "14b", "player_count": 14, "display_name": "سیاوشان + بیژن‌ومنیژه + جاماسپ", "hengameh_possible": ["siavashan", "bijan_manijeh"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "bijan", "manijeh", "siavash", "jamasp"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh"], "neutral_roles": []}, {"id": "14c", "player_count": 14, "display_name": "قیام و کودتا (رأی‌گیریِ کامل)", "hengameh_possible": ["qiam", "kudeta"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "karen", "kaveh", "fereydun", "jamasp"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh"], "neutral_roles": []}, {"id": "14d", "player_count": 14, "display_name": "قیام و کودتا + سیاوشان", "hengameh_possible": ["qiam", "kudeta", "siavashan"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "karen", "kaveh", "fereydun", "siavash"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh"], "neutral_roles": []}, {"id": "14e", "player_count": 14, "display_name": "جنگ + سیاوشان", "hengameh_possible": ["jang", "siavashan"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "jamasp", "siavash", "gordafarid"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh"], "neutral_roles": ["sohrab"]}, {"id": "15a", "player_count": 15, "display_name": "قیام و کودتا (با هومان)", "hengameh_possible": ["qiam", "kudeta"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "karen", "kaveh", "fereydun", "jamasp"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh", "homan"], "neutral_roles": []}, {"id": "15b", "player_count": 15, "display_name": "قیام و کودتا و سیاوشان (کامل)", "hengameh_possible": ["qiam", "kudeta", "siavashan"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "karen", "kaveh", "fereydun", "siavash"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh", "homan"], "neutral_roles": []}, {"id": "15c", "player_count": 15, "display_name": "سیاوشان + بیژن‌ومنیژه (با هومان)", "hengameh_possible": ["siavashan", "bijan_manijeh"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "bijan", "manijeh", "siavash", "jamasp"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh", "homan"], "neutral_roles": []}, {"id": "15d", "player_count": 15, "display_name": "هفت‌خان + بیژن‌ومنیژه", "hengameh_possible": ["haftkhan", "bijan_manijeh"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "bijan", "manijeh", "esfandiar", "jamasp"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh", "arjasb"], "neutral_roles": []}, {"id": "15e", "player_count": 15, "display_name": "هفت‌خان + بیژن‌ومنیژه + سیاوشان (بزرگ)", "hengameh_possible": ["haftkhan", "bijan_manijeh", "siavashan"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "bijan", "manijeh", "esfandiar", "siavash"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh", "arjasb"], "neutral_roles": []}, {"id": "15f", "player_count": 15, "display_name": "جنگ + سیاوشان + بیژن‌ومنیژه (بزرگ)", "hengameh_possible": ["jang", "siavashan", "bijan_manijeh"], "jamshidi_roles": ["jamshid", "armayil", "keykavous", "rostam", "zaal", "bijan", "manijeh", "siavash", "gordafarid"], "zahhaki_roles": ["zahhak", "afrasiab", "gersivaz", "pirans", "sudabeh"], "neutral_roles": ["sohrab"]}]};
   const ROLE_NAMES_FA = {
@@ -898,7 +963,7 @@
       btn.onclick = () => handlePhaseAdvance({ current_phase: 'day', day_number: game.day_number + 1 });
       dayPanel.style.display = 'none';
       nightPanel.style.display = 'block';
-      refreshJamaspInfo(game.day_number);
+      refreshNightPanel(game.day_number);
     }
   }
 
@@ -1043,6 +1108,341 @@
       alert('⚡ هنگامه‌ی کودتا!\n\nاز رستم، زال و جاماسپ (زنده‌ها) مخفیانه بپرس آیا قدرت به فریدون منتقل بشه.');
     }
   }
+
+  // ================= کنسولِ شبِ گرداننده =================
+  // نقش‌هایی که اکشنِ فعالِ شبانه دارن، به همون ترتیبی که باید بیدار بشن.
+  const NIGHT_ROLES = [
+    { role_id:'zahhak',   icon:'🐍', title:'ضحاک — انتخابِ دو نفر',   desc:'دو نفر رو برای طعمه‌ی مارها انتخاب کن.', type:'pick_two', action:'kill_pick_two' },
+    { role_id:'armayil',  icon:'🍲', title:'ارمایل — نجاتِ یکی',      desc:'از بینِ دو انتخابِ ضحاک، یکی رو نجات بده.', type:'save_from_zahhak', action:'save_one_of_two' },
+    { role_id:'afrasiab', icon:'👁️', title:'افراسیاب — استعلام',      desc:'یک نفر رو برای فهمیدنِ ضحاکی‌بودن انتخاب کن.', type:'pick_one', action:'inquiry' },
+    { role_id:'sudabeh',  icon:'🔮', title:'سودابه — افسون',          desc:'اختیاری. یک نفر رو افسون کن یا رد شو.', type:'pick_one', optional:true, action:'enchant', immune:['kaveh','fereydun','siavash','armayil'] },
+    { role_id:'homan',    icon:'🗡️', title:'هومان — حدسِ نقش',        desc:'یک نفر و یک نقشِ حدسی انتخاب کن.', type:'guess', optional:true, lethal:true, action:'guess_kill_or_copy' },
+    { role_id:'rostam',   icon:'🏹', title:'رستم — تیر',              desc:'یک مظنونِ ضحاکی رو نشونه بگیر.', type:'pick_one', optional:true, lethal:true, action:'guess_shoot' },
+    { role_id:'zaal',     icon:'🪶', title:'زال — پرِ سیمرغ',         desc:'اختیاری و فقط یک‌بار در کلِ بازی. همه‌ی کشته‌های ضحاکِ امشب باطل می‌شه.', type:'toggle', optional:true, action:'block_all_kills', oncePerGame:'zaal_feather_used' },
+    { role_id:'gersivaz', icon:'💀', title:'گرسیوز — فداکاری',        desc:'اختیاری و فقط یک‌بار. خودش می‌میره و هدفش رو هم با خودش می‌بره.', type:'pick_one', optional:true, lethal:true, action:'self_sacrifice', oncePerGame:'gersivaz_used' },
+  ];
+
+  let nightSelections = {};   // role_id -> {target, target2, guessedRole, skipped, done}
+  let nightPlayers = [];      // بازیکن‌های زنده‌ی همین شب
+  let nightPanelForNight = -1;
+  let nightResolved = false;
+
+  async function refreshNightPanel(nightNumber){
+    // فقط یک‌بار برای هر شب ساخته می‌شه؛ وگرنه پولینگِ هر ۲ ثانیه انتخاب‌ها رو پاک می‌کنه.
+    if(nightPanelForNight === nightNumber) return;
+    nightPanelForNight = nightNumber;
+    nightSelections = {};
+    nightResolved = false;
+    document.getElementById('nightResultBox').style.display = 'none';
+    document.getElementById('nightAnnounceBox').style.display = 'none';
+    document.getElementById('jamaspBox').style.display = 'none';
+    document.getElementById('nightResolveBtn').disabled = true;
+
+    try{
+      const all = await tjListPlayers(currentGame.id);
+      nightPlayers = all.filter(p => !p.is_host);
+
+      // اگه گرداننده صفحه رو رفرش کرده باشه، اکشن‌های قبلاً ثبت‌شده رو برگردون
+      const saved = await tjGetNightActions(currentGame.id, nightNumber);
+      saved.forEach(a => {
+        const cfg = NIGHT_ROLES.find(c => c.action === a.action_type);
+        if(!cfg) return;
+        nightSelections[cfg.role_id] = {
+          target: a.target_player_id, target2: a.target_player_id_2,
+          guessedRole: a.extra?.guessed_role_id, done: true,
+        };
+      });
+
+      renderNightCards();
+    }catch(e){
+      showError('خطا در آماده‌سازیِ کنسولِ شب: ' + e.message);
+      nightPanelForNight = -1; // بذار دفعه‌ی بعد دوباره تلاش کنه
+    }
+  }
+
+  function nightActor(roleId){
+    return nightPlayers.find(p => p.role_id === roleId && p.is_alive) || null;
+  }
+  // جمشید و ضحاک نامیرا هستن و نباید هدفِ هیچ اکشنِ کشنده‌ای باشن.
+  function nightTargets(cfg, actorId){
+    let list = nightPlayers.filter(p => p.is_alive && p.id !== actorId);
+    if(cfg.lethal) list = list.filter(p => p.role_id !== 'jamshid' && p.role_id !== 'zahhak');
+    if(cfg.immune) list = list.filter(p => !cfg.immune.includes(p.role_id));
+    return list;
+  }
+  function activeNightRoles(){
+    return NIGHT_ROLES.filter(cfg => {
+      const actor = nightActor(cfg.role_id);
+      if(!actor) return false;
+      // توانایی‌های یک‌بارمصرفی که قبلاً خرج شدن، اصلاً کارت نمی‌گیرن
+      if(cfg.oncePerGame && actor.state_flags?.[cfg.oncePerGame]) return false;
+      return true;
+    });
+  }
+
+  function renderNightCards(){
+    const box = document.getElementById('nightCards');
+    box.innerHTML = '';
+    activeNightRoles().forEach(cfg => {
+      const actor = nightActor(cfg.role_id);
+      const div = document.createElement('div');
+      div.className = 'night-card';
+      div.id = 'ncard_' + cfg.role_id;
+      div.innerHTML = buildNightCard(cfg, actor);
+      box.appendChild(div);
+    });
+    activeNightRoles().forEach(cfg => paintNightCard(cfg.role_id));
+    if(nightSelections['zahhak']?.done) renderArmayilChoices();
+    updateNightProgress();
+  }
+
+  function buildNightCard(cfg, actor){
+    const opts = list => list.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
+    const skipBtn = cfg.optional
+      ? `<div class="nc-actions"><button class="nc-btn" onclick="nightSkip('${cfg.role_id}')">این شب کاری نمی‌کنه</button></div>` : '';
+    let body = '';
+
+    if(cfg.type === 'pick_two'){
+      body = `
+        <select id="nsel1_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
+          <option value="">— هدفِ اول —</option>${opts(nightTargets({lethal:true}))}
+        </select>
+        <select id="nsel2_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
+          <option value="">— هدفِ دوم —</option>${opts(nightTargets({lethal:true}))}
+        </select>`;
+    } else if(cfg.type === 'save_from_zahhak'){
+      body = `<div id="narm_choices"><span class="nc-wait">اول باید انتخابِ ضحاک ثبت بشه</span></div>`;
+    } else if(cfg.type === 'guess'){
+      const roleIds = Array.from(new Set(nightPlayers.map(p => p.role_id).filter(Boolean)));
+      body = `
+        <select id="nsel1_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
+          <option value="">— هدف —</option>${opts(nightTargets(cfg, actor.id))}
+        </select>
+        <select id="nguess_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
+          <option value="">— نقشِ حدسی —</option>
+          ${roleIds.map(r => `<option value="${r}">${ROLE_NAMES_FA[r] || r}</option>`).join('')}
+        </select>${skipBtn}`;
+    } else if(cfg.type === 'pick_one'){
+      body = `
+        <select id="nsel1_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
+          <option value="">— انتخابِ هدف —</option>${opts(nightTargets(cfg, actor.id))}
+        </select>${skipBtn}`;
+    } else if(cfg.type === 'toggle'){
+      body = `<div class="nc-actions">
+          <button class="nc-btn primary" id="ntog_yes_${cfg.role_id}" onclick="nightToggle('${cfg.role_id}', true)">بله، استفاده کن</button>
+          <button class="nc-btn" id="ntog_no_${cfg.role_id}" onclick="nightToggle('${cfg.role_id}', false)">نه، این شب نه</button>
+        </div>`;
+    }
+
+    return `
+      <div class="nc-head">
+        <span class="nc-icon">${cfg.icon}</span>
+        <span class="nc-title">${cfg.title}</span>
+        <span class="nc-status" id="nstat_${cfg.role_id}">در انتظار</span>
+      </div>
+      <div class="nc-desc">${cfg.desc} <b style="color:var(--gold-soft);">(${actor.display_name})</b></div>
+      ${body}
+      <div class="nc-err" id="nerr_${cfg.role_id}"></div>`;
+  }
+
+  async function nightChange(roleId){
+    const cfg = NIGHT_ROLES.find(c => c.role_id === roleId);
+    const sel1 = document.getElementById('nsel1_' + roleId);
+    const sel2 = document.getElementById('nsel2_' + roleId);
+    const guess = document.getElementById('nguess_' + roleId);
+    const err = document.getElementById('nerr_' + roleId);
+    err.classList.remove('show');
+
+    let sel = null;
+    if(cfg.type === 'pick_two'){
+      if(sel1.value && sel2.value && sel1.value === sel2.value){
+        err.textContent = 'دو هدف باید متفاوت باشن.'; err.classList.add('show');
+      } else if(sel1.value && sel2.value){
+        sel = { target: sel1.value, target2: sel2.value, done:true };
+      }
+    } else if(cfg.type === 'guess'){
+      if(sel1.value && guess.value) sel = { target: sel1.value, guessedRole: guess.value, done:true };
+    } else if(sel1.value){
+      sel = { target: sel1.value, done:true };
+    }
+
+    nightSelections[roleId] = sel;
+    if(sel) await persistNightAction(cfg, sel);
+    if(roleId === 'zahhak') renderArmayilChoices();
+    paintNightCard(roleId);
+    updateNightProgress();
+  }
+
+  async function nightSkip(roleId){
+    const cfg = NIGHT_ROLES.find(c => c.role_id === roleId);
+    const card = document.getElementById('ncard_' + roleId);
+    card.querySelectorAll('select').forEach(s => s.value = '');
+    nightSelections[roleId] = { skipped:true, done:true };
+    try{
+      const actor = nightActor(roleId);
+      await tjDeleteNightAction(currentGame.id, nightPanelForNight, actor.id, cfg.action);
+    }catch(e){ showError(e.message); }
+    paintNightCard(roleId);
+    updateNightProgress();
+  }
+
+  async function nightToggle(roleId, use){
+    const cfg = NIGHT_ROLES.find(c => c.role_id === roleId);
+    nightSelections[roleId] = use ? { done:true, toggled:true } : { skipped:true, done:true };
+    try{
+      const actor = nightActor(roleId);
+      if(use) await tjSubmitNightAction(currentGame.id, nightPanelForNight, actor.id, cfg.action, null, null, {});
+      else await tjDeleteNightAction(currentGame.id, nightPanelForNight, actor.id, cfg.action);
+    }catch(e){ showError(e.message); }
+    document.getElementById('ntog_yes_' + roleId).classList.toggle('active', use);
+    document.getElementById('ntog_no_' + roleId).classList.toggle('active', !use);
+    paintNightCard(roleId);
+    updateNightProgress();
+  }
+
+  async function persistNightAction(cfg, sel){
+    try{
+      const actor = nightActor(cfg.role_id);
+      const extra = cfg.type === 'guess' ? { guessed_role_id: sel.guessedRole } : {};
+      await tjSubmitNightAction(currentGame.id, nightPanelForNight, actor.id, cfg.action, sel.target, sel.target2, extra);
+    }catch(e){ showError(e.message); }
+  }
+
+  // ارمایل فقط می‌تونه یکی از همون دو نفری که ضحاک انتخاب کرده رو نجات بده.
+  function renderArmayilChoices(){
+    const box = document.getElementById('narm_choices');
+    const z = nightSelections['zahhak'];
+    if(!box || !z || !z.done || z.skipped) return;
+    const picks = [z.target, z.target2].map(id => nightPlayers.find(p => p.id === id)).filter(Boolean);
+    const chosen = nightSelections['armayil']?.target;
+    box.innerHTML = picks.map(p =>
+      `<span class="nc-chip ${chosen === p.id ? 'selected' : ''}" onclick="pickArmayilSave('${p.id}')">${p.display_name}</span>`
+    ).join('') + `<div class="nc-actions" style="margin-top:4px;"><button class="nc-btn" onclick="nightSkip('armayil')">هیچ‌کدوم رو نجات نمی‌ده</button></div>`;
+  }
+
+  async function pickArmayilSave(playerId){
+    nightSelections['armayil'] = { target: playerId, done:true };
+    const cfg = NIGHT_ROLES.find(c => c.role_id === 'armayil');
+    await persistNightAction(cfg, nightSelections['armayil']);
+    renderArmayilChoices();
+    paintNightCard('armayil');
+    updateNightProgress();
+  }
+
+  function paintNightCard(roleId){
+    const card = document.getElementById('ncard_' + roleId);
+    const stat = document.getElementById('nstat_' + roleId);
+    if(!card || !stat) return;
+    const sel = nightSelections[roleId];
+    card.classList.toggle('done', !!(sel && sel.done && !sel.skipped));
+    card.classList.toggle('skipped', !!(sel && sel.skipped));
+    stat.textContent = !sel || !sel.done ? 'در انتظار' : (sel.skipped ? 'رد شد' : 'ثبت شد ✓');
+
+    // بازگردانیِ مقادیر بعد از رفرشِ صفحه
+    if(sel && !sel.skipped){
+      const s1 = document.getElementById('nsel1_' + roleId);
+      const s2 = document.getElementById('nsel2_' + roleId);
+      const g = document.getElementById('nguess_' + roleId);
+      if(s1 && sel.target) s1.value = sel.target;
+      if(s2 && sel.target2) s2.value = sel.target2;
+      if(g && sel.guessedRole) g.value = sel.guessedRole;
+    }
+  }
+
+  function updateNightProgress(){
+    const roles = activeNightRoles();
+    const total = roles.length;
+    const done = roles.filter(c => nightSelections[c.role_id]?.done).length;
+    const pct = total ? Math.round(done / total * 100) : 100;
+    document.getElementById('nightProgressBar').style.width = pct + '%';
+    document.getElementById('nightProgressLabel').textContent = `${done} از ${total} نقشِ شبانه ثبت شده`;
+
+    const btn = document.getElementById('nightResolveBtn');
+    const hint = document.getElementById('nightHint');
+    if(nightResolved){
+      btn.disabled = true;
+      hint.textContent = 'شب حل شد — حالا دکمه‌ی بالا رو بزن تا روزِ بعد شروع بشه.';
+    } else if(done === total){
+      btn.disabled = false;
+      hint.textContent = 'همه ثبت شدن — می‌تونی شب رو حل کنی.';
+    } else {
+      btn.disabled = true;
+      hint.textContent = 'قبل از حلِ شب، همه‌ی نقش‌ها رو ثبت یا رد کن.';
+    }
+  }
+
+  async function resolveNightPhase(){
+    const btn = document.getElementById('nightResolveBtn');
+    btn.disabled = true;
+    showBusy('در حالِ حلِ شب…');
+    try{
+      const nightNumber = nightPanelForNight;
+      const game = await tjGetGame(currentGame.id);
+      const players = (await tjListPlayers(currentGame.id)).filter(p => !p.is_host);
+      const actions = await tjGetNightActions(currentGame.id, nightNumber);
+
+      const gameState = {
+        night_number: nightNumber,
+        hengameh_flags: game.hengameh_flags || {},
+        zahhak_hungry_streak: game.hengameh_flags?.zahhak_hungry_streak || 0,
+      };
+      const result = resolveNight(players, actions, gameState);
+      await tjApplyNightResolve(currentGame.id, nightNumber, players, result);
+
+      nightResolved = true;
+      showNightResult(result, players);
+      await refreshJamaspInfo(nightNumber);
+      document.getElementById('jamaspBox').style.display = 'block';
+    }catch(e){
+      showError('خطا در حلِ شب: ' + e.message);
+      btn.disabled = false;
+    }finally{
+      hideBusy();
+      updateNightProgress();
+    }
+  }
+
+  function showNightResult(result, players){
+    const nameOf = id => players.find(p => p.id === id)?.display_name || '؟';
+    let html = result.deaths.length
+      ? result.deaths.map(d => `<div class="night-death">☠️ ${nameOf(d.playerId)} — ${NIGHT_CAUSE_FA[d.cause] || d.cause}</div>`).join('')
+      : '<div class="night-event">امشب هیچ‌کس نمرد.</div>';
+    result.events.forEach(e => { html += `<div class="night-event">• ${nightEventLabel(e)}</div>`; });
+    document.getElementById('nightResultBody').innerHTML = html;
+    document.getElementById('nightResultBox').style.display = 'block';
+
+    // اعلامِ عمومی فقط اسمِ کشته‌هاست — نه علت، نه اینکه کی چه‌کار کرد.
+    document.getElementById('nightAnnounceText').textContent = result.deaths.length
+      ? result.deaths.map(d => nameOf(d.playerId)).join(' و ') + ' دیشب از بازی خارج شد.'
+      : 'دیشب کسی از بازی خارج نشد.';
+    document.getElementById('nightAnnounceBox').style.display = 'block';
+  }
+
+  const NIGHT_CAUSE_FA = {
+    zahhak_night:'کشته‌ی ضحاک', homan_guess:'حدسِ درستِ هومان', rostam_arrow:'تیرِ رستم',
+    gersivaz:'فداکاریِ گرسیوز', gersivaz_self:'خودکشیِ گرسیوز', rostam_self_miss:'تیرِ اشتباهِ رستم',
+  };
+  function nightEventLabel(e){
+    switch(e.type){
+      case 'enchanted': return 'یک نفر افسون شد — قابلیتش امشب باطل بود';
+      case 'bond_broken': return 'پیوندِ بیژن و منیژه شکست';
+      case 'zaal_feather_burned': return 'زال پرِ سیمرغ رو سوزوند — امشب کشته‌های ضحاک باطل شد';
+      case 'zahhak_misfire': return 'ضحاک یکی از یارانِ خودش رو انتخاب کرد — امشب گرسنه موند';
+      case 'rostam_lost_armor': return 'رستم اشتباه زد و زره‌اش رو از دست داد';
+      case 'rostam_armor_absorbed_zahhak_kill': return 'زره‌ی رستم جلوی کشته‌شدنش رو گرفت';
+      case 'homan_copied_ability': return 'هومان قابلیتِ ' + (ROLE_NAMES_FA[e.copiedFrom] || e.copiedFrom) + ' رو کپی کرد';
+      case 'gersivaz_sacrifice': return 'گرسیوز خودش رو فدا کرد';
+      case 'gersivaz_failed_both_zahhaki': return 'گرسیوز فقط ضحاکی هدف گرفت — بی‌اثر موند';
+      case 'immune': return 'یک نفر در برابرِ حمله مصون بود';
+      case 'inquiry_result': return 'نتیجه‌ی استعلامِ افراسیاب: هدفش ' + (e.isZahhaki ? 'ضحاکیه' : 'ضحاکی نیست');
+      case 'hengameh_start': return '⚡ هنگامه‌ی «' + (HENGAMEH_FA[e.name] || e.name) + '» شروع شد!';
+      default: return e.type;
+    }
+  }
+  const HENGAMEH_FA = {
+    qiam:'قیام', kudeta:'کودتا', siavashan:'سیاوشان', jang:'جنگ',
+    zahhak_incapacitated:'ناتوانیِ ضحاک', kin_e_siavash:'کینِ سیاوش',
+  };
 
   // ---------------- اطلاعِ جاماسپ در پایانِ شب ----------------
   async function refreshJamaspInfo(num){
