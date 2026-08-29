@@ -1230,8 +1230,8 @@
     { role_id:'armayil',  icon:'🍲', title:'ارمایل — نجاتِ یکی',      desc:'از بینِ دو انتخابِ ضحاک، یکی رو نجات بده.', type:'save_from_zahhak', action:'save_one_of_two' },
     { role_id:'afrasiab', icon:'👁️', title:'افراسیاب — استعلام',      desc:'یک نفر رو انتخاب کن — جوابش همین‌جا می‌آد تا به افراسیاب بگی.', type:'pick_one', action:'inquiry', instantAnswer:true },
     { role_id:'sudabeh',  icon:'🔮', title:'سودابه — افسون',          desc:'اختیاری. یک نفر رو افسون کن یا رد شو.', type:'pick_one', optional:true, action:'enchant', immune:['kaveh','fereydun','siavash','armayil'], maxCharges:2, chargeFlag:'sudabeh_charges_used' },
-    { role_id:'homan',    icon:'🗡️', title:'هومان — حدسِ نقش',        desc:'یک نفر و یک نقشِ حدسی انتخاب کن.', type:'guess', optional:true, lethal:true, action:'guess_kill_or_copy' },
-    { role_id:'rostam',   icon:'🏹', title:'رستم — تیر',              desc:'یک مظنونِ ضحاکی رو نشونه بگیر.', type:'pick_one', optional:true, lethal:true, action:'guess_shoot' },
+    { role_id:'homan',    icon:'🗡️', title:'هومان — حدسِ نقش',        desc:'یک نفر و یک نقشِ حدسی انتخاب کن — نتیجه همین‌جا می‌آد.', type:'guess', optional:true, lethal:true, action:'guess_kill_or_copy', instantAnswer:true },
+    { role_id:'rostam',   icon:'🏹', title:'رستم — تیر',              desc:'یک مظنونِ ضحاکی رو نشونه بگیر — نتیجه همین‌جا می‌آد.', type:'pick_one', optional:true, lethal:true, action:'guess_shoot', instantAnswer:true },
     { role_id:'zaal',     icon:'🪶', title:'زال — پرِ سیمرغ',         desc:'اختیاری و فقط یک‌بار در کلِ بازی. همه‌ی کشته‌های ضحاکِ امشب باطل می‌شه.', type:'toggle', optional:true, action:'block_all_kills', oncePerGame:'zaal_feather_used' },
     { role_id:'gersivaz', icon:'💀', title:'گرسیوز — فداکاری',        desc:'اختیاری و فقط یک‌بار. خودش می‌میره و هدفش رو هم با خودش می‌بره.', type:'pick_one', optional:true, lethal:true, action:'self_sacrifice', oncePerGame:'gersivaz_used' },
   ];
@@ -1371,9 +1371,26 @@
       <div class="nc-err" id="nerr_${cfg.role_id}"></div>`;
   }
 
-  // استعلام از خودِ گرداننده پرسیده می‌شه، پس جواب باید همون لحظه‌ی ثبت دیده بشه
-  // نه بعد از حلِ شب. قاعده‌ی «ارمایل ضحاکی نشون داده می‌شه» از همون تابعِ موتور
-  // میاد تا این دو جا هیچ‌وقت از هم جدا نیفتن.
+  // این سه اکشن سرِ میز از خودِ گرداننده پرسیده می‌شن، پس جواب باید همون لحظه‌ی
+  // ثبت دیده بشه نه بعد از حلِ شب.
+  //
+  // چرا این جواب‌ها قابلِ اتکان: سودابه توی ترتیبِ کنسول *قبل از* هومان و رستم
+  // میاد، پس وقتی نوبتِ اون‌ها می‌رسه افسونِ امشب از قبل ثبت شده و می‌تونیم
+  // باطل‌بودنِ قابلیت رو درست حساب کنیم.
+  const OK = 'var(--green)', BAD = 'var(--crimson-soft)', DIM = 'var(--parchment-dim)';
+  const answerHtml = (color, text, hint) =>
+    `<b style="color:${color};">${text}</b>` +
+    (hint ? `<div style="font-size:10.5px; color:var(--parchment-dim); margin-top:3px;">${hint}</div>` : '');
+
+  // آیا این نفر امشب افسون شده؟ (افسون روی چند نقش بی‌اثره)
+  function isEnchantedTonight(playerId){
+    const s = nightSelections['sudabeh'];
+    if(!s || s.skipped || s.target !== playerId) return false;
+    const cfg = NIGHT_ROLES.find(c => c.role_id === 'sudabeh');
+    const t = nightPlayers.find(p => p.id === playerId);
+    return !!t && !(cfg.immune || []).includes(t.role_id);
+  }
+
   function renderInstantAnswer(roleId){
     const box = document.getElementById('nans_' + roleId);
     if(!box) return;
@@ -1381,10 +1398,52 @@
     if(!sel || sel.skipped || !sel.target){ box.innerHTML = ''; return; }
     const target = nightPlayers.find(p => p.id === sel.target);
     if(!target){ box.innerHTML = ''; return; }
-    const yes = appearsZahhakiInInquiry(target);
-    box.innerHTML = `<b>${target.display_name}</b> → ` +
-      `<b style="color:${yes ? 'var(--crimson-soft)' : 'var(--green)'};">${yes ? 'ضحاکی است' : 'ضحاکی نیست'}</b>` +
-      `<div style="font-size:10.5px; color:var(--parchment-dim); margin-top:3px;">همینو به افراسیاب علامت بده.</div>`;
+    const actor = nightActor(roleId);
+
+    if(roleId !== 'afrasiab' && actor && isEnchantedTonight(actor.id)){
+      box.innerHTML = answerHtml(DIM, 'افسون شده — قابلیتش امشب باطله',
+        'هیچ اتفاقی نمی‌افته. طوری رفتار کن که خودش نفهمه افسون شده.');
+      return;
+    }
+
+    if(roleId === 'afrasiab'){
+      const yes = appearsZahhakiInInquiry(target);
+      box.innerHTML = `<b>${target.display_name}</b> → ` +
+        answerHtml(yes ? BAD : OK, yes ? 'ضحاکی است' : 'ضحاکی نیست', 'همینو به افراسیاب علامت بده.');
+
+    }else if(roleId === 'homan'){
+      if(!sel.guessedRole){ box.innerHTML = ''; return; }
+      const right = target.role_id === sel.guessedRole;
+      if(!right){
+        box.innerHTML = answerHtml(DIM, 'حدس غلط — بی‌اثر', 'به هومان بگو حدسش درست نبود.');
+      }else if(target.role_id === 'armayil'){
+        box.innerHTML = answerHtml(DIM, 'حدس درست، ولی روی ارمایل بی‌اثره', 'ارمایل با حدسِ هومان نمی‌میره.');
+      }else if(target.side === 'zahhaki'){
+        box.innerHTML = answerHtml(OK, 'حدس درست — قابلیتِ ' + (ROLE_NAMES_FA[target.role_id] || target.role_id) + ' کپی شد',
+          'به هومان بگو از این به بعد این قابلیت رو داره.');
+      }else{
+        box.innerHTML = answerHtml(BAD, 'حدس درست — ' + target.display_name + ' کشته می‌شه',
+          'به هومان فقط بگو حدسش درست بود؛ مرگ صبح اعلام می‌شه.');
+      }
+
+    }else if(roleId === 'rostam'){
+      if(target.side === 'zahhaki'){
+        box.innerHTML = answerHtml(OK, 'درست زد — ' + target.display_name + ' کشته می‌شه',
+          'به رستم فقط بگو تیرش به هدف خورد؛ مرگ صبح اعلام می‌شه.');
+      }else if(!actor.state_flags?.rostam_armor_used){
+        box.innerHTML = answerHtml(BAD, 'اشتباه زد — زره‌اش رو از دست داد',
+          'هدف نمی‌میره. به رستم بگو دیگه زره نداره.');
+      }else{
+        box.innerHTML = answerHtml(BAD, 'اشتباه زد و زره نداشت — خودِ رستم می‌میره',
+          'هدف نمی‌میره. مرگِ رستم صبح اعلام می‌شه.');
+      }
+    }
+  }
+
+  // افسونِ سودابه روی جوابِ هومان و رستم اثر داره، پس اگه گرداننده هدفِ سودابه
+  // رو عوض کنه باید کارت‌های اون‌ها هم دوباره حساب بشن.
+  function refreshAllInstantAnswers(){
+    NIGHT_ROLES.filter(c => c.instantAnswer).forEach(c => renderInstantAnswer(c.role_id));
   }
 
   async function nightChange(roleId){
@@ -1412,6 +1471,7 @@
     if(sel) await persistNightAction(cfg, sel);
     if(roleId === 'zahhak') renderArmayilChoices();
     paintNightCard(roleId);
+    refreshAllInstantAnswers();
     updateNightProgress();
   }
 
@@ -1425,6 +1485,7 @@
       await tjDeleteNightAction(currentGame.id, nightPanelForNight, actor.id, cfg.action);
     }catch(e){ showError(e.message); }
     paintNightCard(roleId);
+    refreshAllInstantAnswers();
     updateNightProgress();
   }
 

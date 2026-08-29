@@ -242,6 +242,59 @@ t('the host is never counted', () => {
   eq(W([host, P('j', 'jamshid', 'jamshidi'), P('z', 'zahhak', 'zahhaki'), P('af', 'afrasiab', 'zahhaki')]).winner, 'zahhaki');
 });
 
+console.log('\n=== Host night-card instant answers must match the engine ===');
+// The console tells the host an outcome the moment an action is recorded, before
+// the night is resolved. Each case below is a claim one of those cards makes; if
+// the engine ever stops agreeing, the host would be telling players the wrong
+// thing all night. Sudabeh is recorded before Homan and Rostam in the wake order,
+// which is what makes the enchanted cases predictable at entry time.
+const enchant = t2 => ({ actor_player_id: 's', action_type: 'enchant', target_player_id: t2 });
+const S = () => P('s', 'sudabeh', 'zahhaki');
+
+t('card "افسون شده — قابلیتش باطله" (Homan): nothing happens', () => {
+  const ps = [S(), P('h', 'homan', 'zahhaki'), P('r', 'rostam', 'jamshidi')];
+  const r = resolveNight(ps, [enchant('h'),
+    { actor_player_id: 'h', action_type: 'guess_kill_or_copy', target_player_id: 'r', extra: { guessed_role_id: 'rostam' } }], gs());
+  eq(deaths(r), []);
+  eq(r.events.some(e => e.type === 'homan_copied_ability'), false);
+});
+t('card "افسون شده" (Rostam): shot is void, no death and no armor loss', () => {
+  const ps = [S(), P('r', 'rostam', 'jamshidi'), P('af', 'afrasiab', 'zahhaki')];
+  const r = resolveNight(ps, [enchant('r'),
+    { actor_player_id: 'r', action_type: 'guess_shoot', target_player_id: 'af' }], gs());
+  eq(deaths(r), [], 'enchanted Rostam kills nobody');
+  eq(!!r.updatedPlayers.find(p => p.id === 'r').state_flags.rostam_armor_used, false, 'and keeps his armor');
+});
+t('card "حدس غلط — بی‌اثر": no death, no copy', () => {
+  const ps = [P('h', 'homan', 'zahhaki'), P('r', 'rostam', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'h', action_type: 'guess_kill_or_copy', target_player_id: 'r', extra: { guessed_role_id: 'zaal' } }], gs());
+  eq(deaths(r), []);
+  eq(r.events.some(e => e.type === 'homan_copied_ability'), false);
+});
+t('card "حدس درست، ولی روی ارمایل بی‌اثره": Armayil lives and is not copied', () => {
+  const ps = [P('h', 'homan', 'zahhaki'), P('a', 'armayil', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'h', action_type: 'guess_kill_or_copy', target_player_id: 'a', extra: { guessed_role_id: 'armayil' } }], gs());
+  eq(deaths(r), []);
+  eq(r.events.some(e => e.type === 'homan_copied_ability'), false);
+});
+t('card "حدس درست — قابلیت کپی شد": copy event fires, target lives', () => {
+  const ps = [P('h', 'homan', 'zahhaki'), P('af', 'afrasiab', 'zahhaki')];
+  const r = resolveNight(ps, [{ actor_player_id: 'h', action_type: 'guess_kill_or_copy', target_player_id: 'af', extra: { guessed_role_id: 'afrasiab' } }], gs());
+  eq(deaths(r), [], 'a copied ally is not killed');
+  eq(r.updatedPlayers.find(p => p.id === 'h').state_flags.copied_role_id, 'afrasiab');
+});
+t('card "اشتباه زد — زره‌اش رو از دست داد": target survives, armor gone', () => {
+  const ps = [P('r', 'rostam', 'jamshidi'), P('k', 'karen', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'r', action_type: 'guess_shoot', target_player_id: 'k' }], gs());
+  eq(deaths(r), [], 'the Iranian target is never killed by a missed arrow');
+  eq(r.updatedPlayers.find(p => p.id === 'r').state_flags.rostam_armor_used, true);
+});
+t('card "اشتباه زد و زره نداشت — خودِ رستم می‌میره": only Rostam dies', () => {
+  const ps = [P('r', 'rostam', 'jamshidi', { rostam_armor_used: true }), P('k', 'karen', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'r', action_type: 'guess_shoot', target_player_id: 'k' }], gs());
+  eq(deaths(r), ['r'], 'target still survives');
+});
+
 console.log('\n=== Input purity ===');
 t('input players array is not mutated', () => {
   const ps = [P('z', 'zahhak', 'zahhaki'), P('x', 'rostam', 'jamshidi'), P('y', 'zaal', 'jamshidi')];
