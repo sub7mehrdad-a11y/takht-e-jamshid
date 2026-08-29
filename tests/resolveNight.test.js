@@ -153,6 +153,65 @@ t('Gersivaz targeting a Zahhaki => no deaths', () => {
   eq(deaths(r), []);
 });
 
+console.log('\n=== Sudabeh charge limit (spec section 5: twice per game) ===');
+t('first enchant spends charge 1', () => {
+  const ps = [P('s', 'sudabeh', 'zahhaki'), P('h', 'homan', 'zahhaki')];
+  const r = resolveNight(ps, [{ actor_player_id: 's', action_type: 'enchant', target_player_id: 'h' }], gs());
+  eq(r.updatedPlayers.find(p => p.id === 's').state_flags.sudabeh_charges_used, 1);
+  eq(r.events.some(e => e.type === 'enchanted'), true);
+});
+t('second enchant spends charge 2 and still works', () => {
+  const ps = [P('s', 'sudabeh', 'zahhaki', { sudabeh_charges_used: 1 }), P('h', 'homan', 'zahhaki')];
+  const r = resolveNight(ps, [{ actor_player_id: 's', action_type: 'enchant', target_player_id: 'h' }], gs());
+  eq(r.updatedPlayers.find(p => p.id === 's').state_flags.sudabeh_charges_used, 2);
+  eq(r.events.some(e => e.type === 'enchanted'), true);
+});
+t('third enchant is refused and charges do not grow past 2', () => {
+  const ps = [P('s', 'sudabeh', 'zahhaki', { sudabeh_charges_used: 2 }), P('h', 'homan', 'zahhaki'), P('r', 'rostam', 'jamshidi')];
+  const r = resolveNight(ps, [
+    { actor_player_id: 's', action_type: 'enchant', target_player_id: 'h' },
+    { actor_player_id: 'h', action_type: 'guess_kill_or_copy', target_player_id: 'r', extra: { guessed_role_id: 'rostam' } },
+  ], gs());
+  eq(r.updatedPlayers.find(p => p.id === 's').state_flags.sudabeh_charges_used, 2, 'must stay at 2');
+  eq(r.events.some(e => e.type === 'enchanted'), false, 'no enchant once the ability is spent');
+  eq(deaths(r), ['r'], 'Homan is therefore NOT blocked and his correct guess kills');
+});
+
+console.log('\n=== Win condition (spec section 1) ===');
+// mirrors tjEvaluateWin in supabase-client.js
+const W = (players) => {
+  const inPlay = players.filter(p => !p.is_host);
+  const j = inPlay.filter(p => p.is_alive && p.side === 'jamshidi' && p.role_id !== 'jamshid').length;
+  const z = inPlay.filter(p => p.is_alive && p.side === 'zahhaki' && p.role_id !== 'zahhak').length;
+  let winner = null;
+  if (z === 0) winner = 'jamshidi'; else if (j === 0) winner = 'zahhaki';
+  return { winner, over: winner !== null, jamshidiAlive: j, zahhakiAlive: z };
+};
+const dead = p => ({ ...p, is_alive: false });
+t('game continues while both sides still have allies', () => {
+  eq(W([P('j', 'jamshid', 'jamshidi'), P('z', 'zahhak', 'zahhaki'), P('r', 'rostam', 'jamshidi'), P('af', 'afrasiab', 'zahhaki')]).over, false);
+});
+t('all Zahhaki allies dead => Jamshidi wins (Zahhak himself never counts)', () => {
+  eq(W([P('j', 'jamshid', 'jamshidi'), P('z', 'zahhak', 'zahhaki'), P('r', 'rostam', 'jamshidi'), dead(P('af', 'afrasiab', 'zahhaki'))]).winner, 'jamshidi');
+});
+t('all Jamshidi allies dead => Zahhaki wins (Jamshid himself never counts)', () => {
+  eq(W([P('j', 'jamshid', 'jamshidi'), P('z', 'zahhak', 'zahhaki'), dead(P('r', 'rostam', 'jamshidi')), P('af', 'afrasiab', 'zahhaki')]).winner, 'zahhaki');
+});
+t('Armayil counts as Jamshidi for the win check (spec line 78)', () => {
+  const w = W([P('j', 'jamshid', 'jamshidi'), P('z', 'zahhak', 'zahhaki'), P('a', 'armayil', 'jamshidi'), P('af', 'afrasiab', 'zahhaki')]);
+  eq(w.jamshidiAlive, 1, 'Armayil keeps the Jamshidi side alive');
+  eq(w.over, false);
+});
+t('neutral Sohrab counts for neither side', () => {
+  const w = W([P('j', 'jamshid', 'jamshidi'), P('z', 'zahhak', 'zahhaki'), P('so', 'sohrab', 'neutral'), P('af', 'afrasiab', 'zahhaki')]);
+  eq(w.jamshidiAlive, 0);
+  eq(w.winner, 'zahhaki', 'a lone neutral Sohrab must not keep Jamshidi alive');
+});
+t('the host is never counted', () => {
+  const host = { ...P('h', null, 'jamshidi'), is_host: true };
+  eq(W([host, P('j', 'jamshid', 'jamshidi'), P('z', 'zahhak', 'zahhaki'), P('af', 'afrasiab', 'zahhaki')]).winner, 'zahhaki');
+});
+
 console.log('\n=== Input purity ===');
 t('input players array is not mutated', () => {
   const ps = [P('z', 'zahhak', 'zahhaki'), P('x', 'rostam', 'jamshidi'), P('y', 'zaal', 'jamshidi')];

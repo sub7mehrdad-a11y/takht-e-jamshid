@@ -556,6 +556,8 @@
         <div class="phase-pill" id="hostPhasePill" style="display:inline-block; margin-bottom:12px;">—</div>
         <button class="btn-crimson" id="hostPhaseBtn" onclick="handlePhaseAdvance()">—</button>
 
+        <div id="hostBalance" style="font-size:11.5px; color:var(--parchment-dim); margin-top:10px;"></div>
+
         <div id="hostSoroushRow" style="margin-top:12px; border-top:1px solid var(--line); padding-top:12px;">
           <button class="btn-outline" id="hostSoroushBtn" onclick="hostActivateSoroush()">🕊️ فراخواندنِ سروش</button>
           <div id="hostSoroushNote" style="font-size:11px; color:var(--parchment-dim); margin-top:7px;">
@@ -737,6 +739,16 @@
           <div class="ci">🌑 اهریمن<small>یک‌بار — لغوِ گفتگو/رأیِ امروز</small></div>
           <button class="card-use-btn" id="zahAhrimanBtn" onclick="useZahAhriman()">فراخوانی</button>
         </div>
+    </div>
+  </div>
+
+  <!-- صفحه ۸: پایانِ بازی -->
+  <div class="screen" id="screen-game-over">
+    <div class="card ornate-frame" style="text-align:center; padding:28px 20px;">
+      <div id="goEmoji" style="font-size:40px; margin-bottom:10px;">🏆</div>
+      <div id="goTitle" style="font-size:18px; font-weight:900; margin-bottom:8px;">—</div>
+      <div id="goSub" style="font-size:12.5px; color:var(--parchment-dim); line-height:2;"></div>
+      <div id="goRoster" style="margin-top:18px; text-align:right;"></div>
     </div>
   </div>
 
@@ -1018,6 +1030,11 @@
     async function tick(){
       try{
         const game = await tjGetGame(currentGame.id);
+        if(game.status === 'ended'){
+          showGameOver(game.winner_side, await tjListPlayers(currentGame.id));
+          clearInterval(pollTimer);
+          return;
+        }
         renderHostPhaseUI(game);
       }catch(e){ console.error(e); }
     }
@@ -1184,6 +1201,7 @@
         announceText.textContent = 'امروز کسی از بازی خارج نشد.';
       }
       announceBox.style.display = 'block';
+      await checkGameOver();
     }catch(e){
       note.style.color = 'var(--crimson-soft)';
       note.textContent = 'خطا: ' + e.message;
@@ -1207,7 +1225,7 @@
     { role_id:'zahhak',   icon:'🐍', title:'ضحاک — انتخابِ دو نفر',   desc:'دو نفر رو برای طعمه‌ی مارها انتخاب کن.', type:'pick_two', action:'kill_pick_two' },
     { role_id:'armayil',  icon:'🍲', title:'ارمایل — نجاتِ یکی',      desc:'از بینِ دو انتخابِ ضحاک، یکی رو نجات بده.', type:'save_from_zahhak', action:'save_one_of_two' },
     { role_id:'afrasiab', icon:'👁️', title:'افراسیاب — استعلام',      desc:'یک نفر رو برای فهمیدنِ ضحاکی‌بودن انتخاب کن.', type:'pick_one', action:'inquiry' },
-    { role_id:'sudabeh',  icon:'🔮', title:'سودابه — افسون',          desc:'اختیاری. یک نفر رو افسون کن یا رد شو.', type:'pick_one', optional:true, action:'enchant', immune:['kaveh','fereydun','siavash','armayil'] },
+    { role_id:'sudabeh',  icon:'🔮', title:'سودابه — افسون',          desc:'اختیاری. یک نفر رو افسون کن یا رد شو.', type:'pick_one', optional:true, action:'enchant', immune:['kaveh','fereydun','siavash','armayil'], maxCharges:2, chargeFlag:'sudabeh_charges_used' },
     { role_id:'homan',    icon:'🗡️', title:'هومان — حدسِ نقش',        desc:'یک نفر و یک نقشِ حدسی انتخاب کن.', type:'guess', optional:true, lethal:true, action:'guess_kill_or_copy' },
     { role_id:'rostam',   icon:'🏹', title:'رستم — تیر',              desc:'یک مظنونِ ضحاکی رو نشونه بگیر.', type:'pick_one', optional:true, lethal:true, action:'guess_shoot' },
     { role_id:'zaal',     icon:'🪶', title:'زال — پرِ سیمرغ',         desc:'اختیاری و فقط یک‌بار در کلِ بازی. همه‌ی کشته‌های ضحاکِ امشب باطل می‌شه.', type:'toggle', optional:true, action:'block_all_kills', oncePerGame:'zaal_feather_used' },
@@ -1269,6 +1287,8 @@
       if(!actor) return false;
       // توانایی‌های یک‌بارمصرفی که قبلاً خرج شدن، اصلاً کارت نمی‌گیرن
       if(cfg.oncePerGame && actor.state_flags?.[cfg.oncePerGame]) return false;
+      // توانایی‌های چندبارمصرف (سودابه) وقتی سقفشون پر شد هم کارت نمی‌گیرن
+      if(cfg.maxCharges && (actor.state_flags?.[cfg.chargeFlag] || 0) >= cfg.maxCharges) return false;
       return true;
     });
   }
@@ -1327,13 +1347,21 @@
         </div>`;
     }
 
+    // شمارنده‌ی توانایی‌های محدود — گرداننده باید بدونه چند بار مونده،
+    // چون سودابه با دست بهش علامت می‌ده و خودش شمارنده‌ای نداره.
+    let charge = '';
+    if(cfg.maxCharges){
+      const used = actor.state_flags?.[cfg.chargeFlag] || 0;
+      charge = ` <span style="color:var(--parchment-dim);">— بارِ ${used + 1} از ${cfg.maxCharges}</span>`;
+    }
+
     return `
       <div class="nc-head">
         <span class="nc-icon">${cfg.icon}</span>
         <span class="nc-title">${cfg.title}</span>
         <span class="nc-status" id="nstat_${cfg.role_id}">در انتظار</span>
       </div>
-      <div class="nc-desc">${cfg.desc} <b style="color:var(--gold-soft);">(${actor.display_name})</b></div>
+      <div class="nc-desc">${cfg.desc}${charge} <b style="color:var(--gold-soft);">(${actor.display_name})</b></div>
       ${body}
       <div class="nc-err" id="nerr_${cfg.role_id}"></div>`;
   }
@@ -1486,6 +1514,7 @@
       showNightResult(result, players);
       await refreshJamaspInfo(nightNumber);
       document.getElementById('jamaspBox').style.display = 'block';
+      await checkGameOver();
     }catch(e){
       showError('خطا در حلِ شب: ' + e.message);
       btn.disabled = false;
@@ -1536,6 +1565,57 @@
     qiam:'قیام', kudeta:'کودتا', siavashan:'سیاوشان', jang:'جنگ',
     zahhak_incapacitated:'ناتوانیِ ضحاک', kin_e_siavash:'کینِ سیاوش',
   };
+
+  // ================= پایانِ بازی =================
+  // بعد از هر حذف (روز یا شب) صدا زده می‌شه. اگر یک طرف به صفر رسیده باشه،
+  // بازی رو تموم می‌کنه تا هم گرداننده و هم بازیکن‌ها نتیجه رو ببینن.
+  async function checkGameOver(){
+    try{
+      const players = await tjListPlayers(currentGame.id);
+      const res = tjEvaluateWin(players);
+      document.getElementById('hostBalance').textContent =
+        `زنده‌ها — یارانِ جمشید: ${res.jamshidiAlive} | ضحاکیان: ${res.zahhakiAlive}`;
+      if(!res.over) return false;
+
+      await tjEndGame(currentGame.id, res.winner);
+      await tjLogEvent(currentGame.id, null, 'game_over', { winner: res.winner });
+      showGameOver(res.winner, players);
+      clearInterval(pollTimer);
+      return true;
+    }catch(e){
+      console.error(e);
+      return false;
+    }
+  }
+
+  function showGameOver(winner, players){
+    const jamshidiWon = winner === 'jamshidi';
+    document.getElementById('goEmoji').textContent = jamshidiWon ? '☀️' : '🐍';
+    const title = document.getElementById('goTitle');
+    title.textContent = jamshidiWon ? 'یارانِ جمشید پیروز شدند' : 'ضحاکیان پیروز شدند';
+    title.style.color = jamshidiWon ? 'var(--gold-soft)' : 'var(--crimson-soft)';
+    document.getElementById('goSub').textContent = jamshidiWon
+      ? 'همه‌ی ضحاکیان از بازی خارج شدند.'
+      : 'همه‌ی یارانِ جمشید از بازی خارج شدند.';
+
+    // در پایانِ بازی همه‌ی نقش‌ها آشکار می‌شن
+    const rows = players.filter(p => !p.is_host).map(p => `
+      <div class="tally-row">
+        <span>${p.is_alive ? '' : '☠️ '}${p.display_name}
+          <b style="color:${p.side === 'zahhaki' ? 'var(--crimson-soft)' : 'var(--gold-soft)'};">
+            ${ROLE_NAMES_FA[p.role_id] || p.role_id || '—'}</b>
+        </span>
+      </div>`).join('');
+    document.getElementById('goRoster').innerHTML =
+      '<div style="font-size:11.5px; color:var(--gold-soft); font-weight:700; margin-bottom:7px;">نقشِ همه:</div>' + rows;
+
+    // پنجره‌ی نامه‌نگاری با پایانِ بازی بسته می‌شه
+    document.getElementById('soroushBar').classList.remove('show');
+    document.getElementById('soroushModal').classList.remove('show');
+    document.body.classList.remove('soroush-open');
+
+    go('screen-game-over');
+  }
 
   // ================= سروش — سمتِ گرداننده =================
   async function hostActivateSoroush(){
@@ -1646,6 +1726,12 @@
     async function tick(){
       try{
         const game = await tjGetGame(currentGame.id);
+
+        if(game.status === 'ended'){
+          showGameOver(game.winner_side, await tjListPlayers(currentGame.id));
+          clearInterval(pollTimer);
+          return;
+        }
 
         if(game.status === 'lobby'){
           const players = await tjListPlayers(currentGame.id);

@@ -250,6 +250,41 @@ async function tjGetEliminatedIn(gameId, num) {
 }
 
 // ============================================================================
+//                          شرطِ پایانِ بازی
+// ============================================================================
+// «با مرگ تمام یاران یک پادشاه، بازی به نفع پادشاه دیگر تمام می‌شه» (بخشِ ۱ سند).
+//
+// سه نکته‌ی ظریف که در شمارش رعایت شده:
+//   ۱. جمشید و ضحاک نامیرا هستن و هیچ‌وقت نمی‌میرن، پس جزوِ «یاران» شمرده نمی‌شن؛
+//      وگرنه هیچ طرفی هرگز به صفر نمی‌رسید.
+//   ۲. ارمایل با اینکه در استعلام‌ها ضحاکی نشون داده می‌شه، در شمارشِ پیروزی
+//      ایرانیه (سطرِ ۷۸ سند) — و چون side اش در چیدمان‌ها jamshidi ست، خودبه‌خود درسته.
+//   ۳. سهراب تا وقتی به تیمی نپیوسته (side = neutral) برای هیچ طرفی شمرده نمی‌شه.
+function tjEvaluateWin(players) {
+  const inPlay = players.filter(p => !p.is_host);
+  const jamshidiAlive = inPlay.filter(p => p.is_alive && p.side === 'jamshidi' && p.role_id !== 'jamshid').length;
+  const zahhakiAlive = inPlay.filter(p => p.is_alive && p.side === 'zahhaki' && p.role_id !== 'zahhak').length;
+
+  let winner = null;
+  if (zahhakiAlive === 0) winner = 'jamshidi';
+  else if (jamshidiAlive === 0) winner = 'zahhaki';
+
+  return { winner, over: winner !== null, jamshidiAlive, zahhakiAlive };
+}
+
+// ---------- پایان‌دادنِ بازی ----------
+async function tjEndGame(gameId, winner) {
+  const { data, error } = await sb
+    .from('games')
+    .update({ status: 'ended', winner_side: winner })
+    .eq('id', gameId)
+    .select()
+    .single();
+  if (error) throw new Error('خطا در ثبتِ پایانِ بازی: ' + error.message);
+  return data;
+}
+
+// ============================================================================
 //                       سروش (مکانیزمِ نامه‌نگاری)
 // ============================================================================
 // «پنجره‌ی سروش» با شماره‌ی روزِ فعال‌شدن شناخته می‌شه (ستونِ soroush_window_night)

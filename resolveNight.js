@@ -20,6 +20,9 @@
 // توجه: این فایل عمداً ESM نیست. index.html بدونِ هیچ بیلدی و با یه <script src>
 // ساده لود می‌شه، پس توابع باید سراسری تعریف بشن نه export.
 
+// سقفِ افسونِ سودابه در کلِ بازی (بخشِ ۵ سند)
+const SUDABEH_MAX_CHARGES = 2;
+
 function findPlayer(players, id) {
   return players.find(p => p.id === id) || null;
 }
@@ -64,7 +67,11 @@ function resolveNight(players, actions, gameState) {
   const sudabeh = state.find(p => p.role_id === 'sudabeh' && p.is_alive);
   if (sudabeh) {
     const enchantAction = actionOf(actions, sudabeh.id, 'enchant');
-    if (enchantAction && enchantAction.target_player_id) {
+    // سودابه فقط دو بار در کلِ بازی افسون می‌کنه. این سقف اینجا (توی موتور) هم چک
+    // می‌شه نه فقط توی UI، تا حتی اگه از کنسول دور زده بشه قانون بشکنه.
+    const chargesUsed = sudabeh.state_flags.sudabeh_charges_used || 0;
+    if (enchantAction && enchantAction.target_player_id && chargesUsed < SUDABEH_MAX_CHARGES) {
+      sudabeh.state_flags.sudabeh_charges_used = chargesUsed + 1;
       const target = findPlayer(state, enchantAction.target_player_id);
       const immuneToEnchant = target && ['kaveh', 'fereydun', 'siavash', 'armayil'].includes(target.role_id);
       if (target && !immuneToEnchant) {
