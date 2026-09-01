@@ -1143,7 +1143,7 @@
       nightPanel.style.display = 'block';
       refreshNightPanel(game.day_number);
       // هر تیک به‌روز می‌شه تا شمارشِ نامه‌ها و دکمه‌ی تحویل کهنه نمونن
-      refreshSoroushNightBox(game.day_number, game);
+      refreshSoroushNightBox();
     }
   }
 
@@ -1793,26 +1793,22 @@
   // باگِ قبلی همین بود: چون فقط موقعِ ساختِ کنسول اجرا می‌شد، اگه نامه‌ای بعدش
   // می‌رسید شمارش کهنه می‌موند و دکمه‌ی تحویل غیرفعال باقی می‌ماند — یعنی
   // نامه‌ها هیچ‌وقت به گیرنده‌ها نمی‌رسیدن.
-  async function refreshSoroushNightBox(nightNumber, game){
+  // ⚠️ دو قانون که این جعبه رعایت می‌کنه، هر دو از باگ‌های واقعی اومدن:
+  //  ۱. هر تیکِ پولینگ به‌روز می‌شه، نه یک‌بار در شب — وگرنه شمارش کهنه می‌مونه
+  //     و دکمه‌ی تحویل غیرفعال می‌مونه.
+  //  ۲. بر اساسِ «نامه‌ی تحویل‌نشده» تصمیم می‌گیره نه بر اساسِ شماره‌ی پنجره —
+  //     وگرنه نامه‌هایی که پنجره‌شون با شبِ جاری جور نیست تا ابد زمین می‌مونن.
+  async function refreshSoroushNightBox(){
     const box = document.getElementById('soroushNightBox');
-    if(!game) game = await tjGetGame(currentGame.id);
-    if(game.soroush_active_until_night !== nightNumber){
+    const pending = await tjPendingLetters(currentGame.id);
+    if(pending.length === 0){
       box.style.display = 'none';
       return;
     }
     box.style.display = 'block';
-
-    const letters = await tjGetLetters(currentGame.id, nightNumber);
-    const undelivered = letters.filter(l => !l.delivered).length;
-    const spied = letters.filter(l => l.zahhak_intercepted).length;
-    document.getElementById('soroushNightStatus').textContent =
-      letters.length ? letters.length + ' نامه' : 'نامه‌ای نیست';
-    document.getElementById('deliverNote').innerHTML = letters.length === 0
-      ? 'کسی نامه‌ای نفرستاده.'
-      : (undelivered
-          ? undelivered + ' نامه هنوز تحویل نشده.' + (spied ? ' (' + spied + ' نامه توسطِ ضحاک شنود شده)' : '')
-          : 'همه‌ی نامه‌ها تحویل شدن ✓');
-    document.getElementById('deliverLettersBtn').disabled = undelivered === 0;
+    document.getElementById('soroushNightStatus').textContent = pending.length + ' نامه';
+    document.getElementById('deliverNote').textContent = pending.length + ' نامه منتظرِ تحویله.';
+    document.getElementById('deliverLettersBtn').disabled = false;
   }
 
   async function deliverLetters(){
@@ -1824,8 +1820,8 @@
       // انتخابِ ضحاک نوشته شدن)، بعد تحویل.
       const zahhak = (await tjListPlayers(currentGame.id)).find(p => p.role_id === 'zahhak');
       const spyId = zahhak?.state_flags?.soroush_spy_target || null;
-      const spied = await tjInterceptLetters(currentGame.id, nightPanelForNight, spyId);
-      const n = await tjDeliverLetters(currentGame.id, nightPanelForNight);
+      const spied = await tjInterceptLetters(currentGame.id, spyId);
+      const n = await tjDeliverLetters(currentGame.id);
       document.getElementById('deliverNote').textContent =
         n + ' نامه تحویل شد ✓' + (spyId ? ` — ${spied} نامه به ضحاک هم رسید.` : '');
     }catch(e){
@@ -2080,7 +2076,7 @@
     }
 
     soroushInbox = await tjMyInbox(currentGame.id, currentPlayer.id, myRoleId);
-    if(myRoleId === 'zahhak') soroushSpied = await tjInterceptedLetters(currentGame.id, win);
+    if(myRoleId === 'zahhak') soroushSpied = await tjInterceptedLetters(currentGame.id);
 
     // اگه نه چیزی برای نوشتن هست و نه چیزی برای خوندن، نوار رو نشون نده
     const hasMail = soroushInbox.length + soroushSpied.length > 0;
@@ -2220,12 +2216,27 @@
   }
 
   async function useJamSoroush(){
+    const btn = document.getElementById('jamSoroushBtn');
     const me = await tjGetPlayer(currentPlayer.id);
     if(me.state_flags?.soroush_called) return;
-    await tjUpdatePlayerFlags(currentPlayer.id, { soroush_called: true });
-    await tjUpdatePhase(currentGame.id, { soroush_active_until_night: (await tjGetGame(currentGame.id)).day_number });
-    document.getElementById('jamSoroushBtn').disabled = true;
-    document.getElementById('jamSoroushBtn').textContent = 'فراخونده شد ✓';
+
+    // قبل از شروعِ روزِ اول نمی‌شه فرا خوند: پنجره ۰ می‌شد و نامه‌هاش برای همیشه
+    // تحویل‌نشده می‌موندن. دقیقاً همین توی بازیِ تستی اتفاق افتاد.
+    const game = await tjGetGame(currentGame.id);
+    if(game.current_phase !== 'day'){
+      showError('سروش رو فقط در طولِ روز می‌شه فرا خوند.');
+      return;
+    }
+
+    btn.disabled = true;
+    try{
+      await tjActivateSoroush(currentGame.id, game.day_number);
+      await tjUpdatePlayerFlags(currentPlayer.id, { soroush_called: true });
+      btn.textContent = 'فراخونده شد ✓';
+    }catch(e){
+      showError(e.message);
+      btn.disabled = false;
+    }
   }
 
   // ---------------- داشبوردِ ضحاک ----------------

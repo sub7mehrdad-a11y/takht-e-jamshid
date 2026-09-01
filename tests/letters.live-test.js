@@ -125,6 +125,33 @@ async function req(method, path, body, prefer) {
     chk('the role holder can now read it', roleInbox.length === 1, 'got ' + roleInbox.length);
     chk('role-letter read does NOT expose sender_id', roleInbox[0] && !('sender_id' in roleInbox[0]));
 
+    // ------------------------------------------------------- the stranding bug
+    // Regression for the playtest failure: Soroush was called while day_number
+    // was still 0, so letters were stored with window 0. The host's console
+    // matched letters against the CURRENT night number, so those letters could
+    // never be delivered — Zahhak saw an intercepted copy but the recipient got
+    // nothing. Delivery must key off "undelivered", never off the window.
+    console.log('\n=== letters from a mismatched window must still deliver ===');
+    await req('POST', 'letters', {
+      game_id: gid, soroush_window_night: 0, sender_id: A.id,
+      addressed_to_player_id: B.id, body: 'نامه‌ی پنجره‌ی صفر', is_night_letter: false, delivered: false,
+    });
+    const strandedBefore = await req('GET', `letters?game_id=eq.${gid}&delivered=eq.false&select=id,soroush_window_night`);
+    chk('one letter is pending, and it is from window 0', strandedBefore.length === 1 && strandedBefore[0].soroush_window_night === 0,
+      JSON.stringify(strandedBefore));
+
+    // window-scoped delivery (the old behaviour) would miss it entirely
+    const oldWay = await req('PATCH', `letters?game_id=eq.${gid}&soroush_window_night=eq.${W2}&delivered=eq.false`, { delivered: true });
+    chk('window-scoped delivery misses it — this was the bug', oldWay.length === 0, 'got ' + oldWay.length);
+
+    // the fix: deliver everything undelivered in the game
+    const newWay = await req('PATCH', `letters?game_id=eq.${gid}&delivered=eq.false`, { delivered: true });
+    chk('game-wide delivery reaches it', newWay.length === 1, 'got ' + newWay.length);
+    const bInbox = await req('GET', `letters?game_id=eq.${gid}&addressed_to_player_id=eq.${B.id}&delivered=eq.true&select=id`);
+    chk('recipient can now read the previously stranded letter', bInbox.length === 2, 'got ' + bInbox.length);
+    const stillPending = await req('GET', `letters?game_id=eq.${gid}&delivered=eq.false&select=id`);
+    chk('nothing is left stranded', stillPending.length === 0, 'got ' + stillPending.length);
+
   } catch (e) {
     console.log('  ERROR ' + e.message);
     fail++;

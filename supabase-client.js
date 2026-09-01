@@ -345,10 +345,13 @@ async function tjEndGame(gameId, winner) {
 // به گیرنده نشون داده نمی‌شه؛ نامه‌ها بی‌نامن.
 
 // ---------- بازکردنِ پنجره‌ی سروش ----------
+// روزِ صفر معتبر نیست: اگه سروش قبل از شروعِ روزِ اول فرا خونده بشه، پنجره ۰ می‌شه
+// و نامه‌هاش هیچ‌وقت با شماره‌ی شبِ کنسولِ گرداننده جور در نمیاد. حداقل ۱.
 async function tjActivateSoroush(gameId, dayNumber) {
+  const win = Math.max(1, dayNumber || 0);
   const { data, error } = await sb
     .from('games')
-    .update({ soroush_active_until_night: dayNumber })
+    .update({ soroush_active_until_night: win })
     .eq('id', gameId)
     .select()
     .single();
@@ -427,19 +430,36 @@ async function tjGetLetters(gameId, windowNight) {
   return data || [];
 }
 
+// ---------- نامه‌های تحویل‌نشده‌ی این بازی (هر پنجره‌ای) ----------
+// ⚠️ عمداً بر اساسِ پنجره فیلتر نمی‌شه. باگِ بازیِ تستی همین بود: سروش وقتی
+// day_number هنوز ۰ بود فرا خونده شد، نامه‌ها با پنجره‌ی ۰ ذخیره شدن، و چون
+// کنسولِ گرداننده با شماره‌ی شبِ جاری تطبیق می‌داد، اون نامه‌ها برای همیشه
+// زمین موندن و هیچ‌وقت تحویل نشدن. حالا هر نامه‌ی تحویل‌نشده دیده می‌شه.
+async function tjPendingLetters(gameId) {
+  const { data, error } = await sb
+    .from('letters')
+    .select('*')
+    .eq('game_id', gameId)
+    .eq('delivered', false)
+    .order('created_at', { ascending: true });
+  if (error) throw new Error('خطا در خواندنِ نامه‌های تحویل‌نشده: ' + error.message);
+  return data || [];
+}
+
 // ---------- شنودِ ضحاک: نامه‌های یک نفر، چه فرستاده چه گرفته ----------
-async function tjInterceptLetters(gameId, windowNight, spiedPlayerId) {
-  // اول پاک‌کردنِ شنودِ قبلی، چون ممکنه گرداننده فردِ دیگه‌ای رو انتخاب کنه
+// روی همه‌ی نامه‌های تحویل‌نشده کار می‌کنه، نه یک پنجره‌ی مشخص.
+async function tjInterceptLetters(gameId, spiedPlayerId) {
+  // اول پاک‌کردنِ شنودِ قبلی، چون ممکنه ضحاک فردِ دیگه‌ای رو انتخاب کنه
   const { error: clearErr } = await sb
     .from('letters')
     .update({ zahhak_intercepted: false })
     .eq('game_id', gameId)
-    .eq('soroush_window_night', windowNight);
+    .eq('delivered', false);
   if (clearErr) throw new Error('خطا در پاک‌کردنِ شنودِ قبلی: ' + clearErr.message);
 
   if (!spiedPlayerId) return 0;
 
-  const all = await tjGetLetters(gameId, windowNight);
+  const all = await tjPendingLetters(gameId);
   // نامه‌ی خطاب‌به‌نقش هم اگه نقشِ همین فرد باشه شنود می‌شه
   const players = await tjListPlayers(gameId);
   const spied = players.find(p => p.id === spiedPlayerId);
@@ -455,12 +475,11 @@ async function tjInterceptLetters(gameId, windowNight, spiedPlayerId) {
 }
 
 // ---------- نامه‌های شنودشده (برای ضحاک) — باز هم بدونِ نامِ فرستنده ----------
-async function tjInterceptedLetters(gameId, windowNight) {
+async function tjInterceptedLetters(gameId) {
   const { data, error } = await sb
     .from('letters')
-    .select('id, body, addressed_to_player_id, soroush_window_night')
+    .select('id, body, addressed_to_role_id, soroush_window_night')
     .eq('game_id', gameId)
-    .eq('soroush_window_night', windowNight)
     .eq('zahhak_intercepted', true)
     .eq('delivered', true);
   if (error) throw new Error('خطا در خواندنِ نامه‌های شنودشده: ' + error.message);
@@ -468,12 +487,13 @@ async function tjInterceptedLetters(gameId, windowNight) {
 }
 
 // ---------- تحویلِ نامه‌ها در پایانِ شب ----------
-async function tjDeliverLetters(gameId, windowNight) {
+// همه‌ی نامه‌های تحویل‌نشده‌ی بازی رو تحویل می‌ده، مستقل از پنجره — تا هیچ نامه‌ای
+// به‌خاطرِ ناهماهنگیِ شماره‌ی پنجره زمین نمونه.
+async function tjDeliverLetters(gameId) {
   const { data, error } = await sb
     .from('letters')
     .update({ delivered: true })
     .eq('game_id', gameId)
-    .eq('soroush_window_night', windowNight)
     .eq('delivered', false)
     .select();
   if (error) throw new Error('خطا در تحویلِ نامه‌ها: ' + error.message);
