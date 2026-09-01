@@ -1653,8 +1653,17 @@
     btn.disabled = true;
     showBusy('در حالِ حلِ شب…');
     try{
-      const nightNumber = nightPanelForNight;
       const game = await tjGetGame(currentGame.id);
+      // شماره‌ی شب از خودِ بازی خونده می‌شه نه از کشِ پنل. اگه این دوتا از هم
+      // جدا افتاده باشن، اکشن‌های ثبت‌شده زیرِ شماره‌ی دیگه‌ای هستن و resolve
+      // روی شبِ خالی اجرا می‌شد — همون کلاسِ باگی که نامه‌ها رو زمین گذاشت.
+      const nightNumber = game.day_number;
+      if(nightPanelForNight !== nightNumber){
+        showError('شماره‌ی شب عوض شده — کنسول دوباره ساخته می‌شه.');
+        nightPanelForNight = -1;
+        await refreshNightPanel(nightNumber);
+        return;
+      }
       const players = (await tjListPlayers(currentGame.id)).filter(p => !p.is_host);
       const actions = await tjGetNightActions(currentGame.id, nightNumber);
 
@@ -2072,8 +2081,9 @@
     if(soroushWindow !== win){
       soroushWindow = win;
       soroushSent = (await tjMySentLetters(currentGame.id, win, currentPlayer.id)).length > 0;
-      await populateLetterTargets();
     }
+    // فهرستِ گیرنده‌ها هر بار ساخته می‌شه تا کشته‌ها ازش بیفتن
+    if(writable) await populateLetterTargets();
 
     soroushInbox = await tjMyInbox(currentGame.id, currentPlayer.id, myRoleId);
     if(myRoleId === 'zahhak') soroushSpied = await tjInterceptedLetters(currentGame.id);
@@ -2094,17 +2104,27 @@
   async function populateLetterTargets(){
     const players = (await tjListPlayers(currentGame.id))
       .filter(p => !p.is_host && p.is_alive && p.id !== currentPlayer.id);
-    document.getElementById('letterToPlayer').innerHTML =
-      '<option value="">— کدام بازیکن؟ —</option>' +
+    const selP = document.getElementById('letterToPlayer');
+    const keep = selP.value;
+    const htmlP = '<option value="">— کدام بازیکن؟ —</option>' +
       players.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
+    if(selP.innerHTML !== htmlP){
+      selP.innerHTML = htmlP;
+      if(players.some(p => p.id === keep)) selP.value = keep;
+    }
 
     // نامه به نقش: از روی چیدمانِ همین بازی، نه کلِ کاتالوگ — وگرنه نقشی که
     // اصلاً توی این بازی نیست هم در فهرست می‌اومد.
     const roles = Array.from(new Set(players.map(p => p.role_id).filter(Boolean)))
       .filter(r => r !== myRoleId);
-    document.getElementById('letterToRole').innerHTML =
-      '<option value="">— کدام نقش؟ —</option>' +
+    const selR = document.getElementById('letterToRole');
+    const keepR = selR.value;
+    const htmlR = '<option value="">— کدام نقش؟ —</option>' +
       roles.map(r => `<option value="${r}">${ROLE_NAMES_FA[r] || r}</option>`).join('');
+    if(selR.innerHTML !== htmlR){
+      selR.innerHTML = htmlR;
+      if(roles.includes(keepR)) selR.value = keepR;
+    }
   }
 
   function setLetterMode(mode){
@@ -2122,12 +2142,17 @@
     if(win === null || win === undefined){ box.style.display = 'none'; return; }
     box.style.display = 'block';
 
+    // فهرست هر بار بازسازی می‌شه (نه فقط بارِ اول) تا کشته‌ها از لیست بیفتن.
+    // انتخابِ فعلی حفظ می‌شه مگه اینکه خودش مرده باشه.
     const sel = document.getElementById('zahSpySelect');
-    if(sel.options.length <= 1){
-      const players = (await tjListPlayers(currentGame.id))
-        .filter(p => !p.is_host && p.is_alive && p.id !== currentPlayer.id);
-      sel.innerHTML = '<option value="">— کسی رو شنود نمی‌کنم —</option>' +
-        players.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
+    const players = (await tjListPlayers(currentGame.id))
+      .filter(p => !p.is_host && p.is_alive && p.id !== currentPlayer.id);
+    const wanted = sel.value;
+    const html = '<option value="">— کسی رو شنود نمی‌کنم —</option>' +
+      players.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
+    if(sel.innerHTML !== html){
+      sel.innerHTML = html;
+      if(players.some(p => p.id === wanted)) sel.value = wanted;
     }
   }
 
@@ -2297,6 +2322,7 @@
     `;
 
     dvOthers = others;
+    dvDay = dayNumber;
     dvMode = 'peyman';
     dvVotes = { peyman:null, goman:null };
     dvLocked = false;
@@ -2331,6 +2357,10 @@
   }
 
   let dvOthers = [], dvMode = 'peyman', dvVotes = { peyman:null, goman:null }, dvLocked = false;
+  // شماره‌ی روز از وضعیتِ بازی میاد، نه از متنِ داخلِ صفحه. قبلاً با
+  // parseInt از لیبلِ #dayNumLabel خونده می‌شد که اگه صفحه هنوز رندر نشده
+  // یا لیبل عوض شده بود، رأی روی روزِ اشتباه (یا NaN) ثبت می‌شد.
+  let dvDay = null;
   function dvSetMode(m){
     if(dvLocked) return;
     dvMode = m;
@@ -2364,9 +2394,20 @@
     const btn = document.getElementById('dvFinalizeBtn');
     btn.disabled = true; btn.textContent = 'در حالِ ثبت…';
     try{
+      // شماره‌ی روز رو لحظه‌ی ثبت از خودِ بازی می‌گیریم، نه از حافظه‌ی صفحه —
+      // اگه گرداننده وسطِ رأی‌دادن روز رو عوض کرده باشه، رأی باید روی روزِ درست
+      // بشینه وگرنه برای همیشه شمرده نمی‌شه.
+      const game = await tjGetGame(currentGame.id);
+      const day = game.day_number;
+      if(!Number.isInteger(day) || day < 1) throw new Error('شماره‌ی روز معتبر نیست.');
+      if(dvDay !== null && dvDay !== day){
+        showError('روز عوض شد — صفحه‌ی رأی به‌روز می‌شه.');
+        await showDayVoteScreen(day);
+        return;
+      }
       await sb.from('day_votes').insert([
-        { game_id: currentGame.id, day_number: dayNumberInt(), voter_id: currentPlayer.id, target_id: dvVotes.peyman, vote_type: 'peyman' },
-        { game_id: currentGame.id, day_number: dayNumberInt(), voter_id: currentPlayer.id, target_id: dvVotes.goman, vote_type: 'goman' },
+        { game_id: currentGame.id, day_number: day, voter_id: currentPlayer.id, target_id: dvVotes.peyman, vote_type: 'peyman' },
+        { game_id: currentGame.id, day_number: day, voter_id: currentPlayer.id, target_id: dvVotes.goman, vote_type: 'goman' },
       ]);
       dvLockUI();
     }catch(e){
@@ -2381,7 +2422,6 @@
     document.getElementById('dvLockedNote').style.display = 'block';
     document.querySelectorAll('.player-dot').forEach(el => el.style.pointerEvents = 'none');
   }
-  function dayNumberInt(){ return parseInt(document.getElementById('dayNumLabel').textContent, 10); }
 
   // ---------------- ورودیِ کدِ اتاق (۶ خونه) ----------------
 

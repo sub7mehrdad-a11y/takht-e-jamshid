@@ -152,6 +152,31 @@ async function req(method, path, body, prefer) {
     const stillPending = await req('GET', `letters?game_id=eq.${gid}&delivered=eq.false&select=id`);
     chk('nothing is left stranded', stillPending.length === 0, 'got ' + stillPending.length);
 
+    // ------------------------------------------- flag merge vs wholesale write
+    // The night resolve writes players' state_flags. It must merge onto the
+    // CURRENT row, not overwrite with the snapshot it loaded earlier, or a flag
+    // the player set meanwhile is silently lost — Zahhak's spy target being the
+    // one that matters, since delivery reads it afterwards.
+    console.log('\n=== resolve must not clobber a flag set meanwhile ===');
+    await req('PATCH', `players?id=eq.${Z.id}`, { state_flags: {} });
+    const snapshot = (await req('GET', `players?id=eq.${Z.id}&select=state_flags`))[0].state_flags;
+    // player sets their own flag after the host loaded the snapshot
+    await req('PATCH', `players?id=eq.${Z.id}`, { state_flags: { soroush_spy_target: A.id } });
+
+    // wholesale write of snapshot+engine change (the wrong way)
+    await req('PATCH', `players?id=eq.${Z.id}`, { state_flags: { ...snapshot, zaal_feather_used: true } });
+    let after = (await req('GET', `players?id=eq.${Z.id}&select=state_flags`))[0].state_flags;
+    chk('wholesale write loses the spy target — this is the failure mode', !after.soroush_spy_target,
+      JSON.stringify(after));
+
+    // merge onto fresh (the fix)
+    await req('PATCH', `players?id=eq.${Z.id}`, { state_flags: { soroush_spy_target: A.id } });
+    const fresh = (await req('GET', `players?id=eq.${Z.id}&select=state_flags`))[0].state_flags;
+    await req('PATCH', `players?id=eq.${Z.id}`, { state_flags: { ...fresh, zaal_feather_used: true } });
+    after = (await req('GET', `players?id=eq.${Z.id}&select=state_flags`))[0].state_flags;
+    chk('merge keeps both the spy target and the engine flag',
+      after.soroush_spy_target === A.id && after.zaal_feather_used === true, JSON.stringify(after));
+
   } catch (e) {
     console.log('  ERROR ' + e.message);
     fail++;

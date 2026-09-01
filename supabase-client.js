@@ -563,18 +563,29 @@ async function tjApplyNightResolve(gameId, nightNumber, originalPlayers, result)
   }
 
   // ۲) فلگ‌های بازیکن‌ها — فقط اونایی که واقعاً عوض شدن
+  //
+  // ⚠️ فقط کلیدهایی نوشته می‌شن که موتور عوضشون کرده، و روی مقدارِ *تازه‌ی*
+  // دیتابیس merge می‌شن. اگه کلِ state_flags رو یک‌جا می‌نوشتیم، هر فلگی که
+  // بازیکن در همون فاصله ست کرده بود پاک می‌شد — مثلاً انتخابِ شنودِ ضحاک،
+  // که بعدش سرِ تحویل لازمه و بی‌سروصدا از بین می‌رفت.
   for (const updated of result.updatedPlayers) {
     const before = originalPlayers.find(p => p.id === updated.id);
     if (!before) continue;
-    const a = JSON.stringify(before.state_flags || {});
-    const b = JSON.stringify(updated.state_flags || {});
-    if (a !== b) {
-      const { error } = await sb
-        .from('players')
-        .update({ state_flags: updated.state_flags })
-        .eq('id', updated.id);
-      if (error) throw new Error('خطا در ذخیره‌ی وضعیتِ بازیکن: ' + error.message);
-    }
+
+    const beforeFlags = before.state_flags || {};
+    const afterFlags = updated.state_flags || {};
+    const changed = {};
+    Object.keys(afterFlags).forEach(k => {
+      if (JSON.stringify(afterFlags[k]) !== JSON.stringify(beforeFlags[k])) changed[k] = afterFlags[k];
+    });
+    if (Object.keys(changed).length === 0) continue;
+
+    const fresh = await tjGetPlayer(updated.id);
+    const { error } = await sb
+      .from('players')
+      .update({ state_flags: { ...(fresh.state_flags || {}), ...changed } })
+      .eq('id', updated.id);
+    if (error) throw new Error('خطا در ذخیره‌ی وضعیتِ بازیکن: ' + error.message);
   }
 
   // ۳) وضعیتِ بازی. ستونی برای zahhak_hungry_streak نداریم، پس داخلِ همون
