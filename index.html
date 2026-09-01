@@ -129,6 +129,31 @@
   .nc-chip.selected{ background:var(--gold); border-color:var(--gold); color:#241a06; font-weight:700; }
   .nc-wait{ font-size:11.5px; color:var(--parchment-dim); }
 
+  /* ============ دکمه‌ی شناورِ راهنما ============ */
+  .guide-fab{
+    position:fixed; z-index:140; top:12px; left:12px; width:34px; height:34px; border-radius:50%;
+    background:var(--night-2); border:1.5px solid var(--gold); color:var(--gold-soft);
+    font-family:'Vazirmatn'; font-size:16px; font-weight:800; cursor:pointer; padding:0;
+    box-shadow:0 3px 10px rgba(0,0,0,0.5);
+  }
+  .my-role-guide{
+    background:linear-gradient(180deg, rgba(201,151,47,0.16), rgba(201,151,47,0.05));
+    border:1.5px solid var(--gold); border-radius:12px; padding:13px 14px; margin-bottom:14px;
+  }
+  .my-role-guide .lbl{ font-size:10.5px; color:var(--parchment-dim); margin-bottom:3px; }
+  .my-role-guide .nm{ font-size:16px; font-weight:900; color:var(--gold-soft); margin-bottom:5px; }
+  .my-role-guide .ds{ font-size:12px; color:var(--parchment); line-height:2; }
+
+  /* ============ تابلوی عمومیِ آرا ============ */
+  .vb-row{ background:var(--night-3); border-radius:9px; padding:8px 11px; margin-bottom:6px; }
+  .vb-top{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .vb-name{ font-size:12.5px; font-weight:700; }
+  .vb-counts{ display:flex; gap:9px; font-size:12px; white-space:nowrap; }
+  .vb-counts .tc-g{ color:var(--green); }
+  .vb-counts .tc-r{ color:var(--crimson-soft); }
+  .vb-counts .top{ font-weight:900; text-decoration:underline; }
+  .vb-gave{ font-size:10.5px; color:var(--parchment-dim); margin-top:4px; }
+
   .night-death{ color:var(--crimson-soft); font-weight:700; }
   .night-event{ color:var(--parchment-dim); }
 
@@ -481,16 +506,18 @@
         <p>در طولِ بازی ممکنه رویدادهای خاصی مثلِ <b>قیام</b>، <b>کودتا</b>، <b>سیاوشان</b> یا <b>جنگ</b> فعال بشه که قوانینِ فاز رو موقتاً تغییر می‌ده — گرداننده در لحظه توضیح می‌ده.</p>
       </div>
       <div class="oct-wrap">
-        <button class="oct" style="width:auto; display:inline-block; padding:12px 24px; cursor:pointer; background:linear-gradient(180deg, #3a3020, #221b10); border:1.5px solid var(--gold); color:var(--gold-soft); font-family:'Vazirmatn'; font-size:13px; font-weight:700;" onclick="go('screen-roles')">📜 دیدنِ لیستِ نقش‌ها</button>
+        <button class="oct" style="width:auto; display:inline-block; padding:12px 24px; cursor:pointer; background:linear-gradient(180deg, #3a3020, #221b10); border:1.5px solid var(--gold); color:var(--gold-soft); font-family:'Vazirmatn'; font-size:13px; font-weight:700;" onclick="openGuide()">📜 دیدنِ لیستِ نقش‌ها</button>
       </div>
     </div>
   </div>
 
   <!-- صفحه‌ی نقش‌های بازی -->
   <div class="screen" id="screen-roles">
-    <div class="back-arrow" onclick="go('screen-entry')">→</div>
+    <div class="back-arrow" onclick="closeGuide()">→</div>
     <div class="card ornate-frame">
       <div class="oct-wrap"><div class="oct oct-title">نقش‌های بازی</div></div>
+      <!-- نقشِ خودِ بازیکن، بالای همه -->
+      <div id="myRoleGuide"></div>
 
       <div class="role-team t-jamshidi">پادشاهان (آشکار)</div>
       <div class="role-item"><div class="rn">جمشید</div><div class="rd">پادشاهِ روز، نامیرا. جامِ جم (یک‌بار: تعدادِ یارانِ زنده‌اش) و فراخواندنِ سروش.</div></div>
@@ -521,6 +548,13 @@
 
       <div class="role-team t-neutral">بی‌طرف</div>
       <div class="role-item"><div class="rn">سهراب</div><div class="rd">اولش بی‌طرفه؛ شبِ سوم بر اساسِ حدسِ درست، به یکی از دو گروه می‌پیونده.</div></div>
+
+      <div class="role-team" style="background:rgba(201,151,47,0.14); color:var(--gold-soft);">هنگامه‌ها</div>
+      <div class="role-item"><div class="rn">قیام (درفشِ کاویانی)</div><div class="rd">با کشته‌شدنِ کارن به‌دستِ ضحاک (و زنده‌بودنِ کاوه) شروع می‌شه. کاوه و فریدون شب‌ها جمعِ مستقلِ خودشون رو دارن و هر شب یک نفر رو اضافه می‌کنن.</div></div>
+      <div class="role-item"><div class="rn">کودتا</div><div class="rd">با کشته‌شدنِ کارن به‌دستِ جمشید. رستم، زال و جاماسپ رأی می‌دن که قدرت به فریدون منتقل بشه یا نه.</div></div>
+      <div class="role-item"><div class="rn">سیاوشان</div><div class="rd">اگه جمشید اشتباهاً سیاوش رو بکشه، سیاوش برمی‌گرده. از اون به بعد اگه ضحاک بکشدش، «روزِ کینِ سیاوش» می‌شه: دو کشته به‌جای یکی و نوشدارو بی‌اثر.</div></div>
+      <div class="role-item"><div class="rn">جنگ</div><div class="rd">اگه سهراب پیش از پیوستن به تیمی به‌دستِ جمشید کشته بشه، همه‌ی ضحاکیان و ارمایل همدیگه رو می‌شناسن.</div></div>
+      <div class="role-item"><div class="rn">ناتوانیِ ضحاک</div><div class="rd">اگه ضحاک دو شبِ پیاپی نتونه کسی رو بکشه، دیگه نمی‌تونه بکشه (ولی نمی‌میره) و ضحاکیان همدیگه رو می‌شناسن.</div></div>
     </div>
   </div>
 
@@ -562,11 +596,10 @@
 
         <div id="hostBalance" style="font-size:11.5px; color:var(--parchment-dim); margin-top:10px;"></div>
 
+        <!-- سروش فقط با کارتِ جمشید فعال می‌شه؛ دکمه‌ی گرداننده حذف شد چون
+             هم‌زمان با انتخابِ جمشید اختلال ایجاد می‌کرد. -->
         <div id="hostSoroushRow" style="margin-top:12px; border-top:1px solid var(--line); padding-top:12px;">
-          <button class="btn-outline" id="hostSoroushBtn" onclick="hostActivateSoroush()">🕊️ فراخواندنِ سروش</button>
-          <div id="hostSoroushNote" style="font-size:11px; color:var(--parchment-dim); margin-top:7px;">
-            پنجره‌ی نامه‌نگاری رو برای همه باز می‌کنه تا پایانِ شبِ همین روز.
-          </div>
+          <div id="hostSoroushNote" style="font-size:11px; color:var(--parchment-dim);"></div>
         </div>
       </div>
 
@@ -648,12 +681,8 @@
             <span class="nc-status" id="soroushNightStatus">—</span>
           </div>
           <div class="nc-desc">
-            ضحاک می‌تونه یک نفر رو شنود کنه: همه‌ی نامه‌های اون فرد (فرستاده یا گرفته) به ضحاک هم می‌رسه.
+            شنود رو خودِ ضحاک توی پنلش انتخاب می‌کنه. تو فقط آخرِ شب نامه‌ها رو تحویل بده.
           </div>
-          <select id="spyTarget" onchange="setSpyTarget()">
-            <option value="">— ضحاک کسی رو شنود نمی‌کنه —</option>
-          </select>
-          <div id="spyNote" style="font-size:11px; color:var(--parchment-dim); margin-bottom:8px;"></div>
           <button class="nc-btn primary" id="deliverLettersBtn" onclick="deliverLetters()">تحویلِ نامه‌ها به گیرنده‌ها</button>
           <div id="deliverNote" style="font-size:11px; color:var(--parchment-dim); margin-top:7px;"></div>
         </div>
@@ -705,6 +734,15 @@
       <div id="kingsRow" style="display:flex; justify-content:space-between; margin:10px 0 16px; font-size:12px;"></div>
     </div>
     <div class="card ornate-frame" id="dayVoteCardBody"></div>
+
+    <!-- تابلوی عمومیِ آرا — همه در طولِ روز می‌بینن -->
+    <div class="card ornate-frame" id="voteBoardCard" style="display:none;">
+      <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:3px;">
+        تابلوی آرا <span id="vbVoters" style="color:var(--parchment-dim); font-weight:400; font-size:11px;"></span>
+      </div>
+      <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:9px;">هر لحظه به‌روز می‌شه.</div>
+      <div id="voteBoardList"></div>
+    </div>
   </div>
 
   <!-- صفحه ۵: داشبوردِ جمشید -->
@@ -743,8 +781,23 @@
           <div class="ci">🌑 اهریمن<small>یک‌بار — لغوِ گفتگو/رأیِ امروز</small></div>
           <button class="card-use-btn" id="zahAhrimanBtn" onclick="useZahAhriman()">فراخوانی</button>
         </div>
+
+        <!-- فقط وقتی سروش فعال باشه دیده می‌شه -->
+        <div id="zahSpyBox" style="display:none; border-top:1px solid var(--line); margin-top:12px; padding-top:12px;">
+          <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:4px;">🕷️ شنودِ نامه‌ها</div>
+          <div style="font-size:11px; color:var(--parchment-dim); margin-bottom:8px;">
+            یک نفر رو انتخاب کن — همه‌ی نامه‌های اون (چه فرستاده چه گرفته) به تو هم می‌رسه.
+          </div>
+          <select id="zahSpySelect" onchange="zahSetSpy()" style="width:100%; background:var(--night-3); border:1px solid var(--line); border-radius:9px; color:var(--parchment); font-family:'Vazirmatn'; font-size:12.5px; padding:9px 11px;">
+            <option value="">— کسی رو شنود نمی‌کنم —</option>
+          </select>
+          <div id="zahSpyNote" style="font-size:11px; color:var(--parchment-dim); margin-top:7px;"></div>
+        </div>
     </div>
   </div>
+
+  <!-- دکمه‌ی همیشگیِ راهنما — از هر صفحه‌ای در دسترسه -->
+  <button class="guide-fab" id="guideFab" onclick="openGuide()" title="راهنما">؟</button>
 
   <!-- صفحه ۸: پایانِ بازی -->
   <div class="screen" id="screen-game-over">
@@ -767,7 +820,12 @@
       <div class="sub">نامه‌ها بی‌نامن — گیرنده نمی‌فهمه از طرفِ کیه.</div>
 
       <div id="soroushCompose">
-        <select id="letterTo"><option value="">— گیرنده‌ی نامه —</option></select>
+        <div class="mode-select" style="margin-bottom:9px;">
+          <button class="mode-btn active" id="lmPlayer" onclick="setLetterMode('player')">به یک بازیکن</button>
+          <button class="mode-btn" id="lmRole" onclick="setLetterMode('role')">به یک نقش</button>
+        </div>
+        <select id="letterToPlayer"><option value="">— کدام بازیکن؟ —</option></select>
+        <select id="letterToRole" style="display:none;"><option value="">— کدام نقش؟ —</option></select>
         <textarea id="letterBody" maxlength="600" placeholder="متنِ نامه‌ات رو بنویس…"></textarea>
         <button class="btn-gold" id="letterSendBtn" onclick="sendMyLetter()">فرستادنِ نامه</button>
         <div id="letterNote" style="font-size:11px; text-align:center; margin-top:8px; color:var(--parchment-dim);"></div>
@@ -874,6 +932,13 @@
     const brand = document.querySelector('.brand');
     if(brand) brand.style.display = isFull ? 'none' : '';
     document.body.classList.toggle('fullbleed', isFull);
+
+    // دکمه‌ی راهنما همه‌جا هست، به‌جز خودِ صفحه‌های راهنما و اسپلش
+    const fab = document.getElementById('guideFab');
+    if(fab){
+      const hideOn = ['screen-splash', 'screen-roles', 'screen-guide'];
+      fab.style.display = hideOn.includes(id) ? 'none' : 'block';
+    }
   }
   function showError(msg){
     const box = document.getElementById('errBox');
@@ -1077,6 +1142,8 @@
       dayPanel.style.display = 'none';
       nightPanel.style.display = 'block';
       refreshNightPanel(game.day_number);
+      // هر تیک به‌روز می‌شه تا شمارشِ نامه‌ها و دکمه‌ی تحویل کهنه نمونن
+      refreshSoroushNightBox(game.day_number, game);
     }
   }
 
@@ -1193,7 +1260,14 @@
         note.textContent = 'ثبت شد (فقط برای خودت — چیزی که تویِ ‹اعلامِ عمومی› زیرشه رو بلند بخون): ' + target.display_name + ' با تصمیمِ جمشید از بازی خارج شد.';
         await tjLogEvent(currentGame.id, game.day_number, 'death', { playerId: targetId, cause: 'jamshid_day_vote', mahaanCouncil: council, extraQuestion });
         checkHengameh(target);
-        announceText.textContent = target.display_name + ' امروز از بازی خارج شد.';
+        // اگه منیژه بود، بیژن هم به‌دنبالش می‌ره
+        const followed = await tjApplyBondAfterDeath(currentGame.id, target, game.day_number, false);
+        announceText.textContent = followed
+          ? target.display_name + ' و ' + followed.display_name + ' امروز از بازی خارج شدند.'
+          : target.display_name + ' امروز از بازی خارج شد.';
+        if(followed){
+          note.textContent += ' — 💔 ' + followed.display_name + ' (بیژن) هم به‌دنبالِ منیژه از بازی خارج شد.';
+        }
       }else{
         note.style.color = saved ? 'var(--green)' : 'var(--parchment-dim)';
         note.textContent = 'ثبت شد (فقط برای خودت): ' + (saved
@@ -1231,7 +1305,7 @@
     { role_id:'afrasiab', icon:'👁️', title:'افراسیاب — استعلام',      desc:'یک نفر رو انتخاب کن — جوابش همین‌جا می‌آد تا به افراسیاب بگی.', type:'pick_one', action:'inquiry', instantAnswer:true },
     { role_id:'sudabeh',  icon:'🔮', title:'سودابه — افسون',          desc:'اختیاری. یک نفر رو افسون کن یا رد شو.', type:'pick_one', optional:true, action:'enchant', immune:['kaveh','fereydun','siavash','armayil'], maxCharges:2, chargeFlag:'sudabeh_charges_used' },
     { role_id:'homan',    icon:'🗡️', title:'هومان — حدسِ نقش',        desc:'یک نفر و یک نقشِ حدسی انتخاب کن — نتیجه همین‌جا می‌آد.', type:'guess', optional:true, lethal:true, action:'guess_kill_or_copy', instantAnswer:true },
-    { role_id:'rostam',   icon:'🏹', title:'رستم — تیر',              desc:'یک مظنونِ ضحاکی رو نشونه بگیر — نتیجه همین‌جا می‌آد.', type:'pick_one', optional:true, lethal:true, action:'guess_shoot', instantAnswer:true },
+    { role_id:'rostam',   icon:'🏹', title:'رستم — تیر',              desc:'یک مظنونِ ضحاکی رو نشونه بگیر — نتیجه همین‌جا می‌آد.', type:'pick_one', optional:true, lethal:true, action:'guess_shoot', instantAnswer:true, maxCharges:2, chargeFlag:'rostam_arrows_used' },
     { role_id:'zaal',     icon:'🪶', title:'زال — پرِ سیمرغ',         desc:'اختیاری و فقط یک‌بار در کلِ بازی. همه‌ی کشته‌های ضحاکِ امشب باطل می‌شه.', type:'toggle', optional:true, action:'block_all_kills', oncePerGame:'zaal_feather_used' },
     { role_id:'gersivaz', icon:'💀', title:'گرسیوز — فداکاری',        desc:'اختیاری و فقط یک‌بار. خودش می‌میره و هدفش رو هم با خودش می‌بره.', type:'pick_one', optional:true, lethal:true, action:'self_sacrifice', oncePerGame:'gersivaz_used' },
   ];
@@ -1268,7 +1342,6 @@
       });
 
       renderNightCards();
-      await refreshSoroushNightBox(nightNumber);
     }catch(e){
       showError('خطا در آماده‌سازیِ کنسولِ شب: ' + e.message);
       nightPanelForNight = -1; // بذار دفعه‌ی بعد دوباره تلاش کنه
@@ -1626,11 +1699,14 @@
   const NIGHT_CAUSE_FA = {
     zahhak_night:'کشته‌ی ضحاک', homan_guess:'حدسِ درستِ هومان', rostam_arrow:'تیرِ رستم',
     gersivaz:'فداکاریِ گرسیوز', gersivaz_self:'خودکشیِ گرسیوز', rostam_self_miss:'تیرِ اشتباهِ رستم',
+    manijeh_bond:'پیوند با منیژه', jamshid_day_vote:'رأیِ جمشید',
   };
   function nightEventLabel(e){
     switch(e.type){
       case 'enchanted': return 'یک نفر افسون شد — قابلیتش امشب باطل بود';
       case 'bond_broken': return 'پیوندِ بیژن و منیژه شکست';
+      case 'bijan_followed_manijeh': return '💔 بیژن به‌دنبالِ منیژه از بازی خارج شد';
+      case 'bond_was_broken_bijan_survives': return 'منیژه مُرد ولی پیوند از قبل شکسته بود — بیژن زنده موند';
       case 'zaal_feather_burned': return 'زال پرِ سیمرغ رو سوزوند — امشب کشته‌های ضحاک باطل شد';
       case 'zahhak_misfire': return 'ضحاک یکی از یارانِ خودش رو انتخاب کرد — امشب گرسنه موند';
       case 'rostam_lost_armor': return 'رستم اشتباه زد و زره‌اش رو از دست داد';
@@ -1701,35 +1777,25 @@
   }
 
   // ================= سروش — سمتِ گرداننده =================
-  async function hostActivateSoroush(){
-    const btn = document.getElementById('hostSoroushBtn');
-    btn.disabled = true;
-    try{
-      const game = await tjGetGame(currentGame.id);
-      await tjActivateSoroush(currentGame.id, game.day_number);
-      await tjLogEvent(currentGame.id, game.day_number, 'statement', { text: 'soroush_called' });
-      renderHostSoroushRow(await tjGetGame(currentGame.id));
-    }catch(e){
-      showError(e.message);
-      btn.disabled = false;
-    }
-  }
-
+  // فعال‌سازی فقط از کارتِ جمشید انجام می‌شه؛ گرداننده اینجا صرفاً وضعیت رو می‌بینه.
   function renderHostSoroushRow(game){
-    const active = game.soroush_active_until_night !== null && game.soroush_active_until_night !== undefined;
-    const btn = document.getElementById('hostSoroushBtn');
-    const note = document.getElementById('hostSoroushNote');
-    btn.disabled = active;
-    btn.textContent = active ? '🕊️ سروش فعال است ✓' : '🕊️ فراخواندنِ سروش';
-    note.textContent = active
-      ? 'پنجره‌ی نامه‌نگاریِ روزِ ' + game.soroush_active_until_night + ' بازه — نامه‌ها آخرِ شب تحویل می‌شن.'
-      : 'پنجره‌ی نامه‌نگاری رو برای همه باز می‌کنه تا پایانِ شبِ همین روز.';
+    const win = game.soroush_active_until_night;
+    const active = win !== null && win !== undefined;
+    document.getElementById('hostSoroushRow').style.display = active ? 'block' : 'none';
+    document.getElementById('hostSoroushNote').textContent = active
+      ? '🕊️ سروش در روزِ ' + win + ' فرا خوانده شد — نامه‌ها در طولِ روز نوشته می‌شن و آخرِ شب تحویل می‌شن.'
+      : '';
   }
 
-  // بخشِ سروش داخلِ کنسولِ شب — فقط وقتی پنجره‌ی این شب بازه دیده می‌شه
-  async function refreshSoroushNightBox(nightNumber){
+  // بخشِ سروش داخلِ کنسولِ شب — فقط وقتی پنجره‌ی این شب بازه دیده می‌شه.
+  //
+  // ⚠️ این تابع باید هر بار در پولینگِ گرداننده صدا زده بشه، نه یک‌بار در شب.
+  // باگِ قبلی همین بود: چون فقط موقعِ ساختِ کنسول اجرا می‌شد، اگه نامه‌ای بعدش
+  // می‌رسید شمارش کهنه می‌موند و دکمه‌ی تحویل غیرفعال باقی می‌ماند — یعنی
+  // نامه‌ها هیچ‌وقت به گیرنده‌ها نمی‌رسیدن.
+  async function refreshSoroushNightBox(nightNumber, game){
     const box = document.getElementById('soroushNightBox');
-    const game = await tjGetGame(currentGame.id);
+    if(!game) game = await tjGetGame(currentGame.id);
     if(game.soroush_active_until_night !== nightNumber){
       box.style.display = 'none';
       return;
@@ -1738,41 +1804,35 @@
 
     const letters = await tjGetLetters(currentGame.id, nightNumber);
     const undelivered = letters.filter(l => !l.delivered).length;
+    const spied = letters.filter(l => l.zahhak_intercepted).length;
     document.getElementById('soroushNightStatus').textContent =
       letters.length ? letters.length + ' نامه' : 'نامه‌ای نیست';
-    document.getElementById('deliverNote').textContent = letters.length === 0
+    document.getElementById('deliverNote').innerHTML = letters.length === 0
       ? 'کسی نامه‌ای نفرستاده.'
-      : (undelivered ? undelivered + ' نامه هنوز تحویل نشده.' : 'همه‌ی نامه‌ها تحویل شدن ✓');
+      : (undelivered
+          ? undelivered + ' نامه هنوز تحویل نشده.' + (spied ? ' (' + spied + ' نامه توسطِ ضحاک شنود شده)' : '')
+          : 'همه‌ی نامه‌ها تحویل شدن ✓');
     document.getElementById('deliverLettersBtn').disabled = undelivered === 0;
-
-    const sel = document.getElementById('spyTarget');
-    if(sel.options.length <= 1){
-      sel.innerHTML = '<option value="">— ضحاک کسی رو شنود نمی‌کنه —</option>' +
-        nightPlayers.filter(p => p.is_alive && p.role_id !== 'zahhak')
-          .map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
-    }
-  }
-
-  async function setSpyTarget(){
-    const id = document.getElementById('spyTarget').value;
-    const note = document.getElementById('spyNote');
-    try{
-      const n = await tjInterceptLetters(currentGame.id, nightPanelForNight, id);
-      note.textContent = id
-        ? (n ? n + ' نامه برای ضحاک علامت خورد.' : 'این فرد هیچ نامه‌ای نفرستاده و نگرفته.')
-        : 'شنود لغو شد.';
-    }catch(e){ showError(e.message); }
   }
 
   async function deliverLetters(){
     const btn = document.getElementById('deliverLettersBtn');
     btn.disabled = true;
+    showBusy('در حالِ تحویلِ نامه‌ها…');
     try{
+      // اول شنودِ ضحاک اعمال می‌شه (روی همه‌ی نامه‌های امروز، حتی اونایی که بعد از
+      // انتخابِ ضحاک نوشته شدن)، بعد تحویل.
+      const zahhak = (await tjListPlayers(currentGame.id)).find(p => p.role_id === 'zahhak');
+      const spyId = zahhak?.state_flags?.soroush_spy_target || null;
+      const spied = await tjInterceptLetters(currentGame.id, nightPanelForNight, spyId);
       const n = await tjDeliverLetters(currentGame.id, nightPanelForNight);
-      document.getElementById('deliverNote').textContent = n + ' نامه تحویل شد ✓';
+      document.getElementById('deliverNote').textContent =
+        n + ' نامه تحویل شد ✓' + (spyId ? ` — ${spied} نامه به ضحاک هم رسید.` : '');
     }catch(e){
       showError(e.message);
       btn.disabled = false;
+    }finally{
+      hideBusy();
     }
   }
 
@@ -1839,6 +1899,7 @@
         // قبل از early-return زیر صدا زده می‌شه: پنجره‌ی سروش و رسیدنِ نامه‌ها
         // مستقل از تغییرِ فازن و باید هر دور چک بشن.
         await refreshSoroush(game);
+        await refreshVoteBoard(game);
 
         const key = game.current_phase + '-' + game.day_number;
         if(lastRenderedKey === key) return; // چیزی عوض نشده، دوباره رندر نکن
@@ -1897,50 +1958,196 @@
     await tjUpdatePlayerFlags(currentPlayer.id, { jam_e_jam_used: true });
     document.getElementById('jamEJamBtn').disabled = true;
   }
+  // ================= راهنما =================
+  // توضیحِ کوتاهِ هر نقش، برای نمایشِ نقشِ خودِ بازیکن در بالای راهنما.
+  const ROLE_DESC_FA = {
+    jamshid:'پادشاهِ روز و نامیرا. دو کارتِ یک‌بارمصرف داری: جامِ جم (تعدادِ حذف‌شده‌های هر طرف) و فراخواندنِ سروش (بازکردنِ نامه‌نگاری برای همه).',
+    zahhak:'پادشاهِ شب و نامیرا. هر شب دو نفر رو برای طعمه انتخاب می‌کنی. دو کارتِ یک‌بارمصرف داری: اهریمن و زندان. اگه دو شبِ پیاپی کسی رو نکشی، ناتوان می‌شی.',
+    armayil:'ایرانی هستی ولی آشپزِ دربارِ ضحاکی. هر شب بینِ دو گزینه‌ی ضحاک یکی رو نجات می‌دی. در همه‌ی استعلام‌ها «ضحاکی» نشون داده می‌شی، ولی در شمارشِ پیروزی ایرانی حساب می‌شی.',
+    siavash:'اگه جمشید اشتباهاً بکشدت، نقشت آشکار می‌شه و برمی‌گردی — هنگامه‌ی سیاوشان.',
+    kaveh:'پدرِ کارن. اگه ضحاک کارن رو بکشه، هنگامه‌ی قیام شروع می‌شه.',
+    fereydun:'با شروعِ قیام، هر شب با کاوه بیدار می‌شی و می‌تونی افراد رو به قیام اضافه کنی.',
+    karen:'پسرِ کاوه. مرگت به‌دستِ ضحاک قیام رو شروع می‌کنه؛ مرگت به‌دستِ جمشید کودتا رو.',
+    keykavous:'نوشدارو داری: یک‌بار می‌تونی کشته‌ی جمشید رو نجات بدی. ارمایل رو می‌شناسی.',
+    rostam:'زره‌ی پوستِ ببر: یک‌بار در برابرِ انتخابِ ضحاک زنده می‌مونی. دو تیر داری؛ درست بزنی اون ضحاکی می‌میره، اشتباه بزنی زره‌ات می‌ره (و اگه زره نداشته باشی، خودت).',
+    zaal:'پرِ سیمرغ: یک‌بار در کلِ بازی می‌تونی بسوزونیش تا اون شب هیچ‌کس به‌دستِ ضحاک کشته نشه.',
+    jamasp:'پایانِ هر شب، گرداننده نقشِ کشته‌های اخیر رو بهت می‌گه.',
+    bijan:'عاشقِ منیژه‌ای. تا وقتی منیژه زنده‌ست فقط با رأیِ مستقیمِ جمشید حذف می‌شی. ولی با مرگِ منیژه، تو هم می‌میری.',
+    manijeh:'زندگیِ بیژن به زندگیِ تو گره خورده — با مرگِ تو، بیژن هم می‌میره.',
+    gordafarid:'اگه سهراب به ضحاکیان بپیونده، می‌شناسیش.',
+    esfandiar:'باید هفت‌خان رو رد کنی: ۷ روز و شب زنده بمونی. پایانِ روزِ چهارم، ارجاسب می‌میره.',
+    afrasiab:'هر شب از یک نفر استعلام می‌گیری که ضحاکی هست یا نه. سهراب از ابتدا بهت معرفی می‌شه.',
+    pirans:'خردمندِ ضحاکیان. در هنگامه‌ی قیام می‌تونی کاوه و فریدون رو بکشی و قیام رو متوقف کنی. بیژن و منیژه رو می‌شناسی.',
+    sudabeh:'دو بار در کلِ بازی می‌تونی یک نفر رو افسون کنی و قابلیتش رو اون شب باطل کنی. روی کاوه، فریدون، سیاوش و ارمایل بی‌اثره. سیاوش رو از ابتدا می‌شناسی.',
+    gersivaz:'یک‌بار در کلِ بازی، هر لحظه، می‌تونی جانت رو فدا کنی و یک نفرِ دیگه رو هم با خودت ببری.',
+    homan:'اگه نقشِ یک ایرانی رو درست حدس بزنی می‌کشیش (به‌جز ارمایل). اگه نقشِ یک ضحاکی رو درست حدس بزنی، قابلیتش رو کپی می‌کنی.',
+    arjasb:'اسفندیار رو می‌شناسی. اگه اسفندیار ۴ روز زنده بمونه، خودت می‌میری.',
+    sohrab:'اولش جزو هیچ گروهی نیستی. شبِ سوم گرداننده دو نفر رو نشونت می‌ده؛ اگه رستم رو درست حدس بزنی به یارانِ جمشید می‌پیوندی، وگرنه به ضحاکیان.',
+  };
+
+  let guideReturnScreen = null;
+
+  function openGuide(){
+    // نقشِ خودت اول، بعد بقیه‌ی نقش‌ها و هنگامه‌ها
+    const box = document.getElementById('myRoleGuide');
+    if(myRoleId){
+      const sideLabel = mySide === 'jamshidi' ? 'یارانِ جمشید' : mySide === 'zahhaki' ? 'ضحاکیان' : 'بی‌طرف';
+      box.innerHTML = `
+        <div class="my-role-guide">
+          <div class="lbl">نقشِ تو — ${sideLabel}</div>
+          <div class="nm">${ROLE_NAMES_FA[myRoleId] || myRoleId}</div>
+          <div class="ds">${ROLE_DESC_FA[myRoleId] || 'توضیحی ثبت نشده.'}</div>
+        </div>`;
+    }else{
+      box.innerHTML = '';
+    }
+    const active = document.querySelector('.screen.active');
+    guideReturnScreen = active ? active.id : null;
+    go('screen-roles');
+  }
+
+  function closeGuide(){
+    go(guideReturnScreen || 'screen-entry');
+  }
+
+  // ================= تابلوی عمومیِ آرا =================
+  async function refreshVoteBoard(game){
+    const card = document.getElementById('voteBoardCard');
+    if(game.current_phase !== 'day'){ card.style.display = 'none'; return; }
+    try{
+      const { rows, votersCount } = await tjGetDayVoteBoard(currentGame.id, game.day_number);
+      document.getElementById('vbVoters').textContent = '(' + votersCount + ' نفر رأی دادن)';
+      const maxP = rows.length ? Math.max(...rows.map(r => r.peyman)) : 0;
+      const maxG = rows.length ? Math.max(...rows.map(r => r.goman)) : 0;
+      document.getElementById('voteBoardList').innerHTML = rows.map(r => `
+        <div class="vb-row">
+          <div class="vb-top">
+            <span class="vb-name">${escapeHtml(r.name)}${r.id === currentPlayer.id ? ' <span style="color:var(--parchment-dim); font-size:10px;">(تو)</span>' : ''}</span>
+            <span class="vb-counts">
+              <span class="tc-g ${maxP > 0 && r.peyman === maxP ? 'top' : ''}">${r.peyman} 🤝</span>
+              <span class="tc-r ${maxG > 0 && r.goman === maxG ? 'top' : ''}">${r.goman} ⚔️</span>
+            </span>
+          </div>
+          <div class="vb-gave">${
+            r.gavePeymanTo || r.gaveGomanTo
+              ? `پیمان → <b>${escapeHtml(r.gavePeymanTo || '—')}</b> · گمان → <b>${escapeHtml(r.gaveGomanTo || '—')}</b>`
+              : 'هنوز رأی نداده'
+          }</div>
+        </div>`).join('');
+      card.style.display = 'block';
+    }catch(e){ console.error(e); }
+  }
+
   // ================= سروش — سمتِ بازیکن =================
   let soroushWindow = null;   // شماره‌ی پنجره‌ی فعال، یا null
   let soroushSent = false;    // توی این پنجره نامه فرستادم؟
   let soroushInbox = [];      // نامه‌های تحویل‌شده به من
   let soroushSpied = [];      // فقط برای ضحاک: نامه‌های شنودشده
   let soroushSeen = 0;        // چندتاش رو قبلاً دیدم (برای نشانِ «جدید»)
+  let soroushCanWrite = false;// الان اجازه‌ی نوشتن دارم؟ (فقط روز، و نقشِ مجاز)
+  let letterMode = 'player';  // نامه به بازیکن یا به نقش
+
+  // جمشید و ضحاک نامه نمی‌نویسن. سهراب و (بعد از ناتوانیِ ضحاک) ارمایل هم طبقِ
+  // سطرهای ۱۲۰ و ۷۸ سند نمی‌تونن.
+  function canWriteLetter(game){
+    if(myRoleId === 'jamshid' || myRoleId === 'zahhak') return false;
+    if(myRoleId === 'sohrab') return false;
+    if(myRoleId === 'armayil' && game.hengameh_flags?.zahhak_incapacitated) return false;
+    return true;
+  }
 
   async function refreshSoroush(game){
     const win = game.soroush_active_until_night;
     const bar = document.getElementById('soroushBar');
-
-    if(win === null || win === undefined){
-      soroushWindow = null;
+    const hide = () => {
       bar.classList.remove('show');
       document.body.classList.remove('soroush-open');
-      return;
-    }
+    };
 
-    // پنجره‌ی جدید => وضعیتِ «فرستادم» ریست می‌شه
+    if(win === null || win === undefined){ soroushWindow = null; hide(); return; }
+
+    // ضحاک شنودش رو توی پنلِ خودش انتخاب می‌کنه، نه اینجا
+    if(myRoleId === 'zahhak') await refreshZahhakSpy(game);
+
+    // نامه‌ها فقط در طولِ روز نوشته می‌شن؛ شب فقط تحویل می‌گیری
+    const isDay = game.current_phase === 'day';
+    const writable = isDay && canWriteLetter(game);
+
     if(soroushWindow !== win){
       soroushWindow = win;
       soroushSent = (await tjMySentLetters(currentGame.id, win, currentPlayer.id)).length > 0;
       await populateLetterTargets();
     }
 
-    soroushInbox = await tjMyInbox(currentGame.id, currentPlayer.id);
-    if(myRoleId === 'zahhak'){
-      soroushSpied = await tjInterceptedLetters(currentGame.id, win);
-    }
+    soroushInbox = await tjMyInbox(currentGame.id, currentPlayer.id, myRoleId);
+    if(myRoleId === 'zahhak') soroushSpied = await tjInterceptedLetters(currentGame.id, win);
 
+    // اگه نه چیزی برای نوشتن هست و نه چیزی برای خوندن، نوار رو نشون نده
+    const hasMail = soroushInbox.length + soroushSpied.length > 0;
+    if(!writable && !hasMail && !soroushSent){ hide(); return; }
+
+    soroushCanWrite = writable;
     const unread = Math.max(0, soroushInbox.length + soroushSpied.length - soroushSeen);
     document.getElementById('soroushBarText').innerHTML = unread
       ? `<span class="soroush-badge">${unread}</span>🕊️ نامه‌ی جدید داری`
-      : (soroushSent ? '🕊️ سروش — نامه‌هایت' : '🕊️ سروش فرا خوانده شد — نامه بنویس');
+      : (writable && !soroushSent ? '🕊️ سروش فرا خوانده شد — نامه بنویس' : '🕊️ سروش — نامه‌هایت');
     bar.classList.add('show');
     document.body.classList.add('soroush-open');
   }
 
   async function populateLetterTargets(){
-    const sel = document.getElementById('letterTo');
     const players = (await tjListPlayers(currentGame.id))
       .filter(p => !p.is_host && p.is_alive && p.id !== currentPlayer.id);
-    sel.innerHTML = '<option value="">— گیرنده‌ی نامه —</option>' +
+    document.getElementById('letterToPlayer').innerHTML =
+      '<option value="">— کدام بازیکن؟ —</option>' +
       players.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
+
+    // نامه به نقش: از روی چیدمانِ همین بازی، نه کلِ کاتالوگ — وگرنه نقشی که
+    // اصلاً توی این بازی نیست هم در فهرست می‌اومد.
+    const roles = Array.from(new Set(players.map(p => p.role_id).filter(Boolean)))
+      .filter(r => r !== myRoleId);
+    document.getElementById('letterToRole').innerHTML =
+      '<option value="">— کدام نقش؟ —</option>' +
+      roles.map(r => `<option value="${r}">${ROLE_NAMES_FA[r] || r}</option>`).join('');
+  }
+
+  function setLetterMode(mode){
+    letterMode = mode;
+    document.getElementById('lmPlayer').classList.toggle('active', mode === 'player');
+    document.getElementById('lmRole').classList.toggle('active', mode === 'role');
+    document.getElementById('letterToPlayer').style.display = mode === 'player' ? 'block' : 'none';
+    document.getElementById('letterToRole').style.display = mode === 'role' ? 'block' : 'none';
+  }
+
+  // ---------- شنودِ ضحاک، داخلِ پنلِ خودش ----------
+  async function refreshZahhakSpy(game){
+    const box = document.getElementById('zahSpyBox');
+    const win = game.soroush_active_until_night;
+    if(win === null || win === undefined){ box.style.display = 'none'; return; }
+    box.style.display = 'block';
+
+    const sel = document.getElementById('zahSpySelect');
+    if(sel.options.length <= 1){
+      const players = (await tjListPlayers(currentGame.id))
+        .filter(p => !p.is_host && p.is_alive && p.id !== currentPlayer.id);
+      sel.innerHTML = '<option value="">— کسی رو شنود نمی‌کنم —</option>' +
+        players.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
+    }
+  }
+
+  // انتخابِ ضحاک فقط *ذخیره* می‌شه؛ علامت‌زدنِ نامه‌ها آخرِ شب سرِ تحویل انجام
+  // می‌شه. اگه همین‌جا اعمال می‌شد، نامه‌هایی که بعد از انتخابِ ضحاک نوشته می‌شن
+  // از تورِ شنود در می‌رفتن.
+  async function zahSetSpy(){
+    const id = document.getElementById('zahSpySelect').value;
+    const note = document.getElementById('zahSpyNote');
+    try{
+      await tjUpdatePlayerFlags(currentPlayer.id, { soroush_spy_target: id || null });
+      const name = document.getElementById('zahSpySelect').selectedOptions[0]?.textContent;
+      note.textContent = id
+        ? 'نامه‌های ' + name + ' آخرِ شب به تو هم می‌رسه.'
+        : 'شنود لغو شد.';
+    }catch(e){ showError(e.message); }
   }
 
   function openSoroush(){
@@ -1955,20 +2162,26 @@
   }
 
   function renderSoroushModal(){
-    // هر بازیکن فقط یک نامه در هر پنجره
-    document.getElementById('soroushCompose').style.display = soroushSent ? 'none' : 'block';
-    if(soroushSent){
-      document.getElementById('letterNote').textContent = '';
-    }
+    // هر بازیکن فقط یک نامه در هر پنجره، و فقط در طولِ روز
+    const canCompose = soroushCanWrite && !soroushSent;
+    document.getElementById('soroushCompose').style.display = canCompose ? 'block' : 'none';
+    if(!canCompose) document.getElementById('letterNote').textContent = '';
 
     let html = '';
     if(soroushSent){
       html += '<div style="font-size:11.5px; color:var(--parchment-dim); text-align:center; margin-bottom:12px;">نامه‌ات فرستاده شد. آخرِ شب به دستش می‌رسه.</div>';
+    }else if(!soroushCanWrite){
+      html += '<div style="font-size:11.5px; color:var(--parchment-dim); text-align:center; margin-bottom:12px;">الان نمی‌تونی نامه بنویسی — نامه‌نگاری فقط در طولِ روز ممکنه.</div>';
     }
 
     html += '<div style="font-size:12px; color:var(--gold-soft); font-weight:700; margin-bottom:8px;">📬 نامه‌های رسیده</div>';
     html += soroushInbox.length
-      ? soroushInbox.map(l => `<div class="letter"><span class="from">از طرفِ ناشناس</span>${escapeHtml(l.body)}</div>`).join('')
+      ? soroushInbox.map(l => {
+          const to = l.addressed_to_role_id
+            ? 'خطاب به نقشِ ' + (ROLE_NAMES_FA[l.addressed_to_role_id] || l.addressed_to_role_id)
+            : 'خطاب به خودت';
+          return `<div class="letter"><span class="from">از طرفِ ناشناس — ${to}</span>${escapeHtml(l.body)}</div>`;
+        }).join('')
       : '<div style="font-size:11.5px; color:var(--parchment-dim);">هنوز نامه‌ای بهت نرسیده.</div>';
 
     if(myRoleId === 'zahhak' && soroushSpied.length){
@@ -1983,18 +2196,19 @@
   }
 
   async function sendMyLetter(){
-    const to = document.getElementById('letterTo').value;
+    const toPlayer = letterMode === 'player' ? document.getElementById('letterToPlayer').value : null;
+    const toRole = letterMode === 'role' ? document.getElementById('letterToRole').value : null;
     const body = document.getElementById('letterBody').value.trim();
     const note = document.getElementById('letterNote');
     const btn = document.getElementById('letterSendBtn');
-    if(!to){ note.style.color='var(--crimson-soft)'; note.textContent='اول گیرنده رو انتخاب کن.'; return; }
+    if(!toPlayer && !toRole){ note.style.color='var(--crimson-soft)'; note.textContent='اول گیرنده رو انتخاب کن.'; return; }
     if(!body){ note.style.color='var(--crimson-soft)'; note.textContent='متنِ نامه خالیه.'; return; }
 
     btn.disabled = true;
     note.style.color = 'var(--parchment-dim)';
     note.textContent = 'در حالِ فرستادن…';
     try{
-      await tjSendLetter(currentGame.id, soroushWindow, currentPlayer.id, to, body);
+      await tjSendLetter(currentGame.id, soroushWindow, currentPlayer.id, toPlayer, body, toRole);
       soroushSent = true;
       document.getElementById('letterBody').value = '';
       renderSoroushModal();

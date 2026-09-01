@@ -22,6 +22,8 @@
 
 // سقفِ افسونِ سودابه در کلِ بازی (بخشِ ۵ سند)
 const SUDABEH_MAX_CHARGES = 2;
+// رستم در کلِ بازی فقط دو تیر داره
+const ROSTAM_MAX_ARROWS = 2;
 
 // ارمایل در دربارِ ضحاک آشپزه و «در همه‌ی استعلام‌ها ضحاکی نشون داده می‌شه»
 // (سطرِ ۷۸ سند) — با اینکه در شمارشِ پیروزی ایرانی حساب می‌شه. دقیقاً همین
@@ -58,9 +60,14 @@ function resolveNight(players, actions, gameState) {
     if (!p || !p.is_alive) return;
 
     // --- مصونیتِ بیژن: تا وقتی منیژه زنده‌ست، بیژن فقط با رأیِ روزِ جمشید حذف می‌شه ---
-    if (p.role_id === 'bijan') {
+    // نکته: اگه سودابه پیوند رو شکسته باشه، مصونیت هم از بین می‌ره. هر دو اثر
+    // (نامیراییِ بیژن و مرگِ هم‌زمان) دو رویِ یک پیوندن؛ اگه فقط مرگِ هم‌زمان
+    // برداشته می‌شد، شکستنِ پیوند بیژن رو *قوی‌تر* می‌کرد و قابلیتِ سودابه به
+    // ضررِ خودش تموم می‌شد.
+    if (p.role_id === 'bijan' && !p.state_flags.bond_broken) {
       const manijeh = state.find(x => x.role_id === 'manijeh');
-      const manijehAlive = manijeh && manijeh.is_alive && !deaths.has(manijeh.id);
+      const manijehAlive = manijeh && manijeh.is_alive && !deaths.has(manijeh.id)
+        && !manijeh.state_flags.bond_broken;
       if (manijehAlive && cause !== 'jamshid_day_vote') {
         events.push({ type: 'immune', playerId, reason: 'bijan_protected_by_manijeh' });
         return; // نمی‌میره
@@ -204,7 +211,10 @@ function resolveNight(players, actions, gameState) {
   const rostam = state.find(p => p.role_id === 'rostam' && p.is_alive);
   if (rostam && !isEnchanted(rostam.id)) {
     const shootAction = actionOf(actions, rostam.id, 'guess_shoot');
-    if (shootAction) {
+    // رستم فقط دو تیر داره؛ سقف اینجا هم چک می‌شه نه فقط توی UI
+    const arrowsUsed = rostam.state_flags.rostam_arrows_used || 0;
+    if (shootAction && arrowsUsed < ROSTAM_MAX_ARROWS) {
+      rostam.state_flags.rostam_arrows_used = arrowsUsed + 1;
       const target = findPlayer(state, shootAction.target_player_id);
       if (target && target.side === 'zahhaki') {
         kill(target.id, 'rostam_arrow');
@@ -252,6 +262,26 @@ function resolveNight(players, actions, gameState) {
       } else {
         events.push({ type: 'gersivaz_failed_both_zahhaki' });
       }
+    }
+  }
+
+  // ============================================================
+  // مرحله‌ی ۸.۵: پیوندِ بیژن و منیژه
+  //   «با مرگ منیژه (به هر دلیل)، بیژن هم می‌میره» — پس این بعد از همه‌ی
+  //   کشتن‌های امشب اجرا می‌شه تا فرقی نکنه منیژه به دستِ کی مرده.
+  //   یک‌طرفه‌ست: مرگِ بیژن منیژه رو نمی‌کشه.
+  //   deaths مستقیم ست می‌شه نه با kill()، چون گاردِ نامیراییِ بیژن داخلِ kill()
+  //   برای محافظت در برابرِ *بقیه‌ی* علت‌هاست، نه این پیوند.
+  // ============================================================
+  const manijehP = state.find(p => p.role_id === 'manijeh');
+  const bijanP = state.find(p => p.role_id === 'bijan');
+  if (manijehP && bijanP && deaths.has(manijehP.id) && !deaths.has(bijanP.id) && bijanP.is_alive) {
+    const bondBroken = manijehP.state_flags.bond_broken || bijanP.state_flags.bond_broken;
+    if (!bondBroken) {
+      deaths.set(bijanP.id, 'manijeh_bond');
+      events.push({ type: 'bijan_followed_manijeh' });
+    } else {
+      events.push({ type: 'bond_was_broken_bijan_survives' });
     }
   }
 

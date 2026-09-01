@@ -91,6 +91,40 @@ async function req(method, path, body, prefer) {
     const again = await req('PATCH', `letters?game_id=eq.${gid}&soroush_window_night=eq.${WIN}&delivered=eq.false`, { delivered: true });
     chk('nothing left to deliver', again.length === 0, 'got ' + again.length);
 
+    // ------------------------------------------------------------- window two
+    // Role-addressed letters, and interception applied at delivery time rather
+    // than when Zahhak picks — otherwise letters written later escape the net.
+    const W2 = 3;
+    console.log('\n=== window 2: letters addressed to a ROLE ===');
+    await req('POST', 'letters', {
+      game_id: gid, soroush_window_night: W2, sender_id: A.id,
+      addressed_to_role_id: 'zaal', body: 'به زال: پرت رو نگه دار', is_night_letter: false, delivered: false,
+    });
+    let roleInbox = await req('GET', `letters?game_id=eq.${gid}&addressed_to_role_id=eq.zaal&delivered=eq.true&select=id`);
+    chk('role letter is invisible before delivery', roleInbox.length === 0, 'got ' + roleInbox.length);
+
+    console.log('\n=== interception must catch letters written AFTER the spy was chosen ===');
+    await req('POST', 'letters', {
+      game_id: gid, soroush_window_night: W2, sender_id: C.id,
+      addressed_to_player_id: A.id, body: 'این یکی دیرتر نوشته شد', is_night_letter: false, delivered: false,
+    });
+    await req('PATCH', `letters?game_id=eq.${gid}&soroush_window_night=eq.${W2}`, { zahhak_intercepted: false });
+    const w2 = await req('GET', `letters?game_id=eq.${gid}&soroush_window_night=eq.${W2}&select=*`);
+    const hitA = w2.filter(l => l.sender_id === A.id || l.addressed_to_player_id === A.id);
+    chk('both of A\'s letters caught, including the one written later', hitA.length === 2, 'got ' + hitA.length);
+
+    console.log('\n=== interception also catches a letter sent to the spied player\'s ROLE ===');
+    // B holds role zaal, so a letter addressed to "zaal" is a letter to B
+    const hitB = w2.filter(l => l.sender_id === B.id || l.addressed_to_player_id === B.id || l.addressed_to_role_id === B.role_id);
+    chk('role-addressed letter counts as reaching its role holder', hitB.length === 1, 'got ' + hitB.length);
+
+    console.log('\n=== deliver window 2 ===');
+    const d2 = await req('PATCH', `letters?game_id=eq.${gid}&soroush_window_night=eq.${W2}&delivered=eq.false`, { delivered: true });
+    chk('2 letters delivered in window 2', d2.length === 2, 'got ' + d2.length);
+    roleInbox = await req('GET', `letters?game_id=eq.${gid}&addressed_to_role_id=eq.zaal&delivered=eq.true&select=id,body,addressed_to_role_id`);
+    chk('the role holder can now read it', roleInbox.length === 1, 'got ' + roleInbox.length);
+    chk('role-letter read does NOT expose sender_id', roleInbox[0] && !('sender_id' in roleInbox[0]));
+
   } catch (e) {
     console.log('  ERROR ' + e.message);
     fail++;

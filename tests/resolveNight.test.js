@@ -122,6 +122,62 @@ t('Bijan immune while Manijeh is alive', () => {
   eq(deaths(r), []);
 });
 
+console.log('\n=== Bijan follows Manijeh (spec section 5) ===');
+t('Manijeh killed by Zahhak => Bijan dies with her', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('b', 'bijan', 'jamshidi'), P('m', 'manijeh', 'jamshidi'), P('k', 'karen', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'z', action_type: 'kill_pick_two', target_player_id: 'm', target_player_id_2: 'k' }], gs());
+  eq(deaths(r), ['b', 'm']);
+});
+t('Manijeh killed by Rostam\'s stray arrow => Bijan still follows', () => {
+  // any cause, not just Zahhak
+  const ps = [P('r', 'rostam', 'jamshidi', { rostam_armor_used: true }), P('b', 'bijan', 'jamshidi'), P('m', 'manijeh', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'r', action_type: 'guess_shoot', target_player_id: 'm' }], gs());
+  // a missed arrow does not kill the target, so Manijeh lives and so does Bijan
+  eq(deaths(r), ['r'], 'only Rostam dies here');
+});
+t('Manijeh killed by Gersivaz => Bijan follows', () => {
+  const ps = [P('g', 'gersivaz', 'zahhaki'), P('b', 'bijan', 'jamshidi'), P('m', 'manijeh', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'g', action_type: 'self_sacrifice', target_player_id: 'm' }], gs());
+  eq(deaths(r), ['b', 'g', 'm']);
+});
+t('a broken bond means Manijeh dies alone', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('b', 'bijan', 'jamshidi', { bond_broken: true }), P('m', 'manijeh', 'jamshidi'), P('k', 'karen', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'z', action_type: 'kill_pick_two', target_player_id: 'm', target_player_id_2: 'k' }], gs());
+  eq(deaths(r), ['m']);
+});
+t('the bond is one-way: Bijan dying does not kill Manijeh', () => {
+  // Bijan is only killable by Jamshid's day vote while Manijeh lives, so use Homan on a bond-broken Bijan
+  const ps = [P('h', 'homan', 'zahhaki'), P('b', 'bijan', 'jamshidi', { bond_broken: true }), P('m', 'manijeh', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'h', action_type: 'guess_kill_or_copy', target_player_id: 'b', extra: { guessed_role_id: 'bijan' } }], gs());
+  eq(deaths(r), ['b'], 'Manijeh survives');
+});
+
+console.log('\n=== Rostam has only two arrows ===');
+t('first arrow works', () => {
+  const ps = [P('r', 'rostam', 'jamshidi'), P('af', 'afrasiab', 'zahhaki')];
+  const r = resolveNight(ps, [{ actor_player_id: 'r', action_type: 'guess_shoot', target_player_id: 'af' }], gs());
+  eq(deaths(r), ['af']);
+  eq(r.updatedPlayers.find(p => p.id === 'r').state_flags.rostam_arrows_used, 1);
+});
+t('second arrow works and reaches the cap', () => {
+  const ps = [P('r', 'rostam', 'jamshidi', { rostam_arrows_used: 1 }), P('af', 'afrasiab', 'zahhaki')];
+  const r = resolveNight(ps, [{ actor_player_id: 'r', action_type: 'guess_shoot', target_player_id: 'af' }], gs());
+  eq(deaths(r), ['af']);
+  eq(r.updatedPlayers.find(p => p.id === 'r').state_flags.rostam_arrows_used, 2);
+});
+t('third arrow is refused entirely', () => {
+  const ps = [P('r', 'rostam', 'jamshidi', { rostam_arrows_used: 2 }), P('af', 'afrasiab', 'zahhaki')];
+  const r = resolveNight(ps, [{ actor_player_id: 'r', action_type: 'guess_shoot', target_player_id: 'af' }], gs());
+  eq(deaths(r), [], 'no kill from a spent quiver');
+  eq(r.updatedPlayers.find(p => p.id === 'r').state_flags.rostam_arrows_used, 2, 'counter must not grow');
+});
+t('a spent quiver does not cost Rostam his armor either', () => {
+  const ps = [P('r', 'rostam', 'jamshidi', { rostam_arrows_used: 2 }), P('k', 'karen', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'r', action_type: 'guess_shoot', target_player_id: 'k' }], gs());
+  eq(deaths(r), []);
+  eq(!!r.updatedPlayers.find(p => p.id === 'r').state_flags.rostam_armor_used, false);
+});
+
 console.log('\n=== Hengameh triggers ===');
 t('Karen killed with Kaveh alive => qiam', () => {
   const ps = [P('z', 'zahhak', 'zahhaki'), P('k', 'karen', 'jamshidi'), P('kv', 'kaveh', 'jamshidi'), P('y', 'zaal', 'jamshidi')];

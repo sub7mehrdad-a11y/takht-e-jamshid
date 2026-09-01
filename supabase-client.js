@@ -220,6 +220,41 @@ async function tjGetDayTally(gameId, dayNumber) {
   return { rows, votersCount };
 }
 
+// ---------- تابلوی عمومیِ آرا ----------
+// همه در طولِ روز می‌بینن هر کس چند پیمان و چند گمان گرفته، و خودش رأیش رو به
+// کی داده. عمداً عمومیه — بخشی از بازیه، نه نشتِ اطلاعات.
+async function tjGetDayVoteBoard(gameId, dayNumber) {
+  const { data: votes, error } = await sb
+    .from('day_votes')
+    .select('*')
+    .eq('game_id', gameId)
+    .eq('day_number', dayNumber);
+  if (error) throw new Error('خطا در گرفتنِ آرا: ' + error.message);
+
+  const players = await tjListPlayers(gameId);
+  const byId = {};
+  players.filter(p => !p.is_host).forEach(p => {
+    byId[p.id] = {
+      id: p.id, name: p.display_name, is_alive: p.is_alive,
+      peyman: 0, goman: 0, gavePeymanTo: null, gaveGomanTo: null,
+    };
+  });
+
+  (votes || []).forEach(v => {
+    const target = byId[v.target_id];
+    const voter = byId[v.voter_id];
+    if (target) target[v.vote_type === 'peyman' ? 'peyman' : 'goman'] += 1;
+    if (voter && target) {
+      voter[v.vote_type === 'peyman' ? 'gavePeymanTo' : 'gaveGomanTo'] = target.name;
+    }
+  });
+
+  const rows = Object.values(byId).filter(r => r.is_alive);
+  rows.sort((a, b) => (b.peyman - a.peyman) || (b.goman - a.goman) || a.name.localeCompare(b.name, 'fa'));
+  const votersCount = new Set((votes || []).map(v => v.voter_id)).size;
+  return { rows, votersCount };
+}
+
 // ---------- حذفِ یک بازیکن (کشته‌ی روز یا شب) ----------
 async function tjEliminatePlayer(playerId, cause, dayNumber, isNight) {
   const patch = { is_alive: false, eliminated_by: cause };
@@ -233,6 +268,22 @@ async function tjEliminatePlayer(playerId, cause, dayNumber, isNight) {
     .single();
   if (error) throw new Error('خطا در حذفِ بازیکن: ' + error.message);
   return data;
+}
+
+// ---------- پیوندِ بیژن و منیژه در حذف‌های *روز* ----------
+// موتورِ شب خودش این پیوند رو حل می‌کنه؛ این تابع برای حذف‌های روزه (رأیِ جمشید،
+// گرسیوزِ روز و…) تا قانونِ «با مرگ منیژه، بیژن هم می‌میره» همه‌جا برقرار باشه.
+// خروجی: بازیکنی که به‌دنبالِ منیژه رفت، یا null.
+async function tjApplyBondAfterDeath(gameId, deadPlayer, num, isNight) {
+  if (!deadPlayer || deadPlayer.role_id !== 'manijeh') return null;
+  const players = await tjListPlayers(gameId);
+  const bijan = players.find(p => p.role_id === 'bijan');
+  if (!bijan || !bijan.is_alive) return null;
+  if (bijan.state_flags?.bond_broken || deadPlayer.state_flags?.bond_broken) return null;
+
+  await tjEliminatePlayer(bijan.id, 'manijeh_bond', num, isNight);
+  await tjLogEvent(gameId, num, 'death', { playerId: bijan.id, cause: 'manijeh_bond' });
+  return bijan;
 }
 
 // ---------- ثبتِ یک رویداد در تاریخچه ----------
@@ -306,14 +357,16 @@ async function tjActivateSoroush(gameId, dayNumber) {
 }
 
 // ---------- فرستادنِ نامه ----------
-async function tjSendLetter(gameId, windowNight, senderId, toPlayerId, body) {
+// نامه یا خطاب به یک شخصه یا خطاب به یک نقش (یکی از این دو، نه هر دو).
+async function tjSendLetter(gameId, windowNight, senderId, toPlayerId, body, toRoleId) {
   const { data, error } = await sb
     .from('letters')
     .insert({
       game_id: gameId,
       soroush_window_night: windowNight,
       sender_id: senderId,
-      addressed_to_player_id: toPlayerId,
+      addressed_to_player_id: toPlayerId || null,
+      addressed_to_role_id: toRoleId || null,
       body,
       is_night_letter: false,
       delivered: false,
@@ -337,16 +390,29 @@ async function tjMySentLetters(gameId, windowNight, senderId) {
 }
 
 // ---------- صندوقِ ورودیِ من: فقط نامه‌های تحویل‌شده، بدونِ نامِ فرستنده ----------
-async function tjMyInbox(gameId, playerId) {
-  const { data, error } = await sb
-    .from('letters')
-    .select('id, body, soroush_window_night, created_at')  // sender_id عمداً انتخاب نمی‌شه
-    .eq('game_id', gameId)
-    .eq('addressed_to_player_id', playerId)
-    .eq('delivered', true)
-    .order('created_at', { ascending: true });
-  if (error) throw new Error('خطا در خواندنِ نامه‌ها: ' + error.message);
-  return data || [];
+// دو جور نامه به من می‌رسه: خطاب به شخصِ من، یا خطاب به نقشِ من.
+// ⚠️ در هر دو کوئری sender_id عمداً select نمی‌شه — بی‌نامی اینجا اعمال می‌شه،
+// نه در نمایش، تا نامِ فرستنده اصلاً به مرورگرِ گیرنده فرستاده نشه.
+async function tjMyInbox(gameId, playerId, myRoleId) {
+  const cols = 'id, body, soroush_window_night, addressed_to_role_id, created_at';
+
+  const { data: toMe, error: e1 } = await sb
+    .from('letters').select(cols)
+    .eq('game_id', gameId).eq('addressed_to_player_id', playerId).eq('delivered', true);
+  if (e1) throw new Error('خطا در خواندنِ نامه‌ها: ' + e1.message);
+
+  let toMyRole = [];
+  if (myRoleId) {
+    const { data, error: e2 } = await sb
+      .from('letters').select(cols)
+      .eq('game_id', gameId).eq('addressed_to_role_id', myRoleId).eq('delivered', true);
+    if (e2) throw new Error('خطا در خواندنِ نامه‌های نقش: ' + e2.message);
+    toMyRole = data || [];
+  }
+
+  const all = [...(toMe || []), ...toMyRole];
+  all.sort((a, b) => (a.created_at < b.created_at ? -1 : 1));
+  return all;
 }
 
 // ---------- همه‌ی نامه‌های یک پنجره (برای گرداننده) ----------
@@ -374,7 +440,13 @@ async function tjInterceptLetters(gameId, windowNight, spiedPlayerId) {
   if (!spiedPlayerId) return 0;
 
   const all = await tjGetLetters(gameId, windowNight);
-  const hit = all.filter(l => l.sender_id === spiedPlayerId || l.addressed_to_player_id === spiedPlayerId);
+  // نامه‌ی خطاب‌به‌نقش هم اگه نقشِ همین فرد باشه شنود می‌شه
+  const players = await tjListPlayers(gameId);
+  const spied = players.find(p => p.id === spiedPlayerId);
+  const hit = all.filter(l =>
+    l.sender_id === spiedPlayerId ||
+    l.addressed_to_player_id === spiedPlayerId ||
+    (spied && spied.role_id && l.addressed_to_role_id === spied.role_id));
   for (const l of hit) {
     const { error } = await sb.from('letters').update({ zahhak_intercepted: true }).eq('id', l.id);
     if (error) throw new Error('خطا در ثبتِ شنود: ' + error.message);
