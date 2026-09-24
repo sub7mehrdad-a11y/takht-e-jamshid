@@ -208,6 +208,18 @@
   .role-reveal-card .side-tag.jamshidi{ background:rgba(201,151,47,0.16); color:var(--gold-soft); border:1px solid var(--gold); }
   .role-reveal-card .side-tag.zahhaki{ background:rgba(138,36,54,0.2); color:var(--crimson-soft); border:1px solid var(--crimson-soft); }
   .role-reveal-card .rname{ font-size:24px; font-weight:900; margin-bottom:8px; }
+  .role-card-img{
+    display:block; width:100%; max-width:320px; margin:0 auto; border-radius:14px;
+    border:1px solid var(--gold); box-shadow:0 10px 28px rgba(0,0,0,0.55); cursor:zoom-in;
+  }
+
+  /* ============ لایت‌باکسِ کارتِ نقش ============ */
+  .card-lightbox{
+    display:none; position:fixed; inset:0; z-index:250; background:rgba(6,6,11,0.92);
+    align-items:center; justify-content:center; padding:24px 16px; cursor:zoom-out;
+  }
+  .card-lightbox.show{ display:flex; }
+  .card-lightbox img{ max-width:100%; max-height:100%; border-radius:14px; border:1px solid var(--gold); box-shadow:0 10px 40px rgba(0,0,0,0.7); }
 
   .king-badge{ display:flex; flex-direction:column; align-items:center; gap:4px; }
   .king-badge .kav{ width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:16px; }
@@ -432,6 +444,11 @@
 
   <div class="err-box" id="errBox"></div>
   <div class="busy-box" id="busyBox"></div>
+
+  <!-- لایت‌باکسِ کارتِ نقش — نمایشِ بزرگِ کارت با لمس -->
+  <div class="card-lightbox" id="cardLightbox" onclick="closeCardLightbox()">
+    <img id="cardLightboxImg" src="" alt="">
+  </div>
 
   <!-- صفحه ۱: اسپلش -->
   <div class="screen active" id="screen-splash">
@@ -857,6 +874,13 @@
     gersivaz:'گرسیوز', homan:'هومان', arjasb:'ارجاسب', pirans:'پیران', rostam:'رستم', zaal:'زال',
     jamasp:'جاماسپ', karen:'کارن', kaveh:'کاوه', fereydun:'فریدون', keykavous:'کیکاووس',
     bijan:'بیژن', manijeh:'منیژه', gordafarid:'گردآفرید', esfandiar:'اسفندیار', siavash:'سیاوش', sohrab:'سهراب'
+  };
+
+  // کارتِ تصویریِ هر نقش. طراح داره یکی‌یکی می‌فرسته؛ هر نقشی که اینجا نیست
+  // فقط با کارتِ متنیِ قبلی (نام + توضیح) نشون داده می‌شه، بدونِ اینکه چیزی بشکنه.
+  const ROLE_CARD_IMG = {
+    zahhak: 'assets/card-zahhak.jpg',
+    afrasiab: 'assets/card-afrasiab.jpg',
   };
 
   let currentGame = null;
@@ -1932,15 +1956,38 @@
     myRoleId = me.role_id; mySide = me.side;
     const roleName = ROLE_NAMES_FA[me.role_id] || me.role_id;
     const sideLabel = me.side === 'jamshidi' ? 'یارانِ جمشید' : me.side === 'zahhaki' ? 'ضحاکیان' : 'بی‌طرف';
-    const sidePortrait = me.side === 'jamshidi' ? 'assets/jamshid-glory.jpg' : me.side === 'zahhaki' ? 'assets/zahhak.jpg' : '';
-    document.querySelector('#screen-player-lobby .lobby-card').innerHTML = `
-      <div class="role-reveal-card">
-        ${sidePortrait ? `<div class="portrait-badge" style="background-image:url('${sidePortrait}'); width:72px; height:72px;"></div>` : ''}
-        <span class="side-tag ${me.side}">${sideLabel}</span>
-        <div class="rname">${roleName}</div>
-        <p style="font-size:11.5px; color:var(--parchment-dim);">این نقش فقط برای خودِ توئه — به کسی نشونش نده</p>
-      </div>
-    `;
+    const cardImg = ROLE_CARD_IMG[me.role_id];
+
+    if(cardImg){
+      // کارتِ کاملِ طراحی‌شده — اگه برای این نقش آماده باشه
+      document.querySelector('#screen-player-lobby .lobby-card').innerHTML = `
+        <div class="role-reveal-card" style="padding:18px 16px;">
+          <span class="side-tag ${me.side}">${sideLabel}</span>
+          <img class="role-card-img" src="${cardImg}" alt="${roleName}" onclick="openCardLightbox('${cardImg}','${roleName}')">
+          <p style="font-size:11.5px; color:var(--parchment-dim); margin-top:10px;">این نقش فقط برای خودِ توئه — به کسی نشونش نده. برای دیدنِ بزرگ‌تر، لمسش کن.</p>
+        </div>
+      `;
+    }else{
+      // کارتِ متنیِ موقت، تا وقتی طراحیِ این نقش آماده بشه
+      const sidePortrait = me.side === 'jamshidi' ? 'assets/jamshid-glory.jpg' : me.side === 'zahhaki' ? 'assets/zahhak.jpg' : '';
+      document.querySelector('#screen-player-lobby .lobby-card').innerHTML = `
+        <div class="role-reveal-card">
+          ${sidePortrait ? `<div class="portrait-badge" style="background-image:url('${sidePortrait}'); width:72px; height:72px;"></div>` : ''}
+          <span class="side-tag ${me.side}">${sideLabel}</span>
+          <div class="rname">${roleName}</div>
+          <p style="font-size:11.5px; color:var(--parchment-dim);">این نقش فقط برای خودِ توئه — به کسی نشونش نده</p>
+        </div>
+      `;
+    }
+  }
+
+  function openCardLightbox(src, alt){
+    document.getElementById('cardLightboxImg').src = src;
+    document.getElementById('cardLightboxImg').alt = alt;
+    document.getElementById('cardLightbox').classList.add('show');
+  }
+  function closeCardLightbox(){
+    document.getElementById('cardLightbox').classList.remove('show');
   }
 
   // ---------------- داشبوردِ جمشید ----------------
@@ -1997,10 +2044,12 @@
     const box = document.getElementById('myRoleGuide');
     if(myRoleId){
       const sideLabel = mySide === 'jamshidi' ? 'یارانِ جمشید' : mySide === 'zahhaki' ? 'ضحاکیان' : 'بی‌طرف';
+      const cardImg = ROLE_CARD_IMG[myRoleId];
       box.innerHTML = `
         <div class="my-role-guide">
           <div class="lbl">نقشِ تو — ${sideLabel}</div>
           <div class="nm">${ROLE_NAMES_FA[myRoleId] || myRoleId}</div>
+          ${cardImg ? `<img class="role-card-img" style="max-width:220px; margin:8px auto 12px;" src="${cardImg}" alt="${ROLE_NAMES_FA[myRoleId]}" onclick="openCardLightbox('${cardImg}','${ROLE_NAMES_FA[myRoleId]}')">` : ''}
           <div class="ds">${ROLE_DESC_FA[myRoleId] || 'توضیحی ثبت نشده.'}</div>
         </div>`;
     }else{
