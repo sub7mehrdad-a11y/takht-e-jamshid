@@ -1368,11 +1368,13 @@
 
   // ================= کنسولِ شبِ گرداننده =================
   // نقش‌هایی که اکشنِ فعالِ شبانه دارن، به همون ترتیبی که باید بیدار بشن.
+  // سودابه عمداً قبل از افراسیاب/هومان/رستمه: افسونش جوابِ فوریِ اون‌ها رو باطل می‌کنه،
+  // پس باید اول معلوم باشه کی افسون شده.
   const NIGHT_ROLES = [
     { role_id:'zahhak',   icon:'🐍', title:'ضحاک — انتخابِ دو نفر',   desc:'دو نفر رو برای طعمه‌ی مارها انتخاب کن.', type:'pick_two', action:'kill_pick_two' },
     { role_id:'armayil',  icon:'🍲', title:'ارمایل — نجاتِ یکی',      desc:'از بینِ دو انتخابِ ضحاک، یکی رو نجات بده.', type:'save_from_zahhak', action:'save_one_of_two' },
+    { role_id:'sudabeh',  icon:'🔮', title:'سودابه — افسون',          desc:'اختیاری. یک نفر رو افسون کن یا رد شو. (قبل از افراسیاب، هومان و رستم بیدار می‌شه تا جوابِ فوریِ اون‌ها درست باشه.)', type:'pick_one', optional:true, action:'enchant', immune:['kaveh','fereydun','siavash','armayil'], maxCharges:2, chargeFlag:'sudabeh_charges_used' },
     { role_id:'afrasiab', icon:'👁️', title:'افراسیاب — استعلام',      desc:'یک نفر رو انتخاب کن — جوابش همین‌جا می‌آد تا به افراسیاب بگی.', type:'pick_one', action:'inquiry', instantAnswer:true },
-    { role_id:'sudabeh',  icon:'🔮', title:'سودابه — افسون',          desc:'اختیاری. یک نفر رو افسون کن یا رد شو.', type:'pick_one', optional:true, action:'enchant', immune:['kaveh','fereydun','siavash','armayil'], maxCharges:2, chargeFlag:'sudabeh_charges_used' },
     { role_id:'homan',    icon:'🗡️', title:'هومان — حدسِ نقش',        desc:'یک نفر و یک نقشِ حدسی انتخاب کن — نتیجه همین‌جا می‌آد.', type:'guess', optional:true, lethal:true, action:'guess_kill_or_copy', instantAnswer:true },
     { role_id:'rostam',   icon:'🏹', title:'رستم — تیر',              desc:'یک مظنونِ ضحاکی رو نشونه بگیر — نتیجه همین‌جا می‌آد.', type:'pick_one', optional:true, lethal:true, action:'guess_shoot', instantAnswer:true, maxCharges:2, chargeFlag:'rostam_arrows_used' },
     { role_id:'zaal',     icon:'🪶', title:'زال — پرِ سیمرغ',         desc:'اختیاری و فقط یک‌بار در کلِ بازی. همه‌ی کشته‌های ضحاکِ امشب باطل می‌شه.', type:'toggle', optional:true, action:'block_all_kills', oncePerGame:'zaal_feather_used' },
@@ -1542,7 +1544,7 @@
     if(!target){ box.innerHTML = ''; return; }
     const actor = nightActor(roleId);
 
-    if(roleId !== 'afrasiab' && actor && isEnchantedTonight(actor.id)){
+    if(actor && isEnchantedTonight(actor.id)){
       box.innerHTML = answerHtml(DIM, 'افسون شده — قابلیتش امشب باطله',
         'هیچ اتفاقی نمی‌افته. طوری رفتار کن که خودش نفهمه افسون شده.');
       return;

@@ -351,6 +351,18 @@ t('card "اشتباه زد و زره نداشت — خودِ رستم می‌م�
   eq(deaths(r), ['r'], 'target still survives');
 });
 
+t('an enchanted Afrasiab gets NO inquiry result (the host card must show the same)', () => {
+  const ps = [P('af', 'afrasiab', 'zahhaki'), P('s', 'sudabeh', 'zahhaki'), P('r', 'rostam', 'jamshidi')];
+  const acts = [
+    { actor_player_id: 's', action_type: 'enchant', target_player_id: 'af' },
+    { actor_player_id: 'af', action_type: 'inquiry', target_player_id: 'r' },
+  ];
+  const r = resolveNight(ps, acts, gs());
+  eq(r.events.some(x => x.type === 'inquiry_result'), false, 'enchanted Afrasiab must not get an answer');
+  const r2 = resolveNight(ps, [acts[1]], gs());
+  eq(r2.events.some(x => x.type === 'inquiry_result'), true, 'un-enchanted Afrasiab still gets one');
+});
+
 console.log('\n=== Input purity ===');
 t('input players array is not mutated', () => {
   const ps = [P('z', 'zahhak', 'zahhaki'), P('x', 'rostam', 'jamshidi'), P('y', 'zaal', 'jamshidi')];
