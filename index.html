@@ -136,6 +136,13 @@
     font-family:'Vazirmatn'; font-size:16px; font-weight:800; cursor:pointer; padding:0;
     box-shadow:0 3px 10px rgba(0,0,0,0.5);
   }
+  /* ============ دفترچه‌ی کامل (iframe تمام‌صفحه) ============ */
+  .rb-view{ position:fixed; inset:0; z-index:300; background:#161310; display:none; flex-direction:column; }
+  .rb-view.open{ display:flex; }
+  .rb-bar{ display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--night-2); border-bottom:1px solid var(--gold); flex:0 0 auto; }
+  .rb-bar b{ flex:1; font-size:13px; color:var(--gold-soft); white-space:nowrap; text-align:center; }
+  .rb-bar button, .rb-bar a{ width:auto; flex:0 0 auto; white-space:nowrap; margin:0; font-family:'Vazirmatn'; font-size:12px; font-weight:700; color:var(--gold-soft); background:transparent; border:1px solid var(--gold); border-radius:8px; padding:6px 11px; cursor:pointer; text-decoration:none; }
+  .rb-view iframe{ flex:1; width:100%; border:0; background:#161310; }
   .my-role-guide{
     background:linear-gradient(180deg, rgba(201,151,47,0.16), rgba(201,151,47,0.05));
     border:1.5px solid var(--gold); border-radius:12px; padding:13px 14px; margin-bottom:14px;
@@ -550,6 +557,9 @@
       <div class="oct-wrap">
         <button class="oct" style="width:auto; display:inline-block; padding:12px 24px; cursor:pointer; background:linear-gradient(180deg, #3a3020, #221b10); border:1.5px solid var(--gold); color:var(--gold-soft); font-family:'Vazirmatn'; font-size:13px; font-weight:700;" onclick="openGuide()">📜 دیدنِ لیستِ نقش‌ها</button>
       </div>
+      <div class="oct-wrap" style="margin-top:8px;">
+        <button class="oct" style="width:auto; display:inline-block; padding:12px 24px; cursor:pointer; background:linear-gradient(180deg, #3a3020, #221b10); border:1.5px solid var(--gold); color:var(--gold-soft); font-family:'Vazirmatn'; font-size:13px; font-weight:700;" onclick="openRulebook()">📖 دفترچه‌ی کامل (با تصویر)</button>
+      </div>
     </div>
   </div>
 
@@ -560,6 +570,9 @@
       <div class="oct-wrap"><div class="oct oct-title">نقش‌های بازی</div></div>
       <!-- نقشِ خودِ بازیکن، بالای همه -->
       <div id="myRoleGuide"></div>
+      <div class="oct-wrap" style="margin:6px 0 14px;">
+        <button class="oct" style="width:auto; display:inline-block; padding:12px 24px; cursor:pointer; background:linear-gradient(180deg, #3a3020, #221b10); border:1.5px solid var(--gold); color:var(--gold-soft); font-family:'Vazirmatn'; font-size:13px; font-weight:700;" onclick="openRulebook()">📖 دفترچه‌ی کامل (با تصویر)</button>
+      </div>
 
       <div class="role-team t-jamshidi">پادشاهان (آشکار)</div>
       <div class="role-item"><div class="rn">جمشید</div><div class="rd">پادشاهِ روز، نامیرا. جامِ جم (یک‌بار: تعدادِ یارانِ زنده‌اش) و فراخواندنِ سروش.</div></div>
@@ -840,6 +853,16 @@
 
   <!-- دکمه‌ی همیشگیِ راهنما — از هر صفحه‌ای در دسترسه -->
   <button class="guide-fab" id="guideFab" onclick="openGuide()" title="راهنما">؟</button>
+
+  <!-- دفترچه‌ی کامل و تصویرسازی‌شده -->
+  <div class="rb-view" id="rulebookView">
+    <div class="rb-bar">
+      <button onclick="closeRulebook()">→ بازگشت</button>
+      <b>دفترچه‌ی تخت جمشید</b>
+      <a href="assets/rulebook/rulebook.pdf" target="_blank" rel="noopener" download>PDF چاپی</a>
+    </div>
+    <iframe id="rulebookFrame" title="دفترچه‌ی تخت جمشید"></iframe>
+  </div>
 
   <!-- صفحه ۸: پایانِ بازی -->
   <div class="screen" id="screen-game-over">
@@ -2105,6 +2128,16 @@
     const active = document.querySelector('.screen.active');
     guideReturnScreen = active ? active.id : null;
     go('screen-roles');
+  }
+
+  // دفترچه‌ی کامل: iframe فقط بارِ اولِ باز شدن لود می‌شه (حجمِ تصاویر زیاده)
+  function openRulebook(){
+    const f = document.getElementById('rulebookFrame');
+    if(!f.getAttribute('src')) f.setAttribute('src', 'assets/rulebook/index.html');
+    document.getElementById('rulebookView').classList.add('open');
+  }
+  function closeRulebook(){
+    document.getElementById('rulebookView').classList.remove('open');
   }
 
   function closeGuide(){

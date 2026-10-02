@@ -7,3 +7,5 @@ _backup-pre-sync-*/
 !assets/*.jpg
 !assets/*.jpeg
 !assets/*.png
+!assets/rulebook/img/*.jpg
+!assets/rulebook/rulebook.pdf
