@@ -11,3 +11,5 @@ _backup-pre-sync-*/
 !assets/rulebook/rulebook.pdf
 !assets/entry/**/*.jpg
 !assets/entry/**/*.png
+!assets/lobby/**/*.jpg
+!assets/lobby/**/*.png
