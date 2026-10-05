@@ -388,28 +388,87 @@
   .ic{ width:15px; height:15px; vertical-align:-2px; }
   .ic.sm{ width:12px; height:12px; }
 
-  /* ============ صفحه‌ی ورود — عکسِ کاملِ «صفحه اول.png» + المان‌های نامرئیِ واقعی ============ */
-  .entry-map{
-    position:relative; width:100%; aspect-ratio:853/1844;
-    background:url('assets/entry-screen.jpg') center top no-repeat;
-    background-size:100% 100%;
-    margin:0 auto;
-  }
-  .eh-field{
-    position:absolute; width:auto !important; background:transparent; border:none; border-radius:0; outline:none; padding:0 10px;
-    color:#e9dab8; font-family:'Vazirmatn'; text-align:center; font-size:clamp(11px, 3.4vw, 15px);
-  }
-  .eh-field::placeholder{ color:transparent; }
-  .eh-btn{
-    position:absolute; width:auto; background:transparent; border:none; border-radius:0; padding:0; margin:0; cursor:pointer;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .eh-guide{
-    position:absolute; left:3%; top:1.2%; width:19%; height:4%;
-    background:rgba(20,15,8,0.55); border:1px solid rgba(230,196,130,0.55); border-radius:8px;
-    color:#e6c482; font-size:clamp(9px,2.4vw,11px); display:flex; align-items:center; justify-content:center; gap:3px;
-    cursor:pointer;
-  }
+  /* ============ صفحه‌ی ورود — طرحِ نهاییِ ۵ اکتبر (بسته‌ی entry-pack): HTML/CSS واقعی، نه عکسِ کامل ============ */
+  @font-face{font-family:EntryAmiri;src:url('assets/entry/fonts/amiri-400.ttf');font-display:swap}
+#screen-entry{--tj-paper:#F3E7D1;--tj-ink:#382613;--tj-muted:#725A3C;--tj-gold:#AA783A;--tj-focus:#775015;--tj-error:#8B2337;--tj-font:'Vazirmatn',EntryVazir,Tahoma,sans-serif;color-scheme:light}
+#screen-entry *{box-sizing:border-box}
+#screen-entry button,#screen-entry input{font:inherit}
+#screen-entry button{cursor:pointer}
+#screen-entry button:disabled{cursor:not-allowed}
+#screen-entry [hidden]{display:none!important}
+#screen-entry :focus-visible{outline:3px solid var(--tj-focus);outline-offset:3px}
+#screen-entry h1,#screen-entry h2,#screen-entry p{margin:0}
+#screen-entry .tj-entry{max-width:480px;margin:auto;min-height:100dvh;background:var(--tj-paper) url('assets/entry/screens/bg_entry_clean.jpg') center top/100% auto no-repeat;overflow-wrap:anywhere}
+#screen-entry .tj-hero{position:relative;aspect-ratio:1080/1089}
+#screen-entry .tj-hero-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#screen-entry .tj-guide{position:absolute;top:max(16px,env(safe-area-inset-top));left:16px;display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px;min-width:48px;min-height:72px;border:0;background:#f3e7d1b8;border-radius:4px;color:var(--tj-ink);font-size:11px;line-height:1.45;z-index:2}
+#screen-entry .tj-guide img{width:28px;height:28px}
+#screen-entry .tj-title{position:absolute;top:9%;left:17%;right:10%;text-align:center}
+#screen-entry .tj-title h1{font:clamp(34px,10.5vw,48px)/1.2 EntryAmiri,serif;font-weight:700;white-space:nowrap;color:#38210c;text-shadow:0 1px 0 #fff0d2}
+#screen-entry .tj-title p{font-size:clamp(11px,3.1vw,14px);font-weight:700;line-height:1.6;margin-top:14px}
+#screen-entry .tj-content{position:relative;padding:0 32px max(48px,env(safe-area-inset-bottom));background:url('assets/entry/components/parchment_sample.png') center/cover}
+#screen-entry .tj-transition{display:flex;align-items:center;gap:8px;transform:translateY(-14px);height:22px;margin-bottom:4px}
+#screen-entry .tj-transition:before,#screen-entry .tj-transition:after{content:'';height:1px;background:#aa783a88;flex:1}
+#screen-entry .tj-transition img{width:38px;height:22px;object-fit:contain}
+#screen-entry .tj-heading{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:700;line-height:1.5;text-align:center}
+#screen-entry .tj-heading:before,#screen-entry .tj-heading:after{content:'';height:1px;background:linear-gradient(90deg,transparent,#aa783a);flex:1;min-width:8px}
+#screen-entry .tj-heading:after{transform:scaleX(-1)}
+#screen-entry .tj-help{text-align:center;font-size:14px;line-height:1.8;margin:10px 0 14px}
+#screen-entry .tj-field{position:relative;border:solid transparent;border-width:8px 10px;border-image:url('assets/entry/components/input_normal.png') 24 30 24 30 fill stretch;min-height:48px;margin-top:10px;background:transparent}
+#screen-entry .tj-field input{display:block;border:0;background:transparent;color:var(--tj-ink);height:32px;min-width:0;width:100%;padding:2px 10px 2px 36px;font-size:16px;line-height:1.5;border-radius:0;outline-offset:6px}
+#screen-entry .tj-field input::placeholder{color:var(--tj-muted);opacity:1}
+#screen-entry .tj-field:focus-within{outline:2px solid var(--tj-focus);outline-offset:1px}
+#screen-entry .tj-field:has(input[aria-invalid=true]){outline:2px solid var(--tj-error);outline-offset:1px}
+#screen-entry .tj-field-icon{position:absolute;left:0;top:4px;width:24px;height:24px;pointer-events:none}
+#screen-entry .tj-field:has(input:disabled){filter:grayscale(.7);opacity:.75}
+#screen-entry .tj-code-field{min-height:56px}
+#screen-entry .tj-code-field input{height:40px;padding-left:52px;text-align:center;letter-spacing:2px;font-family:ui-monospace,monospace}
+#screen-entry .tj-code-field input:placeholder-shown{direction:rtl;letter-spacing:0;font-family:var(--tj-font)}
+#screen-entry .tj-qr{position:absolute;left:-2px;top:-4px;width:48px;height:48px;display:grid;place-items:center;background:transparent;border:0;border-right:1px solid #aa783a88;color:var(--tj-ink)}
+#screen-entry .tj-qr img{width:25px;height:25px}
+#screen-entry .tj-button{display:flex;justify-content:center;align-items:center;gap:8px;width:100%;min-height:50px;margin-top:12px;padding:6px 12px;border:solid transparent;border-width:4px 24px;border-image-slice:12 72 12 72 fill;border-image-repeat:stretch;color:var(--tj-ink);background:transparent;font-size:18px;font-weight:700;line-height:1.5;transition:filter .12s,transform .12s}
+#screen-entry .tj-primary{border-image-source:url('assets/entry/components/btn_primary_normal.png')}
+#screen-entry .tj-secondary{border-image-source:url('assets/entry/components/btn_secondary_normal.png')}
+#screen-entry .tj-button:hover:not(:disabled){filter:brightness(1.04)}
+#screen-entry .tj-button:active:not(:disabled),#screen-entry .tj-button[data-state=pressed]{filter:brightness(.92);transform:translateY(1px)}
+#screen-entry .tj-button:disabled,#screen-entry .tj-button[data-state=disabled]{filter:grayscale(.75) saturate(.35);color:#594b39}
+#screen-entry .tj-button[aria-busy=true]{cursor:wait}
+#screen-entry .tj-spinner{width:22px;height:22px;animation:tj-spin 1.4s linear infinite}
+@keyframes tj-spin{to{transform:rotate(360deg)}}
+#screen-entry .tj-error{color:var(--tj-error);font-size:13px;margin-top:5px;line-height:1.7}
+#screen-entry .tj-divider{display:block;width:100%;height:18px;object-fit:fill;margin:22px 0 20px}
+#screen-entry .tj-footer{text-align:center;font-size:13px;color:var(--tj-muted);padding:26px 0 8px;position:relative;isolation:isolate}
+#screen-entry .tj-footer:before{content:'';position:absolute;z-index:-1;left:-32px;right:-32px;top:20px;bottom:-48px;background:url('assets/entry/components/footer_ornament.png') center bottom/100% auto no-repeat;opacity:.5;pointer-events:none}
+#screen-entry .tj-sun-divider{display:block;width:145px;height:16px;object-fit:contain;margin:0 auto 14px}
+#screen-entry .tj-footer small{font-size:11px}
+@media(max-width:350px){#screen-entry .tj-content{padding-inline:24px}
+#screen-entry .tj-heading{font-size:22px}
+#screen-entry .tj-title{left:20%;right:6%}
+#screen-entry .tj-guide{left:10px}
+#screen-entry .tj-help{font-size:14px}
+#screen-entry .tj-button{font-size:16px}
+#screen-entry .tj-footer:before{left:-24px;right:-24px}}
+@media(prefers-reduced-motion:reduce){#screen-entry .tj-button{transition:none}
+#screen-entry .tj-spinner{animation:none}}
+#screen-entry .tj-code-field:has(.tj-qr[hidden]) input{padding-left:10px}
+#screen-entry{color-scheme:light}
+  /* صفحه‌ی بلند: بخشِ پوستیِ فرم تا ته پر بشه (نه یک نوارِ صافِ بی‌بافت) و فوتر پایین بمونه */
+  #screen-entry .tj-entry{ display:flex; flex-direction:column; }
+  #screen-entry .tj-hero{ flex:0 0 auto; }
+  #screen-entry .tj-content{ flex:1 0 auto; display:flex; flex-direction:column; }
+  #screen-entry .tj-footer{ margin-top:auto; }
+  /* استایل‌های سراسریِ اپ (رنگِ متن، width:100% و padding روی button) نباید روی این صفحه اثر بذارن */
+  #screen-entry .tj-entry{ color:var(--tj-ink); font-family:var(--tj-font); }
+  #screen-entry .tj-entry h1, #screen-entry .tj-entry h2, #screen-entry .tj-entry p, #screen-entry .tj-entry small{ color:inherit; }
+  #screen-entry .tj-footer, #screen-entry .tj-footer p, #screen-entry .tj-footer small{ color:var(--tj-muted); }
+  #screen-entry .tj-error{ color:var(--tj-error); }
+  #screen-entry button.tj-guide{ width:auto; padding:4px; border-radius:4px; font-family:var(--tj-font); font-weight:400; }
+  #screen-entry button.tj-qr{ width:48px; padding:0; border-radius:0; }
+  #screen-entry button.tj-button{ width:100%; padding:6px 12px; border-radius:0; font-family:var(--tj-font); }
+  #screen-entry button:active{ transform:none; }
+  #screen-entry button.tj-button:active:not(:disabled){ transform:translateY(1px); }
+  #screen-entry button:disabled{ opacity:1; }
+  #screen-entry .tj-field input{ margin:0; border-radius:0; background:transparent; border:0; color:var(--tj-ink); font-family:var(--tj-font); }
 
   .yn-divider{ display:flex; align-items:center; justify-content:center; gap:10px; color:var(--parchment-dim); font-size:12px; margin:14px 0; }
   .yn-divider .ln{ flex:1; height:1px; background:var(--line); max-width:60px; }
@@ -471,20 +530,41 @@
 
   <!-- صفحه ۲: ورود -->
   <div class="screen" id="screen-entry">
-    <div class="entry-map">
-      <button class="eh-guide" onclick="go('screen-guide')"><img class="ic" src="assets/icon-guide.png" alt=""> دفترچه راهنما</button>
-
-      <input type="text" id="hostNameInput" class="eh-field" placeholder="نام شما"
-        style="left:13.5%; right:17.9%; top:54.8%; height:3.6%;">
-      <button class="eh-btn" id="createBtn" onclick="handleCreate()" aria-label="ساخت بازی جدید"
-        style="left:13.5%; right:17.9%; top:60.5%; height:4.6%;"></button>
-
-      <input type="text" id="joinNameInput" class="eh-field" placeholder="نام شما"
-        style="left:13.5%; right:17.9%; top:77.3%; height:3.6%;">
-      <input type="text" id="joinCodeInput" class="eh-field" placeholder="کد اتاق" maxlength="6"
-        style="left:13.5%; right:26%; top:82.2%; height:3.6%;">
-      <button class="eh-btn" id="joinBtn" onclick="handleJoin()" aria-label="پیوستن به بازی"
-        style="left:13.5%; right:17.9%; top:88.1%; height:4.4%;"></button>
+    <div class="tj-entry">
+      <header class="tj-hero">
+        <img class="tj-hero-art" src="assets/entry/screens/hero_entry.jpg" alt="" aria-hidden="true">
+        <button class="tj-guide" id="entryGuideBtn" type="button" onclick="go('screen-guide')"><img src="assets/entry/icons/book.svg" alt=""><span>دفترچه<br>راهنما</span></button>
+        <div class="tj-title"><h1 id="entryTitle">تخت جمشید</h1><p id="entrySubtitle">بازی نقش مخفی بر پایهٔ شاهنامه</p></div>
+      </header>
+      <div class="tj-content">
+        <div class="tj-transition" aria-hidden="true"><img src="assets/entry/components/divider_lotus.png" alt=""></div>
+        <section aria-labelledby="createHeading">
+          <h2 id="createHeading" class="tj-heading"><span>ساخت بازی جدید</span></h2>
+          <p class="tj-help">برای ساخت بازی، نام خود را وارد کنید.</p>
+          <form id="createForm" novalidate onsubmit="event.preventDefault(); handleCreate();">
+            <div class="tj-field"><img src="assets/entry/icons/user.svg" alt="" class="tj-field-icon"><input id="hostNameInput" name="hostName" autocomplete="name" placeholder="نام شما" aria-label="نام شما برای ساخت بازی" aria-describedby="hostNameError" required></div>
+            <p class="tj-error" id="hostNameError" hidden></p>
+            <button id="createBtn" class="tj-button tj-primary" type="submit"><img class="tj-spinner" src="assets/entry/icons/sun.svg" alt="" hidden><span>ساخت بازی جدید</span></button>
+          </form>
+        </section>
+        <img class="tj-divider" src="assets/entry/components/divider_diamond.png" alt="" aria-hidden="true">
+        <section aria-labelledby="joinHeading">
+          <h2 id="joinHeading" class="tj-heading"><span>پیوستن به بازی</span></h2>
+          <p class="tj-help">نام و کد اتاق را وارد کنید.</p>
+          <form id="joinForm" novalidate onsubmit="event.preventDefault(); handleJoin();">
+            <div class="tj-field"><img src="assets/entry/icons/user.svg" alt="" class="tj-field-icon"><input id="joinNameInput" name="joinName" autocomplete="name" placeholder="نام شما" aria-label="نام شما برای پیوستن" aria-describedby="joinNameError" required></div>
+            <p class="tj-error" id="joinNameError" hidden></p>
+            <div class="tj-field tj-code-field">
+              <input id="joinCodeInput" name="roomCode" dir="ltr" maxlength="6" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="کد اتاق" aria-label="کد شش‌رقمی اتاق" aria-describedby="joinCodeError" required>
+              <!-- خواندنِ QR هنوز در وب پیاده نشده؛ در نسخه‌ی اندروید فعال می‌شه -->
+              <button id="joinQrBtn" class="tj-qr" type="button" aria-label="خواندن کد QR اتاق" hidden><img src="assets/entry/icons/qr.svg" alt=""></button>
+            </div>
+            <p class="tj-error" id="joinCodeError" hidden></p>
+            <button id="joinBtn" class="tj-button tj-secondary" type="submit"><img class="tj-spinner" src="assets/entry/icons/sun.svg" alt="" hidden><span>پیوستن به بازی</span></button>
+          </form>
+        </section>
+        <footer class="tj-footer"><img class="tj-sun-divider" src="assets/entry/components/divider_sun.png" alt="" aria-hidden="true"><p>گروه بازی‌سازی بزرگمهر</p><small>نسخه ۱٫۰٫۰</small></footer>
+      </div>
     </div>
   </div>
 
@@ -1028,7 +1108,7 @@
     // دکمه‌ی راهنما همه‌جا هست، به‌جز خودِ صفحه‌های راهنما و اسپلش
     const fab = document.getElementById('guideFab');
     if(fab){
-      const hideOn = ['screen-splash', 'screen-roles', 'screen-guide'];
+      const hideOn = ['screen-splash', 'screen-entry', 'screen-roles', 'screen-guide'];
       fab.style.display = hideOn.includes(id) ? 'none' : 'block';
     }
   }
@@ -1056,15 +1136,36 @@
     return false;
   }
 
+  // --- کمکی‌هایِ فرمِ صفحه‌ی ورود (طرحِ جدید) ---
+  function entryFieldError(inputId, text){
+    const map = { hostNameInput:'hostNameError', joinNameInput:'joinNameError', joinCodeInput:'joinCodeError' };
+    const input = document.getElementById(inputId), msg = document.getElementById(map[inputId]);
+    input.setAttribute('aria-invalid', text ? 'true' : 'false');
+    msg.textContent = text || ''; msg.hidden = !text;
+    return !text;
+  }
+  function entrySetBusy(btnId, busy){
+    const b = document.getElementById(btnId);
+    b.setAttribute('aria-busy', String(busy));
+    b.disabled = busy;
+    b.querySelector('.tj-spinner').hidden = !busy;
+  }
+  ['hostNameInput','joinNameInput','joinCodeInput'].forEach(id =>
+    document.getElementById(id).addEventListener('input', () => entryFieldError(id, '')));
+  // ارقامِ فارسی/عربی (کیبوردِ فارسی) به لاتین تبدیل می‌شن تا کدِ اتاق درست جور دربیاد
+  function normalizeDigits(str){
+    return str.replace(/[۰-۹]/g, d => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)))
+              .replace(/[٠-٩]/g, d => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)));
+  }
+
   async function handleCreate(){
     clearError();
     const name = document.getElementById('hostNameInput').value.trim();
-    if(!name){ showError('اول اسمت رو بنویس.'); return; }
+    if(!entryFieldError('hostNameInput', name ? '' : 'نام خود را وارد کنید.')){
+      document.getElementById('hostNameInput').focus(); return;
+    }
     if(!tjBackendReady()) return;
-    // createBtn یه هات‌اسپاتِ نامرئی روی عکسِ صفحه‌ی ورودِ؛ نوشتنِ متن روش طرح رو خراب
-    // می‌کنه. به‌جاش یه نوارِ وضعیتِ جدا نشون می‌دیم.
-    document.getElementById('createBtn').disabled = true;
-    showBusy('در حالِ ساختِ اتاق…');
+    entrySetBusy('createBtn', true);
     try{
       const { game, player } = await tjCreateGame(name);
       currentGame = game; currentPlayer = player;
@@ -1075,19 +1176,23 @@
     }catch(e){
       showError(e.message);
     }finally{
-      document.getElementById('createBtn').disabled = false;
-      hideBusy();
+      entrySetBusy('createBtn', false);
     }
   }
 
   async function handleJoin(){
     clearError();
-    const code = document.getElementById('joinCodeInput').value.trim();
+    const codeEl = document.getElementById('joinCodeInput');
     const name = document.getElementById('joinNameInput').value.trim();
-    if(!code || !name){ showError('کدِ اتاق و اسمت رو وارد کن.'); return; }
+    const code = normalizeDigits(codeEl.value.trim());
+    codeEl.value = code;
+    const okName = entryFieldError('joinNameInput', name ? '' : 'نام خود را وارد کنید.');
+    const okCode = entryFieldError('joinCodeInput', /^\d{6}$/.test(code) ? '' : 'کد شش‌رقمی اتاق را وارد کنید.');
+    if(!okName || !okCode){
+      document.getElementById(okName ? 'joinCodeInput' : 'joinNameInput').focus(); return;
+    }
     if(!tjBackendReady()) return;
-    document.getElementById('joinBtn').disabled = true;
-    showBusy('در حالِ پیوستن به اتاق…');
+    entrySetBusy('joinBtn', true);
     try{
       const { game, player } = await tjJoinGame(code, name);
       currentGame = game; currentPlayer = player;
@@ -1098,8 +1203,7 @@
     }catch(e){
       showError(e.message);
     }finally{
-      document.getElementById('joinBtn').disabled = false;
-      hideBusy();
+      entrySetBusy('joinBtn', false);
     }
   }
 
