@@ -117,46 +117,23 @@
   /* ============ سروش — نامه‌نگاری ============ */
   /* نوارِ شناور، چون بازیکن بسته به نقش و فاز روی صفحه‌های مختلفیه و نامه باید
      از همه‌جا در دسترس باشه. */
-  .soroush-bar{
-    display:none; position:fixed; z-index:150; bottom:0; left:0; right:0;
-    background:linear-gradient(180deg, rgba(14,14,23,0), var(--night) 32%);
-    padding:16px 12px 12px; text-align:center;
-  }
-  .soroush-bar.show{ display:block; }
-  /* نوار fixed پایینِ صفحه‌ست و بدونِ این، دکمه‌ی آخرِ صفحه (مثلاً ثبتِ نهاییِ رأی) زیرش گم می‌شه */
-  body.soroush-open{ padding-bottom:76px; }
-  .soroush-bar button{
-    width:min(420px, 92vw); background:linear-gradient(180deg, #3a3020, #221b10);
-    border:1.5px solid var(--gold); border-radius:11px; color:var(--gold-soft);
-    font-family:'Vazirmatn'; font-size:13px; font-weight:700; padding:11px; cursor:pointer;
-  }
-  .soroush-badge{
-    display:inline-block; background:var(--crimson); color:#fff; border-radius:99px;
-    font-size:10.5px; font-weight:800; padding:1px 7px; margin-right:5px;
-  }
 
-  .modal-back{
-    display:none; position:fixed; inset:0; z-index:160; background:rgba(6,6,11,0.82);
-    padding:18px 12px; overflow-y:auto;
-  }
-  .modal-back.show{ display:block; }
-  .modal-card{
-    width:min(440px, 100%); margin:0 auto; background:var(--night-2);
-    border:1px solid var(--gold); border-radius:14px; padding:16px;
-  }
-  .modal-card h3{ font-size:14px; color:var(--gold-soft); margin:0 0 3px; text-align:center; }
-  .modal-card .sub{ font-size:11px; color:var(--parchment-dim); text-align:center; margin-bottom:14px; }
-  .modal-card select, .modal-card textarea{
-    width:100%; background:var(--night-3); border:1px solid var(--line); border-radius:9px;
-    color:var(--parchment); font-family:'Vazirmatn'; font-size:12.5px; padding:9px 11px; margin-bottom:9px;
-  }
-  .modal-card textarea{ min-height:96px; resize:vertical; line-height:1.9; }
-  .letter{
-    background:var(--night-3); border:1px solid var(--line); border-right:3px solid var(--gold);
-    border-radius:9px; padding:10px 12px; margin-bottom:9px; font-size:12.5px; line-height:2; white-space:pre-wrap;
-  }
-  .letter .from{ font-size:10.5px; color:var(--parchment-dim); display:block; margin-bottom:4px; }
-  .letter.spied{ border-right-color:var(--crimson-soft); }
+
+  /* نوار fixed پایینِ صفحه‌ست و بدونِ این، دکمه‌ی آخرِ صفحه (مثلاً ثبتِ نهاییِ رأی) زیرش گم می‌شه */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   .role-reveal-card{
     background:var(--night-2); border:1px solid var(--gold); border-radius:18px; padding:30px 20px; text-align:center;
@@ -184,12 +161,12 @@
   .mode-btn.active[data-mode="peyman"]{ background:rgba(201,151,47,0.15); border-color:var(--gold); color:var(--gold-soft); }
   .mode-btn.active[data-mode="goman"]{ background:rgba(138,36,54,0.18); border-color:var(--crimson-soft); color:var(--crimson-soft); }
 
-  .card-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 0; border-bottom:1px solid var(--line); }
-  .card-row .ci{ font-size:13px; }
-  .card-row .ci small{ display:block; font-size:10.5px; color:var(--parchment-dim); margin-top:2px; }
-  .card-use-btn{ width:auto; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:700; background:var(--night-3); border:1px solid var(--gold); color:var(--gold-soft); cursor:pointer; }
-  .card-use-btn:disabled{ opacity:.35; cursor:not-allowed; border-color:var(--line); color:var(--parchment-dim); }
-  #screen-zahhak-dash .card-use-btn{ border-color:var(--crimson-soft); color:var(--crimson-soft); }
+
+
+
+
+
+
 
   .tally-row{ display:flex; align-items:center; justify-content:space-between; padding:7px 10px; border-radius:8px; background:var(--night-3); margin-bottom:5px; font-size:12.5px; }
   .tally-row.top-peyman{ border:1px solid var(--gold); }
@@ -234,7 +211,7 @@
     width:52px; height:52px; border-radius:50%; margin:0 auto 8px; background-position:center; background-size:cover;
     border:2px solid var(--gold);
   }
-  #screen-zahhak-dash .portrait-badge{ border-color:var(--crimson-soft); }
+
 
 
   /* ============ سیستمِ octagon-frame — بر اساسِ «طراحیِ مبنا» ============ */
@@ -717,6 +694,180 @@ body:has(#screen-night-wait.active){background:#211b17}
 .play-screen .mode-btn:disabled:not(.active){opacity:.8}
 .play-screen h1,.play-screen h2{color:inherit;background:none;-webkit-text-fill-color:currentColor}
 
+
+/* ============ ابزارهایِ ویژه: داشبوردِ جمشید/ضحاک + سروش (powers-pack) ============ */
+.pw{--paper:#f3e7d1;--ink:#382613;--muted:#725a3c;--bronze:#aa783a;--gold:#775015;--crimson:#802536;--font:Vazirmatn,Tahoma,sans-serif;color-scheme:light}
+.pw *{box-sizing:border-box}
+.pw [hidden]{display:none!important}
+.pw button{cursor:pointer}
+.pw button:disabled{cursor:not-allowed}
+.pw :focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.pw .mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pw .mode-btn{min-height:50px;border:solid transparent;border-width:4px 18px;border-image:url('assets/entry/components/btn_secondary_normal.png') 12 72 12 72 fill stretch;background:transparent;color:var(--ink);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:5px}
+.pw .mode-icon{width:20px;height:20px}
+.pw .mode-btn.active{outline:2px solid var(--bronze);outline-offset:1px;border-image-source:url('assets/entry/components/btn_primary_normal.png')}
+.pw .mode-btn[data-mode=goman].active{border-image-source:url('assets/control/components/btn_crimson_normal.png');outline-color:var(--crimson);color:#fff4e6}
+.pw .mode-btn[data-mode=goman].active .mode-icon{filter:brightness(0) invert(.94)}
+.pw .mode-indicator{font-size:12px;min-width:10px}
+.pw .mode-btn[aria-busy=true]{cursor:wait}
+.pw .player-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px 8px;list-style:none;padding:0;margin:0}
+.pw .player-dot{min-width:0;width:100%;min-height:56px;display:grid;grid-template-columns:26px minmax(0,1fr) 14px;align-items:center;gap:5px;border:solid transparent;border-width:5px 8px;border-image:url('assets/play/components/player_plaque.png') 24 30 24 30 fill stretch;padding:4px 0;background:transparent;color:var(--ink);text-align:right}
+.pw .avatar{width:26px;height:26px;border:1px solid #aa783a66;border-radius:50%;display:grid;place-items:center;font-size:13px;background:#d8bf9133;flex-shrink:0}
+.pw .pname{font-size:13px;line-height:17px;font-weight:400;min-width:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.pw .dot-state{display:flex;align-items:center;justify-content:center;width:14px;height:16px;font-size:12px;color:var(--gold)}
+.pw .dot-state img{width:14px;height:14px}
+.pw .player-dot.peyman{outline:2px solid #ae7a28;outline-offset:-1px;background:#dbb66f26}
+.pw .player-dot.goman{outline:2px solid #802536;outline-offset:-1px;background:#8025360d}
+.pw .player-dot.goman .dot-state{color:var(--crimson)}
+.pw .player-dot.blocked .avatar{background:#bfb09c33}
+.pw .player-dot.blocked .pname{color:#796a55}
+.pw .player-dot.blocked{border-image-source:url('assets/play/components/player_plaque.png');background:#ab9b8822}
+.pw .player-dot.locked{pointer-events:none}
+.pw .player-dot.locked .dot-state{opacity:.9}
+.pw .player-dot:hover:not(.locked):not(.blocked){filter:brightness(1.05)}
+.pw .player-dot:active:not(.locked){filter:brightness(.96)}
+.pw .mode-btn:disabled,.pw .player-dot:disabled{cursor:default}
+.pw .player-dot:disabled{color:var(--ink)}
+.pw .mode-btn:disabled{opacity:.8}
+.pw .mode-btn:disabled.active{opacity:1}
+.pw .spinner{animation:spin 1.4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:350px){.pw .player-grid{gap:6px}
+.pw .player-dot{gap:4px;grid-template-columns:24px minmax(0,1fr) 13px;border-width:5px 6px}
+.pw .avatar{width:24px;height:24px}
+.pw .mode-btn{border-width:4px 12px;font-size:15px}}
+.pw{--surface:#f3e7d1;--ink:#382613;--muted:#725a3c;--accent:#aa783a;--plate-filter:none;--field-bg:#efe1c8;--soroush-height:84px}
+.pw[data-theme=zahhak]{--surface:#2b2020;--ink:#edddc7;--muted:#c3ab91;--accent:#b49364;--gold:#cba46d;--crimson:#e2a6ac;--plate-filter:brightness(.24) sepia(.3) saturate(.65);--field-bg:#392929;color-scheme:dark}
+.powers-screen{max-width:480px;min-height:100dvh;margin:auto;padding:24px 20px;background:var(--surface);color:var(--ink)}
+.powers-screen[data-theme=jamshid]{background:var(--surface) url('assets/entry/components/parchment_sample.png') center/cover}
+.powers-screen[data-theme=zahhak]{background:radial-gradient(ellipse at top,#472d301f,transparent 65%),var(--surface)}
+.pw .powers-header{display:flex;gap:16px;align-items:center;margin-bottom:26px}
+.pw .portrait-badge{flex:0 0 72px;width:72px;height:72px;border:2px solid var(--accent);border-radius:50%;background-image:var(--portrait-image,none);background-size:cover;background-position:center;box-shadow:0 0 0 5px #aa783a13,0 0 20px #aa783a20;outline:1px solid #aa783a55;outline-offset:5px}
+.pw .powers-header h1{font-size:19px;margin:3px 0 8px;font-weight:700}
+.powers-screen[data-theme=zahhak] .powers-header h1{font-size:16px;font-weight:400}
+.pw .eyebrow{font-size:12px;color:var(--muted)}
+.pw .phase-pill{display:inline-block;border:1px solid var(--accent);padding:2px 12px;border-radius:20px;font-size:12px;color:var(--ink)}
+.pw .power-card{position:relative;isolation:isolate;padding:18px 16px;margin-bottom:20px;min-width:0}
+.pw .power-card:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:solid transparent;border-width:8px 10px;border-image:url('assets/control/components/night_card.png') 24 30 24 30 fill stretch;filter:var(--plate-filter)}
+.pw .power-head{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.pw .power-head>img{width:25px;height:25px;flex-shrink:0}
+.pw .power-head h2{font-size:18px;flex:1;margin:0}
+.pw .power-card>p{font-size:14px;color:var(--muted);margin:0 0 12px;line-height:2}
+.pw .used-tag{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted)}
+.pw .used-tag img{width:20px;height:20px}
+.pw .power-card.used{opacity:.9}
+.pw .power-card.used .card-use-btn{filter:grayscale(.7);opacity:.65}
+.pw .power-card .power-note{font-size:12px;margin:8px 0 0;min-height:23px}
+.pw .card-use-btn,.pw .btn-gold,.pw .btn-crimson,.pw .btn-outline{display:flex;align-items:center;justify-content:center;gap:6px;min-height:52px;width:100%;font:700 16px/1.7 var(--font);padding:6px 8px;border:solid transparent;border-width:4px 24px;background:transparent;color:#382613;border-image:url('assets/entry/components/btn_primary_normal.png') 12 72 12 72 fill stretch}
+.pw .btn-outline{border-image-source:url('assets/entry/components/btn_secondary_normal.png')}
+.pw .btn-crimson{border-image-source:url('assets/control/components/btn_crimson_normal.png');color:#fff4e6}
+.pw .card-use-btn:disabled,.pw .btn-gold:disabled,.pw .btn-crimson:disabled,.pw .btn-outline:disabled{cursor:not-allowed;filter:grayscale(.65);opacity:.72}
+.pw .card-use-btn img,.pw .btn-gold img{width:20px;height:20px}
+.pw .power-card .card-use-btn{margin-top:14px}
+.pw .card-use-btn[aria-busy=true]{cursor:wait}
+.pw .btn-gold[aria-busy=true]{cursor:wait}
+.pw .power-card.used .card-use-btn{cursor:default}
+.pw #jamEJamResult{border-top:1px solid #aa783a44;margin-top:14px;padding-top:10px;display:grid;gap:6px}
+.pw #jamEJamResult>div{display:flex;align-items:center;justify-content:space-between;gap:14px;font-size:12px}
+.pw #jamEJamResult strong{font-size:23px;font-variant-numeric:tabular-nums}
+.pw .result-gold{color:#775015}
+.pw .result-crimson{color:#802536}
+.pw .powers-footer{padding:10px 0 24px;text-align:center;color:var(--muted);font-size:11px}
+.pw .power-card .dp-select{margin-top:4px}
+.pw .dp-select{min-height:52px}
+.powers-screen[data-theme=zahhak] .dp-select,.pw[data-theme=zahhak] .dp-select{background:var(--field-bg);color:var(--ink);border:1px solid #896744;border-radius:4px;padding:10px;font-size:15px}
+.pw .selected-full{font-size:12px;margin-top:6px;color:var(--muted);overflow-wrap:anywhere}
+.pw .spy-box:before{filter:var(--plate-filter) brightness(.88)}
+#soroushBar{display:none;position:fixed;z-index:20;left:50%;transform:translateX(-50%);bottom:0;width:min(480px,100%);padding:10px 16px max(10px,env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--accent);color:var(--ink);box-shadow:0 -3px 12px #3020161a}
+#soroushBar.show{display:block}
+#soroushBar>button{min-height:54px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 10px;border:1px solid var(--accent);border-radius:4px;background:transparent;color:var(--ink);font-size:14px;font-weight:700;line-height:1.9;animation:soroushPulse 5s ease-in-out infinite}
+#soroushBar>button>img{width:24px;height:24px;flex-shrink:0}
+#soroushBarText{min-width:0}
+.pw .soroush-badge{display:grid;place-items:center;flex-shrink:0;min-width:24px;height:24px;border-radius:50%;background:#802536;color:#fff3e3;padding:0 5px;font-size:12px}
+body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
+@keyframes soroushPulse{0%,100%{box-shadow:inset 0 0 0 0 #aa783a00}50%{box-shadow:inset 0 0 16px #aa783a22}}
+.pw.modal-back{border:0;padding:16px;margin:0;width:100%;height:100%;max-width:none;max-height:none;background:transparent;color:var(--ink);overflow:hidden}
+.pw.modal-back[open]{display:flex;justify-content:center;align-items:center}
+.pw.modal-back::backdrop{background:#1d1614b8}
+.pw .modal-card{background:var(--surface);color:var(--ink);border:1px solid var(--accent);box-shadow:0 12px 50px #0005;border-radius:6px;width:100%;max-width:440px;max-height:calc(100dvh - 32px);padding:20px;display:flex;flex-direction:column;min-height:0;gap:12px}
+.pw .modal-card h2{font-size:20px;line-height:1.8}
+.pw .modal-subtitle{font-size:12px;color:var(--muted);line-height:1.9}
+.pw .modal-scroll{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:3px 2px;scrollbar-gutter:stable}
+.pw .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:18px;flex-shrink:0}
+.pw .modal-actions button{font-size:15px;border-width:4px 16px}
+.pw .modal-heading{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-shrink:0}
+.pw .modal-heading>div{min-width:0;flex:1}
+.pw .modal-heading h2{display:flex;align-items:center;gap:6px}
+.pw .modal-heading h2 img{width:24px;height:24px}
+.pw .modal-close{flex:0 0 48px;min-width:48px;min-height:48px;border:1px solid var(--accent);border-radius:4px;background:transparent;color:var(--ink);font-size:25px;line-height:1}
+.pw .letter-modal{max-width:440px}
+.pw .letter-modal .mode-btn{font-size:14px;min-height:52px}
+.pw .letter-modal .mode-btn.active:after{content:'✓';font-size:12px;margin-inline-start:4px}
+.pw .letter-modal label{display:block;font-size:13px;margin:12px 0 6px;color:var(--muted)}
+.pw .paper-letter{position:relative;isolation:isolate;border:1px solid #ac895866;background:repeating-linear-gradient(transparent 0 31px,#a9854c14 31px 32px),#f4e8d1;border-radius:3px;color:#382613}
+.pw .paper-letter textarea{display:block;width:100%;max-width:100%;min-height:160px;resize:vertical;border:0;padding:42px 12px 12px;background:transparent;color:#382613;font:15px/32px var(--font);overflow-wrap:anywhere}
+.pw .paper-letter textarea:focus-visible{outline-offset:0}
+.pw .wax-decoration{position:absolute;top:7px;left:10px;width:30px;height:30px;opacity:.4;pointer-events:none}
+.pw .letter-modal #letterCount{font-size:12px;text-align:left;color:var(--muted);margin:5px 0 12px}
+.pw .letter-modal .power-note{font-size:12px;color:var(--muted);margin:8px 0;min-height:24px}
+.pw .compose-status{font-size:13px;line-height:1.9;border-inline-start:2px solid var(--accent);padding:10px 12px;margin-bottom:16px}
+.pw .inbox-title{font-size:17px!important;margin:20px 0 12px}
+.pw .letter{position:relative;isolation:isolate;margin:12px 0;padding:14px 12px;font-size:14px;line-height:2;overflow-wrap:anywhere;white-space:pre-wrap}
+.pw .letter:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:solid transparent;border-width:8px 10px;border-image:url('assets/control/components/hint.png') 24 30 24 30 fill stretch;filter:var(--plate-filter)}
+.pw .letter.spied{box-shadow:inset -3px 0 #a34f5b}
+.pw .from{font-size:11px;color:var(--muted);margin-bottom:8px;white-space:normal}
+.pw .empty-inbox{display:flex;flex-direction:column;gap:10px;align-items:center;padding:22px 12px;font-size:13px;color:var(--muted)}
+.pw .empty-inbox img{width:42px;height:42px}
+.pw .close-bottom{flex-shrink:0;margin-top:4px}
+.pw .player-dot{position:relative;isolation:isolate;border:0;min-height:56px;padding:8px 10px;background:transparent;color:var(--ink)}
+.pw .player-dot:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:solid transparent;border-width:5px 8px;border-image:url('assets/play/components/player_plaque.png') 24 30 24 30 fill stretch;filter:var(--plate-filter)}
+.pw .player-dot.selected{outline:3px solid var(--accent);outline-offset:-2px}
+.pw .player-dot .pname{color:var(--ink)}
+.pw .player-dot .avatar{color:var(--ink);border-color:var(--accent);background:#aa783a17}
+.pw .player-dot .dot-state{color:var(--ink)}
+.pw #zendanModal .player-grid{gap:8px}
+.pw .select-wrap{min-width:0}
+.pw[data-theme=zahhak] .power-head>img,.pw[data-theme=zahhak] .used-tag img,.pw[data-theme=zahhak] .modal-heading h2 img,.pw[data-theme=zahhak] #soroushBar img,#soroushBar[data-theme=zahhak]>button>img{filter:brightness(1.9) saturate(.65)}
+.pw[data-theme=zahhak] .letter-modal .mode-btn{color:#382613}
+.pw[data-theme=zahhak] .letter-modal .mode-btn.active{color:#382613}
+@media(max-width:350px){.powers-screen{padding:20px 16px}
+.pw .powers-header{gap:12px}
+.pw .portrait-badge{flex-basis:64px;width:64px;height:64px}
+.pw .power-card{padding:16px 12px}
+.pw .power-head h2{font-size:17px}
+.pw.modal-back{padding:0}
+.pw .modal-card{border-radius:0;max-height:100dvh;padding:16px;max-width:100%;height:100dvh}
+.pw .modal-actions{gap:16px}
+.pw .modal-actions button{border-width:4px 12px;font-size:14px}
+.pw .modal-card h2{font-size:18px}
+.pw .letter-modal .mode-btn{border-width:4px 8px;font-size:13px}
+.pw .player-dot{padding:8px 8px}
+.pw .modal-card .player-grid{gap:8px 6px}
+.pw .letter-modal .modal-scroll{scrollbar-gutter:auto}
+.pw #powerConfirmDialog .modal-card{height:auto;max-height:100dvh}
+#soroushBar{padding-inline:12px}}
+@media(prefers-reduced-motion:reduce){#soroushBar>button{animation:none!important}}
+.pw #jamEJamResult span img{width:16px;height:16px;vertical-align:middle}
+.pw .dp-select{display:block;width:100%;max-width:100%;min-width:0;min-height:52px;border:solid transparent;border-width:8px 10px;border-image:url('assets/entry/components/input_normal.png') 24 30 24 30 fill stretch;background:transparent;color:var(--ink);padding:2px;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pw .power-card label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}
+:root{--soroush-height:84px}
+.pw{font:14px/1.9 Vazirmatn,Tahoma,sans-serif}
+.pw button{width:auto;padding:0;border-radius:0;transition:none;font-size:inherit;font-weight:inherit}
+.pw button:active{transform:none}
+.pw .card-use-btn,.pw .btn-gold,.pw .btn-crimson,.pw .btn-outline{width:100%}
+.pw .player-dot{width:100%}
+.pw button:disabled{opacity:1}
+.pw h1,.pw h2{color:inherit;background:none;-webkit-text-fill-color:currentColor;font-family:inherit}
+.pw .portrait-badge{margin:0}
+.powers-screen{background-color:var(--surface)}
+#soroushBar{font-family:Vazirmatn,Tahoma,sans-serif}
+#soroushBar>button{width:100%}
+.pw dialog{color:var(--ink)}
+.pw.modal-back .modal-actions button{width:100%}
+.pw .modal-close{width:48px}
+.pw .close-bottom{width:100%}
+.pw .letter-modal .mode-btn{width:100%}
+
 </style>
 </head>
 <body class="fullbleed">
@@ -1016,106 +1167,28 @@ body:has(#screen-night-wait.active){background:#211b17}
   </div>
 
   <!-- صفحه ۵: داشبوردِ جمشید -->
-  <div class="screen" id="screen-jamshid-dash">
-    <div class="card ornate-frame">
-      <div style="text-align:center; margin-bottom:14px;">
-        <div class="portrait-badge" style="background-image:url('assets/jamshid-glory.jpg');"></div>
-        <div style="font-size:11.5px; color:var(--gold-soft); font-weight:700;">داشبوردِ جمشید</div>
-        <div id="jamPhasePill" style="font-size:12px; color:var(--parchment-dim); margin-top:4px;">—</div>
-      </div>
-      <div class="card-row">
-        <div class="ci">🏺 جامِ جم<small>یک‌بار — فقط تعدادِ حذف‌شده‌های هر ساید رو می‌بینی</small></div>
-        <button class="card-use-btn" id="jamEJamBtn" onclick="useJamEJam()">درخواست</button>
-      </div>
-      <div id="jamEJamResult" style="display:none; margin-top:10px; background:var(--night-3); border-radius:9px; padding:12px; text-align:center; font-size:13px;"></div>
-      <div class="card-row" style="border-bottom:none;">
-        <div class="ci">🕊️ فراخواندنِ سروش<small>یک‌بار — بازِ‌کردنِ پنجره‌ی نامه‌نگاری برای همه</small></div>
-        <button class="card-use-btn" id="jamSoroushBtn" onclick="useJamSoroush()">فراخوانی</button>
-      </div>
-    </div>
+  <div class="screen powers-screen pw" id="screen-jamshid-dash" data-theme="jamshid">
+    <header class="powers-header"><div class="portrait-badge" style="--portrait-image:url('assets/jamshid-glory.jpg');" aria-hidden="true"></div><div><span class="eyebrow">ابزارهایِ ویژه</span><h1>داشبوردِ جمشید</h1><span id="jamPhasePill" class="phase-pill">—</span></div></header>
+    <section class="power-card" data-card="cup"><div class="power-head"><img src="assets/play/icons/goblet.svg" alt=""><h2>جامِ جم</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — فقط تعدادِ حذف‌شده‌هایِ هر ساید رو می‌بینی</p><button id="jamEJamBtn" class="card-use-btn btn-gold" type="button" onclick="useJamEJam()">درخواست</button><p class="power-note" role="status"></p><div id="jamEJamResult" hidden><div><span>☀ یارانِ جمشیدِ حذف‌شده</span><strong class="result-gold" id="jamResJ">0</strong></div><div><span><img src="assets/play/icons/snake.svg" alt=""> ضحاکیانِ حذف‌شده</span><strong class="result-crimson" id="jamResZ">0</strong></div></div></section>
+    <section class="power-card" data-card="soroush"><div class="power-head"><img src="assets/play/icons/dove.svg" alt=""><h2>فراخواندنِ سروش</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — بازکردنِ پنجره‌یِ نامه‌نگاری برایِ همه</p><button id="jamSoroushBtn" class="card-use-btn btn-gold" type="button" onclick="useJamSoroush()">فراخوانی</button><p class="power-note" role="status"></p></section>
+    <footer class="powers-footer">گروه بازی‌سازی بزرگمهر</footer>
   </div>
 
   <!-- صفحه ۶: داشبوردِ ضحاک -->
-  <div class="screen" id="screen-zahhak-dash">
-    <div class="card ornate-frame">
-      <div style="text-align:center; margin-bottom:14px;">
-        <div class="portrait-badge" style="background-image:url('assets/zahhak.jpg');"></div>
-        <div style="font-size:11.5px; color:var(--crimson-soft); font-weight:700;">داشبوردِ ضحاک</div>
-        <div id="zahPhasePill" style="font-size:12px; color:var(--parchment-dim); margin-top:4px;">—</div>
-      </div>
-      <div class="card-row">
-          <div class="ci">⛓️ زندان<small>یک‌بار — یه بازیکن رو تا پایانِ امروز غیرفعال کن</small></div>
-          <button class="card-use-btn" id="zahZendanBtn" onclick="openZahZendanPicker()">انتخاب</button>
-        </div>
-        <div class="card-row" style="border-bottom:none;">
-          <div class="ci">🌑 اهریمن<small>یک‌بار — لغوِ گفتگو/رأیِ امروز</small></div>
-          <button class="card-use-btn" id="zahAhrimanBtn" onclick="useZahAhriman()">فراخوانی</button>
-        </div>
-
-        <!-- فقط وقتی سروش فعال باشه دیده می‌شه -->
-        <div id="zahSpyBox" style="display:none; border-top:1px solid var(--line); margin-top:12px; padding-top:12px;">
-          <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:4px;">🕷️ شنودِ نامه‌ها</div>
-          <div style="font-size:11px; color:var(--parchment-dim); margin-bottom:8px;">
-            یک نفر رو انتخاب کن — همه‌ی نامه‌های اون (چه فرستاده چه گرفته) به تو هم می‌رسه.
-          </div>
-          <select id="zahSpySelect" onchange="zahSetSpy()" style="width:100%; background:var(--night-3); border:1px solid var(--line); border-radius:9px; color:var(--parchment); font-family:'Vazirmatn'; font-size:12.5px; padding:9px 11px;">
-            <option value="">— کسی رو شنود نمی‌کنم —</option>
-          </select>
-          <div id="zahSpyNote" style="font-size:11px; color:var(--parchment-dim); margin-top:7px;"></div>
-        </div>
-    </div>
+  <div class="screen powers-screen pw" id="screen-zahhak-dash" data-theme="zahhak">
+    <header class="powers-header"><div class="portrait-badge" style="--portrait-image:url('assets/zahhak.jpg');" aria-hidden="true"></div><div><span class="eyebrow">ابزارهایِ ویژه</span><h1>داشبوردِ ضحاک</h1><span id="zahPhasePill" class="phase-pill">—</span></div></header>
+    <section class="power-card" data-card="prison"><div class="power-head"><img src="assets/play/icons/chain.svg" alt=""><h2>زندان</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — یه بازیکن رو تا پایانِ امروز غیرفعال کن</p><button id="zahZendanBtn" class="card-use-btn btn-crimson" type="button" onclick="openZahZendanPicker()">انتخاب</button><p class="power-note" role="status"></p></section>
+    <section class="power-card" data-card="ahriman"><div class="power-head"><img src="assets/play/icons/ahriman.svg" alt=""><h2>اهریمن</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — لغوِ گفتگو/رأیِ امروز</p><button id="zahAhrimanBtn" class="card-use-btn btn-crimson" type="button" onclick="useZahAhriman()">فراخوانی</button><p class="power-note" role="status"></p></section>
+    <!-- فقط وقتی سروش فعال باشه دیده می‌شه -->
+    <section id="zahSpyBox" class="power-card spy-box" style="display:none;"><div class="power-head"><img src="assets/play/icons/ear.svg" alt=""><h2>شنودِ نامه‌ها</h2></div><p>یک نفر رو انتخاب کن — همه‌یِ نامه‌هایِ اون (چه فرستاده چه گرفته) به تو هم می‌رسه.</p><label for="zahSpySelect">بازیکن</label><select id="zahSpySelect" class="dp-select" onchange="zahSetSpy()"><option value="">— کسی رو شنود نمی‌کنم —</option></select><p id="zahSpyNote" class="power-note" role="status"></p></section>
+    <footer class="powers-footer">گروه بازی‌سازی بزرگمهر</footer>
   </div>
 
-  <!-- دکمه‌ی همیشگیِ راهنما — از هر صفحه‌ای در دسترسه -->
-  <button class="guide-fab" id="guideFab" onclick="openGuide()" title="راهنما">؟</button>
-
-  <!-- دفترچه‌ی کامل و تصویرسازی‌شده -->
-  <div class="rb-view" id="rulebookView">
-    <div class="rb-bar">
-      <button onclick="closeRulebook()">→ بازگشت</button>
-      <b>دفترچه‌ی تخت جمشید</b>
-      <a href="assets/rulebook/rulebook.pdf" target="_blank" rel="noopener" download>PDF چاپی</a>
-    </div>
-    <iframe id="rulebookFrame" title="دفترچه‌ی تخت جمشید"></iframe>
-  </div>
-
-  <!-- صفحه ۸: پایانِ بازی -->
-  <div class="screen" id="screen-game-over">
-    <div class="card ornate-frame" style="text-align:center; padding:28px 20px;">
-      <div id="goEmoji" style="font-size:40px; margin-bottom:10px;">🏆</div>
-      <div id="goTitle" style="font-size:18px; font-weight:900; margin-bottom:8px;">—</div>
-      <div id="goSub" style="font-size:12.5px; color:var(--parchment-dim); line-height:2;"></div>
-      <div id="goRoster" style="margin-top:18px; text-align:right;"></div>
-    </div>
-  </div>
-
-  <!-- نوارِ شناورِ سروش + پنجره‌ی نامه‌نگاری (روی همه‌ی صفحه‌های بازیکن) -->
-  <div class="soroush-bar" id="soroushBar">
-    <button onclick="openSoroush()"><span id="soroushBarText">🕊️ سروش فرا خوانده شد — نامه بنویس</span></button>
-  </div>
-
-  <div class="modal-back" id="soroushModal">
-    <div class="modal-card">
-      <h3>🕊️ سروش</h3>
-      <div class="sub">نامه‌ها بی‌نامن — گیرنده نمی‌فهمه از طرفِ کیه.</div>
-
-      <div id="soroushCompose">
-        <div class="mode-select" style="margin-bottom:9px;">
-          <button class="mode-btn active" id="lmPlayer" onclick="setLetterMode('player')">به یک بازیکن</button>
-          <button class="mode-btn" id="lmRole" onclick="setLetterMode('role')">به یک نقش</button>
-        </div>
-        <select id="letterToPlayer"><option value="">— کدام بازیکن؟ —</option></select>
-        <select id="letterToRole" style="display:none;"><option value="">— کدام نقش؟ —</option></select>
-        <textarea id="letterBody" maxlength="600" placeholder="متنِ نامه‌ات رو بنویس…"></textarea>
-        <button class="btn-gold" id="letterSendBtn" onclick="sendMyLetter()">فرستادنِ نامه</button>
-        <div id="letterNote" style="font-size:11px; text-align:center; margin-top:8px; color:var(--parchment-dim);"></div>
-      </div>
-
-      <div id="soroushInbox" style="margin-top:14px;"></div>
-
-      <button class="btn-outline" style="margin-top:14px;" onclick="closeSoroush()">بستن</button>
-    </div>
-  </div>
+  <!-- سروش: نوارِ شناور + پنجره‌یِ نامه‌ها + مودالِ زندان + تأیید -->
+  <div id="soroushBar" class="pw" data-theme="jamshid"><button type="button" onclick="openSoroush()"><img src="assets/play/icons/dove.svg" alt=""><span id="soroushBarText">سروش فرا خوانده شد — نامه بنویس</span><span class="soroush-badge" hidden></span></button></div>
+  <dialog id="powerConfirmDialog" class="modal-back pw" aria-labelledby="powerConfirmTitle"><div class="modal-card"><h2 id="powerConfirmTitle">تأیید</h2><p id="powerConfirmText" class="modal-subtitle"></p><div class="modal-actions"><button id="powerCancel" class="btn-outline" type="button">بازگشت</button><button id="powerAccept" class="btn-crimson" type="button">مصرف کن</button></div></div></dialog>
+  <dialog id="zendanModal" class="modal-back pw" aria-labelledby="zendanTitle"><div class="modal-card"><h2 id="zendanTitle">کی را زندانی کنم؟</h2><p class="modal-subtitle">یک نفر را انتخاب کن؛ در مرحله‌یِ بعد تأیید می‌کنی.</p><div class="modal-scroll"><div id="zendanList" class="player-grid"></div></div><div class="modal-actions"><button id="zendanCancelBtn" class="btn-outline" type="button">بازگشت</button><button id="zendanConfirmBtn" class="btn-crimson" type="button" disabled>زندانی کن</button></div></div></dialog>
+  <dialog id="soroushModal" class="modal-back pw" aria-labelledby="soroushTitle"><div class="modal-card letter-modal"><header class="modal-heading"><div><h2 id="soroushTitle"><img src="assets/play/icons/dove.svg" alt="">سروش</h2><p class="modal-subtitle">نامه‌ها بی‌نامن — گیرنده نمی‌فهمه از طرفِ کیه.</p></div><button class="modal-close" type="button" aria-label="بستنِ نامه‌ها" onclick="closeSoroush()">×</button></header><div class="modal-scroll"><section id="soroushCompose"><div class="mode-switch"><button id="lmPlayer" class="mode-btn active" type="button" aria-pressed="true" onclick="setLetterMode('player')">به یک بازیکن</button><button id="lmRole" class="mode-btn" type="button" aria-pressed="false" onclick="setLetterMode('role')">به یک نقش</button></div><label id="letterRecipientLabel" for="letterToPlayer">گیرنده</label><select id="letterToPlayer" class="dp-select" onchange="selectedFull(this); updateLetterUI()"><option value="">— کدام بازیکن؟ —</option></select><select id="letterToRole" class="dp-select" aria-label="نقشِ گیرنده" style="display:none" onchange="selectedFull(this); updateLetterUI()"><option value="">— کدام نقش؟ —</option></select><label for="letterBody">متنِ نامه</label><div class="paper-letter"><img class="wax-decoration" src="assets/play/icons/wax_seal.svg" alt=""><textarea id="letterBody" maxlength="600" placeholder="نامه‌ات را بنویس…" oninput="updateLetterUI()"></textarea></div><p id="letterCount" dir="ltr">0 / 600</p><button id="letterSendBtn" class="btn-gold" type="button" onclick="sendMyLetter()">فرستادنِ نامه</button><p id="letterNote" class="power-note" role="status"></p></section><p id="soroushComposeStatus" class="compose-status" role="status" hidden></p><section id="soroushInbox"></section></div><button class="btn-outline close-bottom" type="button" onclick="closeSoroush()">بستن</button></div></dialog>
 
   <!-- صفحه ۷: شب برای بازیکنانِ عادی -->
   <div class="screen play-screen night-screen" id="screen-night-wait" data-phase="night">
@@ -1233,7 +1306,7 @@ body:has(#screen-night-wait.active){background:#211b17}
   function go(id){
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby' || id === 'screen-day-vote' || id === 'screen-night-wait');
+    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby' || id === 'screen-day-vote' || id === 'screen-night-wait' || id === 'screen-jamshid-dash' || id === 'screen-zahhak-dash');
     const brand = document.querySelector('.brand');
     if(brand) brand.style.display = isFull ? 'none' : '';
     document.body.classList.toggle('fullbleed', isFull);
@@ -2228,7 +2301,7 @@ body:has(#screen-night-wait.active){background:#211b17}
 
     // پنجره‌ی نامه‌نگاری با پایانِ بازی بسته می‌شه
     document.getElementById('soroushBar').classList.remove('show');
-    document.getElementById('soroushModal').classList.remove('show');
+    pwClose('soroushModal');
     document.body.classList.remove('soroush-open');
 
     go('screen-game-over');
@@ -2421,25 +2494,6 @@ body:has(#screen-night-wait.active){background:#211b17}
   }
 
   // ---------------- داشبوردِ جمشید ----------------
-  async function showJamshidDashboard(game){
-    go('screen-jamshid-dash');
-    const label = game.current_phase === 'day' ? 'روزِ ' + game.day_number : 'شبِ ' + game.day_number;
-    document.getElementById('jamPhasePill').textContent = label;
-    const me = await tjGetPlayer(currentPlayer.id);
-    document.getElementById('jamEJamBtn').disabled = !!me.state_flags?.jam_e_jam_used;
-    document.getElementById('jamSoroushBtn').disabled = !!me.state_flags?.soroush_called;
-  }
-  async function useJamEJam(){
-    const me = await tjGetPlayer(currentPlayer.id);
-    if(me.state_flags?.jam_e_jam_used) return;
-    const counts = await tjCountEliminated(currentGame.id);
-    document.getElementById('jamEJamResult').style.display = 'block';
-    document.getElementById('jamEJamResult').innerHTML =
-      '🟡 یارانِ جمشیدِ حذف‌شده: <b style="color:var(--gold-soft);">' + counts.jamshidiEliminated + '</b><br>' +
-      '🔴 ضحاکیانِ حذف‌شده: <b style="color:var(--crimson-soft);">' + counts.zahhakiEliminated + '</b>';
-    await tjUpdatePlayerFlags(currentPlayer.id, { jam_e_jam_used: true });
-    document.getElementById('jamEJamBtn').disabled = true;
-  }
   // ================= راهنما =================
   // توضیحِ کوتاهِ هر نقش، برای نمایشِ نقشِ خودِ بازیکن در بالای راهنما.
   const ROLE_DESC_FA = {
@@ -2550,7 +2604,8 @@ body:has(#screen-night-wait.active){background:#211b17}
     }catch(e){ console.error(e); }
   }
 
-  // ================= سروش — سمتِ بازیکن =================
+  // ================= سروش — سمتِ بازیکن (طرحِ powers-pack) =================
+  // نامِ بازیکن و متنِ نامه فقط با textContent درج می‌شن؛ نامه‌ها رو بازیکن‌ها می‌نویسن.
   let soroushWindow = null;   // شماره‌ی پنجره‌ی فعال، یا null
   let soroushSent = false;    // توی این پنجره نامه فرستادم؟
   let soroushInbox = [];      // نامه‌های تحویل‌شده به من
@@ -2558,6 +2613,8 @@ body:has(#screen-night-wait.active){background:#211b17}
   let soroushSeen = 0;        // چندتاش رو قبلاً دیدم (برای نشانِ «جدید»)
   let soroushCanWrite = false;// الان اجازه‌ی نوشتن دارم؟ (فقط روز، و نقشِ مجاز)
   let letterMode = 'player';  // نامه به بازیکن یا به نقش
+  let letterBusy = false;
+  let soroushRenderSig = '';
 
   // جمشید و ضحاک نامه نمی‌نویسن. سهراب و (بعد از ناتوانیِ ضحاک) ارمایل هم طبقِ
   // سطرهای ۱۲۰ و ۷۸ سند نمی‌تونن.
@@ -2566,6 +2623,28 @@ body:has(#screen-night-wait.active){background:#211b17}
     if(myRoleId === 'sohrab') return false;
     if(myRoleId === 'armayil' && game.hengameh_flags?.zahhak_incapacitated) return false;
     return true;
+  }
+
+  // نوار نباید روی دکمه‌هایِ آخرِ صفحه بیفته: ارتفاعِ واقعیِ نوار اندازه‌گیری می‌شه
+  function pwMeasureBar(){
+    const bar = document.getElementById('soroushBar');
+    if(bar.classList.contains('show')){
+      document.documentElement.style.setProperty('--soroush-height', Math.ceil(bar.getBoundingClientRect().height) + 'px');
+    }
+  }
+
+  function paintSoroushBar(unread, writable){
+    const bar = document.getElementById('soroushBar');
+    const badge = bar.querySelector('.soroush-badge');
+    badge.hidden = !unread;
+    badge.textContent = unread ? String(unread) : '';
+    document.getElementById('soroushBarText').textContent = unread
+      ? 'نامه‌ی جدید داری'
+      : (writable && !soroushSent ? 'سروش فرا خوانده شد — نامه بنویس' : 'سروش — نامه‌هایت');
+    pwTheme();
+    bar.classList.add('show');
+    document.body.classList.add('soroush-open');
+    pwMeasureBar();
   }
 
   async function refreshSoroush(game){
@@ -2595,51 +2674,170 @@ body:has(#screen-night-wait.active){background:#211b17}
     soroushInbox = await tjMyInbox(currentGame.id, currentPlayer.id, myRoleId);
     if(myRoleId === 'zahhak') soroushSpied = await tjInterceptedLetters(currentGame.id);
 
+    soroushCanWrite = writable;
+    // پنجره‌یِ باز با رسیدنِ نامه یا تغییرِ فاز به‌روز می‌شه (متنِ در حالِ نوشتن دست نمی‌خوره)
+    const renderSig = [soroushInbox.length, soroushSpied.length, writable, soroushSent].join(':');
+    if(document.getElementById('soroushModal').open){
+      soroushSeen = soroushInbox.length + soroushSpied.length;
+      if(renderSig !== soroushRenderSig) renderSoroushModal();
+    }
+    soroushRenderSig = renderSig;
+
+    // شب صفحه‌یِ «چشمات رو ببند» نباید نوار داشته باشه
+    if(game.current_phase === 'night' && myRoleId !== 'jamshid'){ hide(); return; }
+
     // اگه نه چیزی برای نوشتن هست و نه چیزی برای خوندن، نوار رو نشون نده
     const hasMail = soroushInbox.length + soroushSpied.length > 0;
     if(!writable && !hasMail && !soroushSent){ hide(); return; }
 
-    soroushCanWrite = writable;
     const unread = Math.max(0, soroushInbox.length + soroushSpied.length - soroushSeen);
-    document.getElementById('soroushBarText').innerHTML = unread
-      ? `<span class="soroush-badge">${unread}</span>🕊️ نامه‌ی جدید داری`
-      : (writable && !soroushSent ? '🕊️ سروش فرا خوانده شد — نامه بنویس' : '🕊️ سروش — نامه‌هایت');
-    bar.classList.add('show');
-    document.body.classList.add('soroush-open');
+    paintSoroushBar(unread, writable);
+  }
+
+  // گزینه‌هایِ یک <select> با DOM ساخته می‌شن (نام = textContent)؛ فقط وقتی لیست عوض شده، تا انتخاب و باز بودنِ select نپره.
+  function fillSelect(sel, placeholder, items){
+    const sig = items.map(i => i.value + '\u0001' + i.text).join('\u0002');
+    if(sel.dataset.sig === sig) return;
+    const keep = sel.value;
+    sel.replaceChildren();
+    const blank = dvEl('option', null, placeholder); blank.value = '';
+    sel.append(blank);
+    items.forEach(i => { const o = dvEl('option', null, i.text); o.value = i.value; sel.append(o); });
+    sel.dataset.sig = sig;
+    if(items.some(i => i.value === keep)) sel.value = keep;
+  }
+  function selectedFull(sel){
+    // نامِ کاملِ گزینه‌یِ انتخاب‌شده زیرِ select (برایِ نام‌هایِ بلند)
+    let p = sel.nextElementSibling;
+    if(!p || !p.classList.contains('selected-full')){ p = dvEl('p', 'selected-full'); sel.after(p); }
+    p.textContent = sel.value ? sel.selectedOptions[0].textContent : '';
+    return p;
   }
 
   async function populateLetterTargets(){
     const players = (await tjListPlayers(currentGame.id))
       .filter(p => !p.is_host && p.is_alive && p.id !== currentPlayer.id);
     const selP = document.getElementById('letterToPlayer');
-    const keep = selP.value;
-    const htmlP = '<option value="">— کدام بازیکن؟ —</option>' +
-      players.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
-    if(selP.innerHTML !== htmlP){
-      selP.innerHTML = htmlP;
-      if(players.some(p => p.id === keep)) selP.value = keep;
-    }
+    fillSelect(selP, '— کدام بازیکن؟ —', players.map(p => ({ value: p.id, text: p.display_name })));
+    selectedFull(selP);
 
     // نامه به نقش: از روی چیدمانِ همین بازی، نه کلِ کاتالوگ — وگرنه نقشی که
     // اصلاً توی این بازی نیست هم در فهرست می‌اومد.
     const roles = Array.from(new Set(players.map(p => p.role_id).filter(Boolean)))
       .filter(r => r !== myRoleId);
     const selR = document.getElementById('letterToRole');
-    const keepR = selR.value;
-    const htmlR = '<option value="">— کدام نقش؟ —</option>' +
-      roles.map(r => `<option value="${r}">${ROLE_NAMES_FA[r] || r}</option>`).join('');
-    if(selR.innerHTML !== htmlR){
-      selR.innerHTML = htmlR;
-      if(roles.includes(keepR)) selR.value = keepR;
-    }
+    fillSelect(selR, '— کدام نقش؟ —', roles.map(r => ({ value: r, text: ROLE_NAMES_FA[r] || r })));
+    selectedFull(selR);
+    setLetterMode(letterMode);   // نمایش/پنهانِ select و نامِ کامل را همگام می‌کند
   }
 
   function setLetterMode(mode){
+    if(letterBusy) return;
     letterMode = mode;
-    document.getElementById('lmPlayer').classList.toggle('active', mode === 'player');
-    document.getElementById('lmRole').classList.toggle('active', mode === 'role');
-    document.getElementById('letterToPlayer').style.display = mode === 'player' ? 'block' : 'none';
-    document.getElementById('letterToRole').style.display = mode === 'role' ? 'block' : 'none';
+    const isP = mode === 'player';
+    document.getElementById('lmPlayer').classList.toggle('active', isP);
+    document.getElementById('lmRole').classList.toggle('active', !isP);
+    document.getElementById('lmPlayer').setAttribute('aria-pressed', String(isP));
+    document.getElementById('lmRole').setAttribute('aria-pressed', String(!isP));
+    const selP = document.getElementById('letterToPlayer'), selR = document.getElementById('letterToRole');
+    selP.style.display = isP ? 'block' : 'none';
+    selR.style.display = isP ? 'none' : 'block';
+    selectedFull(selP).style.display = isP ? 'block' : 'none';
+    selectedFull(selR).style.display = isP ? 'none' : 'block';
+    document.getElementById('letterRecipientLabel').htmlFor = isP ? 'letterToPlayer' : 'letterToRole';
+    updateLetterUI();
+  }
+
+  // شمارنده‌یِ حرف + فعال/غیرفعال بودنِ دکمه‌یِ فرستادن + قفلِ فیلدها هنگامِ ارسال
+  function updateLetterUI(){
+    const body = document.getElementById('letterBody');
+    document.getElementById('letterCount').textContent = body.value.length + ' / 600';
+    const recipient = document.getElementById(letterMode === 'player' ? 'letterToPlayer' : 'letterToRole').value;
+    const send = document.getElementById('letterSendBtn');
+    send.disabled = letterBusy || !recipient || !body.value.trim();
+    send.setAttribute('aria-busy', String(letterBusy));
+    send.replaceChildren();
+    if(letterBusy) send.append(dvIcon('sun', 'spinner'), dvEl('span', null, 'در حالِ فرستادن…'));
+    else send.textContent = 'فرستادنِ نامه';
+    ['lmPlayer', 'lmRole', 'letterToPlayer', 'letterToRole', 'letterBody'].forEach(id => { document.getElementById(id).disabled = letterBusy; });
+  }
+
+  // ---------- پنجره ----------
+  function openSoroush(){
+    soroushSeen = soroushInbox.length + soroushSpied.length;
+    renderSoroushModal();
+    pwOpen('soroushModal');
+    document.querySelector('#soroushModal .modal-close').focus();
+    // نشانِ «جدید» دیده شد
+    paintSoroushBar(0, soroushCanWrite);
+  }
+  function closeSoroush(){
+    pwClose('soroushModal');
+  }
+
+  function letterCard(text, from, spied){
+    const card = dvEl('article', 'letter' + (spied ? ' spied' : ''));
+    card.append(dvEl('p', 'from', from), dvEl('p', null, text));
+    return card;
+  }
+
+  function renderSoroushModal(){
+    // هر بازیکن فقط یک نامه در هر پنجره، و فقط در طولِ روز
+    const canCompose = soroushCanWrite && !soroushSent;
+    document.getElementById('soroushCompose').hidden = !canCompose;
+    const status = document.getElementById('soroushComposeStatus');
+    status.hidden = canCompose;
+    status.textContent = soroushSent
+      ? '✓ نامه‌ات فرستاده شد. آخرِ شب به دستش می‌رسه.'
+      : 'الان نمی‌تونی نامه بنویسی — نامه‌نگاری فقط در طولِ روز ممکنه.';
+    if(canCompose) updateLetterUI();
+    else document.getElementById('letterNote').textContent = '';
+
+    const inbox = document.getElementById('soroushInbox');
+    inbox.replaceChildren(dvEl('h2', 'inbox-title', 'نامه‌هایِ رسیده'));
+    if(soroushInbox.length){
+      soroushInbox.forEach(l => {
+        const to = l.addressed_to_role_id
+          ? 'خطاب به نقشِ ' + (ROLE_NAMES_FA[l.addressed_to_role_id] || l.addressed_to_role_id)
+          : 'خطاب به خودت';
+        inbox.append(letterCard(l.body, 'از طرفِ ناشناس — ' + to, false));
+      });
+    }else{
+      const empty = dvEl('div', 'empty-inbox');
+      empty.append(dvIcon('dove'), dvEl('p', null, 'هنوز نامه‌ای بهت نرسیده.'));
+      inbox.append(empty);
+    }
+    if(myRoleId === 'zahhak' && soroushSpied.length){
+      inbox.append(dvEl('h2', 'inbox-title', 'نامه‌هایِ شنودشده'));
+      soroushSpied.forEach(l => inbox.append(letterCard(l.body, 'شنودشده — فرستنده و گیرنده ناشناس', true)));
+    }
+  }
+
+  async function sendMyLetter(){
+    if(letterBusy) return;
+    const toPlayer = letterMode === 'player' ? document.getElementById('letterToPlayer').value : null;
+    const toRole = letterMode === 'role' ? document.getElementById('letterToRole').value : null;
+    const body = document.getElementById('letterBody').value.trim();
+    const note = document.getElementById('letterNote');
+    if(!toPlayer && !toRole){ note.textContent = 'اول گیرنده رو انتخاب کن.'; return; }
+    if(!body){ note.textContent = 'متنِ نامه خالیه.'; return; }
+
+    letterBusy = true; updateLetterUI();
+    note.textContent = 'در انتظارِ پاسخ…';
+    try{
+      await tjSendLetter(currentGame.id, soroushWindow, currentPlayer.id, toPlayer, body, toRole);
+      soroushSent = true;
+      letterBusy = false;
+      document.getElementById('letterBody').value = '';
+      renderSoroushModal();
+      const status = document.getElementById('soroushComposeStatus');
+      status.setAttribute('tabindex', '-1');
+      status.focus({ preventScroll:true });
+    }catch(e){
+      letterBusy = false;
+      updateLetterUI();
+      note.textContent = e && e.message ? e.message : 'نامه فرستاده نشد؛ دوباره تلاش کن.';
+    }
   }
 
   // ---------- شنودِ ضحاک، داخلِ پنلِ خودش ----------
@@ -2654,149 +2852,223 @@ body:has(#screen-night-wait.active){background:#211b17}
     const sel = document.getElementById('zahSpySelect');
     const players = (await tjListPlayers(currentGame.id))
       .filter(p => !p.is_host && p.is_alive && p.id !== currentPlayer.id);
-    const wanted = sel.value;
-    const html = '<option value="">— کسی رو شنود نمی‌کنم —</option>' +
-      players.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
-    if(sel.innerHTML !== html){
-      sel.innerHTML = html;
-      if(players.some(p => p.id === wanted)) sel.value = wanted;
-    }
+    fillSelect(sel, '— کسی رو شنود نمی‌کنم —', players.map(p => ({ value: p.id, text: p.display_name })));
+    selectedFull(sel);
   }
 
   // انتخابِ ضحاک فقط *ذخیره* می‌شه؛ علامت‌زدنِ نامه‌ها آخرِ شب سرِ تحویل انجام
   // می‌شه. اگه همین‌جا اعمال می‌شد، نامه‌هایی که بعد از انتخابِ ضحاک نوشته می‌شن
   // از تورِ شنود در می‌رفتن.
   async function zahSetSpy(){
-    const id = document.getElementById('zahSpySelect').value;
+    const sel = document.getElementById('zahSpySelect');
+    const id = sel.value;
     const note = document.getElementById('zahSpyNote');
+    selectedFull(sel);
     try{
       await tjUpdatePlayerFlags(currentPlayer.id, { soroush_spy_target: id || null });
-      const name = document.getElementById('zahSpySelect').selectedOptions[0]?.textContent;
+      const name = sel.selectedOptions[0]?.textContent;
       note.textContent = id
-        ? 'نامه‌های ' + name + ' آخرِ شب به تو هم می‌رسه.'
+        ? 'نامه‌هایِ ' + name + ' آخرِ شب به تو هم می‌رسه.'
         : 'شنود لغو شد.';
     }catch(e){ showError(e.message); }
   }
 
-  function openSoroush(){
-    document.getElementById('soroushModal').classList.add('show');
-    renderSoroushModal();
-    soroushSeen = soroushInbox.length + soroushSpied.length;
-    document.getElementById('soroushBarText').textContent =
-      soroushSent ? '🕊️ سروش — نامه‌هایت' : '🕊️ سروش فرا خوانده شد — نامه بنویس';
+  // ================= ابزارهایِ ویژه: داشبوردِ جمشید و ضحاک (طرحِ powers-pack) =================
+  // مدیرِ مودال: هر سه <dialog> (تأیید، زندان، سروش) با همین توابع باز/بسته می‌شن.
+  const PW_DIALOGS = ['soroushModal', 'zendanModal', 'powerConfirmDialog'];
+  function pwTheme(){
+    const t = myRoleId === 'zahhak' ? 'zahhak' : 'jamshid';
+    PW_DIALOGS.concat(['soroushBar']).forEach(id => { const n = document.getElementById(id); if(n) n.dataset.theme = t; });
   }
-  function closeSoroush(){
-    document.getElementById('soroushModal').classList.remove('show');
+  function pwOpen(id){
+    const d = document.getElementById(id);
+    pwTheme();
+    d.classList.add('show');
+    if(!d.open) d.showModal();
+  }
+  function pwClose(id){
+    const d = document.getElementById(id);
+    if(d.open) d.close();
+    d.classList.remove('show');
+  }
+  function pwInitDialogs(){
+    PW_DIALOGS.forEach(id => {
+      const d = document.getElementById(id);
+      d.setAttribute('aria-modal', 'true');
+      d.addEventListener('click', e => { if(e.target === d) pwClose(id); });
+      d.addEventListener('close', () => d.classList.remove('show'));
+      d.addEventListener('keydown', e => {
+        if(e.key !== 'Tab') return;
+        const list = [...d.querySelectorAll('button,input,textarea,select,[tabindex]')].filter(n => !n.disabled && n.tabIndex >= 0 && n.getClientRects().length);
+        if(!list.length){ e.preventDefault(); return; }
+        const first = list[0], last = list[list.length - 1];
+        if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      });
+    });
   }
 
-  function renderSoroushModal(){
-    // هر بازیکن فقط یک نامه در هر پنجره، و فقط در طولِ روز
-    const canCompose = soroushCanWrite && !soroushSent;
-    document.getElementById('soroushCompose').style.display = canCompose ? 'block' : 'none';
-    if(!canCompose) document.getElementById('letterNote').textContent = '';
+  // تأییدِ دومرحله‌ایِ کارت‌هایِ یک‌بارمصرف. Promise<boolean>؛ Escape/بازگشت/پس‌زمینه = false.
+  let pwConfirmResolve = null;
+  function powerConfirm(title, text){
+    return new Promise(resolve => {
+      if(pwConfirmResolve) pwConfirmResolve(false);
+      pwConfirmResolve = resolve;
+      document.getElementById('powerConfirmTitle').textContent = title;
+      document.getElementById('powerConfirmText').textContent = text;
+      pwOpen('powerConfirmDialog');
+      document.getElementById('powerCancel').focus();
+    });
+  }
+  function pwConfirmDone(v){
+    const r = pwConfirmResolve; pwConfirmResolve = null;
+    pwClose('powerConfirmDialog');
+    if(r) r(v);
+  }
 
-    let html = '';
-    if(soroushSent){
-      html += '<div style="font-size:11.5px; color:var(--parchment-dim); text-align:center; margin-bottom:12px;">نامه‌ات فرستاده شد. آخرِ شب به دستش می‌رسه.</div>';
-    }else if(!soroushCanWrite){
-      html += '<div style="font-size:11.5px; color:var(--parchment-dim); text-align:center; margin-bottom:12px;">الان نمی‌تونی نامه بنویسی — نامه‌نگاری فقط در طولِ روز ممکنه.</div>';
+  // ---------- کارت‌ها ----------
+  const POWER_BTN = { cup:'jamEJamBtn', soroush:'jamSoroushBtn', prison:'zahZendanBtn', ahriman:'zahAhrimanBtn' };
+  const POWER_LABEL = { cup:'درخواست', soroush:'فراخوانی', prison:'انتخاب', ahriman:'فراخوانی' };
+  const POWER_FLAG = { cup:'jam_e_jam_used', soroush:'soroush_called', prison:'zendan_used', ahriman:'ahriman_used' };
+  let powerBusy = {};     // کلیدِ کارت → در حالِ اجرا؟
+  let powerFlags = {};    // آخرین state_flags از سرور (مصرف فقط از پاسخِ موفقِ سرور قطعی می‌شه)
+
+  function paintPowers(){
+    Object.keys(POWER_BTN).forEach(key => {
+      const b = document.getElementById(POWER_BTN[key]);
+      const card = document.querySelector('[data-card="' + key + '"]');
+      if(!b || !card) return;
+      const used = !!powerFlags[POWER_FLAG[key]], busy = !!powerBusy[key];
+      card.classList.toggle('used', used);
+      card.querySelector('.used-tag').hidden = !used;
+      b.disabled = used || busy;
+      b.setAttribute('aria-busy', String(busy));
+      b.replaceChildren();
+      if(busy) b.append(dvIcon('sun', 'spinner'), dvEl('span', null, 'در حالِ اجرا…'));
+      else b.textContent = used ? (key === 'soroush' ? 'فراخونده شد ✓' : 'مصرف شد ✓') : POWER_LABEL[key];
+      card.querySelector('.power-note').textContent = used ? 'این کارت مصرف شده.' : busy ? 'در انتظارِ پاسخ…' : '';
+    });
+    const res = document.getElementById('jamEJamResult');
+    const r = powerFlags.jam_e_jam_result;
+    res.hidden = !(powerFlags.jam_e_jam_used && r);
+    if(r){
+      document.getElementById('jamResJ').textContent = r.jamshidi;
+      document.getElementById('jamResZ').textContent = r.zahhaki;
     }
-
-    html += '<div style="font-size:12px; color:var(--gold-soft); font-weight:700; margin-bottom:8px;">📬 نامه‌های رسیده</div>';
-    html += soroushInbox.length
-      ? soroushInbox.map(l => {
-          const to = l.addressed_to_role_id
-            ? 'خطاب به نقشِ ' + (ROLE_NAMES_FA[l.addressed_to_role_id] || l.addressed_to_role_id)
-            : 'خطاب به خودت';
-          return `<div class="letter"><span class="from">از طرفِ ناشناس — ${to}</span>${escapeHtml(l.body)}</div>`;
-        }).join('')
-      : '<div style="font-size:11.5px; color:var(--parchment-dim);">هنوز نامه‌ای بهت نرسیده.</div>';
-
-    if(myRoleId === 'zahhak' && soroushSpied.length){
-      html += '<div style="font-size:12px; color:var(--crimson-soft); font-weight:700; margin:14px 0 8px;">🕷️ نامه‌های شنودشده</div>';
-      html += soroushSpied.map(l => `<div class="letter spied"><span class="from">شنودشده — فرستنده و گیرنده ناشناس</span>${escapeHtml(l.body)}</div>`).join('');
-    }
-    document.getElementById('soroushInbox').innerHTML = html;
   }
-
-  function escapeHtml(s){
-    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  }
-
-  async function sendMyLetter(){
-    const toPlayer = letterMode === 'player' ? document.getElementById('letterToPlayer').value : null;
-    const toRole = letterMode === 'role' ? document.getElementById('letterToRole').value : null;
-    const body = document.getElementById('letterBody').value.trim();
-    const note = document.getElementById('letterNote');
-    const btn = document.getElementById('letterSendBtn');
-    if(!toPlayer && !toRole){ note.style.color='var(--crimson-soft)'; note.textContent='اول گیرنده رو انتخاب کن.'; return; }
-    if(!body){ note.style.color='var(--crimson-soft)'; note.textContent='متنِ نامه خالیه.'; return; }
-
-    btn.disabled = true;
-    note.style.color = 'var(--parchment-dim)';
-    note.textContent = 'در حالِ فرستادن…';
-    try{
-      await tjSendLetter(currentGame.id, soroushWindow, currentPlayer.id, toPlayer, body, toRole);
-      soroushSent = true;
-      document.getElementById('letterBody').value = '';
-      renderSoroushModal();
-    }catch(e){
-      note.style.color = 'var(--crimson-soft)';
-      note.textContent = e.message;
-      btn.disabled = false;
-    }
-  }
-
-  async function useJamSoroush(){
-    const btn = document.getElementById('jamSoroushBtn');
+  async function loadPowerFlags(){
     const me = await tjGetPlayer(currentPlayer.id);
-    if(me.state_flags?.soroush_called) return;
+    powerFlags = me.state_flags || {};
+    paintPowers();
+  }
+  // اجرایِ یک کارت: تأیید ← busy ← عملیات ← بازخوانیِ وضعیت از سرور. خطا → busy برمی‌داره و پیام می‌ده.
+  async function runPower(key, title, text, work){
+    if(powerBusy[key] || powerFlags[POWER_FLAG[key]]) return;
+    if(!await powerConfirm(title, text)) return;
+    powerBusy[key] = true; paintPowers();
+    try{
+      const me = await tjGetPlayer(currentPlayer.id);
+      if(me.state_flags?.[POWER_FLAG[key]]) return;       // از دستگاهِ دیگه مصرف شده
+      await work();
+    }catch(e){
+      showError(e && e.message ? e.message : String(e));
+    }finally{
+      powerBusy[key] = false;
+      try{ await loadPowerFlags(); }catch(e){ paintPowers(); }
+    }
+  }
 
+  async function showJamshidDashboard(game){
+    go('screen-jamshid-dash');
+    document.getElementById('jamPhasePill').textContent = (game.current_phase === 'day' ? 'روزِ ' : 'شبِ ') + game.day_number;
+    try{ await loadPowerFlags(); }catch(e){ console.error(e); }
+  }
+  async function useJamEJam(){
+    await runPower('cup', 'جامِ جم', 'این کارت یک‌بارمصرفه. مطمئنی؟', async () => {
+      const c = await tjCountEliminated(currentGame.id);
+      // اول مصرف قطعی می‌شه، نتیجه هم ذخیره می‌شه تا بعد از رفرش دوباره دیده بشه
+      await tjUpdatePlayerFlags(currentPlayer.id, { jam_e_jam_used: true, jam_e_jam_result: { jamshidi: c.jamshidiEliminated, zahhaki: c.zahhakiEliminated } });
+    });
+  }
+  async function useJamSoroush(){
     // قبل از شروعِ روزِ اول نمی‌شه فرا خوند: پنجره ۰ می‌شد و نامه‌هاش برای همیشه
     // تحویل‌نشده می‌موندن. دقیقاً همین توی بازیِ تستی اتفاق افتاد.
-    const game = await tjGetGame(currentGame.id);
-    if(game.current_phase !== 'day'){
-      showError('سروش رو فقط در طولِ روز می‌شه فرا خوند.');
-      return;
-    }
-
-    btn.disabled = true;
-    try{
+    await runPower('soroush', 'فراخواندنِ سروش', 'پنجره‌یِ نامه‌نگاری برایِ همه باز می‌شه. این کارت یک‌بارمصرفه؛ مطمئنی؟', async () => {
+      const game = await tjGetGame(currentGame.id);
+      if(game.current_phase !== 'day'){ showError('سروش رو فقط در طولِ روز می‌شه فرا خوند.'); return; }
       await tjActivateSoroush(currentGame.id, game.day_number);
       await tjUpdatePlayerFlags(currentPlayer.id, { soroush_called: true });
-      btn.textContent = 'فراخونده شد ✓';
-    }catch(e){
-      showError(e.message);
-      btn.disabled = false;
-    }
+    });
   }
 
   // ---------------- داشبوردِ ضحاک ----------------
   async function showZahhakDashboard(game){
     go('screen-zahhak-dash');
     document.getElementById('zahPhasePill').textContent = 'روزِ ' + game.day_number;
-    const me = await tjGetPlayer(currentPlayer.id);
-    document.getElementById('zahZendanBtn').disabled = !!me.state_flags?.zendan_used;
-    document.getElementById('zahAhrimanBtn').disabled = !!me.state_flags?.ahriman_used;
+    try{ await loadPowerFlags(); }catch(e){ console.error(e); }
   }
   async function useZahAhriman(){
-    const me = await tjGetPlayer(currentPlayer.id);
-    if(me.state_flags?.ahriman_used) return;
-    await tjUpdatePlayerFlags(currentPlayer.id, { ahriman_used: true });
-    document.getElementById('zahAhrimanBtn').disabled = true;
+    await runPower('ahriman', 'اهریمن', 'لغوِ گفتگو/رأیِ امروز. این کارت یک‌بارمصرفه؛ مطمئنی؟', async () => {
+      await tjUpdatePlayerFlags(currentPlayer.id, { ahriman_used: true });
+    });
+  }
+
+  let zendanTargets = [], zendanSelected = null;
+  function paintZendan(){
+    const list = document.getElementById('zendanList');
+    list.replaceChildren();
+    if(!zendanTargets.length){
+      list.append(dvEl('p', 'selected-full', 'کسی برایِ زندانی کردن نمونده.'));
+    }
+    zendanTargets.forEach(p => {
+      const sel = zendanSelected === p.id;
+      const b = dvEl('button', 'player-dot' + (sel ? ' selected' : ''));
+      b.type = 'button'; b.dataset.playerId = p.id;
+      b.setAttribute('aria-pressed', String(sel));
+      b.setAttribute('aria-label', p.display_name + (sel ? '، انتخاب‌شده' : ''));
+      b.append(dvEl('span', 'avatar', Array.from(p.display_name || '؟')[0]), dvEl('span', 'pname', p.display_name), dvEl('span', 'dot-state', sel ? '✓' : ''));
+      b.addEventListener('click', () => { zendanSelected = p.id; paintZendan(); });
+      list.append(b);
+    });
+    document.getElementById('zendanConfirmBtn').disabled = zendanSelected === null;
   }
   async function openZahZendanPicker(){
-    const me = await tjGetPlayer(currentPlayer.id);
-    if(me.state_flags?.zendan_used) return;
-    const players = await tjListPlayers(currentGame.id);
-    const targets = players.filter(p => p.is_alive && !p.is_host && p.role_id !== 'jamshid' && p.role_id !== 'zahhak');
-    const name = prompt('اسمِ دقیقِ کسی که می‌خوای زندانی کنی رو بنویس:\n' + targets.map(p=>p.display_name).join('، '));
-    const target = targets.find(p => p.display_name === name);
-    if(!target) return;
-    await sb.from('players').update({ state_flags: { ...(target.state_flags||{}), jailed: true } }).eq('id', target.id);
-    await tjUpdatePlayerFlags(currentPlayer.id, { zendan_used: true });
-    document.getElementById('zahZendanBtn').disabled = true;
+    if(powerBusy.prison || powerFlags.zendan_used) return;
+    powerBusy.prison = true; paintPowers();
+    try{
+      const me = await tjGetPlayer(currentPlayer.id);
+      if(me.state_flags?.zendan_used){ powerFlags = me.state_flags; return; }
+      const players = await tjListPlayers(currentGame.id);
+      zendanTargets = players.filter(p => p.is_alive && !p.is_host && p.id !== currentPlayer.id && p.role_id !== 'jamshid' && p.role_id !== 'zahhak');
+    }catch(e){
+      showError(e && e.message ? e.message : String(e));
+      return;
+    }finally{
+      powerBusy.prison = false; paintPowers();
+    }
+    zendanSelected = null;
+    paintZendan();
+    pwOpen('zendanModal');
+    document.getElementById('zendanCancelBtn').focus();
   }
+  async function confirmZendan(){
+    const target = zendanTargets.find(p => p.id === zendanSelected);
+    if(!target) return;
+    pwClose('zendanModal');
+    await runPower('prison', 'زندان', 'کارتِ یک‌بارمصرفه. «' + target.display_name + '» تا پایانِ امروز غیرفعال می‌شه. مطمئنی؟', async () => {
+      await tjUpdatePlayerFlags(target.id, { jailed: true });
+      await tjUpdatePlayerFlags(currentPlayer.id, { zendan_used: true });
+    });
+  }
+
+  // اتصالِ مودال‌ها و نوار (یک‌بار)
+  pwInitDialogs();
+  document.getElementById('powerCancel').addEventListener('click', () => pwConfirmDone(false));
+  document.getElementById('powerAccept').addEventListener('click', () => pwConfirmDone(true));
+  document.getElementById('powerConfirmDialog').addEventListener('close', () => { if(pwConfirmResolve){ const r = pwConfirmResolve; pwConfirmResolve = null; r(false); } });
+  document.getElementById('zendanCancelBtn').addEventListener('click', () => pwClose('zendanModal'));
+  document.getElementById('zendanConfirmBtn').addEventListener('click', confirmZendan);
+  new ResizeObserver(pwMeasureBar).observe(document.getElementById('soroushBar'));
 
   // ================= رأی‌گیریِ روزِ بازیکن (طرحِ play-pack) =================
   // نام‌ها همه با textContent درج می‌شن؛ هیچ قالبِ innerHTML با دادهٔ کاربر نداریم.
