@@ -695,7 +695,7 @@ body:has(#screen-night-wait.active){background:#211b17}
 .play-screen h1,.play-screen h2{color:inherit;background:none;-webkit-text-fill-color:currentColor}
 
 
-/* ============ ابزارهایِ ویژه: داشبوردِ جمشید/ضحاک + سروش (powers-pack) ============ */
+/* ============ ابزارهایِ ویژه: داشبوردِ جمشید/ضحاک + سروش (powers-pack نهایی، مصور) ============ */
 .pw{--paper:#f3e7d1;--ink:#382613;--muted:#725a3c;--bronze:#aa783a;--gold:#775015;--crimson:#802536;--font:Vazirmatn,Tahoma,sans-serif;color-scheme:light}
 .pw *{box-sizing:border-box}
 .pw [hidden]{display:none!important}
@@ -850,6 +850,65 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
 .pw #jamEJamResult span img{width:16px;height:16px;vertical-align:middle}
 .pw .dp-select{display:block;width:100%;max-width:100%;min-width:0;min-height:52px;border:solid transparent;border-width:8px 10px;border-image:url('assets/entry/components/input_normal.png') 24 30 24 30 fill stretch;background:transparent;color:var(--ink);padding:2px;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pw .power-card label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}
+.pw .powers-header{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:center;gap:6px;min-height:238px;margin:-24px -20px 20px;padding:12px 12px 0 16px;overflow:hidden;background:linear-gradient(90deg,#f3e7d1c9,#f3e7d15c),url('assets/lobby/screens/hero_lobby.jpg') center/cover}
+.pw .powers-header .royal-portrait{display:block;width:100%;height:226px;object-fit:contain;object-position:center bottom;grid-column:1;grid-row:1;filter:drop-shadow(0 0 14px #e1b86140)}
+.pw .hero-copy{min-width:0;grid-column:2;grid-row:1;text-align:right}
+.pw .powers-header .hero-copy h1{font-size:23px;line-height:1.7;color:var(--ink);margin:4px 0 12px}
+.pw .powers-header .hero-copy .eyebrow{font-size:11px}
+.powers-screen[data-theme=zahhak] .powers-header{background:radial-gradient(ellipse at 75% 45%,#65252d60,transparent 70%),#2b2020}
+.powers-screen[data-theme=zahhak] .powers-header h1{font-size:20px;font-weight:700}
+.powers-screen[data-theme=zahhak] .royal-portrait{filter:drop-shadow(0 0 18px #8a233742)}
+.pw .power-card:not(.spy-box){display:grid;grid-template-columns:minmax(0,1fr) 128px;gap:10px;min-height:218px;padding:18px 14px}
+.pw .power-copy{min-width:0;grid-column:1;grid-row:1}
+.pw .power-copy>p{font-size:13px;color:var(--muted);line-height:2;margin:0 0 12px}
+.pw .power-copy .power-head{gap:5px}
+.pw .power-copy .power-head h2{font-size:18px;flex-basis:90px}
+.pw .power-copy .power-head>img{width:20px;height:20px}
+.pw .power-copy .used-tag{font-size:10px;gap:3px;flex-basis:100%}
+.pw .power-copy .power-head .used-tag img{width:16px;height:16px}
+.pw .power-copy .card-use-btn{padding:4px 2px;border-width:4px 12px;font-size:15px}
+.pw .power-art{grid-column:2;grid-row:1;align-self:center;min-width:0;position:relative;isolation:isolate;pointer-events:none}
+.pw .power-art>img{display:block;width:100%;height:190px;object-fit:contain;filter:drop-shadow(0 8px 8px #68431026)}
+.pw .art-cup:after{content:'';position:absolute;inset:15% 4% 12%;pointer-events:none;background:radial-gradient(ellipse,#eec47520,transparent 70%);animation:cupLight 7s ease-in-out infinite}
+.pw .art-soroush>img{animation:doveFloat 8s ease-in-out infinite}
+.pw .art-ahriman:after{content:'';position:absolute;inset:55% -10% -5%;background:radial-gradient(ellipse,#cab6a614,transparent 70%);animation:powerMist 18s ease-in-out infinite alternate;pointer-events:none}
+.pw .power-card.used .power-art{opacity:.7}
+.pw .power-card.used .power-art img{animation-play-state:paused}
+.pw .letter-hero{height:104px;flex-shrink:0;overflow:hidden;position:relative;margin:-8px 0 -8px;border-bottom:1px solid #aa783a22;pointer-events:none}
+.pw .letter-hero img{width:100%;height:126px;object-fit:contain;object-position:center;animation:doveFloat 8s ease-in-out infinite}
+.pw .letter-modal .modal-card{position:relative}
+.pw .letter-modal .modal-heading{gap:8px}
+.pw .letter-modal .paper-letter{background:repeating-linear-gradient(transparent 0 31px,#a9854c14 31px 32px),#f4e8d1}
+.pw .letter-modal .wax-decoration{width:32px;height:32px;opacity:.6}
+.pw .letter{animation:letterReveal .25s ease-out}
+.pw .power-copy #jamEJamResult>div{align-items:flex-start;font-size:11px;gap:5px}
+.pw .power-copy #jamEJamResult strong{font-size:22px}
+.pw .power-copy .power-note{font-size:11px}
+.pw .power-copy .card-use-btn{min-height:52px}
+.pw .spy-box{min-height:0}
+.pw .powers-footer{padding-bottom:28px}
+@keyframes cupLight{0%,100%{opacity:.25}50%{opacity:.8}}
+@keyframes doveFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes powerMist{from{opacity:.3;transform:translateX(-3%)}to{opacity:.65;transform:translateX(3%)}}
+@keyframes letterReveal{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:350px){.pw .powers-header{margin:-20px -16px 18px;min-height:212px;padding-inline:10px}
+.pw .powers-header .royal-portrait{height:202px}
+.pw .powers-header .hero-copy h1{font-size:20px}
+.powers-screen[data-theme=zahhak] .powers-header h1{font-size:18px}
+.pw .power-card:not(.spy-box){grid-template-columns:minmax(0,1fr) 104px;gap:8px;padding:16px 12px}
+.pw .power-art>img{height:168px}
+.pw .power-copy .power-head h2{font-size:16px}
+.pw .power-copy .power-head>img{width:18px;height:18px}
+.pw .power-copy>p{font-size:12px}
+.pw .power-copy .card-use-btn{font-size:14px;border-width:4px 8px}
+.pw .letter-hero{height:86px}
+.pw .letter-hero img{height:108px}}
+@media(prefers-reduced-motion:reduce){.pw .power-art>img,.pw .art-cup:after,.pw .art-ahriman:after,.pw .letter-hero img,.pw .letter{animation:none!important}}
+.pw .powers-header{grid-template-columns:minmax(0,1.55fr) minmax(0,.9fr)}
+.pw .powers-header .royal-portrait{width:258px;max-width:none;justify-self:center;height:226px}
+.pw .power-art.art-cup>img{width:168px;max-width:none;margin-inline-start:-20px;height:190px}
+@media(max-width:350px){.pw .powers-header .royal-portrait{width:222px;height:202px}
+.pw .power-art.art-cup>img{width:138px;margin-inline-start:-17px;height:168px}}
 :root{--soroush-height:84px}
 .pw{font:14px/1.9 Vazirmatn,Tahoma,sans-serif}
 .pw button{width:auto;padding:0;border-radius:0;transition:none;font-size:inherit;font-weight:inherit}
@@ -858,7 +917,6 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
 .pw .player-dot{width:100%}
 .pw button:disabled{opacity:1}
 .pw h1,.pw h2{color:inherit;background:none;-webkit-text-fill-color:currentColor;font-family:inherit}
-.pw .portrait-badge{margin:0}
 .powers-screen{background-color:var(--surface)}
 #soroushBar{font-family:Vazirmatn,Tahoma,sans-serif}
 #soroushBar>button{width:100%}
@@ -1168,17 +1226,17 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
 
   <!-- صفحه ۵: داشبوردِ جمشید -->
   <div class="screen powers-screen pw" id="screen-jamshid-dash" data-theme="jamshid">
-    <header class="powers-header"><div class="portrait-badge" style="--portrait-image:url('assets/jamshid-glory.jpg');" aria-hidden="true"></div><div><span class="eyebrow">ابزارهایِ ویژه</span><h1>داشبوردِ جمشید</h1><span id="jamPhasePill" class="phase-pill">—</span></div></header>
-    <section class="power-card" data-card="cup"><div class="power-head"><img src="assets/play/icons/goblet.svg" alt=""><h2>جامِ جم</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — فقط تعدادِ حذف‌شده‌هایِ هر ساید رو می‌بینی</p><button id="jamEJamBtn" class="card-use-btn btn-gold" type="button" onclick="useJamEJam()">درخواست</button><p class="power-note" role="status"></p><div id="jamEJamResult" hidden><div><span>☀ یارانِ جمشیدِ حذف‌شده</span><strong class="result-gold" id="jamResJ">0</strong></div><div><span><img src="assets/play/icons/snake.svg" alt=""> ضحاکیانِ حذف‌شده</span><strong class="result-crimson" id="jamResZ">0</strong></div></div></section>
-    <section class="power-card" data-card="soroush"><div class="power-head"><img src="assets/play/icons/dove.svg" alt=""><h2>فراخواندنِ سروش</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — بازکردنِ پنجره‌یِ نامه‌نگاری برایِ همه</p><button id="jamSoroushBtn" class="card-use-btn btn-gold" type="button" onclick="useJamSoroush()">فراخوانی</button><p class="power-note" role="status"></p></section>
+    <header class="powers-header"><img class="royal-portrait" src="assets/play/art/jamshid-bust.webp" alt=""><div class="hero-copy"><span class="eyebrow">ابزارهایِ ویژه</span><h1>داشبوردِ جمشید</h1><span id="jamPhasePill" class="phase-pill">—</span></div></header>
+    <section class="power-card" data-card="cup"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/goblet.svg" alt=""><h2>جامِ جم</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — فقط تعدادِ حذف‌شده‌هایِ هر ساید رو می‌بینی</p><button id="jamEJamBtn" class="card-use-btn btn-gold" type="button" onclick="useJamEJam()">درخواست</button><p class="power-note" role="status"></p><div id="jamEJamResult" hidden><div><span>☀ یارانِ جمشیدِ حذف‌شده</span><strong class="result-gold" id="jamResJ">0</strong></div><div><span><img src="assets/play/icons/snake.svg" alt=""> ضحاکیانِ حذف‌شده</span><strong class="result-crimson" id="jamResZ">0</strong></div></div></div><div class="power-art art-cup" aria-hidden="true"><img src="assets/play/art/jam-goblet.webp" alt=""></div></section>
+    <section class="power-card" data-card="soroush"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/dove.svg" alt=""><h2>فراخواندنِ سروش</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — بازکردنِ پنجره‌یِ نامه‌نگاری برایِ همه</p><button id="jamSoroushBtn" class="card-use-btn btn-gold" type="button" onclick="useJamSoroush()">فراخوانی</button><p class="power-note" role="status"></p></div><div class="power-art art-soroush" aria-hidden="true"><img src="assets/play/art/soroush-dove.webp" alt=""></div></section>
     <footer class="powers-footer">گروه بازی‌سازی بزرگمهر</footer>
   </div>
 
   <!-- صفحه ۶: داشبوردِ ضحاک -->
   <div class="screen powers-screen pw" id="screen-zahhak-dash" data-theme="zahhak">
-    <header class="powers-header"><div class="portrait-badge" style="--portrait-image:url('assets/zahhak.jpg');" aria-hidden="true"></div><div><span class="eyebrow">ابزارهایِ ویژه</span><h1>داشبوردِ ضحاک</h1><span id="zahPhasePill" class="phase-pill">—</span></div></header>
-    <section class="power-card" data-card="prison"><div class="power-head"><img src="assets/play/icons/chain.svg" alt=""><h2>زندان</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — یه بازیکن رو تا پایانِ امروز غیرفعال کن</p><button id="zahZendanBtn" class="card-use-btn btn-crimson" type="button" onclick="openZahZendanPicker()">انتخاب</button><p class="power-note" role="status"></p></section>
-    <section class="power-card" data-card="ahriman"><div class="power-head"><img src="assets/play/icons/ahriman.svg" alt=""><h2>اهریمن</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — لغوِ گفتگو/رأیِ امروز</p><button id="zahAhrimanBtn" class="card-use-btn btn-crimson" type="button" onclick="useZahAhriman()">فراخوانی</button><p class="power-note" role="status"></p></section>
+    <header class="powers-header"><img class="royal-portrait" src="assets/play/art/zahhak-bust.webp" alt=""><div class="hero-copy"><span class="eyebrow">ابزارهایِ ویژه</span><h1>داشبوردِ ضحاک</h1><span id="zahPhasePill" class="phase-pill">—</span></div></header>
+    <section class="power-card" data-card="prison"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/chain.svg" alt=""><h2>زندان</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — یه بازیکن رو تا پایانِ امروز غیرفعال کن</p><button id="zahZendanBtn" class="card-use-btn btn-crimson" type="button" onclick="openZahZendanPicker()">انتخاب</button><p class="power-note" role="status"></p></div><div class="power-art art-prison" aria-hidden="true"><img src="assets/play/art/prison-chain.webp" alt=""></div></section>
+    <section class="power-card" data-card="ahriman"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/ahriman.svg" alt=""><h2>اهریمن</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — لغوِ گفتگو/رأیِ امروز</p><button id="zahAhrimanBtn" class="card-use-btn btn-crimson" type="button" onclick="useZahAhriman()">فراخوانی</button><p class="power-note" role="status"></p></div><div class="power-art art-ahriman" aria-hidden="true"><img src="assets/play/art/ahriman-mask.webp" alt=""></div></section>
     <!-- فقط وقتی سروش فعال باشه دیده می‌شه -->
     <section id="zahSpyBox" class="power-card spy-box" style="display:none;"><div class="power-head"><img src="assets/play/icons/ear.svg" alt=""><h2>شنودِ نامه‌ها</h2></div><p>یک نفر رو انتخاب کن — همه‌یِ نامه‌هایِ اون (چه فرستاده چه گرفته) به تو هم می‌رسه.</p><label for="zahSpySelect">بازیکن</label><select id="zahSpySelect" class="dp-select" onchange="zahSetSpy()"><option value="">— کسی رو شنود نمی‌کنم —</option></select><p id="zahSpyNote" class="power-note" role="status"></p></section>
     <footer class="powers-footer">گروه بازی‌سازی بزرگمهر</footer>
@@ -1211,7 +1269,7 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
   <div id="soroushBar" class="pw" data-theme="jamshid"><button type="button" onclick="openSoroush()"><img src="assets/play/icons/dove.svg" alt=""><span id="soroushBarText">سروش فرا خوانده شد — نامه بنویس</span><span class="soroush-badge" hidden></span></button></div>
   <dialog id="powerConfirmDialog" class="modal-back pw" aria-labelledby="powerConfirmTitle"><div class="modal-card"><h2 id="powerConfirmTitle">تأیید</h2><p id="powerConfirmText" class="modal-subtitle"></p><div class="modal-actions"><button id="powerCancel" class="btn-outline" type="button">بازگشت</button><button id="powerAccept" class="btn-crimson" type="button">مصرف کن</button></div></div></dialog>
   <dialog id="zendanModal" class="modal-back pw" aria-labelledby="zendanTitle"><div class="modal-card"><h2 id="zendanTitle">کی را زندانی کنم؟</h2><p class="modal-subtitle">یک نفر را انتخاب کن؛ در مرحله‌یِ بعد تأیید می‌کنی.</p><div class="modal-scroll"><div id="zendanList" class="player-grid"></div></div><div class="modal-actions"><button id="zendanCancelBtn" class="btn-outline" type="button">بازگشت</button><button id="zendanConfirmBtn" class="btn-crimson" type="button" disabled>زندانی کن</button></div></div></dialog>
-  <dialog id="soroushModal" class="modal-back pw" aria-labelledby="soroushTitle"><div class="modal-card letter-modal"><header class="modal-heading"><div><h2 id="soroushTitle"><img src="assets/play/icons/dove.svg" alt="">سروش</h2><p class="modal-subtitle">نامه‌ها بی‌نامن — گیرنده نمی‌فهمه از طرفِ کیه.</p></div><button class="modal-close" type="button" aria-label="بستنِ نامه‌ها" onclick="closeSoroush()">×</button></header><div class="modal-scroll"><section id="soroushCompose"><div class="mode-switch"><button id="lmPlayer" class="mode-btn active" type="button" aria-pressed="true" onclick="setLetterMode('player')">به یک بازیکن</button><button id="lmRole" class="mode-btn" type="button" aria-pressed="false" onclick="setLetterMode('role')">به یک نقش</button></div><label id="letterRecipientLabel" for="letterToPlayer">گیرنده</label><select id="letterToPlayer" class="dp-select" onchange="selectedFull(this); updateLetterUI()"><option value="">— کدام بازیکن؟ —</option></select><select id="letterToRole" class="dp-select" aria-label="نقشِ گیرنده" style="display:none" onchange="selectedFull(this); updateLetterUI()"><option value="">— کدام نقش؟ —</option></select><label for="letterBody">متنِ نامه</label><div class="paper-letter"><img class="wax-decoration" src="assets/play/icons/wax_seal.svg" alt=""><textarea id="letterBody" maxlength="600" placeholder="نامه‌ات را بنویس…" oninput="updateLetterUI()"></textarea></div><p id="letterCount" dir="ltr">0 / 600</p><button id="letterSendBtn" class="btn-gold" type="button" onclick="sendMyLetter()">فرستادنِ نامه</button><p id="letterNote" class="power-note" role="status"></p></section><p id="soroushComposeStatus" class="compose-status" role="status" hidden></p><section id="soroushInbox"></section></div><button class="btn-outline close-bottom" type="button" onclick="closeSoroush()">بستن</button></div></dialog>
+  <dialog id="soroushModal" class="modal-back pw" aria-labelledby="soroushTitle"><div class="modal-card letter-modal"><header class="modal-heading"><div><h2 id="soroushTitle"><img src="assets/play/icons/dove.svg" alt="">سروش</h2><p class="modal-subtitle">نامه‌ها بی‌نامن — گیرنده نمی‌فهمه از طرفِ کیه.</p></div><button class="modal-close" type="button" aria-label="بستنِ نامه‌ها" onclick="closeSoroush()">×</button></header><div class="letter-hero" aria-hidden="true"><img src="assets/play/art/soroush-dove.webp" alt=""></div><div class="modal-scroll"><section id="soroushCompose"><div class="mode-switch"><button id="lmPlayer" class="mode-btn active" type="button" aria-pressed="true" onclick="setLetterMode('player')">به یک بازیکن</button><button id="lmRole" class="mode-btn" type="button" aria-pressed="false" onclick="setLetterMode('role')">به یک نقش</button></div><label id="letterRecipientLabel" for="letterToPlayer">گیرنده</label><select id="letterToPlayer" class="dp-select" onchange="selectedFull(this); updateLetterUI()"><option value="">— کدام بازیکن؟ —</option></select><select id="letterToRole" class="dp-select" aria-label="نقشِ گیرنده" style="display:none" onchange="selectedFull(this); updateLetterUI()"><option value="">— کدام نقش؟ —</option></select><label for="letterBody">متنِ نامه</label><div class="paper-letter"><img class="wax-decoration" src="assets/play/icons/wax_seal.svg" alt=""><textarea id="letterBody" maxlength="600" placeholder="نامه‌ات را بنویس…" oninput="updateLetterUI()"></textarea></div><p id="letterCount" dir="ltr">0 / 600</p><button id="letterSendBtn" class="btn-gold" type="button" onclick="sendMyLetter()">فرستادنِ نامه</button><p id="letterNote" class="power-note" role="status"></p></section><p id="soroushComposeStatus" class="compose-status" role="status" hidden></p><section id="soroushInbox"></section></div><button class="btn-outline close-bottom" type="button" onclick="closeSoroush()">بستن</button></div></dialog>
 
   <!-- صفحه ۷: شب برای بازیکنانِ عادی -->
   <div class="screen play-screen night-screen" id="screen-night-wait" data-phase="night">
