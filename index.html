@@ -695,236 +695,423 @@ body:has(#screen-night-wait.active){background:#211b17}
 .play-screen h1,.play-screen h2{color:inherit;background:none;-webkit-text-fill-color:currentColor}
 
 
-/* ============ ابزارهایِ ویژه: داشبوردِ جمشید/ضحاک + سروش (powers-pack نهایی، مصور) ============ */
-.pw{--paper:#f3e7d1;--ink:#382613;--muted:#725a3c;--bronze:#aa783a;--gold:#775015;--crimson:#802536;--font:Vazirmatn,Tahoma,sans-serif;color-scheme:light}
-.pw *{box-sizing:border-box}
-.pw [hidden]{display:none!important}
-.pw button{cursor:pointer}
-.pw button:disabled{cursor:not-allowed}
-.pw :focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.pw .mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.pw .mode-btn{min-height:50px;border:solid transparent;border-width:4px 18px;border-image:url('assets/entry/components/btn_secondary_normal.png') 12 72 12 72 fill stretch;background:transparent;color:var(--ink);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:5px}
-.pw .mode-icon{width:20px;height:20px}
-.pw .mode-btn.active{outline:2px solid var(--bronze);outline-offset:1px;border-image-source:url('assets/entry/components/btn_primary_normal.png')}
-.pw .mode-btn[data-mode=goman].active{border-image-source:url('assets/control/components/btn_crimson_normal.png');outline-color:var(--crimson);color:#fff4e6}
-.pw .mode-btn[data-mode=goman].active .mode-icon{filter:brightness(0) invert(.94)}
-.pw .mode-indicator{font-size:12px;min-width:10px}
-.pw .mode-btn[aria-busy=true]{cursor:wait}
-.pw .player-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px 8px;list-style:none;padding:0;margin:0}
-.pw .player-dot{min-width:0;width:100%;min-height:56px;display:grid;grid-template-columns:26px minmax(0,1fr) 14px;align-items:center;gap:5px;border:solid transparent;border-width:5px 8px;border-image:url('assets/play/components/player_plaque.png') 24 30 24 30 fill stretch;padding:4px 0;background:transparent;color:var(--ink);text-align:right}
-.pw .avatar{width:26px;height:26px;border:1px solid #aa783a66;border-radius:50%;display:grid;place-items:center;font-size:13px;background:#d8bf9133;flex-shrink:0}
-.pw .pname{font-size:13px;line-height:17px;font-weight:400;min-width:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
-.pw .dot-state{display:flex;align-items:center;justify-content:center;width:14px;height:16px;font-size:12px;color:var(--gold)}
-.pw .dot-state img{width:14px;height:14px}
-.pw .player-dot.peyman{outline:2px solid #ae7a28;outline-offset:-1px;background:#dbb66f26}
-.pw .player-dot.goman{outline:2px solid #802536;outline-offset:-1px;background:#8025360d}
-.pw .player-dot.goman .dot-state{color:var(--crimson)}
-.pw .player-dot.blocked .avatar{background:#bfb09c33}
-.pw .player-dot.blocked .pname{color:#796a55}
-.pw .player-dot.blocked{border-image-source:url('assets/play/components/player_plaque.png');background:#ab9b8822}
-.pw .player-dot.locked{pointer-events:none}
-.pw .player-dot.locked .dot-state{opacity:.9}
-.pw .player-dot:hover:not(.locked):not(.blocked){filter:brightness(1.05)}
-.pw .player-dot:active:not(.locked){filter:brightness(.96)}
-.pw .mode-btn:disabled,.pw .player-dot:disabled{cursor:default}
-.pw .player-dot:disabled{color:var(--ink)}
-.pw .mode-btn:disabled{opacity:.8}
-.pw .mode-btn:disabled.active{opacity:1}
-.pw .spinner{animation:spin 1.4s linear infinite}
+/* ============ ابزارهایِ ویژه: داشبوردِ جمشید/ضحاک + سروش (طرحِ تأییدشده، اطلسِ تصویری) ============ */
+:where(.pw){--paper:#f3e7d1;--ink:#382613;--muted:#725a3c;--bronze:#aa783a;--gold:#775015;--crimson:#802536;--font:Vazirmatn,Vazirmatn,Tahoma,sans-serif;color-scheme:light}
+:where(.pw) *{box-sizing:border-box}
+:where(.pw) [hidden]{display:none!important}
+:where(.pw) button{cursor:pointer}
+:where(.pw) button:disabled{cursor:not-allowed}
+:where(.pw) :focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+:where(.pw) .mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+:where(.pw) .mode-btn{min-height:50px;border:solid transparent;border-width:4px 18px;border-image:url('assets/entry/components/btn_secondary_normal.png') 12 72 12 72 fill stretch;background:transparent;color:var(--ink);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:5px}
+:where(.pw) .mode-icon{width:20px;height:20px}
+:where(.pw) .mode-btn.active{outline:2px solid var(--bronze);outline-offset:1px;border-image-source:url('assets/entry/components/btn_primary_normal.png')}
+:where(.pw) .mode-btn[data-mode=goman].active{border-image-source:url('assets/control/components/btn_crimson_normal.png');outline-color:var(--crimson);color:#fff4e6}
+:where(.pw) .mode-btn[data-mode=goman].active .mode-icon{filter:brightness(0) invert(.94)}
+:where(.pw) .mode-indicator{font-size:12px;min-width:10px}
+:where(.pw) .mode-btn[aria-busy=true]{cursor:wait}
+:where(.pw) .player-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px 8px;list-style:none;padding:0;margin:0}
+:where(.pw) .player-dot{min-width:0;width:100%;min-height:56px;display:grid;grid-template-columns:26px minmax(0,1fr) 14px;align-items:center;gap:5px;border:solid transparent;border-width:5px 8px;border-image:url('assets/play/components/player_plaque.png') 24 30 24 30 fill stretch;padding:4px 0;background:transparent;color:var(--ink);text-align:right}
+:where(.pw) .avatar{width:26px;height:26px;border:1px solid #aa783a66;border-radius:50%;display:grid;place-items:center;font-size:13px;background:#d8bf9133;flex-shrink:0}
+:where(.pw) .pname{font-size:13px;line-height:17px;font-weight:400;min-width:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+:where(.pw) .dot-state{display:flex;align-items:center;justify-content:center;width:14px;height:16px;font-size:12px;color:var(--gold)}
+:where(.pw) .dot-state img{width:14px;height:14px}
+:where(.pw) .player-dot.peyman{outline:2px solid #ae7a28;outline-offset:-1px;background:#dbb66f26}
+:where(.pw) .player-dot.goman{outline:2px solid #802536;outline-offset:-1px;background:#8025360d}
+:where(.pw) .player-dot.goman .dot-state{color:var(--crimson)}
+:where(.pw) .player-dot.blocked .avatar{background:#bfb09c33}
+:where(.pw) .player-dot.blocked .pname{color:#796a55}
+:where(.pw) .player-dot.blocked{border-image-source:url('assets/play/components/player_plaque.png');background:#ab9b8822}
+:where(.pw) .player-dot.locked{pointer-events:none}
+:where(.pw) .player-dot.locked .dot-state{opacity:.9}
+:where(.pw) .player-dot:hover:not(.locked):not(.blocked){filter:brightness(1.05)}
+:where(.pw) .player-dot:active:not(.locked){filter:brightness(.96)}
+:where(.pw) .mode-btn:disabled,:where(.pw) .player-dot:disabled{cursor:default}
+:where(.pw) .player-dot:disabled{color:var(--ink)}
+:where(.pw) .mode-btn:disabled{opacity:.8}
+:where(.pw) .mode-btn:disabled.active{opacity:1}
+:where(.pw) .spinner{animation:spin 1.4s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:350px){.pw .player-grid{gap:6px}
-.pw .player-dot{gap:4px;grid-template-columns:24px minmax(0,1fr) 13px;border-width:5px 6px}
-.pw .avatar{width:24px;height:24px}
-.pw .mode-btn{border-width:4px 12px;font-size:15px}}
-.pw{--surface:#f3e7d1;--ink:#382613;--muted:#725a3c;--accent:#aa783a;--plate-filter:none;--field-bg:#efe1c8;--soroush-height:84px}
-.pw[data-theme=zahhak]{--surface:#2b2020;--ink:#edddc7;--muted:#c3ab91;--accent:#b49364;--gold:#cba46d;--crimson:#e2a6ac;--plate-filter:brightness(.24) sepia(.3) saturate(.65);--field-bg:#392929;color-scheme:dark}
+@media(max-width:350px){:where(.pw) .player-grid{gap:6px}
+:where(.pw) .player-dot{gap:4px;grid-template-columns:24px minmax(0,1fr) 13px;border-width:5px 6px}
+:where(.pw) .avatar{width:24px;height:24px}
+:where(.pw) .mode-btn{border-width:4px 12px;font-size:15px}}
+:where(.pw){--surface:#f3e7d1;--ink:#382613;--muted:#725a3c;--accent:#aa783a;--plate-filter:none;--field-bg:#efe1c8;--soroush-height:84px}
+:where(.pw)[data-theme=zahhak]{--surface:#2b2020;--ink:#edddc7;--muted:#c3ab91;--accent:#b49364;--gold:#cba46d;--crimson:#e2a6ac;--plate-filter:brightness(.24) sepia(.3) saturate(.65);--field-bg:#392929;color-scheme:dark}
 .powers-screen{max-width:480px;min-height:100dvh;margin:auto;padding:24px 20px;background:var(--surface);color:var(--ink)}
 .powers-screen[data-theme=jamshid]{background:var(--surface) url('assets/entry/components/parchment_sample.png') center/cover}
 .powers-screen[data-theme=zahhak]{background:radial-gradient(ellipse at top,#472d301f,transparent 65%),var(--surface)}
-.pw .powers-header{display:flex;gap:16px;align-items:center;margin-bottom:26px}
-.pw .portrait-badge{flex:0 0 72px;width:72px;height:72px;border:2px solid var(--accent);border-radius:50%;background-image:var(--portrait-image,none);background-size:cover;background-position:center;box-shadow:0 0 0 5px #aa783a13,0 0 20px #aa783a20;outline:1px solid #aa783a55;outline-offset:5px}
-.pw .powers-header h1{font-size:19px;margin:3px 0 8px;font-weight:700}
+:where(.pw) .powers-header{display:flex;gap:16px;align-items:center;margin-bottom:26px}
+:where(.pw) .portrait-badge{flex:0 0 72px;width:72px;height:72px;border:2px solid var(--accent);border-radius:50%;background-image:var(--portrait-image,none);background-size:cover;background-position:center;box-shadow:0 0 0 5px #aa783a13,0 0 20px #aa783a20;outline:1px solid #aa783a55;outline-offset:5px}
+:where(.pw) .powers-header h1{font-size:19px;margin:3px 0 8px;font-weight:700}
 .powers-screen[data-theme=zahhak] .powers-header h1{font-size:16px;font-weight:400}
-.pw .eyebrow{font-size:12px;color:var(--muted)}
-.pw .phase-pill{display:inline-block;border:1px solid var(--accent);padding:2px 12px;border-radius:20px;font-size:12px;color:var(--ink)}
-.pw .power-card{position:relative;isolation:isolate;padding:18px 16px;margin-bottom:20px;min-width:0}
-.pw .power-card:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:solid transparent;border-width:8px 10px;border-image:url('assets/control/components/night_card.png') 24 30 24 30 fill stretch;filter:var(--plate-filter)}
-.pw .power-head{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
-.pw .power-head>img{width:25px;height:25px;flex-shrink:0}
-.pw .power-head h2{font-size:18px;flex:1;margin:0}
-.pw .power-card>p{font-size:14px;color:var(--muted);margin:0 0 12px;line-height:2}
-.pw .used-tag{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted)}
-.pw .used-tag img{width:20px;height:20px}
-.pw .power-card.used{opacity:.9}
-.pw .power-card.used .card-use-btn{filter:grayscale(.7);opacity:.65}
-.pw .power-card .power-note{font-size:12px;margin:8px 0 0;min-height:23px}
-.pw .card-use-btn,.pw .btn-gold,.pw .btn-crimson,.pw .btn-outline{display:flex;align-items:center;justify-content:center;gap:6px;min-height:52px;width:100%;font:700 16px/1.7 var(--font);padding:6px 8px;border:solid transparent;border-width:4px 24px;background:transparent;color:#382613;border-image:url('assets/entry/components/btn_primary_normal.png') 12 72 12 72 fill stretch}
-.pw .btn-outline{border-image-source:url('assets/entry/components/btn_secondary_normal.png')}
-.pw .btn-crimson{border-image-source:url('assets/control/components/btn_crimson_normal.png');color:#fff4e6}
-.pw .card-use-btn:disabled,.pw .btn-gold:disabled,.pw .btn-crimson:disabled,.pw .btn-outline:disabled{cursor:not-allowed;filter:grayscale(.65);opacity:.72}
-.pw .card-use-btn img,.pw .btn-gold img{width:20px;height:20px}
-.pw .power-card .card-use-btn{margin-top:14px}
-.pw .card-use-btn[aria-busy=true]{cursor:wait}
-.pw .btn-gold[aria-busy=true]{cursor:wait}
-.pw .power-card.used .card-use-btn{cursor:default}
-.pw #jamEJamResult{border-top:1px solid #aa783a44;margin-top:14px;padding-top:10px;display:grid;gap:6px}
-.pw #jamEJamResult>div{display:flex;align-items:center;justify-content:space-between;gap:14px;font-size:12px}
-.pw #jamEJamResult strong{font-size:23px;font-variant-numeric:tabular-nums}
-.pw .result-gold{color:#775015}
-.pw .result-crimson{color:#802536}
-.pw .powers-footer{padding:10px 0 24px;text-align:center;color:var(--muted);font-size:11px}
-.pw .power-card .dp-select{margin-top:4px}
-.pw .dp-select{min-height:52px}
-.powers-screen[data-theme=zahhak] .dp-select,.pw[data-theme=zahhak] .dp-select{background:var(--field-bg);color:var(--ink);border:1px solid #896744;border-radius:4px;padding:10px;font-size:15px}
-.pw .selected-full{font-size:12px;margin-top:6px;color:var(--muted);overflow-wrap:anywhere}
-.pw .spy-box:before{filter:var(--plate-filter) brightness(.88)}
+:where(.pw) .eyebrow{font-size:12px;color:var(--muted)}
+:where(.pw) .phase-pill{display:inline-block;border:1px solid var(--accent);padding:2px 12px;border-radius:20px;font-size:12px;color:var(--ink)}
+:where(.pw) .power-card{position:relative;isolation:isolate;padding:18px 16px;margin-bottom:20px;min-width:0}
+:where(.pw) .power-card:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:solid transparent;border-width:8px 10px;border-image:url('assets/control/components/night_card.png') 24 30 24 30 fill stretch;filter:var(--plate-filter)}
+:where(.pw) .power-head{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+:where(.pw) .power-head>img{width:25px;height:25px;flex-shrink:0}
+:where(.pw) .power-head h2{font-size:18px;flex:1;margin:0}
+:where(.pw) .power-card>p{font-size:14px;color:var(--muted);margin:0 0 12px;line-height:2}
+:where(.pw) .used-tag{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted)}
+:where(.pw) .used-tag img{width:20px;height:20px}
+:where(.pw) .power-card.used{opacity:.9}
+:where(.pw) .power-card.used .card-use-btn{filter:grayscale(.7);opacity:.65}
+:where(.pw) .power-card .power-note{font-size:12px;margin:8px 0 0;min-height:23px}
+:where(.pw) .card-use-btn,:where(.pw) .btn-gold,:where(.pw) .btn-crimson,:where(.pw) .btn-outline{display:flex;align-items:center;justify-content:center;gap:6px;min-height:52px;width:100%;font:700 16px/1.7 var(--font);padding:6px 8px;border:solid transparent;border-width:4px 24px;background:transparent;color:#382613;border-image:url('assets/entry/components/btn_primary_normal.png') 12 72 12 72 fill stretch}
+:where(.pw) .btn-outline{border-image-source:url('assets/entry/components/btn_secondary_normal.png')}
+:where(.pw) .btn-crimson{border-image-source:url('assets/control/components/btn_crimson_normal.png');color:#fff4e6}
+:where(.pw) .card-use-btn:disabled,:where(.pw) .btn-gold:disabled,:where(.pw) .btn-crimson:disabled,:where(.pw) .btn-outline:disabled{cursor:not-allowed;filter:grayscale(.65);opacity:.72}
+:where(.pw) .card-use-btn img,:where(.pw) .btn-gold img{width:20px;height:20px}
+:where(.pw) .power-card .card-use-btn{margin-top:14px}
+:where(.pw) .card-use-btn[aria-busy=true]{cursor:wait}
+:where(.pw) .btn-gold[aria-busy=true]{cursor:wait}
+:where(.pw) .power-card.used .card-use-btn{cursor:default}
+:where(.pw) #jamEJamResult{border-top:1px solid #aa783a44;margin-top:14px;padding-top:10px;display:grid;gap:6px}
+:where(.pw) #jamEJamResult>div{display:flex;align-items:center;justify-content:space-between;gap:14px;font-size:12px}
+:where(.pw) #jamEJamResult strong{font-size:23px;font-variant-numeric:tabular-nums}
+:where(.pw) .result-gold{color:#775015}
+:where(.pw) .result-crimson{color:#802536}
+:where(.pw) .powers-footer{padding:10px 0 24px;text-align:center;color:var(--muted);font-size:11px}
+:where(.pw) .power-card .dp-select{margin-top:4px}
+:where(.pw) .dp-select{min-height:52px}
+.powers-screen[data-theme=zahhak] .dp-select,:where(.pw)[data-theme=zahhak] .dp-select{background:var(--field-bg);color:var(--ink);border:1px solid #896744;border-radius:4px;padding:10px;font-size:15px}
+:where(.pw) .selected-full{font-size:12px;margin-top:6px;color:var(--muted);overflow-wrap:anywhere}
+:where(.pw) .spy-box:before{filter:var(--plate-filter) brightness(.88)}
 #soroushBar{display:none;position:fixed;z-index:20;left:50%;transform:translateX(-50%);bottom:0;width:min(480px,100%);padding:10px 16px max(10px,env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--accent);color:var(--ink);box-shadow:0 -3px 12px #3020161a}
 #soroushBar.show{display:block}
 #soroushBar>button{min-height:54px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 10px;border:1px solid var(--accent);border-radius:4px;background:transparent;color:var(--ink);font-size:14px;font-weight:700;line-height:1.9;animation:soroushPulse 5s ease-in-out infinite}
 #soroushBar>button>img{width:24px;height:24px;flex-shrink:0}
 #soroushBarText{min-width:0}
-.pw .soroush-badge{display:grid;place-items:center;flex-shrink:0;min-width:24px;height:24px;border-radius:50%;background:#802536;color:#fff3e3;padding:0 5px;font-size:12px}
+:where(.pw) .soroush-badge{display:grid;place-items:center;flex-shrink:0;min-width:24px;height:24px;border-radius:50%;background:#802536;color:#fff3e3;padding:0 5px;font-size:12px}
 body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
 @keyframes soroushPulse{0%,100%{box-shadow:inset 0 0 0 0 #aa783a00}50%{box-shadow:inset 0 0 16px #aa783a22}}
-.pw.modal-back{border:0;padding:16px;margin:0;width:100%;height:100%;max-width:none;max-height:none;background:transparent;color:var(--ink);overflow:hidden}
-.pw.modal-back[open]{display:flex;justify-content:center;align-items:center}
-.pw.modal-back::backdrop{background:#1d1614b8}
-.pw .modal-card{background:var(--surface);color:var(--ink);border:1px solid var(--accent);box-shadow:0 12px 50px #0005;border-radius:6px;width:100%;max-width:440px;max-height:calc(100dvh - 32px);padding:20px;display:flex;flex-direction:column;min-height:0;gap:12px}
-.pw .modal-card h2{font-size:20px;line-height:1.8}
-.pw .modal-subtitle{font-size:12px;color:var(--muted);line-height:1.9}
-.pw .modal-scroll{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:3px 2px;scrollbar-gutter:stable}
-.pw .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:18px;flex-shrink:0}
-.pw .modal-actions button{font-size:15px;border-width:4px 16px}
-.pw .modal-heading{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-shrink:0}
-.pw .modal-heading>div{min-width:0;flex:1}
-.pw .modal-heading h2{display:flex;align-items:center;gap:6px}
-.pw .modal-heading h2 img{width:24px;height:24px}
-.pw .modal-close{flex:0 0 48px;min-width:48px;min-height:48px;border:1px solid var(--accent);border-radius:4px;background:transparent;color:var(--ink);font-size:25px;line-height:1}
-.pw .letter-modal{max-width:440px}
-.pw .letter-modal .mode-btn{font-size:14px;min-height:52px}
-.pw .letter-modal .mode-btn.active:after{content:'✓';font-size:12px;margin-inline-start:4px}
-.pw .letter-modal label{display:block;font-size:13px;margin:12px 0 6px;color:var(--muted)}
-.pw .paper-letter{position:relative;isolation:isolate;border:1px solid #ac895866;background:repeating-linear-gradient(transparent 0 31px,#a9854c14 31px 32px),#f4e8d1;border-radius:3px;color:#382613}
-.pw .paper-letter textarea{display:block;width:100%;max-width:100%;min-height:160px;resize:vertical;border:0;padding:42px 12px 12px;background:transparent;color:#382613;font:15px/32px var(--font);overflow-wrap:anywhere}
-.pw .paper-letter textarea:focus-visible{outline-offset:0}
-.pw .wax-decoration{position:absolute;top:7px;left:10px;width:30px;height:30px;opacity:.4;pointer-events:none}
-.pw .letter-modal #letterCount{font-size:12px;text-align:left;color:var(--muted);margin:5px 0 12px}
-.pw .letter-modal .power-note{font-size:12px;color:var(--muted);margin:8px 0;min-height:24px}
-.pw .compose-status{font-size:13px;line-height:1.9;border-inline-start:2px solid var(--accent);padding:10px 12px;margin-bottom:16px}
-.pw .inbox-title{font-size:17px!important;margin:20px 0 12px}
-.pw .letter{position:relative;isolation:isolate;margin:12px 0;padding:14px 12px;font-size:14px;line-height:2;overflow-wrap:anywhere;white-space:pre-wrap}
-.pw .letter:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:solid transparent;border-width:8px 10px;border-image:url('assets/control/components/hint.png') 24 30 24 30 fill stretch;filter:var(--plate-filter)}
-.pw .letter.spied{box-shadow:inset -3px 0 #a34f5b}
-.pw .from{font-size:11px;color:var(--muted);margin-bottom:8px;white-space:normal}
-.pw .empty-inbox{display:flex;flex-direction:column;gap:10px;align-items:center;padding:22px 12px;font-size:13px;color:var(--muted)}
-.pw .empty-inbox img{width:42px;height:42px}
-.pw .close-bottom{flex-shrink:0;margin-top:4px}
-.pw .player-dot{position:relative;isolation:isolate;border:0;min-height:56px;padding:8px 10px;background:transparent;color:var(--ink)}
-.pw .player-dot:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:solid transparent;border-width:5px 8px;border-image:url('assets/play/components/player_plaque.png') 24 30 24 30 fill stretch;filter:var(--plate-filter)}
-.pw .player-dot.selected{outline:3px solid var(--accent);outline-offset:-2px}
-.pw .player-dot .pname{color:var(--ink)}
-.pw .player-dot .avatar{color:var(--ink);border-color:var(--accent);background:#aa783a17}
-.pw .player-dot .dot-state{color:var(--ink)}
-.pw #zendanModal .player-grid{gap:8px}
-.pw .select-wrap{min-width:0}
-.pw[data-theme=zahhak] .power-head>img,.pw[data-theme=zahhak] .used-tag img,.pw[data-theme=zahhak] .modal-heading h2 img,.pw[data-theme=zahhak] #soroushBar img,#soroushBar[data-theme=zahhak]>button>img{filter:brightness(1.9) saturate(.65)}
-.pw[data-theme=zahhak] .letter-modal .mode-btn{color:#382613}
-.pw[data-theme=zahhak] .letter-modal .mode-btn.active{color:#382613}
+:where(.pw).modal-back{border:0;padding:16px;margin:0;width:100%;height:100%;max-width:none;max-height:none;background:transparent;color:var(--ink);overflow:hidden}
+:where(.pw).modal-back[open]{display:flex;justify-content:center;align-items:center}
+:where(.pw).modal-back::backdrop{background:#1d1614b8}
+:where(.pw) .modal-card{background:var(--surface);color:var(--ink);border:1px solid var(--accent);box-shadow:0 12px 50px #0005;border-radius:6px;width:100%;max-width:440px;max-height:calc(100dvh - 32px);padding:20px;display:flex;flex-direction:column;min-height:0;gap:12px}
+:where(.pw) .modal-card h2{font-size:20px;line-height:1.8}
+:where(.pw) .modal-subtitle{font-size:12px;color:var(--muted);line-height:1.9}
+:where(.pw) .modal-scroll{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:3px 2px;scrollbar-gutter:stable}
+:where(.pw) .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:18px;flex-shrink:0}
+:where(.pw) .modal-actions button{font-size:15px;border-width:4px 16px}
+:where(.pw) .modal-heading{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-shrink:0}
+:where(.pw) .modal-heading>div{min-width:0;flex:1}
+:where(.pw) .modal-heading h2{display:flex;align-items:center;gap:6px}
+:where(.pw) .modal-heading h2 img{width:24px;height:24px}
+:where(.pw) .modal-close{flex:0 0 48px;min-width:48px;min-height:48px;border:1px solid var(--accent);border-radius:4px;background:transparent;color:var(--ink);font-size:25px;line-height:1}
+:where(.pw) .letter-modal{max-width:440px}
+:where(.pw) .letter-modal .mode-btn{font-size:14px;min-height:52px}
+:where(.pw) .letter-modal .mode-btn.active:after{content:'✓';font-size:12px;margin-inline-start:4px}
+:where(.pw) .letter-modal label{display:block;font-size:13px;margin:12px 0 6px;color:var(--muted)}
+:where(.pw) .paper-letter{position:relative;isolation:isolate;border:1px solid #ac895866;background:repeating-linear-gradient(transparent 0 31px,#a9854c14 31px 32px),#f4e8d1;border-radius:3px;color:#382613}
+:where(.pw) .paper-letter textarea{display:block;width:100%;max-width:100%;min-height:160px;resize:vertical;border:0;padding:42px 12px 12px;background:transparent;color:#382613;font:15px/32px var(--font);overflow-wrap:anywhere}
+:where(.pw) .paper-letter textarea:focus-visible{outline-offset:0}
+:where(.pw) .wax-decoration{position:absolute;top:7px;left:10px;width:30px;height:30px;opacity:.4;pointer-events:none}
+:where(.pw) .letter-modal #letterCount{font-size:12px;text-align:left;color:var(--muted);margin:5px 0 12px}
+:where(.pw) .letter-modal .power-note{font-size:12px;color:var(--muted);margin:8px 0;min-height:24px}
+:where(.pw) .compose-status{font-size:13px;line-height:1.9;border-inline-start:2px solid var(--accent);padding:10px 12px;margin-bottom:16px}
+:where(.pw) .inbox-title{font-size:17px!important;margin:20px 0 12px}
+:where(.pw) .letter{position:relative;isolation:isolate;margin:12px 0;padding:14px 12px;font-size:14px;line-height:2;overflow-wrap:anywhere;white-space:pre-wrap}
+:where(.pw) .letter:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:solid transparent;border-width:8px 10px;border-image:url('assets/control/components/hint.png') 24 30 24 30 fill stretch;filter:var(--plate-filter)}
+:where(.pw) .letter.spied{box-shadow:inset -3px 0 #a34f5b}
+:where(.pw) .from{font-size:11px;color:var(--muted);margin-bottom:8px;white-space:normal}
+:where(.pw) .empty-inbox{display:flex;flex-direction:column;gap:10px;align-items:center;padding:22px 12px;font-size:13px;color:var(--muted)}
+:where(.pw) .empty-inbox img{width:42px;height:42px}
+:where(.pw) .close-bottom{flex-shrink:0;margin-top:4px}
+:where(.pw) .player-dot{position:relative;isolation:isolate;border:0;min-height:56px;padding:8px 10px;background:transparent;color:var(--ink)}
+:where(.pw) .player-dot:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:solid transparent;border-width:5px 8px;border-image:url('assets/play/components/player_plaque.png') 24 30 24 30 fill stretch;filter:var(--plate-filter)}
+:where(.pw) .player-dot.selected{outline:3px solid var(--accent);outline-offset:-2px}
+:where(.pw) .player-dot .pname{color:var(--ink)}
+:where(.pw) .player-dot .avatar{color:var(--ink);border-color:var(--accent);background:#aa783a17}
+:where(.pw) .player-dot .dot-state{color:var(--ink)}
+:where(.pw) #zendanModal .player-grid{gap:8px}
+:where(.pw) .select-wrap{min-width:0}
+:where(.pw)[data-theme=zahhak] .power-head>img,:where(.pw)[data-theme=zahhak] .used-tag img,:where(.pw)[data-theme=zahhak] .modal-heading h2 img,:where(.pw)[data-theme=zahhak] #soroushBar img,#soroushBar[data-theme=zahhak]>button>img{filter:brightness(1.9) saturate(.65)}
+:where(.pw)[data-theme=zahhak] .letter-modal .mode-btn{color:#382613}
+:where(.pw)[data-theme=zahhak] .letter-modal .mode-btn.active{color:#382613}
 @media(max-width:350px){.powers-screen{padding:20px 16px}
-.pw .powers-header{gap:12px}
-.pw .portrait-badge{flex-basis:64px;width:64px;height:64px}
-.pw .power-card{padding:16px 12px}
-.pw .power-head h2{font-size:17px}
-.pw.modal-back{padding:0}
-.pw .modal-card{border-radius:0;max-height:100dvh;padding:16px;max-width:100%;height:100dvh}
-.pw .modal-actions{gap:16px}
-.pw .modal-actions button{border-width:4px 12px;font-size:14px}
-.pw .modal-card h2{font-size:18px}
-.pw .letter-modal .mode-btn{border-width:4px 8px;font-size:13px}
-.pw .player-dot{padding:8px 8px}
-.pw .modal-card .player-grid{gap:8px 6px}
-.pw .letter-modal .modal-scroll{scrollbar-gutter:auto}
-.pw #powerConfirmDialog .modal-card{height:auto;max-height:100dvh}
+:where(.pw) .powers-header{gap:12px}
+:where(.pw) .portrait-badge{flex-basis:64px;width:64px;height:64px}
+:where(.pw) .power-card{padding:16px 12px}
+:where(.pw) .power-head h2{font-size:17px}
+:where(.pw).modal-back{padding:0}
+:where(.pw) .modal-card{border-radius:0;max-height:100dvh;padding:16px;max-width:100%;height:100dvh}
+:where(.pw) .modal-actions{gap:16px}
+:where(.pw) .modal-actions button{border-width:4px 12px;font-size:14px}
+:where(.pw) .modal-card h2{font-size:18px}
+:where(.pw) .letter-modal .mode-btn{border-width:4px 8px;font-size:13px}
+:where(.pw) .player-dot{padding:8px 8px}
+:where(.pw) .modal-card .player-grid{gap:8px 6px}
+:where(.pw) .letter-modal .modal-scroll{scrollbar-gutter:auto}
+:where(.pw) #powerConfirmDialog .modal-card{height:auto;max-height:100dvh}
 #soroushBar{padding-inline:12px}}
 @media(prefers-reduced-motion:reduce){#soroushBar>button{animation:none!important}}
-.pw #jamEJamResult span img{width:16px;height:16px;vertical-align:middle}
-.pw .dp-select{display:block;width:100%;max-width:100%;min-width:0;min-height:52px;border:solid transparent;border-width:8px 10px;border-image:url('assets/entry/components/input_normal.png') 24 30 24 30 fill stretch;background:transparent;color:var(--ink);padding:2px;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pw .power-card label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}
-.pw .powers-header{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:center;gap:6px;min-height:238px;margin:-24px -20px 20px;padding:12px 12px 0 16px;overflow:hidden;background:linear-gradient(90deg,#f3e7d1c9,#f3e7d15c),url('assets/lobby/screens/hero_lobby.jpg') center/cover}
-.pw .powers-header .royal-portrait{display:block;width:100%;height:226px;object-fit:contain;object-position:center bottom;grid-column:1;grid-row:1;filter:drop-shadow(0 0 14px #e1b86140)}
-.pw .hero-copy{min-width:0;grid-column:2;grid-row:1;text-align:right}
-.pw .powers-header .hero-copy h1{font-size:23px;line-height:1.7;color:var(--ink);margin:4px 0 12px}
-.pw .powers-header .hero-copy .eyebrow{font-size:11px}
+:where(.pw) #jamEJamResult span img{width:16px;height:16px;vertical-align:middle}
+:where(.pw) .dp-select{display:block;width:100%;max-width:100%;min-width:0;min-height:52px;border:solid transparent;border-width:8px 10px;border-image:url('assets/entry/components/input_normal.png') 24 30 24 30 fill stretch;background:transparent;color:var(--ink);padding:2px;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+:where(.pw) .power-card label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}
+:where(.pw) .powers-header{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:center;gap:6px;min-height:238px;margin:-24px -20px 20px;padding:12px 12px 0 16px;overflow:hidden;background:linear-gradient(90deg,#f3e7d1c9,#f3e7d15c),url('assets/lobby/screens/hero_lobby.jpg') center/cover}
+:where(.pw) .powers-header .royal-portrait{display:block;width:100%;height:226px;object-fit:contain;object-position:center bottom;grid-column:1;grid-row:1;filter:drop-shadow(0 0 14px #e1b86140)}
+:where(.pw) .hero-copy{min-width:0;grid-column:2;grid-row:1;text-align:right}
+:where(.pw) .powers-header .hero-copy h1{font-size:23px;line-height:1.7;color:var(--ink);margin:4px 0 12px}
+:where(.pw) .powers-header .hero-copy .eyebrow{font-size:11px}
 .powers-screen[data-theme=zahhak] .powers-header{background:radial-gradient(ellipse at 75% 45%,#65252d60,transparent 70%),#2b2020}
 .powers-screen[data-theme=zahhak] .powers-header h1{font-size:20px;font-weight:700}
 .powers-screen[data-theme=zahhak] .royal-portrait{filter:drop-shadow(0 0 18px #8a233742)}
-.pw .power-card:not(.spy-box){display:grid;grid-template-columns:minmax(0,1fr) 128px;gap:10px;min-height:218px;padding:18px 14px}
-.pw .power-copy{min-width:0;grid-column:1;grid-row:1}
-.pw .power-copy>p{font-size:13px;color:var(--muted);line-height:2;margin:0 0 12px}
-.pw .power-copy .power-head{gap:5px}
-.pw .power-copy .power-head h2{font-size:18px;flex-basis:90px}
-.pw .power-copy .power-head>img{width:20px;height:20px}
-.pw .power-copy .used-tag{font-size:10px;gap:3px;flex-basis:100%}
-.pw .power-copy .power-head .used-tag img{width:16px;height:16px}
-.pw .power-copy .card-use-btn{padding:4px 2px;border-width:4px 12px;font-size:15px}
-.pw .power-art{grid-column:2;grid-row:1;align-self:center;min-width:0;position:relative;isolation:isolate;pointer-events:none}
-.pw .power-art>img{display:block;width:100%;height:190px;object-fit:contain;filter:drop-shadow(0 8px 8px #68431026)}
-.pw .art-cup:after{content:'';position:absolute;inset:15% 4% 12%;pointer-events:none;background:radial-gradient(ellipse,#eec47520,transparent 70%);animation:cupLight 7s ease-in-out infinite}
-.pw .art-soroush>img{animation:doveFloat 8s ease-in-out infinite}
-.pw .art-ahriman:after{content:'';position:absolute;inset:55% -10% -5%;background:radial-gradient(ellipse,#cab6a614,transparent 70%);animation:powerMist 18s ease-in-out infinite alternate;pointer-events:none}
-.pw .power-card.used .power-art{opacity:.7}
-.pw .power-card.used .power-art img{animation-play-state:paused}
-.pw .letter-hero{height:104px;flex-shrink:0;overflow:hidden;position:relative;margin:-8px 0 -8px;border-bottom:1px solid #aa783a22;pointer-events:none}
-.pw .letter-hero img{width:100%;height:126px;object-fit:contain;object-position:center;animation:doveFloat 8s ease-in-out infinite}
-.pw .letter-modal .modal-card{position:relative}
-.pw .letter-modal .modal-heading{gap:8px}
-.pw .letter-modal .paper-letter{background:repeating-linear-gradient(transparent 0 31px,#a9854c14 31px 32px),#f4e8d1}
-.pw .letter-modal .wax-decoration{width:32px;height:32px;opacity:.6}
-.pw .letter{animation:letterReveal .25s ease-out}
-.pw .power-copy #jamEJamResult>div{align-items:flex-start;font-size:11px;gap:5px}
-.pw .power-copy #jamEJamResult strong{font-size:22px}
-.pw .power-copy .power-note{font-size:11px}
-.pw .power-copy .card-use-btn{min-height:52px}
-.pw .spy-box{min-height:0}
-.pw .powers-footer{padding-bottom:28px}
+:where(.pw) .power-card:not(.spy-box){display:grid;grid-template-columns:minmax(0,1fr) 128px;gap:10px;min-height:218px;padding:18px 14px}
+:where(.pw) .power-copy{min-width:0;grid-column:1;grid-row:1}
+:where(.pw) .power-copy>p{font-size:13px;color:var(--muted);line-height:2;margin:0 0 12px}
+:where(.pw) .power-copy .power-head{gap:5px}
+:where(.pw) .power-copy .power-head h2{font-size:18px;flex-basis:90px}
+:where(.pw) .power-copy .power-head>img{width:20px;height:20px}
+:where(.pw) .power-copy .used-tag{font-size:10px;gap:3px;flex-basis:100%}
+:where(.pw) .power-copy .power-head .used-tag img{width:16px;height:16px}
+:where(.pw) .power-copy .card-use-btn{padding:4px 2px;border-width:4px 12px;font-size:15px}
+:where(.pw) .power-art{grid-column:2;grid-row:1;align-self:center;min-width:0;position:relative;isolation:isolate;pointer-events:none}
+:where(.pw) .power-art>img{display:block;width:100%;height:190px;object-fit:contain;filter:drop-shadow(0 8px 8px #68431026)}
+:where(.pw) .art-cup:after{content:'';position:absolute;inset:15% 4% 12%;pointer-events:none;background:radial-gradient(ellipse,#eec47520,transparent 70%);animation:cupLight 7s ease-in-out infinite}
+:where(.pw) .art-soroush>img{animation:doveFloat 8s ease-in-out infinite}
+:where(.pw) .art-ahriman:after{content:'';position:absolute;inset:55% -10% -5%;background:radial-gradient(ellipse,#cab6a614,transparent 70%);animation:powerMist 18s ease-in-out infinite alternate;pointer-events:none}
+:where(.pw) .power-card.used .power-art{opacity:.7}
+:where(.pw) .power-card.used .power-art img{animation-play-state:paused}
+:where(.pw) .letter-hero{height:104px;flex-shrink:0;overflow:hidden;position:relative;margin:-8px 0 -8px;border-bottom:1px solid #aa783a22;pointer-events:none}
+:where(.pw) .letter-hero img{width:100%;height:126px;object-fit:contain;object-position:center;animation:doveFloat 8s ease-in-out infinite}
+:where(.pw) .letter-modal .modal-card{position:relative}
+:where(.pw) .letter-modal .modal-heading{gap:8px}
+:where(.pw) .letter-modal .paper-letter{background:repeating-linear-gradient(transparent 0 31px,#a9854c14 31px 32px),#f4e8d1}
+:where(.pw) .letter-modal .wax-decoration{width:32px;height:32px;opacity:.6}
+:where(.pw) .letter{animation:letterReveal .25s ease-out}
+:where(.pw) .power-copy #jamEJamResult>div{align-items:flex-start;font-size:11px;gap:5px}
+:where(.pw) .power-copy #jamEJamResult strong{font-size:22px}
+:where(.pw) .power-copy .power-note{font-size:11px}
+:where(.pw) .power-copy .card-use-btn{min-height:52px}
+:where(.pw) .spy-box{min-height:0}
+:where(.pw) .powers-footer{padding-bottom:28px}
 @keyframes cupLight{0%,100%{opacity:.25}50%{opacity:.8}}
 @keyframes doveFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 @keyframes powerMist{from{opacity:.3;transform:translateX(-3%)}to{opacity:.65;transform:translateX(3%)}}
 @keyframes letterReveal{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:350px){.pw .powers-header{margin:-20px -16px 18px;min-height:212px;padding-inline:10px}
-.pw .powers-header .royal-portrait{height:202px}
-.pw .powers-header .hero-copy h1{font-size:20px}
+@media(max-width:350px){:where(.pw) .powers-header{margin:-20px -16px 18px;min-height:212px;padding-inline:10px}
+:where(.pw) .powers-header .royal-portrait{height:202px}
+:where(.pw) .powers-header .hero-copy h1{font-size:20px}
 .powers-screen[data-theme=zahhak] .powers-header h1{font-size:18px}
-.pw .power-card:not(.spy-box){grid-template-columns:minmax(0,1fr) 104px;gap:8px;padding:16px 12px}
-.pw .power-art>img{height:168px}
-.pw .power-copy .power-head h2{font-size:16px}
-.pw .power-copy .power-head>img{width:18px;height:18px}
-.pw .power-copy>p{font-size:12px}
-.pw .power-copy .card-use-btn{font-size:14px;border-width:4px 8px}
-.pw .letter-hero{height:86px}
-.pw .letter-hero img{height:108px}}
-@media(prefers-reduced-motion:reduce){.pw .power-art>img,.pw .art-cup:after,.pw .art-ahriman:after,.pw .letter-hero img,.pw .letter{animation:none!important}}
-.pw .powers-header{grid-template-columns:minmax(0,1.55fr) minmax(0,.9fr)}
-.pw .powers-header .royal-portrait{width:258px;max-width:none;justify-self:center;height:226px}
-.pw .power-art.art-cup>img{width:168px;max-width:none;margin-inline-start:-20px;height:190px}
-@media(max-width:350px){.pw .powers-header .royal-portrait{width:222px;height:202px}
-.pw .power-art.art-cup>img{width:138px;margin-inline-start:-17px;height:168px}}
+:where(.pw) .power-card:not(.spy-box){grid-template-columns:minmax(0,1fr) 104px;gap:8px;padding:16px 12px}
+:where(.pw) .power-art>img{height:168px}
+:where(.pw) .power-copy .power-head h2{font-size:16px}
+:where(.pw) .power-copy .power-head>img{width:18px;height:18px}
+:where(.pw) .power-copy>p{font-size:12px}
+:where(.pw) .power-copy .card-use-btn{font-size:14px;border-width:4px 8px}
+:where(.pw) .letter-hero{height:86px}
+:where(.pw) .letter-hero img{height:108px}}
+@media(prefers-reduced-motion:reduce){:where(.pw) .power-art>img,:where(.pw) .art-cup:after,:where(.pw) .art-ahriman:after,:where(.pw) .letter-hero img,:where(.pw) .letter{animation:none!important}}
+:where(.pw) .powers-header{grid-template-columns:minmax(0,1.55fr) minmax(0,.9fr)}
+:where(.pw) .powers-header .royal-portrait{width:258px;max-width:none;justify-self:center;height:226px}
+:where(.pw) .power-art.art-cup>img{width:168px;max-width:none;margin-inline-start:-20px;height:190px}
+@media(max-width:350px){:where(.pw) .powers-header .royal-portrait{width:222px;height:202px}
+:where(.pw) .power-art.art-cup>img{width:138px;margin-inline-start:-17px;height:168px}}
+.powers-screen[data-theme=jamshid]{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:293.129771% 100.000000%;background-position:0.000000% 0.000000%;}
+.powers-screen[data-theme=zahhak]{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:307.200000% 100.000000%;background-position:50.579151% 0.000000%;}
+.powers-screen[data-theme=jamshid] .powers-header{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:293.129771% 318.012422%;background-position:0.000000% 0.000000%;}
+.powers-screen[data-theme=zahhak] .powers-header{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:307.200000% 314.110429%;background-position:50.579151% 0.000000%;}
+:where(.pw) [data-card=cup]{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:320.000000% 360.563380%;background-position:2.746212% 43.378378%;}
+:where(.pw) [data-card=soroush]{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:320.668058% 375.091575%;background-position:2.838221% 81.624501%;}
+:where(.pw) [data-card=prison]{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:332.467532% 368.345324%;background-position:50.651769% 43.699732%;}
+:where(.pw) [data-card=ahriman]{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:331.034483% 376.470588%;background-position:50.652985% 81.648936%;}
+#soroushBar[data-theme=jamshid]>button{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:322.012579% 1296.202532%;background-position:2.832861% 95.449735%;}
+#soroushBar[data-theme=zahhak]>button{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:331.034483% 1312.820513%;background-position:50.652985% 95.348837%;}
+:where(.pw) .letter-modal .modal-heading{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:300.000000% 403.149606%;background-position:100.000000% 0.000000%;}
+:where(.pw) .letter-modal .paper-letter{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:345.168539% 492.307692%;background-position:97.158570% 58.088235%;}
+:where(.pw) .letter-modal .letter{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:338.325991% 898.245614%;background-position:97.319778% 92.857143%;}
+:where(.pw) .letter-modal .dp-select{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:345.168539% 1828.571429%;background-position:97.158570% 38.223140%;}
+:where(.pw) .letter-modal #lmPlayer{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:724.528302% 1735.593220%;background-position:97.583082% 26.839378%;}
+:where(.pw) .letter-modal #lmRole{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:717.757009% 1735.593220%;background-position:80.181543% 26.839378%;}
+:where(.pw) .letter-modal #letterSendBtn{background-image:url('assets/play/art/approved-clean-atlas.webp');background-repeat:no-repeat;background-size:350.684932% 1678.688525%;background-position:96.812386% 74.247144%;}
+.powers-screen{width:100%;max-width:524px;min-height:0;container-type:inline-size;padding:0 5.6% 18px;position:relative}
+.powers-screen[data-theme=zahhak]{max-width:524px}
+:where(.pw) .powers-header,.powers-screen[data-theme=zahhak] .powers-header{display:block;position:relative;margin:0 -6.3% 0;min-height:0;padding:0;aspect-ratio:524/322;overflow:hidden}
+:where(.pw) .powers-header .royal-portrait{display:none}
+:where(.pw) .hero-copy{position:absolute;left:8.4%;top:35%;text-align:right;width:36%;}
+:where(.pw) .powers-header .hero-copy .eyebrow{font-size:clamp(12px,3.1cqw,16px);color:#72441c}
+:where(.pw) .powers-header .hero-copy h1,.powers-screen[data-theme=zahhak] .powers-header h1{font-family:EntryAmiri,Vazirmatn,serif;font-size:clamp(32px,8.9cqw,47px);line-height:1.2;margin:2px 0 14px;color:#43230e;font-weight:700}
+.powers-screen[data-theme=zahhak] .hero-copy{top:35%;left:6.2%;width:32%}
+.powers-screen[data-theme=zahhak] .hero-copy .eyebrow{color:#f0dcc2}
+.powers-screen[data-theme=zahhak] .powers-header h1{color:#f7ead5}
+:where(.pw) .phase-pill{border:0;background:none;padding:0;width:42%;min-width:54px;height:31px;display:flex;align-items:center;justify-content:center;font-size:clamp(12px,3cqw,16px);color:inherit;border-radius:0}
+:where(.pw) .power-card:not(.spy-box){display:block;border:0;border-image:none;box-shadow:none;position:relative;min-height:205px;height:clamp(205px,58cqw,284px);padding:0;margin:0 0 10px;overflow:visible}
+:where(.pw) .power-card[data-card=soroush],:where(.pw) .power-card[data-card=ahriman]{height:clamp(205px,56cqw,274px)}
+:where(.pw) .power-art{display:none}
+:where(.pw) .power-copy{position:absolute;inset:12% 4.1% 8.1% auto;width:47%;display:flex;flex-direction:column;gap:0}
+:where(.pw) .power-head{display:flex;gap:8px;align-items:center;margin:0 0 12px;flex-wrap:wrap;min-height:28px}
+:where(.pw) .power-copy .power-head h2{font-size:clamp(16px,4.25cqw,23px);font-weight:700;flex-basis:auto;line-height:1.65}
+:where(.pw) .power-copy .power-head>img{width:24px;height:24px;order:1;flex-shrink:0}
+:where(.pw) .power-copy>p:not(.power-note){font-size:clamp(12px,3.1cqw,16px);line-height:1.85;color:#5f3c22;margin:0 0 8px;flex:1;overflow-wrap:anywhere}
+.powers-screen[data-theme=zahhak] .power-copy>p{color:#eadbca}
+:where(.pw) .power-copy .card-use-btn{width:100%;min-height:44px;height:clamp(44px,10.7cqw,58px);padding:0 8px;border:0;border-image:none;background:transparent!important;color:#fff2da;font-size:clamp(15px,3.8cqw,21px);font-weight:700;box-shadow:none;line-height:1.2;flex-shrink:0}
+:where(.pw) .power-copy .card-use-btn:disabled{color:#f7e9d4;opacity:.65}
+:where(.pw) .power-copy .used-tag{position:absolute;bottom:100%;right:0;width:100%;font-size:11px;padding:3px 6px;background:#f2e3c9;color:#6c3c19;border-radius:3px;flex-basis:auto;white-space:normal}
+.powers-screen[data-theme=zahhak] .used-tag{background:#341c20;color:#efd3ac}
+:where(.pw) .power-copy .power-note{position:absolute;top:100%;right:0;margin:2px 0;font-size:10px;color:var(--ink);background:var(--surface)}
+:where(.pw) .power-copy .power-note:empty{display:none}
+:where(.pw) .power-card.used{filter:none;opacity:1}
+:where(.pw) .power-card.used .power-copy{opacity:1}
+:where(.pw) .powers-footer{font-size:11px;text-align:center;margin:9px 0 0;padding:0;color:#815832}
+.powers-screen[data-theme=zahhak] .powers-footer{color:#c7a673}
+.soroush-open{padding-bottom:0!important}
+#soroushBar{position:static;display:none;max-width:524px;margin:0 auto;padding:0 5.6% 24px;background:#f0e2cb;width:100%}
+#soroushBar.show{display:block}
+#soroushBar[data-theme=zahhak]{background:#211413}
+#soroushBar>button{width:100%;min-height:60px;height:clamp(60px,16vw,79px);border:0;border-image:none;padding:8px 15px;animation:none;display:flex;gap:12px;align-items:center;justify-content:center;color:#542a14;font-weight:700;box-shadow:none;font-size:clamp(14px,3.6vw,19px)}
+#soroushBar[data-theme=zahhak]>button{color:#edd2a8}
+#soroushBar>button>img{width:34px;height:34px;opacity:0}
+#soroushBar>button:after{content:'‹';margin-right:auto;font-size:30px;font-weight:400}
+:where(.pw) .soroush-badge{order:1;background:#921d3b;color:#fff7e9;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}
+:where(.pw) .soroush-badge[hidden]{display:none}
+:where(.pw) .jam-result-external{display:flex;gap:14px;padding:12px;background:#f3e4c7;border:1px solid #b6884b;margin:-4px 0 14px;border-radius:3px}
+:where(.pw) .jam-result-external>div{flex:1;font-size:12px;display:flex;flex-direction:column;gap:4px}
+:where(.pw) .jam-result-external strong{font-size:22px}
+:where(.pw) .jam-result-external img{width:16px;height:16px}
+:where(.pw).modal-back{padding:16px}
+:where(.pw).modal-back::backdrop{background:#170e0bbc;backdrop-filter:blur(3px)}
+:where(.pw) .modal-card{background:#f6ead5;color:#432b18;max-width:512px;border:1px solid #ba8b4d}
+:where(.pw) .modal-card.letter-modal{display:block;padding:24px;max-height:92dvh;height:auto;width:min(512px,100%);overflow:auto;background:#f6ead5;color:#432b18}
+:where(.pw) .letter-modal .modal-heading{position:relative;height:244px;display:block;flex-shrink:0;margin:-24px -24px 12px;padding:0 25px;border:0}
+:where(.pw) .letter-modal .modal-heading>div{position:absolute;right:25px;bottom:14px;left:86px}
+:where(.pw) .letter-modal .modal-heading h2{display:block;text-align:right;color:#44220e;font-family:EntryAmiri,Vazirmatn,serif;font-size:43px;line-height:1.4;margin:0}
+:where(.pw) .letter-modal .modal-heading h2 img{display:none}
+:where(.pw) .letter-modal .modal-subtitle{font-size:13px;color:#704822;line-height:1.8;margin:3px 0 0}
+:where(.pw) .letter-modal .modal-close{position:absolute;left:24px;top:118px;width:48px;height:48px;border:1px solid #aa783a;background:#f8ecd7d9;color:#432612;border-radius:50%;font-size:28px}
+:where(.pw) .letter-hero{display:none}
+:where(.pw) .letter-modal .modal-scroll{overflow:visible;max-height:none;margin:0;padding:0;scrollbar-gutter:auto}
+:where(.pw) .letter-modal .mode-switch{gap:14px;margin:0 0 16px}
+:where(.pw) .letter-modal .mode-btn{border:0;border-image:none;border-radius:0;min-height:52px;font-size:16px;padding:8px;color:#563518;outline:none;background-color:transparent}
+:where(.pw) .letter-modal .mode-btn.active{filter:sepia(.1) saturate(1.25);outline:2px solid #aa783a;outline-offset:-2px}
+:where(.pw) .letter-modal label{font-size:14px;margin:10px 0 8px}
+:where(.pw) .letter-modal .dp-select{border:0;border-image:none;min-height:54px;padding:8px 20px;font-size:15px;color:#4d3424;background-color:#f4e8d5}
+:where(.pw) .letter-modal .selected-full{font-size:12px;color:#704a26;overflow-wrap:anywhere}
+:where(.pw) .letter-modal .paper-letter{padding:20px 22px 10px;border:0;position:relative;min-height:192px;background-color:#f6e8ce}
+:where(.pw) .letter-modal .paper-letter .wax-decoration{display:none}
+:where(.pw) .letter-modal textarea{width:100%;height:170px;min-height:170px;margin:0;padding:4px 0 0;border:0;background:transparent;color:#4d3424;font:15px/1.95 Vazirmatn,Tahoma,sans-serif;resize:vertical;outline-offset:2px}
+:where(.pw) .letter-modal #letterCount{font-size:12px;margin:4px 0 10px;text-align:left;color:#704a26}
+:where(.pw) .letter-modal #letterSendBtn{display:block;width:100%;border:0;border-image:none;min-height:56px;padding:8px 16px;color:#32261c;font-size:19px;background-color:transparent;opacity:1}
+:where(.pw) .letter-modal #letterSendBtn:disabled{filter:grayscale(.5);color:#655b50}
+:where(.pw) .letter-modal #letterSendBtn:disabled:after{content:''}
+:where(.pw) .letter-modal .inbox-title{font-size:18px;display:flex;gap:12px;align-items:center;margin:24px 0 12px;color:#512e17}
+:where(.pw) .letter-modal .inbox-title:after{content:'';height:1px;flex:1;background:#be9152}
+:where(.pw) .letter-modal .letter{padding:18px 22px 20px;min-height:110px;background-color:#efdfc2;border:0;box-shadow:none;overflow-wrap:anywhere;margin-bottom:12px;animation:none}
+:where(.pw) .letter-modal .letter .from{font-size:12px;line-height:1.8;color:#8c603c;margin-bottom:7px}
+:where(.pw) .letter-modal .letter>p:not(.from){font-size:15px;color:#442e1d;line-height:1.9}
+:where(.pw) .letter-modal .empty-inbox{padding:18px;color:#7a5c3c}
+:where(.pw) .letter-modal .close-bottom{margin-top:20px;min-height:48px}
+:where(.pw) .spy-box{padding:18px;background:#2f1f20;border:1px solid #b08955}
+:where(.pw) .spy-box .dp-select{color:#3d2719;background:#f2e5ca}
+:where(.pw) .result-gold{color:#774812}
+:where(.pw) .result-crimson{color:#8d203b}
+@media(min-width:525px){.powers-screen,#soroushBar{padding-left:29px;padding-right:29px}
+:where(.pw) .powers-header{margin-left:-29px;margin-right:-29px}}
+@media(max-width:350px){.powers-screen{padding:0 18px 12px}
+:where(.pw) .powers-header{margin-left:-18px;margin-right:-18px}
+:where(.pw) .hero-copy{top:35%}
+:where(.pw) .power-copy{top:8%;bottom:8%;width:48%;right:4%}
+:where(.pw) .power-head{gap:4px;margin-bottom:7px}
+:where(.pw) .power-copy .power-head h2{font-size:16px}
+:where(.pw) .power-copy .power-head>img{width:18px;height:18px}
+:where(.pw) .power-copy>p:not(.power-note){font-size:12px;line-height:1.7}
+:where(.pw).modal-back{padding:8px}
+:where(.pw) .modal-card.letter-modal{padding:18px;width:100%;height:auto;max-height:95dvh}
+:where(.pw) .letter-modal .modal-heading{margin:-18px -18px 12px;height:200px}
+:where(.pw) .letter-modal .modal-heading h2{font-size:34px}
+:where(.pw) .letter-modal .modal-close{left:18px;top:100px}
+:where(.pw) .letter-modal .mode-btn{font-size:13px}
+:where(.pw) .letter-modal .paper-letter{padding:16px;min-height:185px}
+:where(.pw) .letter-modal textarea{font-size:16px;height:160px;min-height:160px}
+:where(.pw) .phase-pill{height:24px}
+:where(.pw) .power-copy .card-use-btn{font-size:14px}
+:where(.pw) .power-copy .power-note{font-size:9px}}
+@media(prefers-reduced-motion:reduce){:where(.pw) *{animation:none!important;transition:none!important}}
+:where(.pw) .power-card:not(.spy-box):before{content:none}
+.powers-screen[data-theme=jamshid]{background:#f8ecd5 url('assets/entry/components/parchment_sample.png') center/cover}
+.powers-screen[data-theme=zahhak]{background:#211412}
+:where(.pw) .hero-copy{width:32%;text-align:left}
+:where(.pw) .powers-header .hero-copy h1,.powers-screen[data-theme=zahhak] .powers-header h1{font-size:clamp(34px,10cqw,52px)}
+:where(.pw) .hero-copy .phase-pill{margin-right:auto;margin-left:0;color:#51280f;min-width:54px}
+.powers-screen[data-theme=zahhak] .hero-copy .phase-pill{color:#f4d9af;border:1px solid #b18344;border-radius:30px;width:82px;height:34px}
+:where(.pw) .power-copy .card-use-btn{margin-top:0}
+:where(.pw) .power-copy .power-note{width:1px;height:1px;min-height:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+:where(.pw) .power-copy .power-head{justify-content:flex-start}
+:where(.pw) .power-copy .power-head>img{order:-1}
+#soroushBar{left:auto;bottom:auto;transform:none;position:sticky;bottom:0;padding-top:8px;z-index:10}
+#soroushBar>button{position:relative;justify-content:flex-start;padding-right:24%;padding-left:7%;line-height:1.5;font-size:clamp(13px,3.2vw,17px)}
+#soroushBar>button>img{display:none}
+#soroushBarText{width:100%;text-align:right}
+#soroushBar>button:after{position:absolute;left:6%}
+:where(.pw) .soroush-badge{position:absolute;left:27.7%;top:24%;width:8%;height:50%;min-width:0;min-height:0;background:none;border-radius:0;color:#fff7e9}
+#soroushBarText{max-width:65%;margin-right:4%}
+#soroushBar[data-theme=zahhak]>button{font-size:clamp(13px,3.2vw,17px)}
+:where(.pw) .powers-header,.powers-screen[data-theme=zahhak] .powers-header{display:flex;align-items:flex-start;justify-content:flex-end;direction:ltr}
+:where(.pw) .hero-copy,.powers-screen[data-theme=zahhak] .hero-copy{position:static;direction:rtl;margin-right:auto;margin-left:8.4%;padding-top:22%;width:32%}
+.powers-screen[data-theme=zahhak] .hero-copy{margin-left:6.2%;padding-top:22%}
+:where(.pw) .power-card:not(.spy-box){display:flex;align-items:stretch}
+:where(.pw) .power-copy{position:static;inset:auto;margin-right:4.1%;margin-left:auto;padding:7% 0 5%;width:47%;height:100%;min-width:0}
+:where(.pw) .power-copy .used-tag{position:static;inset:auto;width:auto;padding:2px 5px;margin:0;font-size:10px;line-height:1.6}
+:where(.pw) .power-copy .power-note{position:static;width:auto;height:auto;min-height:0;clip-path:none;overflow:visible;white-space:normal;margin:3px 0 0;font-size:10px;color:var(--ink);background:none}
+:where(.pw) .power-card.used{min-height:240px}
+:where(.pw) .power-copy .power-head{margin-bottom:9px;gap:5px}
+:where(.pw) .power-copy .power-head h2{flex:1;font-size:clamp(16px,4.25cqw,23px)}
+:where(.pw) .power-copy .card-use-btn{margin-bottom:0}
+:where(.pw) .power-copy .power-note:not(:empty){line-height:1.3}
+#soroushBar>button{display:grid;grid-template-columns:19% 43% 13% 25%;padding:8px 6%;gap:0;font-size:clamp(13px,3.2vw,17px)}
+#soroushBar>button>img{display:block;grid-column:1;width:32px;height:32px;opacity:0}
+#soroushBarText{grid-column:2;grid-row:1;width:auto;max-width:none;margin:0;text-align:right}
+:where(.pw) .soroush-badge{position:static;grid-column:3;grid-row:1;min-width:0;width:100%;height:auto;font-size:16px}
+#soroushBar>button:after{position:static;grid-column:4;grid-row:1;margin:0;justify-self:end}
+:where(.pw) .letter-modal .letter:before{content:none}
+:where(.pw) .letter-modal label{color:#704a26}
+:where(.pw) .letter-modal .letter{background-image:url('assets/play/art/approved-clean-atlas.webp');background-size:338.325991% 898.245614%;background-position:97.319778% 92.857143%;background-repeat:no-repeat;padding-left:22px;padding-right:22px}
+:where(.pw) .letter-modal .modal-heading{display:grid;grid-template-columns:60px minmax(0,1fr);direction:ltr;align-items:end;padding-top:115px;padding-bottom:10px}
+:where(.pw) .letter-modal .modal-heading>div{position:static;grid-column:2;grid-row:1;direction:rtl}
+:where(.pw) .letter-modal .modal-close{position:static;grid-column:1;grid-row:1;align-self:start;margin-top:0}
+:where(.pw) .letter-modal .modal-heading h2{line-height:1.35}
+:where(.pw) .letter-modal .letter .from,:where(.pw) .letter-modal .letter>p:not(.from){padding-right:40px}
+:where(.pw) .letter-modal .mode-btn.active:after{content:none}
+:where(.pw) .letter-modal .modal-close{box-shadow:none;outline:none}
+@media(max-width:350px){:where(.pw) .power-copy{position:static;width:48%;margin-right:4%;padding:5% 0 5%}
+:where(.pw) .power-card.used{min-height:250px}
+:where(.pw) .power-copy .power-head h2{font-size:16px}
+:where(.pw) .power-copy .power-note{font-size:10px}
+:where(.pw) .letter-modal .modal-heading{padding-top:94px}
+:where(.pw) .letter-modal .modal-heading>div{font-size:12px}
+:where(.pw) .letter-modal .modal-heading .modal-subtitle{font-size:12px}
+:where(.pw) .letter-modal .modal-heading h2{font-size:34px}}
+:where(.pw) .powers-header .hero-copy h1,.powers-screen[data-theme=zahhak] .powers-header h1{font-family:Vazirmatn,Tahoma,sans-serif;font-size:clamp(34px,10.8cqw,56px);font-weight:700;letter-spacing:-1px;line-height:1.25}
+:where(.pw) .power-copy .power-head h2{font-size:clamp(16px,5cqw,24px)}
+:where(.pw) .power-copy>p:not(.power-note){font-size:clamp(12px,3.5cqw,16px)}
+:where(.pw) .power-copy .card-use-btn{min-height:48px}
+:where(.pw) .letter-modal .modal-heading h2{font-family:Vazirmatn,Tahoma,sans-serif;font-size:44px;font-weight:700}
+:where(.pw) .letter-modal .modal-close:focus-visible{outline:3px solid #775015;outline-offset:3px}
+@media(max-width:350px){:where(.pw) .power-copy .power-head h2{font-size:16px}
+:where(.pw) .power-copy>p:not(.power-note){font-size:12px}
+:where(.pw) .letter-modal .modal-heading h2{font-size:34px}}
+:where(.pw) .hero-copy .eyebrow{display:block;line-height:1.2}
+:where(.pw) .powers-header .hero-copy h1,.powers-screen[data-theme=zahhak] .powers-header h1{font-size:clamp(30px,10.5cqw,52px);line-height:1.1;margin:3px 0 clamp(6px,3cqw,14px)}
+:where(.pw) .power-copy .power-note{position:absolute;width:1px;height:1px;min-height:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+:where(.pw) .letter-modal .long-letter{background:#f3e3c6;border:1px solid #b78d55;padding-top:22px;box-shadow:inset 0 0 15px #b08b5722}
+:where(.pw) .letter-modal .long-letter:before{content:'';display:block;position:absolute;inset:12px 8px auto auto;width:35px;height:35px;z-index:0;filter:none;border:0;background:url('assets/play/icons/wax_seal.svg') center/contain no-repeat}
+@media(max-width:350px){:where(.pw) .hero-copy,.powers-screen[data-theme=zahhak] .hero-copy{padding-top:21%}}
 :root{--soroush-height:84px}
-.pw{font:14px/1.9 Vazirmatn,Tahoma,sans-serif}
-.pw button{width:auto;padding:0;border-radius:0;transition:none;font-size:inherit;font-weight:inherit}
-.pw button:active{transform:none}
-.pw .card-use-btn,.pw .btn-gold,.pw .btn-crimson,.pw .btn-outline{width:100%}
-.pw .player-dot{width:100%}
-.pw button:disabled{opacity:1}
-.pw h1,.pw h2{color:inherit;background:none;-webkit-text-fill-color:currentColor;font-family:inherit}
+:where(.pw){font:14px/1.9 Vazirmatn,Tahoma,sans-serif}
+:where(.pw) button{width:auto;padding:0;border-radius:0;transition:none;font-size:inherit;font-weight:inherit}
+:where(.pw) button:active{transform:none}
+:where(.pw) button:disabled{opacity:1}
+:where(.pw) h1,:where(.pw) h2{color:inherit;background:none;-webkit-text-fill-color:currentColor;font-family:inherit}
 .powers-screen{background-color:var(--surface)}
+.powers-screen{min-height:100dvh}
 #soroushBar{font-family:Vazirmatn,Tahoma,sans-serif}
 #soroushBar>button{width:100%}
-.pw dialog{color:var(--ink)}
-.pw.modal-back .modal-actions button{width:100%}
-.pw .modal-close{width:48px}
-.pw .close-bottom{width:100%}
-.pw .letter-modal .mode-btn{width:100%}
+:where(.pw).modal-back .modal-actions button{width:100%}
+:where(.pw) .modal-close{width:48px}
+:where(.pw) .close-bottom{width:100%}
+:where(.pw) .card-use-btn,:where(.pw) .btn-gold,:where(.pw) .btn-crimson,:where(.pw) .btn-outline{width:100%}
+:where(.pw) .player-dot{width:100%}
 
 </style>
 </head>
@@ -1226,17 +1413,18 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
 
   <!-- صفحه ۵: داشبوردِ جمشید -->
   <div class="screen powers-screen pw" id="screen-jamshid-dash" data-theme="jamshid">
-    <header class="powers-header"><img class="royal-portrait" src="assets/play/art/jamshid-bust.webp" alt=""><div class="hero-copy"><span class="eyebrow">ابزارهایِ ویژه</span><h1>داشبوردِ جمشید</h1><span id="jamPhasePill" class="phase-pill">—</span></div></header>
-    <section class="power-card" data-card="cup"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/goblet.svg" alt=""><h2>جامِ جم</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — فقط تعدادِ حذف‌شده‌هایِ هر ساید رو می‌بینی</p><button id="jamEJamBtn" class="card-use-btn btn-gold" type="button" onclick="useJamEJam()">درخواست</button><p class="power-note" role="status"></p><div id="jamEJamResult" hidden><div><span>☀ یارانِ جمشیدِ حذف‌شده</span><strong class="result-gold" id="jamResJ">0</strong></div><div><span><img src="assets/play/icons/snake.svg" alt=""> ضحاکیانِ حذف‌شده</span><strong class="result-crimson" id="jamResZ">0</strong></div></div></div><div class="power-art art-cup" aria-hidden="true"><img src="assets/play/art/jam-goblet.webp" alt=""></div></section>
-    <section class="power-card" data-card="soroush"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/dove.svg" alt=""><h2>فراخواندنِ سروش</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — بازکردنِ پنجره‌یِ نامه‌نگاری برایِ همه</p><button id="jamSoroushBtn" class="card-use-btn btn-gold" type="button" onclick="useJamSoroush()">فراخوانی</button><p class="power-note" role="status"></p></div><div class="power-art art-soroush" aria-hidden="true"><img src="assets/play/art/soroush-dove.webp" alt=""></div></section>
+    <header class="powers-header"><div class="hero-copy"><span class="eyebrow">داشبورد</span><h1>جمشید</h1><span id="jamPhasePill" class="phase-pill">—</span></div></header>
+    <section class="power-card" data-card="cup"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/goblet.svg" alt=""><h2>جامِ جم</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — فقط تعدادِ حذف‌شده‌هایِ هر ساید رو می‌بینی</p><button id="jamEJamBtn" class="card-use-btn btn-gold" type="button" onclick="useJamEJam()">درخواست</button><p class="power-note" role="status"></p></div></section>
+    <div id="jamEJamResult" class="jam-result-external" hidden><div><span>☀ یارانِ جمشیدِ حذف‌شده</span><strong class="result-gold" id="jamResJ">0</strong></div><div><span><img src="assets/play/icons/snake.svg" alt=""> ضحاکیانِ حذف‌شده</span><strong class="result-crimson" id="jamResZ">0</strong></div></div>
+    <section class="power-card" data-card="soroush"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/dove.svg" alt=""><h2>فراخواندنِ سروش</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — بازکردنِ پنجره‌یِ نامه‌نگاری برایِ همه</p><button id="jamSoroushBtn" class="card-use-btn btn-gold" type="button" onclick="useJamSoroush()">فراخوانی</button><p class="power-note" role="status"></p></div></section>
     <footer class="powers-footer">گروه بازی‌سازی بزرگمهر</footer>
   </div>
 
   <!-- صفحه ۶: داشبوردِ ضحاک -->
   <div class="screen powers-screen pw" id="screen-zahhak-dash" data-theme="zahhak">
-    <header class="powers-header"><img class="royal-portrait" src="assets/play/art/zahhak-bust.webp" alt=""><div class="hero-copy"><span class="eyebrow">ابزارهایِ ویژه</span><h1>داشبوردِ ضحاک</h1><span id="zahPhasePill" class="phase-pill">—</span></div></header>
-    <section class="power-card" data-card="prison"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/chain.svg" alt=""><h2>زندان</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — یه بازیکن رو تا پایانِ امروز غیرفعال کن</p><button id="zahZendanBtn" class="card-use-btn btn-crimson" type="button" onclick="openZahZendanPicker()">انتخاب</button><p class="power-note" role="status"></p></div><div class="power-art art-prison" aria-hidden="true"><img src="assets/play/art/prison-chain.webp" alt=""></div></section>
-    <section class="power-card" data-card="ahriman"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/ahriman.svg" alt=""><h2>اهریمن</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — لغوِ گفتگو/رأیِ امروز</p><button id="zahAhrimanBtn" class="card-use-btn btn-crimson" type="button" onclick="useZahAhriman()">فراخوانی</button><p class="power-note" role="status"></p></div><div class="power-art art-ahriman" aria-hidden="true"><img src="assets/play/art/ahriman-mask.webp" alt=""></div></section>
+    <header class="powers-header"><div class="hero-copy"><span class="eyebrow">داشبورد</span><h1>ضحاک</h1><span id="zahPhasePill" class="phase-pill">—</span></div></header>
+    <section class="power-card" data-card="prison"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/chain.svg" alt=""><h2>زندان</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — یه بازیکن رو تا پایانِ امروز غیرفعال کن</p><button id="zahZendanBtn" class="card-use-btn btn-crimson" type="button" onclick="openZahZendanPicker()">انتخاب</button><p class="power-note" role="status"></p></div></section>
+    <section class="power-card" data-card="ahriman"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/ahriman.svg" alt=""><h2>اهریمن</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — لغوِ گفتگو/رأیِ امروز</p><button id="zahAhrimanBtn" class="card-use-btn btn-crimson" type="button" onclick="useZahAhriman()">فراخوانی</button><p class="power-note" role="status"></p></div></section>
     <!-- فقط وقتی سروش فعال باشه دیده می‌شه -->
     <section id="zahSpyBox" class="power-card spy-box" style="display:none;"><div class="power-head"><img src="assets/play/icons/ear.svg" alt=""><h2>شنودِ نامه‌ها</h2></div><p>یک نفر رو انتخاب کن — همه‌یِ نامه‌هایِ اون (چه فرستاده چه گرفته) به تو هم می‌رسه.</p><label for="zahSpySelect">بازیکن</label><select id="zahSpySelect" class="dp-select" onchange="zahSetSpy()"><option value="">— کسی رو شنود نمی‌کنم —</option></select><p id="zahSpyNote" class="power-note" role="status"></p></section>
     <footer class="powers-footer">گروه بازی‌سازی بزرگمهر</footer>
@@ -1269,7 +1457,7 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
   <div id="soroushBar" class="pw" data-theme="jamshid"><button type="button" onclick="openSoroush()"><img src="assets/play/icons/dove.svg" alt=""><span id="soroushBarText">سروش فرا خوانده شد — نامه بنویس</span><span class="soroush-badge" hidden></span></button></div>
   <dialog id="powerConfirmDialog" class="modal-back pw" aria-labelledby="powerConfirmTitle"><div class="modal-card"><h2 id="powerConfirmTitle">تأیید</h2><p id="powerConfirmText" class="modal-subtitle"></p><div class="modal-actions"><button id="powerCancel" class="btn-outline" type="button">بازگشت</button><button id="powerAccept" class="btn-crimson" type="button">مصرف کن</button></div></div></dialog>
   <dialog id="zendanModal" class="modal-back pw" aria-labelledby="zendanTitle"><div class="modal-card"><h2 id="zendanTitle">کی را زندانی کنم؟</h2><p class="modal-subtitle">یک نفر را انتخاب کن؛ در مرحله‌یِ بعد تأیید می‌کنی.</p><div class="modal-scroll"><div id="zendanList" class="player-grid"></div></div><div class="modal-actions"><button id="zendanCancelBtn" class="btn-outline" type="button">بازگشت</button><button id="zendanConfirmBtn" class="btn-crimson" type="button" disabled>زندانی کن</button></div></div></dialog>
-  <dialog id="soroushModal" class="modal-back pw" aria-labelledby="soroushTitle"><div class="modal-card letter-modal"><header class="modal-heading"><div><h2 id="soroushTitle"><img src="assets/play/icons/dove.svg" alt="">سروش</h2><p class="modal-subtitle">نامه‌ها بی‌نامن — گیرنده نمی‌فهمه از طرفِ کیه.</p></div><button class="modal-close" type="button" aria-label="بستنِ نامه‌ها" onclick="closeSoroush()">×</button></header><div class="letter-hero" aria-hidden="true"><img src="assets/play/art/soroush-dove.webp" alt=""></div><div class="modal-scroll"><section id="soroushCompose"><div class="mode-switch"><button id="lmPlayer" class="mode-btn active" type="button" aria-pressed="true" onclick="setLetterMode('player')">به یک بازیکن</button><button id="lmRole" class="mode-btn" type="button" aria-pressed="false" onclick="setLetterMode('role')">به یک نقش</button></div><label id="letterRecipientLabel" for="letterToPlayer">گیرنده</label><select id="letterToPlayer" class="dp-select" onchange="selectedFull(this); updateLetterUI()"><option value="">— کدام بازیکن؟ —</option></select><select id="letterToRole" class="dp-select" aria-label="نقشِ گیرنده" style="display:none" onchange="selectedFull(this); updateLetterUI()"><option value="">— کدام نقش؟ —</option></select><label for="letterBody">متنِ نامه</label><div class="paper-letter"><img class="wax-decoration" src="assets/play/icons/wax_seal.svg" alt=""><textarea id="letterBody" maxlength="600" placeholder="نامه‌ات را بنویس…" oninput="updateLetterUI()"></textarea></div><p id="letterCount" dir="ltr">0 / 600</p><button id="letterSendBtn" class="btn-gold" type="button" onclick="sendMyLetter()">فرستادنِ نامه</button><p id="letterNote" class="power-note" role="status"></p></section><p id="soroushComposeStatus" class="compose-status" role="status" hidden></p><section id="soroushInbox"></section></div><button class="btn-outline close-bottom" type="button" onclick="closeSoroush()">بستن</button></div></dialog>
+  <dialog id="soroushModal" class="modal-back pw" aria-labelledby="soroushTitle"><div class="modal-card letter-modal"><header class="modal-heading"><div><h2 id="soroushTitle"><img src="assets/play/icons/dove.svg" alt="">سروش</h2><p class="modal-subtitle">نامه‌هایت را گیرنده بدون نامِ فرستنده دریافت می‌کند.</p></div><button class="modal-close" type="button" aria-label="بستنِ نامه‌ها" onclick="closeSoroush()">×</button></header><div class="modal-scroll"><section id="soroushCompose"><div class="mode-switch"><button id="lmPlayer" class="mode-btn active" type="button" aria-pressed="true" onclick="setLetterMode('player')">به یک بازیکن</button><button id="lmRole" class="mode-btn" type="button" aria-pressed="false" onclick="setLetterMode('role')">به یک نقش</button></div><label id="letterRecipientLabel" for="letterToPlayer">گیرنده</label><select id="letterToPlayer" class="dp-select" onchange="selectedFull(this); updateLetterUI()"><option value="">— کدام بازیکن؟ —</option></select><select id="letterToRole" class="dp-select" aria-label="نقشِ گیرنده" style="display:none" onchange="selectedFull(this); updateLetterUI()"><option value="">— کدام نقش؟ —</option></select><label for="letterBody">متنِ نامه</label><div class="paper-letter"><img class="wax-decoration" src="assets/play/icons/wax_seal.svg" alt=""><textarea id="letterBody" maxlength="600" placeholder="نامه‌ات را بنویس…" oninput="updateLetterUI()"></textarea></div><p id="letterCount" dir="ltr">0 / 600</p><button id="letterSendBtn" class="btn-gold" type="button" onclick="sendMyLetter()">فرستادنِ نامه</button><p id="letterNote" class="power-note" role="status"></p></section><p id="soroushComposeStatus" class="compose-status" role="status" hidden></p><section id="soroushInbox"></section></div><button class="btn-outline close-bottom" type="button" onclick="closeSoroush()">بستن</button></div></dialog>
 
   <!-- صفحه ۷: شب برای بازیکنانِ عادی -->
   <div class="screen play-screen night-screen" id="screen-night-wait" data-phase="night">
@@ -2857,7 +3045,7 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
   }
 
   function letterCard(text, from, spied){
-    const card = dvEl('article', 'letter' + (spied ? ' spied' : ''));
+    const card = dvEl('article', 'letter' + (spied ? ' spied' : '') + (text.length > 200 ? ' long-letter' : ''));
     card.append(dvEl('p', 'from', from), dvEl('p', null, text));
     return card;
   }
