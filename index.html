@@ -112,14 +112,6 @@
   .my-role-guide .ds{ font-size:12px; color:var(--parchment); line-height:2; }
 
   /* ============ تابلوی عمومیِ آرا ============ */
-  .vb-row{ background:var(--night-3); border-radius:9px; padding:8px 11px; margin-bottom:6px; }
-  .vb-top{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
-  .vb-name{ font-size:12.5px; font-weight:700; }
-  .vb-counts{ display:flex; gap:9px; font-size:12px; white-space:nowrap; }
-  .vb-counts .tc-g{ color:var(--green); }
-  .vb-counts .tc-r{ color:var(--crimson-soft); }
-  .vb-counts .top{ font-weight:900; text-decoration:underline; }
-  .vb-gave{ font-size:10.5px; color:var(--parchment-dim); margin-top:4px; }
 
 
   /* ============ سروش — نامه‌نگاری ============ */
@@ -186,25 +178,7 @@
   .card-lightbox.show{ display:flex; }
   .card-lightbox img{ max-width:100%; max-height:100%; border-radius:14px; border:1px solid var(--gold); box-shadow:0 10px 40px rgba(0,0,0,0.7); }
 
-  .king-badge{ display:flex; flex-direction:column; align-items:center; gap:4px; }
-  .king-badge .kav{ width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:16px; }
-  .king-badge.jamshid .kav{ background:rgba(201,151,47,0.18); border:2px solid var(--gold); color:var(--gold-soft); }
-  .king-badge.zahhak .kav{ background:rgba(138,36,54,0.2); border:2px solid var(--crimson-soft); color:var(--crimson-soft); }
-  .king-badge .kname{ font-size:11px; font-weight:700; }
-  .king-badge .krole{ font-size:9.5px; color:var(--parchment-dim); }
 
-  .stage{ position:relative; width:min(300px, 80vw); height:min(300px, 80vw); margin:6px auto 16px; }
-  .ring-bg{ position:absolute; inset:0; border-radius:50%; border:1px dashed rgba(236,226,205,0.15); }
-  .center-info{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; width:130px; }
-  .center-label{ font-size:10.5px; color:var(--parchment-dim); margin-bottom:4px; }
-  .center-name{ font-size:14px; font-weight:700; color:var(--gold-soft); min-height:18px; }
-  .player-dot{ position:absolute; width:56px; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; gap:5px; cursor:pointer; user-select:none; }
-  .player-dot .avatar{ width:42px; height:42px; border-radius:50%; background:var(--night-3); border:2px solid rgba(236,226,205,0.2); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; transition:all .18s ease; }
-  .player-dot .pname{ font-size:9.5px; color:var(--parchment-dim); white-space:nowrap; }
-  .player-dot.peyman .avatar{ border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,151,47,0.18); }
-  .player-dot.peyman .pname{ color:var(--gold-soft); font-weight:600; }
-  .player-dot.goman .avatar{ border-color:var(--crimson-soft); box-shadow:0 0 0 3px rgba(138,36,54,0.22); }
-  .player-dot.goman .pname{ color:var(--crimson-soft); font-weight:600; }
   .mode-select{ display:flex; gap:8px; justify-content:center; margin-bottom:6px; }
   .mode-btn{ padding:8px 16px; border-radius:9px; border:1px solid var(--line); background:var(--night-3); color:var(--parchment-dim); font-family:'Vazirmatn'; font-size:12px; font-weight:600; cursor:pointer; }
   .mode-btn.active[data-mode="peyman"]{ background:rgba(201,151,47,0.15); border-color:var(--gold); color:var(--gold-soft); }
@@ -262,8 +236,6 @@
   }
   #screen-zahhak-dash .portrait-badge{ border-color:var(--crimson-soft); }
 
-  .player-dot.host-dot .avatar{ background:rgba(201,151,47,0.18); border-color:var(--gold); color:var(--gold-soft); }
-  .player-dot.host-dot .pname{ color:var(--gold-soft); font-weight:700; }
 
   /* ============ سیستمِ octagon-frame — بر اساسِ «طراحیِ مبنا» ============ */
   .oct{
@@ -617,6 +589,134 @@
   .role-item .rd{ font-size:11.5px; color:var(--parchment-dim); line-height:1.8; }
 
   #decideKillBtn.active, #decideSpareBtn.active{ outline:2px solid var(--gold-soft); outline-offset:1px; }
+
+/* ============ رأی‌گیریِ روز + شب (play-pack) ============ */
+.play-screen{--paper:#f3e7d1;--ink:#382613;--muted:#725a3c;--bronze:#aa783a;--gold:#775015;--crimson:#802536;--font:Vazirmatn,Tahoma,sans-serif;color-scheme:light}
+.play-screen *{box-sizing:border-box}
+.play-screen [hidden]{display:none!important}
+.play-screen button,.play-screen select{font:inherit}
+.play-screen button{cursor:pointer}
+.play-screen button:disabled{cursor:not-allowed}
+.play-screen :focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.play-screen h1,.play-screen h2,.play-screen p{margin:0}
+.play-screen{max-width:480px;min-height:100dvh;margin:auto;padding:18px 18px max(18px,env(safe-area-inset-bottom));background:var(--paper) url('assets/entry/components/parchment_sample.png') center/cover}
+.play-screen .day-header{display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 12px;align-items:center}
+.play-screen .day-pill{font-weight:700;font-size:13px;border:1px solid #aa783a;border-radius:20px;padding:3px 12px;background:#f6e0ab}
+.play-screen .day-header h1{font-size:22px;font-weight:700;justify-self:end}
+.play-screen .day-header #kingsRow{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:4px 0 8px;border-bottom:1px solid #aa783a55}
+.play-screen .king-badge{display:grid;grid-template-columns:46px minmax(0,1fr);grid-template-rows:22px 20px;align-items:center;gap:0 8px;min-width:0}
+.play-screen .kav{grid-row:1/3;width:44px;height:44px;display:grid;place-items:center;background:url('assets/play/components/king_jamshid.svg') center/contain no-repeat}
+.play-screen .zahhak .kav{background-image:url('assets/play/components/king_zahhak.svg')}
+.play-screen .kav img{width:24px;height:24px}
+.play-screen .kname{min-width:0;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.play-screen .krole{font-size:11px;color:var(--gold)}
+.play-screen .zahhak .krole{color:var(--crimson)}
+.play-screen .vote-body{margin-top:12px}
+.play-screen .mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.play-screen .mode-btn{min-height:50px;border:solid transparent;border-width:4px 18px;border-image:url('assets/entry/components/btn_secondary_normal.png') 12 72 12 72 fill stretch;background:transparent;color:var(--ink);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:5px}
+.play-screen .mode-icon{width:20px;height:20px}
+.play-screen .mode-btn.active{outline:2px solid var(--bronze);outline-offset:1px;border-image-source:url('assets/entry/components/btn_primary_normal.png')}
+.play-screen .mode-btn[data-mode=goman].active{border-image-source:url('assets/control/components/btn_crimson_normal.png');outline-color:var(--crimson);color:#fff4e6}
+.play-screen .mode-btn[data-mode=goman].active .mode-icon{filter:brightness(0) invert(.94)}
+.play-screen .mode-indicator{font-size:12px;min-width:10px}
+.play-screen .mode-btn[aria-busy=true]{cursor:wait}
+.play-screen #dvStage{background:url('assets/play/components/medallion.svg') center/contain no-repeat;min-height:92px;display:flex;align-items:center;justify-content:center;gap:0;padding:12px 24px;margin:6px 0}
+.play-screen .center-slot{flex:1;min-width:0;text-align:center;padding:0 8px}
+.play-screen .center-slot+.center-slot{border-inline-start:1px solid #aa783a44}
+.play-screen .center-slot .slot-label{display:flex;align-items:center;justify-content:center;gap:5px;color:var(--muted);font-size:11px;font-weight:400}
+.play-screen .center-slot .slot-label img{width:15px;height:15px}
+.play-screen .center-name{display:block;font-size:12px;color:#62513b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px;max-width:100%}
+.play-screen .player-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px 8px;list-style:none;padding:0;margin:0}
+.play-screen .player-dot{min-width:0;width:100%;min-height:56px;display:grid;grid-template-columns:26px minmax(0,1fr) 14px;align-items:center;gap:5px;border:solid transparent;border-width:5px 8px;border-image:url('assets/play/components/player_plaque.png') 24 30 24 30 fill stretch;padding:4px 0;background:transparent;color:var(--ink);text-align:right}
+.play-screen .avatar{width:26px;height:26px;border:1px solid #aa783a66;border-radius:50%;display:grid;place-items:center;font-size:13px;background:#d8bf9133;flex-shrink:0}
+.play-screen .pname{font-size:13px;line-height:17px;font-weight:400;min-width:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.play-screen .dot-state{display:flex;align-items:center;justify-content:center;width:14px;height:16px;font-size:12px;color:var(--gold)}
+.play-screen .dot-state img{width:14px;height:14px}
+.play-screen .player-dot.peyman{outline:2px solid #ae7a28;outline-offset:-1px;background:#dbb66f26}
+.play-screen .player-dot.goman{outline:2px solid #802536;outline-offset:-1px;background:#8025360d}
+.play-screen .player-dot.goman .dot-state{color:var(--crimson)}
+.play-screen .player-dot.blocked .avatar{background:#bfb09c33}
+.play-screen .player-dot.blocked .pname{color:#796a55}
+.play-screen .player-dot.blocked{border-image-source:url('assets/play/components/player_plaque.png');background:#ab9b8822}
+.play-screen .player-dot.locked{pointer-events:none}
+.play-screen .player-dot.locked .dot-state{opacity:.9}
+.play-screen .player-dot:hover:not(.locked):not(.blocked){filter:brightness(1.05)}
+.play-screen .player-dot:active:not(.locked){filter:brightness(.96)}
+.play-screen .mode-btn:disabled,.play-screen .player-dot:disabled{cursor:default}
+.play-screen .player-dot:disabled{color:var(--ink)}
+.play-screen .mode-btn:disabled{opacity:.8}
+.play-screen .mode-btn:disabled.active{opacity:1}
+.play-screen #dvNote{font-size:12px;color:var(--muted);line-height:1.9;text-align:center;min-height:46px;padding:10px 4px 6px;overflow-wrap:anywhere}
+.play-screen #dvNote.warning{color:var(--crimson)}
+.play-screen .finalize-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:54px;margin-top:12px;padding:5px 8px;border:solid transparent;border-width:4px 24px;border-image:url('assets/entry/components/btn_primary_normal.png') 12 72 12 72 fill stretch;background:transparent;font-weight:700;font-size:17px;color:var(--ink)}
+.play-screen .finalize-btn img{width:20px;height:20px}
+.play-screen .finalize-btn:disabled{cursor:wait}
+.play-screen .spinner{animation:spin 1.4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.play-screen .locked-note{margin-top:12px;text-align:center;font-size:14px;color:#4f5e33;padding:12px 8px;border:solid transparent;border-width:8px 10px;border-image:url('assets/control/components/hint.png') 24 30 24 30 fill stretch}
+.play-screen .board-card{margin-top:28px;border-top:1px solid #aa783a66;padding-top:18px}
+.play-screen .board-heading{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.play-screen .board-heading h2{font-size:20px}
+.play-screen .board-heading>span{font-size:13px;color:var(--muted)}
+.play-screen .board-caption{font-size:12px;color:var(--muted);margin:2px 0 12px}
+.play-screen .vb-row{min-width:0;padding:10px 8px;border-bottom:1px solid #aa783a33;background:#fff7e822;margin-bottom:3px}
+.play-screen .vb-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0}
+.play-screen .vb-name{flex:1;min-width:0;font-weight:700;font-size:14px;overflow-wrap:anywhere}
+.play-screen .self-tag{font-weight:400;font-size:11px;color:var(--muted)}
+.play-screen .vb-counts{display:flex;gap:6px;flex-shrink:0}
+.play-screen .tc-g,.play-screen .tc-r{font-size:12px;padding:1px 5px;border:1px solid transparent;border-radius:3px;color:var(--gold);white-space:nowrap}
+.play-screen .tc-r{color:var(--crimson)}
+.play-screen .tc-g.top{border-color:#aa783a;background:#e8c17a33}
+.play-screen .tc-r.top{border-color:#802536;background:#80253609}
+.play-screen .vb-gave{font-size:12px;color:var(--muted);line-height:1.9;margin-top:4px;overflow-wrap:anywhere}
+.play-screen .vb-gave b{font-weight:400;color:#62513b}
+.play-screen .vb-gave.waiting{color:#7a674e}
+.play-screen .empty-board{padding:16px 8px;border-inline-start:2px solid #aa783a;font-size:13px;color:var(--muted)}
+.play-screen .play-footer{display:flex;flex-direction:column;align-items:center;gap:6px;padding:22px 0 2px;color:var(--muted);font-size:11px}
+.play-screen .play-footer img{width:140px;height:14px;object-fit:contain}
+.play-screen.night-screen[data-phase=night]{--paper:#211b17;--ink:#eadbc3;--muted:#b8a58a;--bronze:#8f7452;color-scheme:dark;position:relative;isolation:isolate;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;padding:34px 28px;gap:24px;background:radial-gradient(ellipse at 50% 32%,#33291f 0,transparent 65%),#211b17;color:var(--ink)}
+.play-screen .night-art{position:absolute;inset:0;z-index:-1;pointer-events:none;background:url('assets/play/screens/night_sky.svg') center top/100% auto no-repeat;overflow:hidden}
+.play-screen .night-tablet{width:100%;max-width:350px;margin-top:170px;text-align:center;padding:24px 16px;border:1px solid #806a4d55;border-top:2px solid #806a4d88;background:#2c241b66;box-shadow:inset 0 0 0 4px #806a4d09}
+.play-screen .night-eyebrow{font-size:12px;color:var(--muted)}
+.play-screen .night-tablet h1{font:36px/1.9 EntryAmiri,serif;color:#eadbc3;margin:4px 0 12px}
+.play-screen .night-tablet p{font-size:16px;line-height:2.15;color:#dac8ac;max-width:290px;margin:auto}
+.play-screen .night-foot{font-size:12px;color:var(--muted);text-align:center;margin-bottom:50px}
+.play-screen .twinkle{position:absolute;display:block;color:#b49a74;opacity:.25;animation:twinkle 7s ease-in-out infinite}
+.play-screen .star-a{top:17%;right:18%;font-size:12px}
+.play-screen .star-b{top:38%;left:14%;font-size:9px;animation-delay:-3s}
+.play-screen .star-c{bottom:17%;right:24%;font-size:20px;animation-delay:-5s}
+.play-screen .night-mist{position:absolute;left:-20%;right:-20%;height:160px;bottom:12%;background:radial-gradient(ellipse,#b49a7409,transparent 70%);animation:mist 24s ease-in-out infinite alternate;pointer-events:none}
+@keyframes twinkle{0%,100%{opacity:.16}50%{opacity:.45}}
+@keyframes mist{from{transform:translateX(-5%)}to{transform:translateX(5%)}}
+@media(max-width:350px){.play-screen{padding-inline:14px}
+.play-screen .player-grid{gap:6px}
+.play-screen .player-dot{gap:4px;grid-template-columns:24px minmax(0,1fr) 13px;border-width:5px 6px}
+.play-screen .avatar{width:24px;height:24px}
+.play-screen .king-badge{gap:0 5px;grid-template-columns:40px minmax(0,1fr)}
+.play-screen .kav{width:38px;height:38px}
+.play-screen .kname{font-size:12px}
+.play-screen .day-header #kingsRow{gap:8px}
+.play-screen .mode-btn{border-width:4px 12px;font-size:15px}
+.play-screen #dvStage{padding-inline:14px;min-height:86px}
+.play-screen .center-name{font-size:11px}
+.play-screen.night-screen{padding-inline:24px}
+.play-screen .vb-counts{gap:3px}
+.play-screen .tc-g,.play-screen .tc-r{font-size:11px;padding-inline:3px}}
+@media(prefers-reduced-motion:reduce){.play-screen .spinner,.play-screen .twinkle,.play-screen .night-mist{animation:none!important}}
+#screen-night-wait.active{display:flex}
+/* دکمه‌ی «؟»ی سراسری بالا-چپ است؛ عنوان زیرش نرود */
+#screen-day-vote .day-header{padding-inline-end:42px}
+body:has(#screen-night-wait.active){background:#211b17}
+/* نشتِ CSSِ سراسریِ اپ (button{width:100%;padding:13px;border-radius;border:none}) به صفحه‌ی رأی */
+.play-screen{font:14px/1.8 Vazirmatn,Tahoma,sans-serif;color:var(--ink)}
+.play-screen button{width:auto;padding:0;border-radius:0;transition:none;font-size:inherit;font-weight:inherit}
+.play-screen button:active{transform:none}
+.play-screen .finalize-btn{width:100%}
+.play-screen .player-dot{width:100%}
+.play-screen button:disabled{opacity:1}
+.play-screen .mode-btn:disabled:not(.active){opacity:.8}
+.play-screen h1,.play-screen h2{color:inherit;background:none;-webkit-text-fill-color:currentColor}
+
 </style>
 </head>
 <body class="fullbleed">
@@ -907,21 +1007,12 @@
   </div>
 
   <!-- صفحه ۴: فازِ روز — حلقه‌ی رأی (بازیکنانِ عادی) -->
-  <div class="screen" id="screen-day-vote">
-    <div class="card ornate-frame" style="text-align:center; padding:16px;">
-      <div style="font-size:11.5px; color:var(--gold-soft); font-weight:700; margin-bottom:2px;">روزِ <span id="dayNumLabel">۱</span></div>
-      <div id="kingsRow" style="display:flex; justify-content:space-between; margin:10px 0 16px; font-size:12px;"></div>
-    </div>
-    <div class="card ornate-frame" id="dayVoteCardBody"></div>
-
+  <div class="screen play-screen" id="screen-day-vote" data-phase="day">
+    <header class="day-header"><span class="day-pill">روز <span id="dayNumLabel">۱</span></span><h1>رأیِ امروز</h1><div id="kingsRow"></div></header>
+    <section id="dayVoteCardBody" class="vote-body" aria-label="انتخابِ رأی"></section>
     <!-- تابلوی عمومیِ آرا — همه در طولِ روز می‌بینن -->
-    <div class="card ornate-frame" id="voteBoardCard" style="display:none;">
-      <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:3px;">
-        تابلوی آرا <span id="vbVoters" style="color:var(--parchment-dim); font-weight:400; font-size:11px;"></span>
-      </div>
-      <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:9px;">هر لحظه به‌روز می‌شه.</div>
-      <div id="voteBoardList"></div>
-    </div>
+    <section id="voteBoardCard" class="board-card" style="display:none;"><div class="board-heading"><h2>تابلوی آرا</h2><span id="vbVoters"></span></div><p class="board-caption">هر لحظه به‌روز می‌شه.</p><div id="voteBoardList"></div></section>
+    <footer class="play-footer"><img src="assets/entry/components/divider_sun.png" alt=""><span>گروه بازی‌سازی بزرگمهر</span></footer>
   </div>
 
   <!-- صفحه ۵: داشبوردِ جمشید -->
@@ -1027,12 +1118,10 @@
   </div>
 
   <!-- صفحه ۷: شب برای بازیکنانِ عادی -->
-  <div class="screen" id="screen-night-wait">
-    <div class="card ornate-frame" style="text-align:center; padding:30px 20px;">
-      <div style="font-size:34px; margin-bottom:10px;">🌙</div>
-      <div style="font-size:14px; font-weight:700; color:var(--gold-soft); margin-bottom:6px;">شب است</div>
-      <p style="font-size:12px; color:var(--parchment-dim);">چشمانت را ببند — اگه نقشِ فعالِ شبانه داری، به‌زودی نوبتت اعلام می‌شه.</p>
-    </div>
+  <div class="screen play-screen night-screen" id="screen-night-wait" data-phase="night">
+    <div class="night-art" aria-hidden="true"><span class="twinkle star-a">✦</span><span class="twinkle star-b">✧</span><span class="twinkle star-c">·</span><div class="night-mist"></div></div>
+    <section class="night-tablet"><span class="night-eyebrow">تخت جمشید</span><h1>شب است</h1><p>چشمانت را ببند — اگه نقشِ فعالِ شبانه داری، به‌زودی نوبتت اعلام می‌شه.</p></section>
+    <p class="night-foot">منتظرِ اعلامِ گرداننده بمان</p>
   </div>
 
 </div>
@@ -1144,7 +1233,7 @@
   function go(id){
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby');
+    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby' || id === 'screen-day-vote' || id === 'screen-night-wait');
     const brand = document.querySelector('.brand');
     if(brand) brand.style.display = isFull ? 'none' : '';
     document.body.classList.toggle('fullbleed', isFull);
@@ -1152,7 +1241,7 @@
     // دکمه‌ی راهنما همه‌جا هست، به‌جز خودِ صفحه‌های راهنما و اسپلش
     const fab = document.getElementById('guideFab');
     if(fab){
-      const hideOn = ['screen-splash', 'screen-entry', 'screen-host-lobby', 'screen-player-lobby', 'screen-roles', 'screen-guide'];
+      const hideOn = ['screen-splash', 'screen-entry', 'screen-host-lobby', 'screen-player-lobby', 'screen-roles', 'screen-guide', 'screen-night-wait'];
       fab.style.display = hideOn.includes(id) ? 'none' : 'block';
     }
   }
@@ -2424,21 +2513,39 @@
       document.getElementById('vbVoters').textContent = '(' + votersCount + ' نفر رأی دادن)';
       const maxP = rows.length ? Math.max(...rows.map(r => r.peyman)) : 0;
       const maxG = rows.length ? Math.max(...rows.map(r => r.goman)) : 0;
-      document.getElementById('voteBoardList').innerHTML = rows.map(r => `
-        <div class="vb-row">
-          <div class="vb-top">
-            <span class="vb-name">${escapeHtml(r.name)}${r.id === currentPlayer.id ? ' <span style="color:var(--parchment-dim); font-size:10px;">(تو)</span>' : ''}</span>
-            <span class="vb-counts">
-              <span class="tc-g ${maxP > 0 && r.peyman === maxP ? 'top' : ''}">${r.peyman} 🤝</span>
-              <span class="tc-r ${maxG > 0 && r.goman === maxG ? 'top' : ''}">${r.goman} ⚔️</span>
-            </span>
-          </div>
-          <div class="vb-gave">${
-            r.gavePeymanTo || r.gaveGomanTo
-              ? `پیمان → <b>${escapeHtml(r.gavePeymanTo || '—')}</b> · گمان → <b>${escapeHtml(r.gaveGomanTo || '—')}</b>`
-              : 'هنوز رأی نداده'
-          }</div>
-        </div>`).join('');
+      const list = document.getElementById('voteBoardList');
+      list.replaceChildren();
+      if(!rows.length){
+        const em = document.createElement('p'); em.className = 'empty-board'; em.textContent = 'هنوز رأیی ثبت نشده…';
+        list.append(em);
+      }
+      rows.forEach(r => {
+        const row = document.createElement('div'); row.className = 'vb-row';
+        const top = document.createElement('div'); top.className = 'vb-top';
+        const nm = document.createElement('div'); nm.className = 'vb-name'; nm.textContent = r.name;
+        if(r.id === currentPlayer.id){
+          const tag = document.createElement('span'); tag.className = 'self-tag'; tag.textContent = ' (تو)';
+          nm.append(tag);
+        }
+        const counts = document.createElement('div'); counts.className = 'vb-counts';
+        const g = document.createElement('span'), rr = document.createElement('span');
+        const topG = maxP > 0 && r.peyman === maxP, topR = maxG > 0 && r.goman === maxG;
+        g.className = 'tc-g' + (topG ? ' top' : ''); g.textContent = (topG ? '★ ' : '') + r.peyman + ' 🤝';
+        rr.className = 'tc-r' + (topR ? ' top' : ''); rr.textContent = (topR ? '★ ' : '') + r.goman + ' ⚔️';
+        counts.append(g, rr);
+        top.append(nm, counts);
+        const gave = document.createElement('div');
+        if(r.gavePeymanTo || r.gaveGomanTo){
+          gave.className = 'vb-gave';
+          const b1 = document.createElement('b'); b1.textContent = r.gavePeymanTo || '—';
+          const b2 = document.createElement('b'); b2.textContent = r.gaveGomanTo || '—';
+          gave.append('پیمان → ', b1, ' · گمان → ', b2);
+        }else{
+          gave.className = 'vb-gave waiting'; gave.textContent = 'هنوز رأی نداده';
+        }
+        row.append(top, gave);
+        list.append(row);
+      });
       card.style.display = 'block';
     }catch(e){ console.error(e); }
   }
@@ -2691,6 +2798,29 @@
     document.getElementById('zahZendanBtn').disabled = true;
   }
 
+  // ================= رأی‌گیریِ روزِ بازیکن (طرحِ play-pack) =================
+  // نام‌ها همه با textContent درج می‌شن؛ هیچ قالبِ innerHTML با دادهٔ کاربر نداریم.
+  function dvEl(tag, cls, text){
+    const e = document.createElement(tag);
+    if(cls) e.className = cls;
+    if(text !== undefined) e.textContent = text;
+    return e;
+  }
+  function dvIcon(name, cls){
+    const im = dvEl('img', cls);
+    im.src = 'assets/play/icons/' + name + '.svg'; im.alt = '';
+    return im;
+  }
+  function dvNameOf(id){
+    const p = dvOthers.find(x => x.id === id);
+    return p ? p.display_name : 'انتخاب نشده';
+  }
+  function dvSetNote(text, warning){
+    const n = document.getElementById('dvNote');
+    n.textContent = (warning ? '⚠ ' : '') + text;
+    n.classList.toggle('warning', !!warning);
+  }
+
   async function showDayVoteScreen(dayNumber){
     const players = await tjListPlayers(currentGame.id);
     const jamshid = players.find(p => p.role_id === 'jamshid');
@@ -2698,48 +2828,67 @@
     const others = players.filter(p => !p.is_host && p.id !== currentPlayer.id && p.role_id !== 'jamshid' && p.role_id !== 'zahhak' && p.is_alive);
 
     document.getElementById('dayNumLabel').textContent = dayNumber;
-    document.getElementById('kingsRow').innerHTML = `
-      <div class="king-badge jamshid"><div class="kav">☉</div><div class="kname">${jamshid ? jamshid.display_name : '؟'}</div><div class="krole">جمشید</div></div>
-      <div class="king-badge zahhak"><div class="kav">🐍</div><div class="kname">${zahhak ? zahhak.display_name : '؟'}</div><div class="krole">ضحاک</div></div>
-    `;
-
-    const body = document.getElementById('dayVoteCardBody');
-    body.innerHTML = `
-      <div class="mode-select">
-        <button class="mode-btn active" data-mode="peyman" onclick="dvSetMode('peyman')">🤝 پیمان</button>
-        <button class="mode-btn" data-mode="goman" onclick="dvSetMode('goman')">⚔️ گمان</button>
-      </div>
-      <div class="stage" id="dvStage">
-        <div class="ring-bg"></div>
-        <div class="center-info">
-          <div class="center-label" id="dvCenterLabel">در حالِ انتخابِ پیمان</div>
-          <div class="center-name" id="dvCenterName">—</div>
-        </div>
-      </div>
-      <div id="dvNote" style="text-align:center; font-size:11.5px; color:var(--parchment-dim); margin-bottom:10px;"></div>
-      <button class="btn-gold" id="dvFinalizeBtn" style="display:none;" onclick="dvFinalize()">ثبتِ نهاییِ رأی 🔒</button>
-      <div id="dvLockedNote" style="display:none; text-align:center; font-size:13px; color:var(--gold-soft); font-weight:700; background:var(--night-3); border:1px solid var(--gold); border-radius:10px; padding:12px;">✓ رأیت ثبتِ نهایی شد — دیگه قابلِ تغییر نیست</div>
-    `;
+    const kingsRow = document.getElementById('kingsRow');
+    kingsRow.replaceChildren();
+    [['jamshid', 'sun', jamshid, 'جمشید'], ['zahhak', 'snake', zahhak, 'ضحاک']].forEach(([cls, ic, pl, role]) => {
+      const box = dvEl('div', 'king-badge ' + cls);
+      const av = dvEl('span', 'kav'); av.append(dvIcon(ic));
+      const nm = pl ? pl.display_name : '؟';
+      const title = dvEl('span', 'kname', nm); title.title = nm;
+      box.append(av, title, dvEl('span', 'krole', role));
+      kingsRow.append(box);
+    });
 
     dvOthers = others;
     dvDay = dayNumber;
     dvMode = 'peyman';
     dvVotes = { peyman:null, goman:null };
     dvLocked = false;
-    const stage = document.getElementById('dvStage');
-    const n = others.length;
-    others.forEach((p, i) => {
-      const angle = (i / n) * 2 * Math.PI - Math.PI/2;
-      const x = 50 + 33 * Math.cos(angle);
-      const y = 50 + 33 * Math.sin(angle);
-      const el = document.createElement('div');
-      el.className = 'player-dot';
-      el.id = 'dvdot_' + p.id;
-      el.style.left = x + '%'; el.style.top = y + '%';
-      el.onclick = () => dvSelect(p.id, p.display_name);
-      el.innerHTML = `<div class="avatar">${p.display_name[0]}</div><div class="pname">${p.display_name}</div>`;
-      stage.appendChild(el);
+    dvBusy = false;
+
+    const body = document.getElementById('dayVoteCardBody');
+    body.replaceChildren();
+
+    const modes = dvEl('div', 'mode-switch');
+    modes.setAttribute('role', 'group'); modes.setAttribute('aria-label', 'نوع رأی');
+    [['peyman', 'handshake', 'پیمان'], ['goman', 'swords', 'گمان']].forEach(([value, ic, title]) => {
+      const b = dvEl('button', 'mode-btn');
+      b.type = 'button'; b.dataset.mode = value;
+      b.append(dvIcon(ic, 'mode-icon'), dvEl('span', null, title), dvEl('span', 'mode-indicator'));
+      b.addEventListener('click', () => dvSetMode(value));
+      modes.append(b);
     });
+
+    const stage = dvEl('div'); stage.id = 'dvStage';
+    [['peyman', 'handshake', 'پیمان'], ['goman', 'swords', 'گمان']].forEach(([v, ic, title]) => {
+      const slot = dvEl('div', 'center-slot'); slot.dataset.vote = v;
+      const label = dvEl('span', 'slot-label');
+      label.append(dvIcon(ic), dvEl('span', null, title));
+      if(v === 'peyman') label.id = 'dvCenterLabel';
+      const n = dvEl('span', 'center-name', 'انتخاب نشده');
+      n.id = v === 'peyman' ? 'dvCenterName' : 'dvGomanName';
+      slot.append(label, n);
+      stage.append(slot);
+    });
+
+    const grid = dvEl('div', 'player-grid');
+    grid.setAttribute('role', 'group'); grid.setAttribute('aria-label', 'بازیکنانِ قابلِ انتخاب');
+    others.forEach(p => {
+      const b = dvEl('button', 'player-dot');
+      b.type = 'button'; b.id = 'dvdot_' + p.id; b.dataset.playerId = p.id;
+      b.append(dvEl('span', 'avatar', Array.from(p.display_name || '؟')[0]), dvEl('span', 'pname', p.display_name), dvEl('span', 'dot-state'));
+      b.addEventListener('click', () => dvSelect(p.id));
+      grid.append(b);
+    });
+
+    const note = dvEl('p'); note.id = 'dvNote';
+    note.setAttribute('role', 'status'); note.setAttribute('aria-live', 'polite');
+    const submit = dvEl('button', 'finalize-btn'); submit.id = 'dvFinalizeBtn'; submit.type = 'button';
+    submit.addEventListener('click', dvFinalize);
+    const lock = dvEl('div', 'locked-note', '✓ رأیت ثبتِ نهایی شد — منتظرِ بقیه…');
+    lock.id = 'dvLockedNote'; lock.setAttribute('role', 'status'); lock.hidden = true;
+    body.append(modes, stage, grid, note, submit, lock);
+    dvRender();
 
     go('screen-day-vote');
 
@@ -2747,52 +2896,84 @@
     try{
       const { data: existing } = await sb.from('day_votes').select('*').eq('game_id', currentGame.id).eq('day_number', dayNumber).eq('voter_id', currentPlayer.id);
       if(existing && existing.length >= 2){
-        const p1 = existing.find(v=>v.vote_type==='peyman');
-        const p2 = existing.find(v=>v.vote_type==='goman');
-        if(p1) { dvVotes.peyman = p1.target_id; document.getElementById('dvdot_'+p1.target_id)?.classList.add('peyman'); }
-        if(p2) { dvVotes.goman = p2.target_id; document.getElementById('dvdot_'+p2.target_id)?.classList.add('goman'); }
+        const p1 = existing.find(v => v.vote_type === 'peyman');
+        const p2 = existing.find(v => v.vote_type === 'goman');
+        if(p1) dvVotes.peyman = p1.target_id;
+        if(p2) dvVotes.goman = p2.target_id;
         dvLockUI();
       }
     }catch(e){ console.error(e); }
   }
 
-  let dvOthers = [], dvMode = 'peyman', dvVotes = { peyman:null, goman:null }, dvLocked = false;
+  let dvOthers = [], dvMode = 'peyman', dvVotes = { peyman:null, goman:null }, dvLocked = false, dvBusy = false;
   // شماره‌ی روز از وضعیتِ بازی میاد، نه از متنِ داخلِ صفحه. قبلاً با
   // parseInt از لیبلِ #dayNumLabel خونده می‌شد که اگه صفحه هنوز رندر نشده
   // یا لیبل عوض شده بود، رأی روی روزِ اشتباه (یا NaN) ثبت می‌شد.
   let dvDay = null;
-  function dvSetMode(m){
-    if(dvLocked) return;
-    dvMode = m;
-    document.querySelectorAll('#dayVoteCardBody .mode-btn').forEach(b=>b.classList.toggle('active', b.dataset.mode===m));
-    document.getElementById('dvCenterLabel').textContent = m==='peyman' ? 'در حالِ انتخابِ پیمان' : 'در حالِ انتخابِ گمان';
-    const cur = dvVotes[m];
-    document.getElementById('dvCenterName').textContent = cur ? dvOthers.find(p=>p.id===cur).display_name : '—';
+
+  // همهٔ حالتِ ظاهری از dvMode/dvVotes/dvLocked/dvBusy ساخته می‌شه؛ یک‌جا، نه تکه‌تکه.
+  function dvRender(){
+    const other = dvMode === 'peyman' ? 'goman' : 'peyman';
+    const frozen = dvLocked || dvBusy;
+    document.querySelectorAll('#dayVoteCardBody .mode-btn').forEach(b => {
+      const selected = b.dataset.mode === dvMode;
+      b.classList.toggle('active', selected);
+      b.setAttribute('aria-pressed', String(selected));
+      b.disabled = frozen;
+      b.querySelector('.mode-indicator').textContent = dvVotes[b.dataset.mode] !== null ? '✓' : selected ? '●' : '';
+    });
+    dvOthers.forEach(p => {
+      const b = document.getElementById('dvdot_' + p.id);
+      if(!b) return;
+      const isP = dvVotes.peyman === p.id, isG = dvVotes.goman === p.id;
+      const blocked = dvVotes[other] === p.id && !frozen;
+      b.classList.toggle('peyman', isP);
+      b.classList.toggle('goman', isG);
+      b.classList.toggle('blocked', blocked);
+      b.classList.toggle('locked', dvLocked);
+      b.disabled = frozen;
+      b.dataset.blocked = String(blocked);
+      b.setAttribute('aria-describedby', 'dvNote');
+      b.setAttribute('aria-pressed', String(dvVotes[dvMode] === p.id));
+      b.setAttribute('aria-label', p.display_name + (isP ? '، پیمان' : isG ? '، گمان' : '') + (dvLocked ? '، رأی قفل‌شده' : blocked ? '، برای حالتِ دیگه انتخاب شده' : ''));
+      const state = b.querySelector('.dot-state');
+      state.replaceChildren();
+      if(dvLocked || blocked) state.append(dvIcon('lock'));
+      else if(isP || isG) state.append(dvIcon(isP ? 'handshake' : 'swords'));
+    });
+    document.getElementById('dvCenterName').textContent = dvNameOf(dvVotes.peyman);
+    document.getElementById('dvGomanName').textContent = dvNameOf(dvVotes.goman);
+    const both = dvVotes.peyman !== null && dvVotes.goman !== null;
+    const submit = document.getElementById('dvFinalizeBtn');
+    submit.hidden = !both || dvLocked;
+    submit.disabled = dvBusy;
+    submit.setAttribute('aria-busy', String(dvBusy));
+    submit.replaceChildren(dvIcon(dvBusy ? 'sun' : 'lock', dvBusy ? 'spinner' : ''), dvEl('span', null, dvBusy ? 'در حالِ ثبت…' : 'ثبتِ نهاییِ رأی'));
+    document.getElementById('dvLockedNote').hidden = !dvLocked;
+    if(dvLocked) dvSetNote('رأیت ثبتِ نهایی شد — منتظرِ بقیه…');
+    else if(dvBusy) dvSetNote('در حالِ ثبت…');
+    else if(both) dvSetNote('پیمان به ' + dvNameOf(dvVotes.peyman) + '، گمان به ' + dvNameOf(dvVotes.goman) + ' — اگه مطمئنی، ثبتِ نهایی کن.');
+    else if(dvVotes[other] !== null) dvSetNote('حالا «' + (other === 'peyman' ? 'پیمان' : 'گمان') + '» رو هم انتخاب کن.');
+    else dvSetNote('یک نفر رو برای «' + (dvMode === 'peyman' ? 'پیمان' : 'گمان') + '» انتخاب کن.');
   }
-  function dvSelect(id, name){
-    if(dvLocked) return;
+  function dvSetMode(m){
+    if(dvLocked || dvBusy) return;
+    dvMode = m;
+    dvRender();
+  }
+  function dvSelect(id){
+    if(dvLocked || dvBusy) return;
     const other = dvMode === 'peyman' ? 'goman' : 'peyman';
     if(dvVotes[other] === id){
-      document.getElementById('dvNote').textContent = 'این نفر رو قبلاً برای ' + (other==='peyman'?'پیمان':'گمان') + ' انتخاب کردی.';
+      dvSetNote('این نفر رو قبلاً برای ' + (other === 'peyman' ? 'پیمان' : 'گمان') + ' انتخاب کردی.', true);
       return;
     }
-    if(dvVotes[dvMode]) document.getElementById('dvdot_' + dvVotes[dvMode]).classList.remove(dvMode);
     dvVotes[dvMode] = id;
-    document.getElementById('dvdot_' + id).classList.add(dvMode);
-    document.getElementById('dvCenterName').textContent = name;
-    const btn = document.getElementById('dvFinalizeBtn');
-    if(dvVotes.peyman && dvVotes.goman){
-      document.getElementById('dvNote').textContent = 'پیمان به ' + dvOthers.find(p=>p.id===dvVotes.peyman).display_name + '، گمان به ' + dvOthers.find(p=>p.id===dvVotes.goman).display_name + ' — اگه مطمئنی، ثبتِ نهایی کن.';
-      btn.style.display = 'block';
-    } else {
-      document.getElementById('dvNote').textContent = 'حالا «' + (dvMode==='peyman'?'گمان':'پیمان') + '» رو هم انتخاب کن.';
-      btn.style.display = 'none';
-    }
+    dvRender();
   }
   async function dvFinalize(){
-    if(!dvVotes.peyman || !dvVotes.goman || dvLocked) return;
-    const btn = document.getElementById('dvFinalizeBtn');
-    btn.disabled = true; btn.textContent = 'در حالِ ثبت…';
+    if(!dvVotes.peyman || !dvVotes.goman || dvLocked || dvBusy) return;
+    dvBusy = true; dvRender();
     try{
       // شماره‌ی روز رو لحظه‌ی ثبت از خودِ بازی می‌گیریم، نه از حافظه‌ی صفحه —
       // اگه گرداننده وسطِ رأی‌دادن روز رو عوض کرده باشه، رأی باید روی روزِ درست
@@ -2801,26 +2982,32 @@
       const day = game.day_number;
       if(!Number.isInteger(day) || day < 1) throw new Error('شماره‌ی روز معتبر نیست.');
       if(dvDay !== null && dvDay !== day){
+        dvBusy = false;
         showError('روز عوض شد — صفحه‌ی رأی به‌روز می‌شه.');
         await showDayVoteScreen(day);
         return;
       }
-      await sb.from('day_votes').insert([
+      // supabase خطا رو throw نمی‌کنه، توی error برمی‌گردونه؛ بدونِ این چک، رأیِ شکست‌خورده هم قفل می‌شد.
+      const { error } = await sb.from('day_votes').insert([
         { game_id: currentGame.id, day_number: day, voter_id: currentPlayer.id, target_id: dvVotes.peyman, vote_type: 'peyman' },
         { game_id: currentGame.id, day_number: day, voter_id: currentPlayer.id, target_id: dvVotes.goman, vote_type: 'goman' },
       ]);
+      if(error) throw error;
+      dvBusy = false;
       dvLockUI();
     }catch(e){
-      showError('ثبتِ رأی شکست خورد: ' + e.message);
-      btn.disabled = false; btn.textContent = 'ثبتِ نهاییِ رأی 🔒';
+      dvBusy = false;
+      dvRender();
+      dvSetNote('ثبتِ رأی انجام نشد؛ دوباره تلاش کن.', true);
+      showError('ثبتِ رأی شکست خورد: ' + (e && e.message ? e.message : e));
     }
   }
   function dvLockUI(){
     dvLocked = true;
-    document.getElementById('dvFinalizeBtn').style.display = 'none';
-    document.getElementById('dvNote').style.display = 'none';
-    document.getElementById('dvLockedNote').style.display = 'block';
-    document.querySelectorAll('.player-dot').forEach(el => el.style.pointerEvents = 'none');
+    dvRender();
+    const note = document.getElementById('dvLockedNote');
+    note.setAttribute('tabindex', '-1');
+    try{ note.focus({ preventScroll:true }); }catch(e){}
   }
 
   // ---------------- ورودیِ کدِ اتاق (۶ خونه) ----------------

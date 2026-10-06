@@ -14,3 +14,4 @@ _backup-pre-sync-*/
 !assets/lobby/**/*.jpg
 !assets/lobby/**/*.png
 !assets/control/**/*.png
+!assets/play/**/*.png
