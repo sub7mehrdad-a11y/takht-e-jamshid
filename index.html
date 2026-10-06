@@ -1184,6 +1184,29 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
     <footer class="powers-footer">گروه بازی‌سازی بزرگمهر</footer>
   </div>
 
+  <!-- دکمه‌ی همیشگیِ راهنما — از هر صفحه‌ای در دسترسه -->
+  <button class="guide-fab" id="guideFab" onclick="openGuide()" title="راهنما">؟</button>
+
+  <!-- دفترچه‌ی کامل و تصویرسازی‌شده -->
+  <div class="rb-view" id="rulebookView">
+    <div class="rb-bar">
+      <button onclick="closeRulebook()">→ بازگشت</button>
+      <b>دفترچه‌ی تخت جمشید</b>
+      <a href="assets/rulebook/rulebook.pdf" target="_blank" rel="noopener" download>PDF چاپی</a>
+    </div>
+    <iframe id="rulebookFrame" title="دفترچه‌ی تخت جمشید"></iframe>
+  </div>
+
+  <!-- صفحه ۸: پایانِ بازی -->
+  <div class="screen" id="screen-game-over">
+    <div class="card ornate-frame" style="text-align:center; padding:28px 20px;">
+      <div id="goEmoji" style="font-size:40px; margin-bottom:10px;">🏆</div>
+      <div id="goTitle" style="font-size:18px; font-weight:900; margin-bottom:8px;">—</div>
+      <div id="goSub" style="font-size:12.5px; color:var(--parchment-dim); line-height:2;"></div>
+      <div id="goRoster" style="margin-top:18px; text-align:right;"></div>
+    </div>
+  </div>
+
   <!-- سروش: نوارِ شناور + پنجره‌یِ نامه‌ها + مودالِ زندان + تأیید -->
   <div id="soroushBar" class="pw" data-theme="jamshid"><button type="button" onclick="openSoroush()"><img src="assets/play/icons/dove.svg" alt=""><span id="soroushBarText">سروش فرا خوانده شد — نامه بنویس</span><span class="soroush-badge" hidden></span></button></div>
   <dialog id="powerConfirmDialog" class="modal-back pw" aria-labelledby="powerConfirmTitle"><div class="modal-card"><h2 id="powerConfirmTitle">تأیید</h2><p id="powerConfirmText" class="modal-subtitle"></p><div class="modal-actions"><button id="powerCancel" class="btn-outline" type="button">بازگشت</button><button id="powerAccept" class="btn-crimson" type="button">مصرف کن</button></div></div></dialog>
