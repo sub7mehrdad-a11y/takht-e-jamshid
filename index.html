@@ -89,46 +89,6 @@
   }
   .busy-box.show{ display:block; }
 
-  /* ============ کنسولِ شبِ گرداننده ============ */
-  .night-progress{ height:6px; background:rgba(0,0,0,0.35); border-radius:99px; overflow:hidden; margin-bottom:6px; }
-  .night-progress-bar{ height:100%; width:0%; background:linear-gradient(90deg, var(--gold), var(--gold-soft)); transition:width .25s ease; }
-
-  .night-card{
-    background:var(--night-2); border:1px solid var(--line); border-right:3px solid var(--line);
-    border-radius:10px; padding:11px 13px; margin-bottom:10px;
-  }
-  .night-card.done{ border-right-color:var(--green); }
-  .night-card.skipped{ border-right-color:var(--parchment-dim); opacity:.72; }
-  .nc-head{ display:flex; align-items:center; gap:8px; margin-bottom:5px; }
-  .nc-icon{ font-size:17px; }
-  .nc-title{ font-size:12.5px; font-weight:800; color:var(--gold-soft); flex:1; }
-  .nc-status{ font-size:10.5px; color:var(--parchment-dim); white-space:nowrap; }
-  .night-card.done .nc-status{ color:var(--green); }
-  .nc-desc{ font-size:11.5px; color:var(--parchment-dim); line-height:1.85; margin-bottom:8px; }
-  .night-card select{
-    width:100%; background:var(--night-3); border:1px solid var(--line); border-radius:8px;
-    color:var(--parchment); font-family:'Vazirmatn'; font-size:12.5px; padding:8px 10px; margin-bottom:7px;
-  }
-  .nc-actions{ display:flex; gap:7px; flex-wrap:wrap; }
-  .nc-btn{
-    background:var(--night-3); border:1px solid var(--line); border-radius:8px; color:var(--parchment-dim);
-    font-family:'Vazirmatn'; font-size:11.5px; font-weight:600; padding:7px 12px; cursor:pointer;
-  }
-  .nc-btn.primary{ border-color:var(--gold); color:var(--gold-soft); }
-  .nc-btn.active{ background:var(--gold); border-color:var(--gold); color:#241a06; }
-  .nc-answer:not(:empty){
-    display:block; background:rgba(0,0,0,0.3); border-radius:8px;
-    padding:9px 11px; margin-top:4px; font-size:12.5px; line-height:1.7;
-  }
-  .nc-err{ display:none; font-size:11px; color:var(--crimson-soft); margin-top:5px; }
-  .nc-err.show{ display:block; }
-  .nc-chip{
-    display:inline-block; background:var(--night-3); border:1px solid var(--line); border-radius:99px;
-    padding:6px 14px; font-size:12px; cursor:pointer; margin:0 0 6px 6px;
-  }
-  .nc-chip.selected{ background:var(--gold); border-color:var(--gold); color:#241a06; font-weight:700; }
-  .nc-wait{ font-size:11.5px; color:var(--parchment-dim); }
-
   /* ============ دکمه‌ی شناورِ راهنما ============ */
   .guide-fab{
     position:fixed; z-index:140; top:12px; left:12px; width:34px; height:34px; border-radius:50%;
@@ -161,8 +121,6 @@
   .vb-counts .top{ font-weight:900; text-decoration:underline; }
   .vb-gave{ font-size:10.5px; color:var(--parchment-dim); margin-top:4px; }
 
-  .night-death{ color:var(--crimson-soft); font-weight:700; }
-  .night-event{ color:var(--parchment-dim); }
 
   /* ============ سروش — نامه‌نگاری ============ */
   /* نوارِ شناور، چون بازیکن بسته به نقش و فاز روی صفحه‌های مختلفیه و نامه باید
@@ -515,10 +473,131 @@
   .lbx button:disabled{opacity:1}
   .lbx .lb-field select,.lbx .lb-field input{margin:0;border-radius:0;font-family:var(--lb-font)}
   /* پنل‌هایِ روز/شبِ گرداننده هنوز با طرحِ تیره‌ی قبلی‌اند؛ تا طراحیِ صفحه‌ی بعد، هرکدوم رو داخلِ یه کارتِ تیره نگه می‌داریم */
-  .lbx .lb-future>div{background:var(--night-2);border:1px solid var(--line);border-radius:14px;padding:14px;color:var(--parchment);font-size:14px;line-height:1.7}
-  .lbx .lb-future{margin-top:0}
   .lbx .lb-role-panel{background:var(--night-2);border:1px solid var(--line);border-radius:14px;padding:14px;color:var(--parchment);margin-bottom:6px}
   .lbx .lb-roster .lb-row{margin:0}
+  
+
+  /* ============ اتاقِ فرمانِ گرداننده (روز/شب) — طرحِ نهاییِ ۶ اکتبر (بسته‌ی control-pack)؛ پیشوندِ .lbx ============ */
+  .lbx{--ct-paper:#f3e7d1;--ct-text:#382613;--ct-muted:#725a3c;--ct-panel:#fbf3e5;--ct-border:#aa783a;--ct-good:#325e43;--ct-bad:#802536;--ct-stone:#62584b}
+  .lbx .lb-body{padding-top:14px}
+  .lbx .lb-roster-title{margin-bottom:10px}
+  .lbx{--ct-paper:#f3e7d1;--ct-panel:#fbf3e5;color:var(--ct-text)}
+  .lbx[data-phase=night]{--ct-paper:#e5d7bd;--ct-panel:#eee1ca;--lb-paper:#e5d7bd}
+  .lbx[data-phase=night] .lb-body{background-image:linear-gradient(#d8c5a41c,#d8c5a41c),url('assets/entry/components/parchment_sample.png')}
+  .lbx .phase-heading{border-top:1px solid #aa783a88;padding-top:20px;margin-bottom:24px}
+  .lbx .section-eyebrow{font-size:12px;color:var(--ct-muted);letter-spacing:.1px}
+  .lbx .phase-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0}
+  .lbx .phase-title h2{font-size:23px}
+  .lbx .phase-pill{font-weight:700;font-size:14px;border:1px solid #aa783a;border-radius:20px;background:#f6e0ab;padding:5px 14px;white-space:nowrap}
+  .lbx[data-phase=night] .phase-pill{background:#d6c4a6;color:#382613;border-color:#725a3c}
+  .lbx[data-phase=waiting] .phase-pill{white-space:normal;background:#e9decb;font-size:12px}
+  .lbx .phase-heading>p{font-size:13px;color:var(--ct-muted)}
+  .lbx .section-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0}
+  .lbx .section-heading h2,.lbx .work-section h2{font-size:19px;line-height:1.8}
+  .lbx .section-heading>span{font-size:12px;color:var(--ct-muted)}
+  .lbx .work-section{margin-top:28px}
+  .lbx .work-section h2{margin-bottom:12px}
+  .lbx .work-section h2 small{font-size:12px;color:var(--ct-muted);font-weight:400}
+  .lbx .tally-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;min-height:54px;padding:8px 10px;margin:6px 0;border:1px solid #ad8b593f;border-radius:4px;background:#fffaf14d}
+  .lbx .tally-name{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:700}
+  .lbx .tc-g,.lbx .tc-r{font-size:12px;white-space:nowrap;padding:3px 5px;border-radius:4px;background:#af93691a}
+  .lbx .tc-g{color:#66430f}
+  .lbx .tc-r{color:var(--ct-bad)}
+  .lbx .top-peyman{outline:2px solid #b8873d;outline-offset:-2px;background:#efce8026}
+  .lbx .two-grid,.lbx .decision-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 12px;margin:16px 0}
+  .lbx .two-grid>*{min-width:0}
+  .lbx .dp-label{display:block;margin:0 0 6px;font-size:13px;line-height:1.8}
+  .lbx .dp-select{width:100%;max-width:100%;min-width:0;min-height:50px;border:solid transparent;border-width:8px 10px;border-image:url('assets/entry/components/input_normal.png') 24 30 24 30 fill stretch;background:transparent;color:var(--ct-text);padding:0 2px;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .lbx .dp-select:disabled{opacity:.62}
+  .lbx .select-value{font-size:12px;color:var(--ct-muted);margin:5px 0 12px;overflow-wrap:anywhere}
+  .lbx .hint,.lbx .secret,.lbx .announce,.lbx .night-card,.lbx .nc-answer{border:solid transparent;border-width:8px 10px;border-image-slice:24 30 24 30 fill;border-image-repeat:stretch;padding:8px 6px;min-width:0;overflow-wrap:anywhere}
+  .lbx .hint{border-image-source:url('assets/control/components/hint.png');font-size:13px;line-height:1.9;margin:12px 0}
+  .lbx .hint p+p{margin-top:5px}
+  .lbx .hint .gold{color:#775015;font-weight:700}
+  .lbx .hint .crimson{color:var(--ct-bad);font-weight:700}
+  .lbx .soroush-row,.lbx .timer-note{display:flex;gap:8px;align-items:flex-start}
+  .lbx .soroush-row img,.lbx .timer-note img{width:22px;height:22px;flex-shrink:0}
+  .lbx .btn-gold,.lbx .btn-crimson,.lbx .btn-outline,.lbx .nc-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;min-height:52px;padding:5px 4px;border:solid transparent;border-width:4px 24px;border-image-slice:12 72 12 72 fill;border-image-repeat:stretch;background:transparent;color:var(--ct-text);font-weight:700;font-size:16px;line-height:1.7;text-align:center;overflow-wrap:anywhere}
+  .lbx .btn-gold,.lbx .nc-btn.primary{border-image-source:url('assets/entry/components/btn_primary_normal.png')}
+  .lbx .btn-outline,.lbx .nc-btn{border-image-source:url('assets/entry/components/btn_secondary_normal.png')}
+  .lbx .btn-crimson{border-image-source:url('assets/control/components/btn_crimson_normal.png');color:#fff4e6}
+  .lbx .btn-gold:disabled,.lbx .btn-outline:disabled,.lbx .btn-crimson:disabled,.lbx .nc-btn:disabled{filter:grayscale(.7);opacity:.68;cursor:not-allowed}
+  .lbx .btn-gold:hover:not(:disabled),.lbx .btn-outline:hover:not(:disabled),.lbx .btn-crimson:hover:not(:disabled),.lbx .nc-btn:hover:not(:disabled){filter:brightness(1.06)}
+  .lbx button.active,.lbx .nc-chip.selected{outline:3px solid #a87320;outline-offset:2px}
+  .lbx button.active:before,.lbx .nc-chip.selected:before{content:'✓';font-weight:700}
+  .lbx .decision-grid{gap:18px}
+  .lbx .check-row{display:flex;align-items:center;gap:10px;min-height:48px;margin:6px 0 0}
+  .lbx .check-row input{width:22px;height:22px;accent-color:#9b6c27}
+  .lbx .subtle{font-size:13px;color:var(--ct-muted);margin:8px 0;line-height:1.9}
+  .lbx .announce{border-image-source:url('assets/control/components/announce.png');margin-top:24px;text-align:center;padding:15px 10px;background:#efd19d33}
+  .lbx .box-label{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;text-align:right;line-height:1.9}
+  .lbx .box-label img{width:24px;height:24px;flex-shrink:0}
+  .lbx .announce>p{font-size:22px;font-weight:700;line-height:2;padding:14px 0 6px;color:#4b3216}
+  .lbx .secret{border-image-source:url('assets/control/components/secret.png');margin:20px 0;font-size:13px}
+  .lbx .secret .box-label{color:#62513a;font-weight:400}
+  .lbx .reveal{margin:12px 0;font-size:14px}
+  .lbx .night-death,.lbx .night-event{margin:10px 0;overflow-wrap:anywhere}
+  .lbx .night-death{color:var(--ct-bad)}
+  .lbx .night-progress{margin:16px 0 20px}
+  .lbx .progress-track{height:10px;background:#cbb088;border-radius:10px;overflow:hidden}
+  .lbx #nightProgressBar{height:100%;width:0;background:#87622f;border-radius:10px;transition:width .2s}
+  .lbx #nightProgressLabel{font-size:13px;margin-top:8px;color:var(--ct-muted)}
+  .lbx .secret-warning{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--ct-muted);margin-bottom:12px}
+  .lbx .secret-warning img{width:18px;height:18px}
+  .lbx .night-card{border-image-source:url('assets/control/components/night_card.png');margin-bottom:18px;box-shadow:inset -3px 0 #aa783a;padding:12px 8px}
+  .lbx .night-card.done{box-shadow:inset -3px 0 #3fa06a}
+  .lbx .night-card.skipped{box-shadow:inset -3px 0 #837766;background:#d4c6b31a}
+  .lbx .nc-head{display:flex;gap:8px;align-items:center;min-width:0}
+  .lbx .nc-icon{width:26px;height:26px;flex:0 0 26px}
+  .lbx .nc-title{margin:0;flex:1;min-width:0;font-size:16px;line-height:1.8;overflow-wrap:anywhere}
+  .lbx .nc-status{flex-shrink:0;font-size:11px;border:1px solid #a88b5e;padding:2px 5px;border-radius:4px;white-space:nowrap;color:#725a3c}
+  .lbx .done .nc-status{color:#325e43;border-color:#3fa06a}
+  .lbx .skipped .nc-status{color:#62584b;border-color:#837766}
+  .lbx .nc-desc{font-size:13px;color:var(--ct-muted);margin:10px 0}
+  .lbx .nc-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin:12px 0}
+  .lbx .nc-actions.single{grid-template-columns:minmax(0,1fr)}
+  .lbx .nc-actions>*{min-width:0}
+  .lbx .nc-chip{min-height:48px;border:solid transparent;border-width:8px 10px;border-image:url('assets/control/components/chip.png') 24 30 24 30 fill stretch;background:transparent;color:var(--ct-text);font-weight:700;padding:4px 6px;overflow-wrap:anywhere}
+  .lbx .nc-chip.selected{background:#d6b36b55}
+  .lbx .nc-wait{font-size:13px;color:var(--ct-muted);padding:12px 0}
+  .lbx .nc-answer{border-image-source:url('assets/control/components/answer.png');font-size:14px;margin:10px 0}
+  .lbx .nc-answer strong{display:block}
+  .lbx .nc-answer small{font-size:12px;display:block;margin-top:3px}
+  .lbx .nc-answer.positive{background:#3fa06a15;color:#325e43;border-inline-start-color:#3fa06a}
+  .lbx .nc-answer.negative{background:#8025360d;color:#802536;border-inline-start-color:#802536}
+  .lbx .nc-answer.neutral{background:#62584b0b;color:#62584b;border-inline-start-color:#837766}
+  .lbx .nc-err{display:none;font-size:13px;color:#802536;margin:8px 0}
+  .lbx .nc-err.show{display:block}
+  .lbx .title-icon{width:24px;height:24px}
+  .lbx .phase-dock{position:sticky;bottom:0;z-index:5;display:grid;gap:5px;padding:8px 20px max(10px,env(safe-area-inset-bottom));background:var(--ct-paper);border-top:1px solid #aa783a;box-shadow:0 -3px 12px #49331b14}
+  .lbx .phase-dock>p{font-size:12px;text-align:center;color:var(--ct-muted)}
+  .lbx .phase-dock button{font-size:16px}
+  .lbx .phase-dock [aria-busy=true]:before{content:'☀';animation:lb-spin 1.5s linear infinite}
+  .lbx .lb-footer{padding-bottom:30px}
+  .lbx h3{font-weight:700}
+  @media(max-width:350px){.lbx .tally-row{gap:4px;padding-inline:7px}
+  .lbx .tc-g,.lbx .tc-r{padding-inline:3px;font-size:11px}
+  .lbx .nc-head{gap:5px}
+  .lbx .nc-icon{width:22px;height:22px;flex-basis:22px}
+  .lbx .nc-title{font-size:15px}
+  .lbx .nc-status{font-size:10px}
+  .lbx .btn-gold,.lbx .btn-crimson,.lbx .btn-outline,.lbx .nc-btn{border-width:4px 14px;font-size:15px}
+  .lbx .phase-dock{padding-inline:16px}
+  .lbx .phase-title h2{font-size:21px}}
+  @media(prefers-reduced-motion:reduce){.lbx #nightProgressBar{transition:none}
+  .lbx .phase-dock [aria-busy=true]:before{animation:none}}
+  .lbx .nc-answer:empty{display:none}
+  .lbx .nc-desc .gold,.lbx #jamaspInfo .gold{color:#775015;font-weight:700}
+  .lbx .nc-charge{color:var(--ct-muted)}
+  .lbx #hostPhaseControl .hint{margin-top:12px}
+  .lbx .phase-dock{margin-top:0}
+  .lbx #nightResultBody{margin-top:8px}
+  .lbx #nightResultBody .night-death,.lbx #nightResultBody .night-event{font-size:13px}
+  .lbx #confirmDialog{width:min(380px,calc(100% - 32px));padding:24px;border:1px solid #aa783a;background:#f3e7d1;color:#382613;font:14px/1.9 var(--lb-font);max-height:85dvh;overflow:auto}
+  .lbx #confirmDialog::backdrop{background:#33261499}
+  .lbx #confirmDialog h2{font-size:22px;margin-bottom:10px}
+  .lbx .dialog-actions{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+  .lbx .dialog-actions button{font-size:15px}
   
 
   .yn-divider{ display:flex; align-items:center; justify-content:center; gap:10px; color:var(--parchment-dim); font-size:12px; margin:14px 0; }
@@ -537,10 +616,6 @@
   .role-item .rn{ font-size:13px; font-weight:700; color:var(--parchment); margin-bottom:3px; }
   .role-item .rd{ font-size:11.5px; color:var(--parchment-dim); line-height:1.8; }
 
-  .dp-select{
-    width:100%; padding:10px; border-radius:9px; background:rgba(0,0,0,0.25);
-    border:1px solid rgba(230,196,130,0.4); color:var(--parchment); font-family:'Vazirmatn'; font-size:12.5px;
-  }
   #decideKillBtn.active, #decideSpareBtn.active{ outline:2px solid var(--gold-soft); outline-offset:1px; }
 </style>
 </head>
@@ -746,7 +821,7 @@
 
   <!-- صفحه ۲: لابیِ گرداننده (طرحِ lobby-pack) -->
   <div class="screen" id="screen-host-lobby">
-    <div class="lbx">
+    <div class="lbx" id="hostLbx" data-phase="lobby">
       <header class="lb-hero"><h1>اتاق بازی</h1><button class="lb-guide" id="hostGuideBtn" type="button" aria-label="دفترچه راهنما" onclick="openGuide()"><img src="assets/lobby/icons/book.svg" alt=""></button></header>
       <div class="lb-body">
         <section aria-labelledby="hostCodeHeading"><h2 class="lb-heading" id="hostCodeHeading">کد اتاق</h2><div class="lb-code-row"><output id="hostRoomCode" class="lb-code" dir="ltr" aria-label="کد اتاق">——————</output><button class="lb-btn lb-copy" type="button" onclick="copyCode()" aria-label="کپی کد اتاق"><img class="copy-icon" src="assets/lobby/icons/copy.svg" alt=""><span>کپی</span></button></div><p class="lb-code-help">این کد را با سایرین به اشتراک بگذارید.</p></section><img class="lb-divider" src="assets/entry/components/divider_diamond.png" alt="" aria-hidden="true">
@@ -762,124 +837,59 @@
         </section>
         <div class="lb-wait" id="hostCountHint"><img src="assets/lobby/icons/hourglass.svg" alt="" aria-hidden="true"><p id="hostCountHintText">حداقل ۱۰ نفر لازمه — منتظرِ بقیه بمون</p></div>
         <div class="lb-future" id="hostFuturePanels">
-      <div id="hostPhaseControl" style="display:none; margin-top:16px; text-align:center;">
-        <div class="phase-pill" id="hostPhasePill" style="display:inline-block; margin-bottom:12px;">—</div>
-        <button class="btn-crimson" id="hostPhaseBtn" onclick="handlePhaseAdvance()">—</button>
+          <header id="hostPhaseControl" class="phase-heading" style="display:none;">
+            <div class="section-eyebrow">اتاقِ فرمان · ویژه‌یِ گرداننده</div>
+            <div class="phase-title"><h2>مدیریتِ بازی</h2><span id="hostPhasePill" class="phase-pill">—</span></div>
+            <p id="hostBalance"></p>
+            <div id="hostSoroushRow" class="hint soroush-row" style="display:none;"><img src="assets/control/icons/dove.svg" alt=""><p id="hostSoroushNote"></p></div>
+          </header>
 
-        <div id="hostBalance" style="font-size:11.5px; color:var(--parchment-dim); margin-top:10px;"></div>
+          <section id="hostDayPanel" aria-labelledby="dayTitle" style="display:none;">
+            <div class="section-heading"><h2 id="dayTitle">جمعِ آرایِ امروز</h2><span id="tallyVoters"></span></div>
+            <div id="tallyList"></div>
+            <section class="work-section">
+              <h2>مجلسِ مهان <small>اجباری</small></h2>
+              <div id="mahaanHint" class="hint"></div>
+              <div class="two-grid">
+                <div class="select-group"><label class="dp-label" for="mahaanMember1">عضوِ اولِ مهان (بیشترین پیمان)</label><select id="mahaanMember1" class="dp-select"></select><p class="select-value" hidden></p></div>
+                <div class="select-group"><label class="dp-label" for="mahaanMember2">عضوِ دومِ مهان (بیشترین پیمان)</label><select id="mahaanMember2" class="dp-select"></select><p class="select-value" hidden></p></div>
+                <div class="select-group"><label class="dp-label" for="mahaanAccused1">متهمِ اول (بیشترین گمان)</label><select id="mahaanAccused1" class="dp-select"></select><p class="select-value" hidden></p></div>
+                <div class="select-group"><label class="dp-label" for="mahaanAccused2">متهمِ دوم (بیشترین گمان)</label><select id="mahaanAccused2" class="dp-select"></select><p class="select-value" hidden></p></div>
+              </div>
+              <p class="hint timer-note"><img src="assets/lobby/icons/hourglass.svg" alt="">به هرکدوم از دو متهم ۱ دقیقه وقتِ دفاع بده. جمشید می‌تونه از یک نفرِ دیگه (غیر از دو عضوِ مجلس) هم یک سوال بپرسه — اختیاری، فقط برای یادداشت.</p>
+              <div class="select-group"><label class="dp-label" for="mahaanExtraQuestion">سؤالِ اضافه · اختیاری</label><select id="mahaanExtraQuestion" class="dp-select"><option value="">— بدونِ سوالِ اضافه —</option></select><p class="select-value" hidden></p></div>
+              <div class="select-group"><label class="dp-label" for="mahaanFinalAccused">مجلس کدوم متهم رو به جمشید معرفی می‌کنه؟</label><select id="mahaanFinalAccused" class="dp-select"><option value="">— اول دو متهم رو بالا مشخص کن —</option></select><p class="select-value" hidden></p></div>
+            </section>
+            <section class="work-section">
+              <h2>تصمیمِ جمشید</h2>
+              <p class="subtle">ابتدا متهمِ نهایی را مشخص کن.</p>
+              <div class="decision-grid"><button id="decideKillBtn" class="btn-crimson" type="button" onclick="setJamshidDecision(true)" disabled>بکشدش</button><button id="decideSpareBtn" class="btn-outline" type="button" onclick="setJamshidDecision(false)" disabled>نکشدش</button></div>
+              <div id="noshdaruBox" class="hint" style="display:none;"><strong>🏺 کیکاووس نوشدارو داد؟</strong> <span class="subtle">(کشته رو بهش نشون بده، بدونِ اینکه بگی چرا)</span><label class="check-row"><input id="noshdaruCheck" type="checkbox">بله، نجاتش داد</label></div>
+              <button id="applyKillBtn" class="btn-gold" type="button" onclick="applyDayKill()" disabled>ثبتِ نتیجه‌یِ روز</button>
+              <p id="dayResultNote" class="subtle" role="status"></p>
+            </section>
+            <div id="dayAnnounceBox" class="announce" style="display:none;"><div class="box-label"><img src="assets/control/icons/trumpet.svg" alt="">فقط همینو بلند اعلام کن — چیزِ دیگه‌ای (دلیل/تصمیمِ کی) نگو:</div><p id="dayAnnounceText"></p></div>
+          </section>
 
-        <!-- سروش فقط با کارتِ جمشید فعال می‌شه؛ دکمه‌ی گرداننده حذف شد چون
-             هم‌زمان با انتخابِ جمشید اختلال ایجاد می‌کرد. -->
-        <div id="hostSoroushRow" style="margin-top:12px; border-top:1px solid var(--line); padding-top:12px;">
-          <div id="hostSoroushNote" style="font-size:11px; color:var(--parchment-dim);"></div>
-        </div>
-      </div>
-
-      <div id="hostDayPanel" style="display:none; margin-top:16px;">
-        <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:8px;">جمعِ آرای امروز <span id="tallyVoters" style="color:var(--parchment-dim); font-weight:400;"></span></div>
-        <div id="tallyList"></div>
-
-        <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin:16px 0 8px;">مجلسِ مهان (اجباری)</div>
-        <div id="mahaanHint" style="font-size:11px; color:var(--parchment-dim); background:rgba(0,0,0,0.25); border-radius:9px; padding:9px 11px; margin-bottom:10px; line-height:1.8;"></div>
-
-        <div style="display:flex; gap:8px; margin-bottom:8px;">
-          <div style="flex:1;">
-            <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:4px;">عضوِ اولِ مهان (بیشترین پیمان)</div>
-            <select id="mahaanMember1" class="dp-select"></select>
-          </div>
-          <div style="flex:1;">
-            <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:4px;">عضوِ دومِ مهان (بیشترین پیمان)</div>
-            <select id="mahaanMember2" class="dp-select"></select>
-          </div>
-        </div>
-        <div style="display:flex; gap:8px; margin-bottom:10px;">
-          <div style="flex:1;">
-            <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:4px;">متهمِ اول (بیشترین گمان)</div>
-            <select id="mahaanAccused1" class="dp-select"></select>
-          </div>
-          <div style="flex:1;">
-            <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:4px;">متهمِ دوم (بیشترین گمان)</div>
-            <select id="mahaanAccused2" class="dp-select"></select>
-          </div>
-        </div>
-
-        <div style="font-size:11px; color:var(--parchment-dim); background:rgba(0,0,0,0.18); border-radius:9px; padding:9px 11px; margin-bottom:8px; line-height:1.8;">
-          ⏱️ به هرکدوم از دو متهم ۱ دقیقه وقتِ دفاع بده. جمشید می‌تونه از یک نفرِ دیگه (غیر از دو عضوِ مجلس) هم یک سوال بپرسه — اختیاری، فقط برای یادداشت:
-        </div>
-        <select id="mahaanExtraQuestion" class="dp-select" style="margin-bottom:12px;">
-          <option value="">— بدونِ سوالِ اضافه —</option>
-        </select>
-
-        <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:4px;">مجلس کدوم متهم رو به جمشید معرفی می‌کنه؟</div>
-        <select id="mahaanFinalAccused" class="dp-select" style="margin-bottom:12px;">
-          <option value="">— اول دو متهم رو بالا مشخص کن —</option>
-        </select>
-
-        <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:8px;">تصمیمِ جمشید</div>
-        <div style="display:flex; gap:8px; margin-bottom:10px;">
-          <button class="btn-crimson" id="decideKillBtn" onclick="setJamshidDecision(true)" disabled style="flex:1;">بکشدش</button>
-          <button class="btn-outline" id="decideSpareBtn" onclick="setJamshidDecision(false)" disabled style="flex:1;">نکشدش</button>
-        </div>
-
-        <div id="noshdaruBox" style="display:none; background:rgba(0,0,0,0.25); border-radius:9px; padding:10px 12px; margin-bottom:8px; font-size:12px;">
-          <div style="margin-bottom:8px;">🏺 کیکاووس نوشدارو داد؟ <span style="color:var(--parchment-dim); font-size:11px;">(کشته رو بهش نشون بده، بدونِ اینکه بگی چرا)</span></div>
-          <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
-            <input type="checkbox" id="noshdaruCheck"> بله، نجاتش داد
-          </label>
-        </div>
-        <button class="btn-gold" id="applyKillBtn" onclick="applyDayKill()" disabled>ثبتِ نتیجه‌ی روز</button>
-        <div id="dayResultNote" style="font-size:12px; text-align:center; margin-top:10px;"></div>
-        <div id="dayAnnounceBox" style="display:none; background:var(--night-3); border:1px solid var(--gold); border-radius:9px; padding:11px 13px; margin-top:10px;">
-          <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:6px;">📢 فقط همینو بلند اعلام کن — چیزِ دیگه‌ای (دلیل/تصمیمِ کی) نگو:</div>
-          <div id="dayAnnounceText" style="font-size:14px; font-weight:800; color:var(--gold-soft); text-align:center;"></div>
-        </div>
-      </div>
-
-      <div id="hostNightPanel" style="display:none; margin-top:16px;">
-        <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:4px;">🌙 کنسولِ شب</div>
-        <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:10px;">
-          به‌ترتیب هر نقش رو بیدار کن، انتخابش رو اینجا ثبت کن، و آخر «حلِ شب» رو بزن.
-        </div>
-
-        <div class="night-progress"><div class="night-progress-bar" id="nightProgressBar"></div></div>
-        <div id="nightProgressLabel" style="font-size:11px; color:var(--parchment-dim); text-align:center; margin-bottom:12px;"></div>
-
-        <div id="nightCards"></div>
-
-        <div id="soroushNightBox" style="display:none; background:var(--night-2); border:1px solid var(--line); border-right:3px solid var(--gold); border-radius:10px; padding:11px 13px; margin-bottom:10px;">
-          <div class="nc-head">
-            <span class="nc-icon">🕊️</span>
-            <span class="nc-title">سروش — نامه‌ها</span>
-            <span class="nc-status" id="soroushNightStatus">—</span>
-          </div>
-          <div class="nc-desc">
-            شنود رو خودِ ضحاک توی پنلش انتخاب می‌کنه. تو فقط آخرِ شب نامه‌ها رو تحویل بده.
-          </div>
-          <button class="nc-btn primary" id="deliverLettersBtn" onclick="deliverLetters()">تحویلِ نامه‌ها به گیرنده‌ها</button>
-          <div id="deliverNote" style="font-size:11px; color:var(--parchment-dim); margin-top:7px;"></div>
-        </div>
-
-        <button class="btn-gold" id="nightResolveBtn" onclick="resolveNightPhase()" disabled>حلِ شب و محاسبه‌ی نتیجه 🌅</button>
-        <div id="nightHint" style="font-size:11px; color:var(--parchment-dim); text-align:center; margin-top:8px;"></div>
-
-        <div id="nightResultBox" style="display:none; background:rgba(0,0,0,0.28); border:1px solid var(--line); border-radius:9px; padding:11px 13px; margin-top:12px;">
-          <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:7px;">🔒 نتیجه‌ی کامل — فقط برای خودت:</div>
-          <div id="nightResultBody" style="font-size:12.5px; line-height:2;"></div>
-        </div>
-
-        <div id="nightAnnounceBox" style="display:none; background:var(--night-3); border:1px solid var(--gold); border-radius:9px; padding:11px 13px; margin-top:10px;">
-          <div style="font-size:10.5px; color:var(--parchment-dim); margin-bottom:6px;">📢 فقط همینو بلند اعلام کن — علت و جزئیات رو نگو:</div>
-          <div id="nightAnnounceText" style="font-size:14px; font-weight:800; color:var(--gold-soft); text-align:center;"></div>
-        </div>
-
-        <div id="jamaspBox" style="display:none; margin-top:14px;">
-          <div style="font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:8px;">🔮 اطلاعاتی که به جاماسپ می‌دی</div>
-          <div id="jamaspInfo" style="background:rgba(0,0,0,0.25); border-radius:9px; padding:11px 13px; font-size:12.5px; line-height:1.9;"></div>
-        </div>
-      </div>
+          <section id="hostNightPanel" aria-labelledby="nightTitle" style="display:none;">
+            <div class="section-heading"><h2 id="nightTitle">کنسولِ شب</h2><img class="title-icon" src="assets/control/icons/moon.svg" alt=""></div>
+            <p class="subtle">به‌ترتیب هر نقش رو بیدار کن، انتخابش رو اینجا ثبت کن، و آخر «حلِ شب» رو بزن.</p>
+            <div class="night-progress"><div class="progress-track"><div id="nightProgressBar" role="progressbar" aria-label="ثبتِ نقش‌هایِ شبانه" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0"></div></div><p id="nightProgressLabel"></p></div>
+            <div class="secret-warning"><img src="assets/control/icons/lock.svg" alt="">فقط برای خودت · نقش‌ها و انتخاب‌ها محرمانه‌اند.</div>
+            <div id="nightCards"></div>
+            <div id="soroushNightBox" class="night-card" style="display:none;"><div class="nc-head"><img class="nc-icon" src="assets/control/icons/dove.svg" alt=""><h3 class="nc-title">سروش · نامه‌ها</h3><span id="soroushNightStatus" class="nc-status">—</span></div><p class="nc-desc">شنود رو خودِ ضحاک توی پنلش انتخاب می‌کنه. تو فقط آخرِ شب نامه‌ها رو تحویل بده.</p><button id="deliverLettersBtn" class="btn-gold" type="button" onclick="deliverLetters()">تحویلِ نامه‌ها به گیرنده‌ها</button><p id="deliverNote" class="subtle" role="status"></p></div>
+            <button id="nightResolveBtn" class="btn-gold" type="button" onclick="resolveNightPhase()" disabled>حلِ شب و محاسبه‌یِ نتیجه 🌅</button>
+            <p id="nightHint" class="subtle" role="status"></p>
+            <div id="nightResultBox" class="secret" style="display:none;"><div class="box-label"><img src="assets/control/icons/lock.svg" alt="">فقط برای خودت · نتیجه‌یِ کاملِ شب</div><button class="btn-outline reveal" id="revealResult" type="button" aria-expanded="false" aria-controls="nightResultBody" onclick="toggleNightResult()">نمایشِ نتیجه‌یِ محرمانه</button><div id="nightResultBody" style="display:none;"></div></div>
+            <div id="nightAnnounceBox" class="announce" style="display:none;"><div class="box-label"><img src="assets/control/icons/trumpet.svg" alt="">فقط همینو بلند اعلام کن — علت و جزئیات رو نگو:</div><p id="nightAnnounceText"></p></div>
+            <div id="jamaspBox" class="secret" style="display:none;"><div class="box-label">🔮 اطلاعاتی که به جاماسپ می‌دی</div><div id="jamaspInfo"></div></div>
+          </section>
         </div>
       </div>
       <footer class="lb-footer"><img src="assets/entry/components/divider_sun.png" alt="" aria-hidden="true"><p>گروه بازی‌سازی بزرگمهر</p><small>نسخه ۱٫۰٫۰</small></footer>
+      <div class="phase-dock" id="phaseDock" style="display:none;"><p id="phaseDockLabel"></p><button id="hostPhaseBtn" class="btn-crimson" type="button" onclick="handlePhaseAdvance()">—</button></div>
+      <dialog id="confirmDialog" aria-labelledby="confirmTitle"><h2 id="confirmTitle">تأیید</h2><p id="confirmText"></p><div class="dialog-actions"><button class="btn-outline" type="button" id="cancelConfirm">بازگشت</button><button class="btn-crimson" type="button" id="acceptConfirm">تأیید</button></div></dialog>
+
     </div>
   </div>
 
@@ -1116,7 +1126,7 @@
           startHostPolling();
         } else {
           document.getElementById('scenarioPicker').style.display = 'none';
-          document.getElementById('hostPhaseControl').style.display = 'block';
+          showHostControls();
           startHostPhasePolling();
         }
       } else {
@@ -1320,7 +1330,7 @@
   }
 
   async function pickScenario(layoutId){
-    if(!confirm('مطمئنی؟ بعد از این، نقش‌ها رندوم پخش می‌شن.')) return;
+    if(!(await uiConfirm('شروعِ بازی', 'مطمئنی؟ بعد از این، نقش‌ها رندوم پخش می‌شن.'))) return;
     const startBtn = document.getElementById('startGameBtn');
     startBtn.disabled = true; startBtn.setAttribute('aria-busy', 'true'); startBtn.querySelector('.lb-spinner').hidden = false;
     try{
@@ -1331,7 +1341,7 @@
       await tjAssignRoles(currentGame.id, nonHost, layout);
       await tjUpdatePhaseRetry({ status: 'running', current_phase: 'role_reveal', day_number: 0 });
       document.getElementById('scenarioPicker').style.display = 'none';
-      document.getElementById('hostPhaseControl').style.display = 'block';
+      showHostControls();
       startHostPhasePolling();
     }catch(e){
       showError(e.message);
@@ -1383,8 +1393,13 @@
     const dayPanel = document.getElementById('hostDayPanel');
     const nightPanel = document.getElementById('hostNightPanel');
     renderHostSoroushRow(game);
+    const dockLabel = document.getElementById('phaseDockLabel');
+    const phaseKey = game.current_phase === 'role_reveal' ? 'waiting' : game.current_phase;
+    document.getElementById('hostLbx').dataset.phase = phaseKey;
+    btn.setAttribute('aria-busy', 'false');
 
     if(game.current_phase === 'role_reveal'){
+      dockLabel.textContent = 'پس از دیدنِ نقش‌ها ادامه بده';
       pill.textContent = 'در انتظارِ دیدنِ نقش‌ها';
       btn.textContent = 'شروعِ روزِ اول ▶';
       btn.disabled = false;
@@ -1393,6 +1408,7 @@
       nightPanel.style.display = 'none';
     } else if(game.current_phase === 'day'){
       pill.textContent = 'روزِ ' + game.day_number;
+      dockLabel.textContent = 'روزِ ' + game.day_number + ' · بعد از ثبتِ نتیجه‌ی روز ادامه بده';
       btn.textContent = 'پایانِ روز — شروعِ شب 🌙';
       btn.disabled = false;
       btn.onclick = () => handlePhaseAdvance({ current_phase: 'night' });
@@ -1401,6 +1417,7 @@
       refreshDayPanel(game.day_number);
     } else if(game.current_phase === 'night'){
       pill.textContent = 'شبِ ' + game.day_number;
+      dockLabel.textContent = 'شبِ ' + game.day_number + ' · بعد از حلِ شب ادامه بده';
       btn.textContent = 'پایانِ شب — شروعِ روزِ بعد ☀️';
       btn.disabled = false;
       btn.onclick = () => handlePhaseAdvance({ current_phase: 'day', day_number: game.day_number + 1 });
@@ -1422,35 +1439,54 @@
       document.getElementById('tallyVoters').textContent = '(' + votersCount + ' نفر رأی دادن)';
 
       const maxPeyman = rows.length ? Math.max(...rows.map(r => r.peyman)) : 0;
-      document.getElementById('tallyList').innerHTML = rows.map(r => `
-        <div class="tally-row ${maxPeyman > 0 && r.peyman === maxPeyman ? 'top-peyman' : ''}">
-          <span>${r.name}</span>
-          <span class="tally-counts"><span class="tc-g">${r.peyman} 🤝</span><span class="tc-r">${r.goman} ⚔️</span></span>
-        </div>
-      `).join('') || '<div style="font-size:11.5px; color:var(--parchment-dim);">هنوز رأیی ثبت نشده…</div>';
+      const tl = document.getElementById('tallyList');
+      if(!rows.length){
+        const p = document.createElement('p'); p.className = 'hint'; p.textContent = 'هنوز رأیی ثبت نشده…';
+        tl.replaceChildren(p);
+      }else{
+        tl.replaceChildren(...rows.map(r => {
+          const row = document.createElement('div');
+          row.className = 'tally-row' + (maxPeyman > 0 && r.peyman === maxPeyman ? ' top-peyman' : '');
+          const n = document.createElement('span'); n.className = 'tally-name'; n.textContent = r.name; n.title = r.name;
+          const g = document.createElement('span'); g.className = 'tc-g'; g.textContent = r.peyman + ' پیمان';
+          const x = document.createElement('span'); x.className = 'tc-r'; x.textContent = r.goman + ' گمان';
+          row.append(n, g, x);
+          return row;
+        }));
+      }
 
       const byPeyman = [...rows].sort((a,b) => b.peyman - a.peyman);
       const byGoman = [...rows].sort((a,b) => b.goman - a.goman);
       const peymanTop2 = byPeyman.filter(r => r.peyman > 0).slice(0, 2);
       const gomanTop2 = byGoman.filter(r => r.goman > 0).slice(0, 2);
 
-      document.getElementById('mahaanHint').innerHTML = rows.length
-        ? 'پیشنهادِ بیشترین پیمان: <b style="color:var(--gold-soft);">' + (peymanTop2.map(r => r.name).join('، ') || '—') +
-          '</b><br>پیشنهادِ بیشترین گمان: <b style="color:var(--crimson-soft);">' + (gomanTop2.map(r => r.name).join('، ') || '—') +
-          '</b><br>این‌ها فقط پیشنهادِ خودکاره — در تساوی یا هر حالتِ دیگه، خودت پایین دستی اصلاح کن.'
-        : 'هنوز رأیی ثبت نشده.';
+      const mh = document.getElementById('mahaanHint');
+      if(!rows.length){
+        mh.replaceChildren(Object.assign(document.createElement('p'), { textContent: 'هنوز رأیی ثبت نشده.' }));
+      }else{
+        const line = (label, cls, list) => {
+          const p = document.createElement('p'); p.append(label);
+          const b = document.createElement('span'); b.className = cls; b.textContent = list.map(r => r.name).join('، ') || '—';
+          p.append(b); return p;
+        };
+        mh.replaceChildren(
+          line('پیشنهادِ بیشترین پیمان: ', 'gold', peymanTop2),
+          line('پیشنهادِ بیشترین گمان: ', 'crimson', gomanTop2),
+          Object.assign(document.createElement('p'), { textContent: 'این‌ها فقط پیشنهادِ خودکاره — در تساوی یا هر حالتِ دیگه، خودت پایین دستی اصلاح کن.' })
+        );
+      }
 
       // فقط یک‌بار در هر روز پنل رو بساز تا انتخاب‌های گرداننده هر ۲ ثانیه پاک نشه
       if(dayPanelForDay !== dayNumber){
         dayPanelForDay = dayNumber;
         jamshidWillKill = null;
 
-        const optionsHtml = '<option value="">— انتخاب کن —</option>' + rows.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+        const optionsHtml = '<option value="">— انتخاب کن —</option>' + rows.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join('');
         ['mahaanMember1', 'mahaanMember2', 'mahaanAccused1', 'mahaanAccused2'].forEach(id => {
           document.getElementById(id).innerHTML = optionsHtml;
         });
         document.getElementById('mahaanExtraQuestion').innerHTML = '<option value="">— بدونِ سوالِ اضافه —</option>' +
-          rows.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+          rows.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join('');
 
         if(peymanTop2[0]) document.getElementById('mahaanMember1').value = peymanTop2[0].id;
         if(peymanTop2[1]) document.getElementById('mahaanMember2').value = peymanTop2[1].id;
@@ -1473,7 +1509,7 @@
           const sel = document.getElementById('mahaanFinalAccused');
           const seen = new Set();
           const opts = [a1, a2].filter(el => el.value && !seen.has(el.value) && seen.add(el.value))
-            .map(el => `<option value="${el.value}">${el.options[el.selectedIndex].textContent}</option>`);
+            .map(el => `<option value="${el.value}">${esc(el.options[el.selectedIndex].textContent)}</option>`);
           sel.innerHTML = (opts.length ? '<option value="">— انتخاب کن —</option>' : '<option value="">— اول دو متهم رو بالا مشخص کن —</option>') + opts.join('');
           document.getElementById('decideKillBtn').disabled = true;
           document.getElementById('decideSpareBtn').disabled = true;
@@ -1489,13 +1525,17 @@
         };
         rebuildFinalAccused();
       }
+      syncSelectValues();
     }catch(e){ console.error(e); }
   }
+  document.getElementById('hostDayPanel').addEventListener('change', syncSelectValues);
 
   function setJamshidDecision(kill){
     jamshidWillKill = kill;
     document.getElementById('decideKillBtn').classList.toggle('active', kill === true);
     document.getElementById('decideSpareBtn').classList.toggle('active', kill === false);
+    document.getElementById('decideKillBtn').setAttribute('aria-pressed', String(kill === true));
+    document.getElementById('decideSpareBtn').setAttribute('aria-pressed', String(kill === false));
     document.getElementById('noshdaruBox').style.display = kill ? 'block' : 'none';
     if(!kill){ document.getElementById('noshdaruCheck').checked = false; }
     document.getElementById('applyKillBtn').disabled = false;
@@ -1521,7 +1561,7 @@
 
       if(jamshidWillKill && !saved){
         await tjEliminatePlayer(targetId, 'jamshid_day_vote', game.day_number, false);
-        note.style.color = 'var(--crimson-soft)';
+        note.style.color = 'var(--ct-bad)';
         note.textContent = 'ثبت شد (فقط برای خودت — چیزی که تویِ ‹اعلامِ عمومی› زیرشه رو بلند بخون): ' + target.display_name + ' با تصمیمِ جمشید از بازی خارج شد.';
         await tjLogEvent(currentGame.id, game.day_number, 'death', { playerId: targetId, cause: 'jamshid_day_vote', mahaanCouncil: council, extraQuestion });
         checkHengameh(target);
@@ -1534,7 +1574,7 @@
           note.textContent += ' — 💔 ' + followed.display_name + ' (بیژن) هم به‌دنبالِ منیژه از بازی خارج شد.';
         }
       }else{
-        note.style.color = saved ? 'var(--green)' : 'var(--parchment-dim)';
+        note.style.color = saved ? 'var(--ct-good)' : 'var(--ct-muted)';
         note.textContent = 'ثبت شد (فقط برای خودت): ' + (saved
           ? '🏺 ' + target.display_name + ' با نوشدارویِ کیکاووس نجات پیدا کرد.'
           : 'جمشید تصمیم گرفت ' + target.display_name + ' رو نکشه.');
@@ -1546,7 +1586,7 @@
       announceBox.style.display = 'block';
       await checkGameOver();
     }catch(e){
-      note.style.color = 'var(--crimson-soft)';
+      note.style.color = 'var(--ct-bad)';
       note.textContent = 'خطا: ' + e.message;
       btn.disabled = false;
     }
@@ -1562,19 +1602,55 @@
     }
   }
 
+  // escape: نامِ بازیکن هرگز خام داخلِ innerHTML نره
+  function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  // دیالوگِ تأیید (جایگزینِ confirm() مرورگر) — Promise<boolean>
+  function uiConfirm(title, text){
+    return new Promise(resolve => {
+      const dlg = document.getElementById('confirmDialog');
+      document.getElementById('confirmTitle').textContent = title;
+      document.getElementById('confirmText').textContent = text;
+      let result = false;
+      const ok = () => { result = true; dlg.close(); };
+      const cancel = () => dlg.close();
+      const okBtn = document.getElementById('acceptConfirm'), cancelBtn = document.getElementById('cancelConfirm');
+      okBtn.onclick = ok; cancelBtn.onclick = cancel;
+      dlg.addEventListener('close', () => { okBtn.onclick = null; cancelBtn.onclick = null; resolve(result); }, { once: true });
+      dlg.showModal();
+      cancelBtn.focus();
+    });
+  }
+
+  // دکمه‌ها و نوارِ فازِ اتاقِ فرمان بعد از شروعِ بازی دیده می‌شن
+  function showHostControls(){
+    document.getElementById('hostPhaseControl').style.display = 'block';
+    document.getElementById('phaseDock').style.display = 'grid';
+  }
+
+  // متنِ کاملِ گزینه‌یِ انتخاب‌شده زیرِ select (برایِ نام‌هایِ بلند در موبایل)
+  function syncSelectValues(){
+    document.querySelectorAll('#hostDayPanel .select-group').forEach(g => {
+      const sel = g.querySelector('select'), out = g.querySelector('.select-value');
+      if(!sel || !out) return;
+      out.textContent = sel.selectedOptions[0] ? sel.selectedOptions[0].textContent : '';
+      out.hidden = !sel.value;
+    });
+  }
+
   // ================= کنسولِ شبِ گرداننده =================
   // نقش‌هایی که اکشنِ فعالِ شبانه دارن، به همون ترتیبی که باید بیدار بشن.
   // سودابه عمداً قبل از افراسیاب/هومان/رستمه: افسونش جوابِ فوریِ اون‌ها رو باطل می‌کنه،
   // پس باید اول معلوم باشه کی افسون شده.
   const NIGHT_ROLES = [
-    { role_id:'zahhak',   icon:'🐍', title:'ضحاک — انتخابِ دو نفر',   desc:'دو نفر رو برای طعمه‌ی مارها انتخاب کن.', type:'pick_two', action:'kill_pick_two' },
-    { role_id:'armayil',  icon:'🍲', title:'ارمایل — نجاتِ یکی',      desc:'از بینِ دو انتخابِ ضحاک، یکی رو نجات بده.', type:'save_from_zahhak', action:'save_one_of_two' },
-    { role_id:'sudabeh',  icon:'🔮', title:'سودابه — افسون',          desc:'اختیاری. یک نفر رو افسون کن یا رد شو. (قبل از افراسیاب، هومان و رستم بیدار می‌شه تا جوابِ فوریِ اون‌ها درست باشه.)', type:'pick_one', optional:true, action:'enchant', immune:['kaveh','fereydun','siavash','armayil'], maxCharges:2, chargeFlag:'sudabeh_charges_used' },
-    { role_id:'afrasiab', icon:'👁️', title:'افراسیاب — استعلام',      desc:'یک نفر رو انتخاب کن — جوابش همین‌جا می‌آد تا به افراسیاب بگی.', type:'pick_one', action:'inquiry', instantAnswer:true },
-    { role_id:'homan',    icon:'🗡️', title:'هومان — حدسِ نقش',        desc:'یک نفر و یک نقشِ حدسی انتخاب کن — نتیجه همین‌جا می‌آد.', type:'guess', optional:true, lethal:true, action:'guess_kill_or_copy', instantAnswer:true },
-    { role_id:'rostam',   icon:'🏹', title:'رستم — تیر',              desc:'یک مظنونِ ضحاکی رو نشونه بگیر — نتیجه همین‌جا می‌آد.', type:'pick_one', optional:true, lethal:true, action:'guess_shoot', instantAnswer:true, maxCharges:2, chargeFlag:'rostam_arrows_used' },
-    { role_id:'zaal',     icon:'🪶', title:'زال — پرِ سیمرغ',         desc:'اختیاری و فقط یک‌بار در کلِ بازی. همه‌ی کشته‌های ضحاکِ امشب باطل می‌شه.', type:'toggle', optional:true, action:'block_all_kills', oncePerGame:'zaal_feather_used' },
-    { role_id:'gersivaz', icon:'💀', title:'گرسیوز — فداکاری',        desc:'اختیاری و فقط یک‌بار. خودش می‌میره و هدفش رو هم با خودش می‌بره.', type:'pick_one', optional:true, lethal:true, action:'self_sacrifice', oncePerGame:'gersivaz_used' },
+    { role_id:'zahhak',   icon:'snake', title:'ضحاک — انتخابِ دو نفر',   desc:'دو نفر رو برای طعمه‌ی مارها انتخاب کن.', type:'pick_two', action:'kill_pick_two' },
+    { role_id:'armayil',  icon:'pot', title:'ارمایل — نجاتِ یکی',      desc:'از بینِ دو انتخابِ ضحاک، یکی رو نجات بده.', type:'save_from_zahhak', action:'save_one_of_two' },
+    { role_id:'sudabeh',  icon:'spell', title:'سودابه — افسون',          desc:'اختیاری. یک نفر رو افسون کن یا رد شو. (قبل از افراسیاب، هومان و رستم بیدار می‌شه تا جوابِ فوریِ اون‌ها درست باشه.)', type:'pick_one', optional:true, action:'enchant', immune:['kaveh','fereydun','siavash','armayil'], maxCharges:2, chargeFlag:'sudabeh_charges_used' },
+    { role_id:'afrasiab', icon:'eye', title:'افراسیاب — استعلام',      desc:'یک نفر رو انتخاب کن — جوابش همین‌جا می‌آد تا به افراسیاب بگی.', type:'pick_one', action:'inquiry', instantAnswer:true },
+    { role_id:'homan',    icon:'dagger', title:'هومان — حدسِ نقش',        desc:'یک نفر و یک نقشِ حدسی انتخاب کن — نتیجه همین‌جا می‌آد.', type:'guess', optional:true, lethal:true, action:'guess_kill_or_copy', instantAnswer:true },
+    { role_id:'rostam',   icon:'bow', title:'رستم — تیر',              desc:'یک مظنونِ ضحاکی رو نشونه بگیر — نتیجه همین‌جا می‌آد.', type:'pick_one', optional:true, lethal:true, action:'guess_shoot', instantAnswer:true, maxCharges:2, chargeFlag:'rostam_arrows_used' },
+    { role_id:'zaal',     icon:'feather', title:'زال — پرِ سیمرغ',         desc:'اختیاری و فقط یک‌بار در کلِ بازی. همه‌ی کشته‌های ضحاکِ امشب باطل می‌شه.', type:'toggle', optional:true, action:'block_all_kills', oncePerGame:'zaal_feather_used' },
+    { role_id:'gersivaz', icon:'broken_sword', title:'گرسیوز — فداکاری',        desc:'اختیاری و فقط یک‌بار. خودش می‌میره و هدفش رو هم با خودش می‌بره.', type:'pick_one', optional:true, lethal:true, action:'self_sacrifice', oncePerGame:'gersivaz_used' },
   ];
 
   let nightSelections = {};   // role_id -> {target, target2, guessedRole, skipped, done}
@@ -1654,40 +1730,40 @@
   }
 
   function buildNightCard(cfg, actor){
-    const opts = list => list.map(p => `<option value="${p.id}">${p.display_name}</option>`).join('');
+    const opts = list => list.map(p => `<option value="${p.id}">${esc(p.display_name)}</option>`).join('');
     const skipBtn = cfg.optional
-      ? `<div class="nc-actions"><button class="nc-btn" onclick="nightSkip('${cfg.role_id}')">این شب کاری نمی‌کنه</button></div>` : '';
+      ? `<div class="nc-actions single"><button class="nc-btn" type="button" onclick="nightSkip('${cfg.role_id}')">این شب کاری نمی‌کنه</button></div>` : '';
     let body = '';
 
     if(cfg.type === 'pick_two'){
-      body = `
-        <select id="nsel1_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
+      body = `<div class="two-grid">
+        <select class="dp-select" aria-label="هدفِ اول" id="nsel1_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
           <option value="">— هدفِ اول —</option>${opts(nightTargets({lethal:true}))}
         </select>
-        <select id="nsel2_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
+        <select class="dp-select" aria-label="هدفِ دوم" id="nsel2_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
           <option value="">— هدفِ دوم —</option>${opts(nightTargets({lethal:true}))}
-        </select>`;
+        </select></div>`;
     } else if(cfg.type === 'save_from_zahhak'){
       body = `<div id="narm_choices"><span class="nc-wait">اول باید انتخابِ ضحاک ثبت بشه</span></div>`;
     } else if(cfg.type === 'guess'){
       const roleIds = Array.from(new Set(nightPlayers.map(p => p.role_id).filter(Boolean)));
-      body = `
-        <select id="nsel1_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
+      body = `<div class="two-grid">
+        <select class="dp-select" aria-label="هدف" id="nsel1_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
           <option value="">— هدف —</option>${opts(nightTargets(cfg, actor.id))}
         </select>
-        <select id="nguess_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
+        <select class="dp-select" aria-label="نقشِ حدسی" id="nguess_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
           <option value="">— نقشِ حدسی —</option>
           ${roleIds.map(r => `<option value="${r}">${ROLE_NAMES_FA[r] || r}</option>`).join('')}
-        </select>${skipBtn}`;
+        </select></div>${skipBtn}`;
     } else if(cfg.type === 'pick_one'){
       body = `
-        <select id="nsel1_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
+        <select class="dp-select" aria-label="انتخابِ هدف" id="nsel1_${cfg.role_id}" onchange="nightChange('${cfg.role_id}')">
           <option value="">— انتخابِ هدف —</option>${opts(nightTargets(cfg, actor.id))}
         </select>${skipBtn}`;
     } else if(cfg.type === 'toggle'){
       body = `<div class="nc-actions">
-          <button class="nc-btn primary" id="ntog_yes_${cfg.role_id}" onclick="nightToggle('${cfg.role_id}', true)">بله، استفاده کن</button>
-          <button class="nc-btn" id="ntog_no_${cfg.role_id}" onclick="nightToggle('${cfg.role_id}', false)">نه، این شب نه</button>
+          <button class="nc-btn primary" type="button" id="ntog_yes_${cfg.role_id}" onclick="nightToggle('${cfg.role_id}', true)">بله، استفاده کن</button>
+          <button class="nc-btn" type="button" id="ntog_no_${cfg.role_id}" onclick="nightToggle('${cfg.role_id}', false)">نه، این شب نه</button>
         </div>`;
     }
 
@@ -1696,16 +1772,16 @@
     let charge = '';
     if(cfg.maxCharges){
       const used = actor.state_flags?.[cfg.chargeFlag] || 0;
-      charge = ` <span style="color:var(--parchment-dim);">— بارِ ${used + 1} از ${cfg.maxCharges}</span>`;
+      charge = ` <span class="nc-charge">— بارِ ${used + 1} از ${cfg.maxCharges}</span>`;
     }
 
     return `
       <div class="nc-head">
-        <span class="nc-icon">${cfg.icon}</span>
-        <span class="nc-title">${cfg.title}</span>
+        <img class="nc-icon" src="assets/control/icons/${cfg.icon}.svg" alt="">
+        <h3 class="nc-title">${cfg.title}</h3>
         <span class="nc-status" id="nstat_${cfg.role_id}">در انتظار</span>
       </div>
-      <div class="nc-desc">${cfg.desc}${charge} <b style="color:var(--gold-soft);">(${actor.display_name})</b></div>
+      <div class="nc-desc">${cfg.desc}${charge} <b class="gold">(${esc(actor.display_name)})</b></div>
       ${body}
       ${cfg.instantAnswer ? `<div class="nc-answer" id="nans_${cfg.role_id}"></div>` : ''}
       <div class="nc-err" id="nerr_${cfg.role_id}"></div>`;
@@ -1718,9 +1794,13 @@
   // میاد، پس وقتی نوبتِ اون‌ها می‌رسه افسونِ امشب از قبل ثبت شده و می‌تونیم
   // باطل‌بودنِ قابلیت رو درست حساب کنیم.
   const OK = 'var(--green)', BAD = 'var(--crimson-soft)', DIM = 'var(--parchment-dim)';
-  const answerHtml = (color, text, hint) =>
-    `<b style="color:${color};">${text}</b>` +
-    (hint ? `<div style="font-size:10.5px; color:var(--parchment-dim); margin-top:3px;">${hint}</div>` : '');
+  // سه حالت (سبز/شرابی/خاکستری) — علاوه بر رنگ، نماد هم دارن (✓ / × / —)
+  function setAnswer(box, color, text, hint){
+    const kind = color === OK ? 'positive' : color === BAD ? 'negative' : 'neutral';
+    const sym = color === OK ? '✓' : color === BAD ? '×' : '—';
+    box.className = 'nc-answer ' + kind;
+    box.innerHTML = '<strong>' + sym + ' ' + text + '</strong>' + (hint ? '<small>' + hint + '</small>' : '');
+  }
 
   // آیا این نفر امشب افسون شده؟ (افسون روی چند نقش بی‌اثره)
   function isEnchantedTonight(playerId){
@@ -1735,46 +1815,45 @@
     const box = document.getElementById('nans_' + roleId);
     if(!box) return;
     const sel = nightSelections[roleId];
-    if(!sel || sel.skipped || !sel.target){ box.innerHTML = ''; return; }
+    if(!sel || sel.skipped || !sel.target){ box.innerHTML = ''; box.className = 'nc-answer'; return; }
     const target = nightPlayers.find(p => p.id === sel.target);
     if(!target){ box.innerHTML = ''; return; }
     const actor = nightActor(roleId);
 
     if(actor && isEnchantedTonight(actor.id)){
-      box.innerHTML = answerHtml(DIM, 'افسون شده — قابلیتش امشب باطله',
+      setAnswer(box, DIM, 'افسون شده — قابلیتش امشب باطله',
         'هیچ اتفاقی نمی‌افته. طوری رفتار کن که خودش نفهمه افسون شده.');
       return;
     }
 
     if(roleId === 'afrasiab'){
       const yes = appearsZahhakiInInquiry(target);
-      box.innerHTML = `<b>${target.display_name}</b> → ` +
-        answerHtml(yes ? BAD : OK, yes ? 'ضحاکی است' : 'ضحاکی نیست', 'همینو به افراسیاب علامت بده.');
+      setAnswer(box, yes ? BAD : OK, esc(target.display_name) + ' → ' + (yes ? 'ضحاکی است' : 'ضحاکی نیست'), 'همینو به افراسیاب علامت بده.');
 
     }else if(roleId === 'homan'){
       if(!sel.guessedRole){ box.innerHTML = ''; return; }
       const right = target.role_id === sel.guessedRole;
       if(!right){
-        box.innerHTML = answerHtml(DIM, 'حدس غلط — بی‌اثر', 'به هومان بگو حدسش درست نبود.');
+        setAnswer(box, DIM, 'حدس غلط — بی‌اثر', 'به هومان بگو حدسش درست نبود.');
       }else if(target.role_id === 'armayil'){
-        box.innerHTML = answerHtml(DIM, 'حدس درست، ولی روی ارمایل بی‌اثره', 'ارمایل با حدسِ هومان نمی‌میره.');
+        setAnswer(box, DIM, 'حدس درست، ولی روی ارمایل بی‌اثره', 'ارمایل با حدسِ هومان نمی‌میره.');
       }else if(target.side === 'zahhaki'){
-        box.innerHTML = answerHtml(OK, 'حدس درست — قابلیتِ ' + (ROLE_NAMES_FA[target.role_id] || target.role_id) + ' کپی شد',
+        setAnswer(box, OK, 'حدس درست — قابلیتِ ' + (ROLE_NAMES_FA[target.role_id] || target.role_id) + ' کپی شد',
           'به هومان بگو از این به بعد این قابلیت رو داره.');
       }else{
-        box.innerHTML = answerHtml(BAD, 'حدس درست — ' + target.display_name + ' کشته می‌شه',
+        setAnswer(box, BAD, 'حدس درست — ' + esc(target.display_name) + ' کشته می‌شه',
           'به هومان فقط بگو حدسش درست بود؛ مرگ صبح اعلام می‌شه.');
       }
 
     }else if(roleId === 'rostam'){
       if(target.side === 'zahhaki'){
-        box.innerHTML = answerHtml(OK, 'درست زد — ' + target.display_name + ' کشته می‌شه',
+        setAnswer(box, OK, 'درست زد — ' + esc(target.display_name) + ' کشته می‌شه',
           'به رستم فقط بگو تیرش به هدف خورد؛ مرگ صبح اعلام می‌شه.');
       }else if(!actor.state_flags?.rostam_armor_used){
-        box.innerHTML = answerHtml(BAD, 'اشتباه زد — زره‌اش رو از دست داد',
+        setAnswer(box, BAD, 'اشتباه زد — زره‌اش رو از دست داد',
           'هدف نمی‌میره. به رستم بگو دیگه زره نداره.');
       }else{
-        box.innerHTML = answerHtml(BAD, 'اشتباه زد و زره نداشت — خودِ رستم می‌میره',
+        setAnswer(box, BAD, 'اشتباه زد و زره نداشت — خودِ رستم می‌میره',
           'هدف نمی‌میره. مرگِ رستم صبح اعلام می‌شه.');
       }
     }
@@ -1858,9 +1937,9 @@
     if(!box || !z || !z.done || z.skipped) return;
     const picks = [z.target, z.target2].map(id => nightPlayers.find(p => p.id === id)).filter(Boolean);
     const chosen = nightSelections['armayil']?.target;
-    box.innerHTML = picks.map(p =>
-      `<span class="nc-chip ${chosen === p.id ? 'selected' : ''}" onclick="pickArmayilSave('${p.id}')">${p.display_name}</span>`
-    ).join('') + `<div class="nc-actions" style="margin-top:4px;"><button class="nc-btn" onclick="nightSkip('armayil')">هیچ‌کدوم رو نجات نمی‌ده</button></div>`;
+    box.innerHTML = '<div class="nc-actions">' + picks.map(p =>
+      `<button type="button" class="nc-chip ${chosen === p.id ? 'selected' : ''}" aria-pressed="${chosen === p.id}" onclick="pickArmayilSave('${p.id}')">${esc(p.display_name)}</button>`
+    ).join('') + `</div><div class="nc-actions single"><button class="nc-btn" type="button" onclick="nightSkip('armayil')">هیچ‌کدوم رو نجات نمی‌ده</button></div>`;
   }
 
   async function pickArmayilSave(playerId){
@@ -1898,7 +1977,9 @@
     const total = roles.length;
     const done = roles.filter(c => nightSelections[c.role_id]?.done).length;
     const pct = total ? Math.round(done / total * 100) : 100;
-    document.getElementById('nightProgressBar').style.width = pct + '%';
+    const pb = document.getElementById('nightProgressBar');
+    pb.style.width = pct + '%';
+    pb.setAttribute('aria-valuemax', total); pb.setAttribute('aria-valuenow', done);
     document.getElementById('nightProgressLabel').textContent = `${done} از ${total} نقشِ شبانه ثبت شده`;
 
     const btn = document.getElementById('nightResolveBtn');
@@ -1956,13 +2037,25 @@
     }
   }
 
+  function toggleNightResult(){
+    const body = document.getElementById('nightResultBody'), rv = document.getElementById('revealResult');
+    const open = body.style.display === 'none';
+    body.style.display = open ? 'block' : 'none';
+    rv.setAttribute('aria-expanded', String(open));
+    rv.textContent = open ? 'پنهان کردنِ نتیجه' : 'نمایشِ نتیجه‌یِ محرمانه';
+  }
+
   function showNightResult(result, players){
     const nameOf = id => players.find(p => p.id === id)?.display_name || '؟';
     let html = result.deaths.length
-      ? result.deaths.map(d => `<div class="night-death">☠️ ${nameOf(d.playerId)} — ${NIGHT_CAUSE_FA[d.cause] || d.cause}</div>`).join('')
+      ? result.deaths.map(d => `<div class="night-death">☠️ ${esc(nameOf(d.playerId))} — ${NIGHT_CAUSE_FA[d.cause] || d.cause}</div>`).join('')
       : '<div class="night-event">امشب هیچ‌کس نمرد.</div>';
     result.events.forEach(e => { html += `<div class="night-event">• ${nightEventLabel(e)}</div>`; });
-    document.getElementById('nightResultBody').innerHTML = html;
+    const body = document.getElementById('nightResultBody');
+    body.innerHTML = html;
+    body.style.display = 'none';   // نتیجه‌یِ محرمانه تا وقتی گرداننده نخواد باز نمی‌شه
+    const rv = document.getElementById('revealResult');
+    rv.setAttribute('aria-expanded', 'false'); rv.textContent = 'نمایشِ نتیجه‌یِ محرمانه';
     document.getElementById('nightResultBox').style.display = 'block';
 
     // اعلامِ عمومی فقط اسمِ کشته‌هاست — نه علت، نه اینکه کی چه‌کار کرد.
@@ -2057,7 +2150,7 @@
   function renderHostSoroushRow(game){
     const win = game.soroush_active_until_night;
     const active = win !== null && win !== undefined;
-    document.getElementById('hostSoroushRow').style.display = active ? 'block' : 'none';
+    document.getElementById('hostSoroushRow').style.display = active ? 'flex' : 'none';
     document.getElementById('hostSoroushNote').textContent = active
       ? '🕊️ سروش در روزِ ' + win + ' فرا خوانده شد — نامه‌ها در طولِ روز نوشته می‌شن و آخرِ شب تحویل می‌شن.'
       : '';
@@ -2113,8 +2206,8 @@
     try{
       const dead = await tjGetEliminatedIn(currentGame.id, num);
       document.getElementById('jamaspInfo').innerHTML = dead.length
-        ? 'نقش‌های کشته‌شده‌ی این روز و شب:<br>' + dead.map(p => '• <b style="color:var(--gold-soft);">' + (ROLE_NAMES_FA[p.role_id] || p.role_id) + '</b>').join('<br>') +
-          '<div style="font-size:10.5px; color:var(--parchment-dim); margin-top:8px;">فقط نقش‌ها رو به جاماسپ بگو — نه اینکه کدوم اسم کدوم نقش بود.</div>'
+        ? 'نقش‌های کشته‌شده‌ی این روز و شب:<br>' + dead.map(p => '• <b class="gold">' + (ROLE_NAMES_FA[p.role_id] || p.role_id) + '</b>').join('<br>') +
+          '<div class="subtle">فقط نقش‌ها رو به جاماسپ بگو — نه اینکه کدوم اسم کدوم نقش بود.</div>'
         : 'این روز و شب کسی کشته نشده.';
     }catch(e){ console.error(e); }
   }
@@ -2123,6 +2216,7 @@
     const btn = document.getElementById('hostPhaseBtn');
     const prevText = btn.textContent;
     btn.disabled = true;
+    btn.setAttribute('aria-busy', 'true');
     btn.textContent = 'در حالِ اعمال…';
     try{
       const game = await tjUpdatePhaseRetry(updates);
@@ -2130,6 +2224,7 @@
     }catch(e){
       showError('خطا در تغییرِ فازِ بازی: ' + e.message + ' — (اگه از VPN استفاده می‌کنی، امتحان کن خاموشش کنی یا سرورش رو عوض کنی)');
       btn.disabled = false;
+      btn.setAttribute('aria-busy', 'false');
       btn.textContent = prevText;
     }
   }
