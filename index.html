@@ -65,20 +65,14 @@
   .btn-outline{ background:transparent; border:1px solid var(--line); color:var(--parchment); }
   .btn-crimson{ background:linear-gradient(135deg, var(--crimson-soft), var(--crimson)); color:#fbe6ea; }
 
-  .divider{ text-align:center; color:var(--parchment-dim); font-size:12px; margin:18px 0; position:relative; }
-  .divider::before, .divider::after{ content:''; position:absolute; top:50%; width:38%; height:1px; background:var(--line); }
-  .divider::before{ right:0; } .divider::after{ left:0; }
+
+
+
 
   /* توستِ شناور: صفحه‌ی ورود یک عکسِ خیلی بلنده و اگه خطا جریانِ عادیِ صفحه باشه،
      بالای عکس گم می‌شه و کاربر فکر می‌کنه «هیچ اتفاقی نیفتاد». */
-  .err-box{
-    display:none; position:fixed; z-index:200; top:10px; left:50%; transform:translateX(-50%);
-    width:min(440px, 92vw); box-sizing:border-box;
-    background:#3a0e18; border:1px solid var(--crimson-soft); color:#ffd9df;
-    border-radius:10px; padding:10px 12px; font-size:12px; line-height:1.8;
-    box-shadow:0 6px 20px rgba(0,0,0,0.55);
-  }
-  .err-box.show{ display:block; }
+
+
 
   .busy-box{
     display:none; position:fixed; z-index:200; top:10px; left:50%; transform:translateX(-50%);
@@ -90,26 +84,18 @@
   .busy-box.show{ display:block; }
 
   /* ============ دکمه‌ی شناورِ راهنما ============ */
-  .guide-fab{
-    position:fixed; z-index:140; top:12px; left:12px; width:34px; height:34px; border-radius:50%;
-    background:var(--night-2); border:1.5px solid var(--gold); color:var(--gold-soft);
-    font-family:'Vazirmatn'; font-size:16px; font-weight:800; cursor:pointer; padding:0;
-    box-shadow:0 3px 10px rgba(0,0,0,0.5);
-  }
+
   /* ============ دفترچه‌ی کامل (iframe تمام‌صفحه) ============ */
-  .rb-view{ position:fixed; inset:0; z-index:300; background:#161310; display:none; flex-direction:column; }
-  .rb-view.open{ display:flex; }
-  .rb-bar{ display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--night-2); border-bottom:1px solid var(--gold); flex:0 0 auto; }
-  .rb-bar b{ flex:1; font-size:13px; color:var(--gold-soft); white-space:nowrap; text-align:center; }
-  .rb-bar button, .rb-bar a{ width:auto; flex:0 0 auto; white-space:nowrap; margin:0; font-family:'Vazirmatn'; font-size:12px; font-weight:700; color:var(--gold-soft); background:transparent; border:1px solid var(--gold); border-radius:8px; padding:6px 11px; cursor:pointer; text-decoration:none; }
-  .rb-view iframe{ flex:1; width:100%; border:0; background:#161310; }
-  .my-role-guide{
-    background:linear-gradient(180deg, rgba(201,151,47,0.16), rgba(201,151,47,0.05));
-    border:1.5px solid var(--gold); border-radius:12px; padding:13px 14px; margin-bottom:14px;
-  }
-  .my-role-guide .lbl{ font-size:10.5px; color:var(--parchment-dim); margin-bottom:3px; }
-  .my-role-guide .nm{ font-size:16px; font-weight:900; color:var(--gold-soft); margin-bottom:5px; }
-  .my-role-guide .ds{ font-size:12px; color:var(--parchment); line-height:2; }
+
+
+
+
+
+
+
+
+
+
 
   /* ============ تابلوی عمومیِ آرا ============ */
 
@@ -148,18 +134,15 @@
   }
 
   /* ============ لایت‌باکسِ کارتِ نقش ============ */
-  .card-lightbox{
-    display:none; position:fixed; inset:0; z-index:250; background:rgba(6,6,11,0.92);
-    align-items:center; justify-content:center; padding:24px 16px; cursor:zoom-out;
-  }
-  .card-lightbox.show{ display:flex; }
-  .card-lightbox img{ max-width:100%; max-height:100%; border-radius:14px; border:1px solid var(--gold); box-shadow:0 10px 40px rgba(0,0,0,0.7); }
 
 
-  .mode-select{ display:flex; gap:8px; justify-content:center; margin-bottom:6px; }
-  .mode-btn{ padding:8px 16px; border-radius:9px; border:1px solid var(--line); background:var(--night-3); color:var(--parchment-dim); font-family:'Vazirmatn'; font-size:12px; font-weight:600; cursor:pointer; }
-  .mode-btn.active[data-mode="peyman"]{ background:rgba(201,151,47,0.15); border-color:var(--gold); color:var(--gold-soft); }
-  .mode-btn.active[data-mode="goman"]{ background:rgba(138,36,54,0.18); border-color:var(--crimson-soft); color:var(--crimson-soft); }
+
+
+
+
+
+
+
 
 
 
@@ -198,12 +181,8 @@
   .splash-bar::after{ content:''; display:block; width:40%; height:100%; background:linear-gradient(90deg, var(--gold), var(--gold-soft)); animation:splashLoad 1.1s ease-in-out infinite; }
   @keyframes splashLoad{ 0%{ transform:translateX(-100%); } 100%{ transform:translateX(350%); } }
 
-  .back-arrow{
-    width:38px; height:38px; border-radius:50%; background:var(--night-2); border:1px solid var(--line);
-    color:var(--parchment); display:flex; align-items:center; justify-content:center; cursor:pointer; margin-bottom:14px;
-    font-size:16px;
-  }
-  .back-arrow:hover{ border-color:var(--gold); color:var(--gold-soft); }
+
+
 
   /* --- ورودیِ کدِ اتاق (۶ خونه) --- */
   /* --- پرترهٔ کوچیکِ داشبورد --- */
@@ -552,18 +531,18 @@
   .yn-divider{ display:flex; align-items:center; justify-content:center; gap:10px; color:var(--parchment-dim); font-size:12px; margin:14px 0; }
   .yn-divider .ln{ flex:1; height:1px; background:var(--line); max-width:60px; }
 
-  .guide-section{ margin-bottom:16px; }
-  .guide-section h3{ font-size:13px; color:var(--gold-soft); margin:0 0 8px; }
-  .guide-section p, .guide-section li{ font-size:12.5px; color:var(--parchment); line-height:2; margin:0 0 4px; }
-  .guide-section ul{ margin:0; padding-inline-start:18px; }
 
-  .role-team{ font-size:12.5px; font-weight:700; margin:18px 0 8px; padding-bottom:6px; border-bottom:1px solid var(--line); }
-  .role-team.t-jamshidi{ color:var(--gold-soft); }
-  .role-team.t-zahhaki{ color:var(--crimson-soft); }
-  .role-team.t-neutral{ color:var(--parchment-dim); }
-  .role-item{ background:var(--night-3); border-radius:10px; padding:10px 12px; margin-bottom:7px; }
-  .role-item .rn{ font-size:13px; font-weight:700; color:var(--parchment); margin-bottom:3px; }
-  .role-item .rd{ font-size:11.5px; color:var(--parchment-dim); line-height:1.8; }
+
+
+
+
+
+
+
+
+
+
+
 
   #decideKillBtn.active, #decideSpareBtn.active{ outline:2px solid var(--gold-soft); outline-offset:1px; }
 
@@ -682,6 +661,7 @@
 @media(prefers-reduced-motion:reduce){.play-screen .spinner,.play-screen .twinkle,.play-screen .night-mist{animation:none!important}}
 #screen-night-wait.active{display:flex}
 /* دکمه‌ی «؟»ی سراسری بالا-چپ است؛ عنوان زیرش نرود */
+#screen-day-vote.play-screen{padding-top:56px}  /* زیرِ دکمه‌ی «خروج» (راست) و «؟» (چپ) */
 #screen-day-vote .day-header{padding-inline-end:42px}
 body:has(#screen-night-wait.active){background:#211b17}
 /* نشتِ CSSِ سراسریِ اپ (button{width:100%;padding:13px;border-radius;border:none}) به صفحه‌ی رأی */
@@ -1113,6 +1093,238 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
 :where(.pw) .card-use-btn,:where(.pw) .btn-gold,:where(.pw) .btn-crimson,:where(.pw) .btn-outline{width:100%}
 :where(.pw) .player-dot{width:100%}
 
+
+/* ============ پایانِ بازی، راهنما، نقش‌ها، اعلان‌ها، اسپلش (finale-pack) ============ */
+:where(.fin){--paper:#f5ead6;--ink:#382613;--muted:#70543a;--gold:#80551d;--line:#b89056;--panel:#f5ead6;--crimson:#802536;--font:Vazirmatn,Tahoma,sans-serif;color-scheme:light}
+:where(.fin) *{box-sizing:border-box}
+:where(.fin) [hidden]{display:none!important}
+:where(.fin) button,:where(.fin) a,:where(.fin) select{touch-action:manipulation}
+:where(.fin) button,:where(.fin) select{font:inherit}
+:where(.fin) button{cursor:pointer}
+:where(.fin) button:disabled{cursor:default}
+:where(.fin) button:focus-visible,:where(.fin) a:focus-visible,:where(.fin) select:focus-visible{outline:3px solid #a8762e;outline-offset:3px}
+:where(.fin) h1,:where(.fin) h2,:where(.fin) h3,:where(.fin) p{margin:0}
+:where(.fin) img{max-width:100%}
+:where(.fin).screen{color:var(--ink);max-width:480px;margin:auto;min-height:100dvh;background:var(--paper);position:relative;isolation:isolate;padding-bottom:max(28px,env(safe-area-inset-bottom));overflow-wrap:anywhere}
+:where(.fin) .content{padding:0 18px}
+:where(.fin) .eyebrow{font-size:12px;letter-spacing:.03em;color:var(--muted)}
+:where(.fin) .center{text-align:center}
+:where(.fin) .divider{display:block;width:160px;height:16px;object-fit:contain;margin:14px auto 0}
+:where(.fin) .btn{display:flex;gap:8px;align-items:center;justify-content:center;min-height:52px;border:solid transparent;border-width:4px 20px;border-image:url('assets/entry/components/btn_primary_normal.png') 12 72 12 72 fill stretch;color:#fff6e6;background:none;font-weight:700;font-size:15px;line-height:1.8;padding:5px 4px}
+:where(.fin) .btn.secondary{border-image-source:url('assets/entry/components/btn_secondary_normal.png');color:#382613}
+:where(.fin) .btn.crimson{border-image-source:url('assets/control/components/btn_crimson_normal.png')}
+:where(.fin) .btn img{width:22px;height:22px}
+:where(.fin) .full{width:100%;margin-top:18px}
+:where(.fin) .ornate{border:solid transparent;border-width:12px;border-image:url('assets/control/components/night_card.png') 36 36 36 36 stretch;background:var(--panel);padding:10px;min-width:0}
+:where(.fin) .victory-art{position:relative;overflow:hidden;aspect-ratio:3/2}
+:where(.fin) .victory-art>img{display:block;width:100%;height:100%;object-fit:cover}
+:where(.fin) .victory-art:after{content:'';position:absolute;inset:70% 0 0;background:linear-gradient(transparent,var(--paper))}
+:where(.fin) .victory-heading{text-align:center;padding:0 24px 24px;margin-top:-35px;position:relative}
+:where(.fin) .victory-seal{width:76px;height:76px;margin:0 auto 4px;filter:drop-shadow(0 4px 10px #80551d40)}
+:where(.fin) .victory-seal img{width:100%;height:100%;object-fit:contain}
+:where(.fin) .victory-heading h1{font:700 29px/1.65 EntryAmiri,var(--font);margin:5px 0;color:var(--ink)}
+#goSub{font-size:14px;line-height:1.95;color:var(--muted)}
+:where(.fin) .roster{padding:4px 6px 8px}
+:where(.fin) .roster-header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 4px 12px;margin-bottom:3px;border-bottom:1px solid var(--line)}
+:where(.fin) .roster-header h2{font-size:18px}
+:where(.fin) .roster-header span{font-size:12px;color:var(--muted)}
+:where(.fin) .tally-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:10px;row-gap:2px;align-items:start;padding:10px 3px;border-bottom:1px solid #b8905640;min-width:0}
+:where(.fin) .tally-row:last-child{border:0}
+:where(.fin) .tally-row .player-name{font-weight:700;font-size:14px;overflow-wrap:anywhere;min-width:0}
+:where(.fin) .role-side{font-size:13px;display:flex;align-items:center;gap:5px;min-width:0}
+:where(.fin) .role-side img,:where(.fin) .eliminated-label img{width:18px;height:18px;flex-shrink:0}
+:where(.fin) .role-side span{overflow-wrap:anywhere;min-width:0}
+:where(.fin) .tally-row .team-label{font-size:11px;color:var(--muted);margin-inline-start:23px}
+:where(.fin) .tally-row .eliminated-label{display:flex;gap:4px;align-items:center;font-size:11px;color:var(--muted)}
+:where(.fin) .tally-row.eliminated .player-name{font-weight:400;color:var(--muted)}
+:where(.fin) .team-jam{color:#80551d}
+:where(.fin) .team-zah{color:#802536}
+:where(.fin).game-over[data-winner=zahhaki]{--paper:#211419;--panel:#302127;--ink:#faecd4;--muted:#d6bfa5;--line:#a17b4b;color-scheme:dark}
+:where(.fin).game-over[data-winner=zahhaki] .ornate{border-image-source:url('assets/control/components/night_card.png');background:#302127}
+:where(.fin).game-over[data-winner=zahhaki] .team-jam{color:#f1cd85}
+:where(.fin).game-over[data-winner=zahhaki] .team-zah{color:#f2b3bd}
+:where(.fin).game-over[data-winner=zahhaki] .role-side img,:where(.fin).game-over[data-winner=zahhaki] .eliminated-label img{filter:brightness(0) invert(.84)}
+:where(.fin) .rays{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,#fff0bd35,transparent 65%);animation:lightBreathe 8s ease-in-out infinite;pointer-events:none;mix-blend-mode:screen}
+:where(.fin) .particle{position:absolute;width:3px;height:3px;border-radius:50%;background:#fce0a0;box-shadow:0 0 9px #f3d195;animation:floatDust 12s ease-in-out infinite;pointer-events:none}
+:where(.fin) .p1{left:23%;top:55%}
+:where(.fin) .p2{left:70%;top:34%;animation-delay:-4s}
+:where(.fin) .p3{left:45%;top:68%;animation-delay:-8s}
+@keyframes floatDust{0%,100%{opacity:.15;transform:translateY(8px)}50%{opacity:.8;transform:translateY(-15px)}}
+@keyframes lightBreathe{0%,100%{opacity:.25}50%{opacity:.85}}
+:where(.fin) .topbar{display:flex;gap:10px;align-items:center;padding:12px 68px 8px 18px;position:relative;min-height:76px;background:var(--paper)}
+:where(.fin) .topbar .back-arrow{position:absolute;right:12px;top:12px}
+:where(.fin) .topbar h1{font-size:20px;line-height:1.65;margin-inline-end:48px}
+:where(.fin) .back-arrow{height:48px;width:48px;flex-shrink:0;border:1px solid #b89056;border-radius:50%;color:#68451f;background:#f4e7cc;font-size:25px;display:grid;place-items:center}
+:where(.fin) .guide-art{margin:0;aspect-ratio:3/2;position:relative;overflow:hidden}
+:where(.fin) .guide-art>img{display:block;width:100%;height:100%;object-fit:cover}
+:where(.fin) .guide-art:after{content:'';position:absolute;inset:78% 0 0;background:linear-gradient(transparent,#f5ead6)}
+:where(.fin) .reading{max-width:480px;margin:auto}
+:where(.fin) .jump-links{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0 28px}
+:where(.fin) .jump-links a{display:flex;align-items:center;min-height:48px;padding:6px 10px;color:#68451f;text-decoration:none;border:1px solid #bea071;background:#f5e8ce;border-radius:24px;font-size:12px}
+:where(.fin) .guide-section{margin:32px 0 40px;scroll-margin-top:18px}
+:where(.fin) .guide-section h3{font-size:19px;color:#563518;font-weight:700;display:flex;align-items:center;gap:8px}
+:where(.fin) .guide-section h3>img{width:23px;height:23px}
+:where(.fin) .guide-section .section-divider{width:100%;height:16px;object-fit:fill;margin:4px 0 14px}
+:where(.fin) .guide-section ul{margin:0;padding:0 18px 0 0;list-style:none}
+:where(.fin) .guide-section li{font-size:15px;line-height:2.05;margin:10px 0;position:relative}
+:where(.fin) .guide-section li:before{content:'◆';position:absolute;right:-18px;top:3px;font-size:9px;color:#9a702d}
+:where(.fin) .guide-section p{font-size:14px;line-height:1.95;color:#70543a;margin-top:12px}
+:where(.fin) .guide-section b{font-weight:700}
+:where(.fin) .inline-illustration{display:block;width:130px;height:115px;object-fit:contain;margin:12px auto}
+:where(.fin) .end-actions{padding-bottom:12px}
+:where(.fin) .roles-banner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,1fr);align-items:center;position:relative;overflow:hidden;min-height:150px;background:radial-gradient(ellipse at 50% 45%,#fff9df,#e8cf9f)}
+:where(.fin) .roles-banner:after{content:'';position:absolute;inset:80% 0 0;background:linear-gradient(transparent,#f5ead6)}
+:where(.fin) .roles-banner>img{width:100%;height:180px;object-fit:cover;align-self:end}
+:where(.fin) .banner-copy{text-align:center;z-index:1;padding:8px 0}
+:where(.fin) .banner-copy>span{font-size:11px;color:#70543a}
+:where(.fin) .banner-copy h2{font:23px/1.65 EntryAmiri,var(--font);color:#563518}
+:where(.fin) .banner-copy>img{width:100%;height:10px;object-fit:contain}
+:where(.fin) .my-role{display:grid;grid-template-columns:minmax(0,100px) minmax(0,1fr);gap:16px;align-items:center;margin-top:12px;background:#f5e2b9;box-shadow:0 5px 22px #9971311c}
+:where(.fin) .my-role h2{font-size:18px}
+:where(.fin) .my-role h3{font-size:19px;color:#80551d;margin:5px 0}
+:where(.fin) .my-role p{font-size:14px;line-height:1.95}
+:where(.fin) .role-card-button{padding:0;background:#e4c58d;border:2px solid #b48847;aspect-ratio:2/3;width:100%;border-radius:6px;overflow:hidden}
+:where(.fin) .role-card-button img{display:block;width:100%;height:100%;object-fit:cover;background:radial-gradient(ellipse,#f8e9c1,#b08542)}
+:where(.fin) .card-hint{display:block;margin-top:5px;font-size:11px;color:#70543a}
+:where(.fin) .role-team{display:flex;gap:8px;align-items:center;padding:12px 10px;font-weight:700;font-size:16px;background:#e9d4ad;border-top:1px solid #b89056;border-bottom:1px solid #b89056;margin:26px 0 0;color:#624014}
+:where(.fin) .role-team img{width:25px;height:25px}
+:where(.fin) .role-team.t-zahhaki{background:#542631;color:#fff0d6;border-color:#936446}
+:where(.fin) .t-zahhaki img{filter:brightness(0) invert(.9)}
+:where(.fin) .role-item{padding:16px 12px;border-bottom:1px solid #cdb18a;min-width:0}
+:where(.fin) .role-item.mine{border:1px solid #b48847;background:#f3dfb8;margin-top:5px;box-shadow:inset 3px 0 #a67829}
+:where(.fin) .rn{font-size:15px;font-weight:700;display:block;margin-bottom:5px}
+:where(.fin) .rd{font-size:14px;line-height:1.95;color:#70543a;display:block}
+:where(.fin) .mine-label{font-size:11px;font-weight:400;margin-inline-start:8px;color:#80551d}
+#guideFab{position:fixed;z-index:15;top:12px;left:max(12px,calc((100vw - 480px)/2 + 12px));width:48px;height:48px;border:1px solid #ae8550;border-radius:50%;background:#f2e3c5;color:#573711;font-size:24px;box-shadow:0 3px 10px #291b1430}
+:where(.fin).game-over .victory-heading{padding-inline:20px}
+#cardLightbox{display:none;position:fixed;inset:0;z-index:90;background:#000e;align-items:center;justify-content:center;padding:72px 4% 24px;overflow:auto}
+#cardLightbox.show{display:flex}
+#cardLightboxImg{display:block;width:auto;max-width:92vw;max-height:calc(100dvh - 100px);object-fit:contain;border-radius:8px;border:1px solid #bb9457;background:#e7c993}
+#cardLightboxClose{position:fixed;top:max(12px,env(safe-area-inset-top));left:12px;width:48px;height:48px;background:#35291f;color:#fff0da;border:1px solid #c29b61;border-radius:50%;font-size:29px}
+#errBox{display:none;position:fixed;z-index:110;top:max(12px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:420px;align-items:center;gap:10px;padding:6px 6px 6px 14px;border:1px solid #cd9aa6;border-radius:26px;background:#672c3b;color:#fff2e3;box-shadow:0 6px 25px #0005}
+#errBox.show{display:flex}
+#errBox[data-kind=success]{background:#294d3e;border-color:#a6c1a5}
+#errBox[data-kind=info]{background:#513a25;border-color:#c4a577}
+#toastIcon{width:24px;height:24px;flex-shrink:0;filter:brightness(0) invert(.95)}
+#errText{flex:1;min-width:0;overflow-wrap:anywhere;font-size:14px;line-height:1.9}
+#toastClose{width:48px;height:48px;border:0;background:none;color:inherit;font-size:25px;flex-shrink:0}
+#rulebookView{position:fixed;inset:0;z-index:70;background:#211b17;display:none;flex-direction:column}
+:where(.fin) .rb-bar{height:60px;min-height:60px;display:flex;gap:6px;align-items:center;padding:6px 8px;background:#34251b;color:#f1e1c5;border-bottom:1px solid #a38150}
+:where(.fin) .rb-bar h2{font-size:14px;line-height:1.4;flex:1;min-width:0}
+:where(.fin) .rb-bar .back-arrow{background:transparent;border:0;color:#f1e1c5}
+:where(.fin) .rb-bar a{min-height:48px;display:flex;align-items:center;color:#f1e1c5;font-size:12px;white-space:nowrap;padding:0 8px}
+#rulebookFrame{flex:1;width:100%;border:0;background:#e9dcc4}
+:where(.fin).splash{flex-direction:column;align-items:center;justify-content:center;min-height:calc(100dvh - 100px);background:#f5ead6;overflow:hidden}
+:where(.fin) .splash-art{width:100%;margin-top:0}
+:where(.fin) .splash-art img{display:block;width:100%;height:auto}
+:where(.fin) .splash-content{text-align:center;margin-top:-26px;position:relative;padding-bottom:50px}
+:where(.fin) .splash-seal{width:82px;height:82px}
+:where(.fin).splash h1{font:42px/1.6 EntryAmiri,var(--font);color:#563518}
+:where(.fin) .spinner{display:block;width:38px;height:38px;animation:spin 5s linear infinite;margin:26px auto 10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+body.motion-paused .rays,body.motion-paused .particle,body.motion-paused .spinner{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){:where(.fin) *,:where(.fin) *:before,:where(.fin) *:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+@media(max-width:350px){:where(.fin) .content{padding-inline:14px}
+:where(.fin) .victory-heading h1{font-size:26px}
+:where(.fin) .ornate{border-width:9px;padding:8px}
+:where(.fin) .roster{padding:4px}
+:where(.fin) .my-role{gap:10px;grid-template-columns:84px minmax(0,1fr)}
+:where(.fin) .my-role h2{font-size:16px}
+:where(.fin) .my-role p{font-size:13px}
+:where(.fin) .banner-copy h2{font-size:20px}
+:where(.fin) .roles-banner>img{height:130px}
+:where(.fin) .roles-banner{min-height:130px}
+:where(.fin) .rb-bar h2{font-size:12px}
+:where(.fin) .rb-bar a{padding-inline:3px;font-size:11px}
+:where(.fin) .topbar h1{font-size:19px}
+:where(.fin) .guide-section li{font-size:14px}
+:where(.fin) .tally-row{column-gap:7px}
+:where(.fin) .tally-row .player-name{font-size:13px}}
+#screen-roles{background:#f5ead6;color:#382613}
+#screen-roles .topbar{padding-bottom:6px;border-bottom:0}
+#screen-roles .roles-hero{position:relative;aspect-ratio:3/2;overflow:hidden;isolation:isolate}
+#screen-roles .roles-hero>img{display:block;width:100%;height:100%;object-fit:cover}
+#screen-roles .roles-hero:after{content:'';position:absolute;inset:72% 0 0;background:linear-gradient(transparent,#f5ead6);pointer-events:none}
+#screen-roles .roles-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 65% 45%,#ffe7a02b,transparent 65%);animation:lightBreathe 9s ease-in-out infinite;pointer-events:none}
+#screen-roles .roles-content{position:relative;margin-top:-15px;padding-inline:20px}
+#screen-roles .my-role{display:grid;grid-template-columns:minmax(0,42%) minmax(0,1fr);gap:16px 20px;margin:0 0 24px;padding:18px;border:solid transparent;border-width:10px;border-image:url('assets/control/components/night_card.png') 36 36 36 36 stretch;background:linear-gradient(125deg,#f8e9c8,#f0d6a3);box-shadow:0 12px 30px #5d3c1512;align-items:center;position:relative}
+#screen-roles .my-role-heading{grid-column:1/-1;display:flex;align-items:center;gap:8px;padding-bottom:12px;border-bottom:1px solid #af834c60}
+#screen-roles .my-role-heading>img{width:22px;height:22px}
+#screen-roles .my-role-heading h2{font-size:14px;line-height:1.8;letter-spacing:.02em;color:#6f481c}
+#screen-roles .role-card-button{aspect-ratio:2/3;border:2px solid #ae854b;border-radius:4px;box-shadow:0 8px 18px #5838153b;transform:rotate(2deg);background:linear-gradient(130deg,#f7e4af,#a47332);padding:0;overflow:hidden;transition:transform .2s ease}
+#screen-roles .role-card-button:hover{transform:rotate(0deg)}
+#screen-roles .role-card-button>img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+#screen-roles .my-role-copy{min-width:0}
+#screen-roles .my-role-copy h3{font:700 32px/1.45 EntryAmiri,Vazirmatn,serif;color:#513411;margin:0 0 10px}
+#screen-roles .my-role-copy p{font-size:14px;line-height:1.95;color:#65482b}
+#screen-roles .card-hint{display:block;font-size:11px;line-height:1.9;color:#6f481c;margin-top:12px;padding-top:10px;border-top:1px solid #ba95564d}
+#screen-roles .role-jumps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:0;margin:0 0 20px}
+#screen-roles .role-jumps a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:74px;text-decoration:none;font-size:12px;font-weight:700;color:#6b461e;background:#f1e2c9;border:1px solid #bea170;border-radius:4px;padding:8px 4px;text-align:center}
+#screen-roles .role-jumps a>img{width:23px;height:23px}
+#screen-roles .roles-demo-note{font-size:11px;padding:0 0 0 0;border:0;background:none;margin:0 0 28px;line-height:1.9;color:#765a3c}
+#screen-roles .role-group{margin:0 0 30px;scroll-margin-top:16px;min-width:0}
+#screen-roles .role-group-header{display:flex;align-items:center;gap:12px;margin:0 0 14px}
+#screen-roles .group-emblem{width:49px;height:49px;flex-shrink:0;display:grid;place-items:center;border:1px solid #b78b4b;border-radius:50%;background:radial-gradient(ellipse at 40% 30%,#f5e6bd,#d3ae71);box-shadow:inset 0 0 0 4px #f5ead6}
+#screen-roles .group-emblem>img{width:27px;height:27px}
+#screen-roles .role-team{background:none;padding:0;margin:0;border:0;color:#563813;display:block;font:700 23px/1.65 EntryAmiri,Vazirmatn,serif}
+#screen-roles .role-group-header:after{content:'';height:1px;background:#b48b5355;flex:1;min-width:8px}
+#screen-roles .king-role-list{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+#screen-roles .role-item{margin:0;padding:18px 14px;min-width:0;display:grid;grid-template-columns:42px minmax(0,1fr);gap:13px;align-items:start;border:0;border-bottom:1px solid #b78d5440;background:#f8eedc;box-shadow:none;overflow-wrap:anywhere}
+#screen-roles .role-list{border:1px solid #c5a473;border-radius:5px;overflow:hidden;background:#f8eedc}
+#screen-roles .role-item:last-child{border-bottom:0}
+#screen-roles .role-text{min-width:0}
+#screen-roles .rn{font-size:16px;font-weight:700;line-height:1.7;color:#55391b;margin:0 0 6px}
+#screen-roles .rd{font-size:14px;line-height:1.95;color:#70543a}
+#screen-roles .role-emblem{width:42px;height:46px;display:grid;place-items:center;border:1px solid #c4a16b;border-radius:4px;background:linear-gradient(145deg,#f8ebcb,#ead1a3)}
+#screen-roles .role-emblem>img{width:25px;height:25px}
+#screen-roles .king-role{display:flex;flex-direction:column;gap:0;padding:0;border:1px solid #bc9454;border-radius:5px;background:#f0ddba;overflow:hidden;box-shadow:0 7px 20px #5a391016}
+#screen-roles .king-portrait{display:block;width:100%;aspect-ratio:4/5;min-height:0;border:0;padding:0;background:radial-gradient(ellipse at 60% 35%,#f9eccb,#c39b5d);overflow:hidden}
+#screen-roles .king-portrait>img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+#screen-roles .king-role .role-text{padding:13px 12px 18px;width:100%;flex:1;background:#f7e8cb}
+#screen-roles .king-role .rn{font:700 25px/1.6 EntryAmiri,Vazirmatn,serif}
+#screen-roles .king-role .rd{font-size:13px;line-height:1.95}
+#screen-roles .king-role.mine{border:2px solid #a57932;box-shadow:0 0 0 3px #c19c5320}
+#screen-roles .mine-label{display:inline-block;border:1px solid #b98d47;border-radius:20px;padding:2px 7px;font:400 10px/1.7 Vazirmatn,Tahoma,sans-serif;color:#674214;vertical-align:middle;margin-inline-start:6px;background:#e9d0a1}
+#screen-roles .king-role[data-king=zahhak]{border-color:#936947;background:#302026}
+#screen-roles .king-role[data-king=zahhak] .king-portrait{background:radial-gradient(ellipse at 60% 35%,#6d3440,#24171d)}
+#screen-roles .king-role[data-king=zahhak] .role-text{background:#302127}
+#screen-roles .king-role[data-king=zahhak] .rn{color:#faecd4}
+#screen-roles .king-role[data-king=zahhak] .rd{color:#d6bfa5}
+#screen-roles .role-group.t-zahhaki .group-emblem{background:radial-gradient(ellipse,#743447,#40202b);box-shadow:inset 0 0 0 4px #61313a;border-color:#b58853}
+#screen-roles .role-group.t-zahhaki .group-emblem>img{filter:brightness(0) invert(.85)}
+#screen-roles .role-group.t-zahhaki .role-team{color:#6e2837}
+#screen-roles .role-group.t-zahhaki .role-list{border-color:#815647;background:#302127}
+#screen-roles .role-group.t-zahhaki .role-item{background:#302127;border-bottom-color:#a6845b40}
+#screen-roles .role-group.t-zahhaki .rn{color:#faecd4}
+#screen-roles .role-group.t-zahhaki .rd{color:#d6bfa5}
+#screen-roles .role-group.t-zahhaki .role-emblem{background:linear-gradient(145deg,#6e3a44,#462733);border-color:#ac8755}
+#screen-roles .role-group.t-zahhaki .role-emblem img{filter:brightness(0) invert(.85)}
+body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
+@media(max-width:350px){#screen-roles .roles-content{padding-inline:14px}
+#screen-roles .my-role{padding:12px;gap:12px;border-width:8px;grid-template-columns:minmax(0,42%) minmax(0,1fr)}
+#screen-roles .my-role-copy h3{font-size:28px}
+#screen-roles .my-role-copy p{font-size:13px}
+#screen-roles .king-role-list{gap:9px}
+#screen-roles .king-role .role-text{padding:10px 10px 14px}
+#screen-roles .king-role .rn{font-size:23px}
+#screen-roles .role-item{padding:16px 12px;gap:10px;grid-template-columns:36px minmax(0,1fr)}
+#screen-roles .role-emblem{width:36px;height:42px}
+#screen-roles .role-jumps a{font-size:11px}
+#screen-roles .role-team{font-size:22px}}
+@media(prefers-reduced-motion:reduce){#screen-roles .roles-glow,#screen-roles .role-card-button{animation:none!important;transition:none!important}}
+#screen-splash.active{display:flex}
+#rulebookView.open{display:flex}
+:where(.fin){font:14px/1.9 Vazirmatn,Tahoma,sans-serif}
+:where(.fin) button{padding:0;border-radius:0;transition:none;font-size:inherit;font-weight:inherit;width:auto}
+:where(.fin) button:active{transform:none}
+:where(.fin) button:disabled{opacity:1}
+:where(.fin) .btn.full{width:100%}
+:where(.fin) .role-card-button,:where(.fin) .king-portrait{width:100%}
+:where(.fin) .team-neutral{color:#70543a}
+.game-over[data-winner=zahhaki] .team-neutral{color:#d6bfa5}
+#guideFab{padding:0}
+:where(.fin) .tally-row{background:none;border-radius:0;margin:0;font-size:inherit;color:inherit}
+
 </style>
 </head>
 <body class="fullbleed">
@@ -1124,30 +1336,20 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
   <div class="live-tag">🟢 متصل به Supabase</div>
 </div>
 
-<button id="exitBtn" onclick="handleExit()" style="display:none; position:fixed; top:12px; left:12px; width:auto; padding:7px 13px; border-radius:9px; background:var(--night-2); border:1px solid var(--line); color:var(--parchment-dim); font-family:'Vazirmatn'; font-size:11.5px; font-weight:600; cursor:pointer; z-index:100;">
-  ✕ خروج از بازی
-</button>
+<button id="exitBtn" type="button" onclick="handleExit()" aria-label="خروج از بازی" style="display:none; position:fixed; top:12px; right:max(12px, calc((100vw - 480px) / 2 + 12px)); width:auto; padding:7px 12px; border-radius:9px; background:var(--night-2); border:1px solid var(--line); color:var(--parchment-dim); font-family:'Vazirmatn'; font-size:11.5px; font-weight:600; cursor:pointer; z-index:30;">✕ خروج</button>
 
 <div class="wrap">
 
-  <div class="err-box" id="errBox"></div>
+  <div class="fin" id="errBox" role="alert"><img id="toastIcon" src="assets/finale/icons/warning.svg" alt=""><span id="errText"></span><button id="toastClose" type="button" aria-label="بستنِ اعلان">×</button></div>
   <div class="busy-box" id="busyBox"></div>
 
   <!-- لایت‌باکسِ کارتِ نقش — نمایشِ بزرگِ کارت با لمس -->
-  <div class="card-lightbox" id="cardLightbox" onclick="closeCardLightbox()">
-    <img id="cardLightboxImg" src="" alt="">
-  </div>
+  <div class="fin" id="cardLightbox" role="dialog" aria-modal="true" aria-label="کارتِ نقش" aria-hidden="true"><button id="cardLightboxClose" type="button" aria-label="بستنِ کارت" onclick="closeCardLightbox(); event.stopPropagation()">×</button><img id="cardLightboxImg" alt="کارتِ شخصیت"></div>
 
   <!-- صفحه ۱: اسپلش -->
-  <div class="screen active" id="screen-splash">
-    <div class="full-screen">
-      <div class="full-art" style="background-image:url('assets/splash-jamshid.jpg');"></div>
-      <div class="full-actions" style="text-align:center;">
-        <h1 style="font-size:25px; font-weight:900; margin:0 0 6px; background:linear-gradient(90deg, var(--gold-soft), var(--parchment) 60%); -webkit-background-clip:text; background-clip:text; color:transparent;">تخت جمشید</h1>
-        <p style="font-size:12px; color:var(--parchment-dim); margin:0 0 18px;">در حالِ آماده‌سازیِ جهانِ شاهنامه…</p>
-        <div class="splash-bar" style="margin:0 auto;"></div>
-      </div>
-    </div>
+  <div class="screen active fin splash" id="screen-splash" aria-label="بارگذاری">
+    <div class="splash-art"><img src="assets/finale/art/victory-dawn.webp" alt=""></div>
+    <div class="splash-content"><img class="splash-seal" src="assets/finale/components/victory-sun.png" alt=""><h1>تخت جمشید</h1><img class="divider" src="assets/entry/components/divider_sun.png" alt=""><img class="spinner" src="assets/finale/icons/sun.svg" alt=""><p role="status">در حالِ بارگذاری…</p></div>
   </div>
 
   <!-- صفحه ۲: ورود -->
@@ -1191,62 +1393,49 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
   </div>
 
   <!-- صفحه‌ی راهنمای بازی -->
-  <div class="screen" id="screen-guide">
-    <div class="back-arrow" onclick="go('screen-entry')">→</div>
-    <div class="card ornate-frame">
-      <div class="oct-wrap"><div class="oct oct-title">راهنمای بازی</div></div>
-      <div class="guide-section">
-        <h3>ساختار کلی</h3>
+  <div class="screen fin" id="screen-guide">
+    <header class="topbar"><button class="back-arrow" type="button" onclick="go('screen-entry')" aria-label="بازگشت">→</button><h1 id="guideTitle">راهنمایِ بازی</h1></header>
+    <div class="guide-art"><img src="assets/finale/art/guide-book.webp" alt="دفترِ گشوده، قلم و نامه‌یِ مهرشده"></div>
+    <div class="content reading"><p class="eyebrow center">داستان را بشناس، نقشِ خود را بازی کن</p><nav class="jump-links" id="guideJumps" aria-label="پرش به بخش‌هایِ راهنما"></nav>
+      <section class="guide-section" id="guide-1"><h3><img src="assets/finale/icons/group.svg" alt="">ساختار کلی</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt="">
         <ul>
-          <li>بازی دو گروه داره: <b style="color:var(--gold-soft);">یارانِ جمشید</b> (اکثریت، نقشِ هم رو نمی‌دونن) و <b style="color:var(--crimson-soft);">ضحاکیان</b> (اقلیت، فقط توسطِ ضحاک شناخته می‌شن).</li>
+          <li>بازی دو گروه داره: <b class="team-jam">یارانِ جمشید</b> (اکثریت، نقشِ هم رو نمی‌دونن) و <b class="team-zah">ضحاکیان</b> (اقلیت، فقط توسطِ ضحاک شناخته می‌شن).</li>
           <li>جمشید و ضحاک از ابتدا برای همه آشکارن.</li>
           <li>بازی تو چرخه‌ی <b>روز → مجلسِ مهان/مشورت → خوابِ نیم‌روزی → شب</b> پیش می‌ره.</li>
           <li>با مرگِ تمامِ یارانِ یک پادشاه، بازی به نفعِ پادشاهِ دیگه تموم می‌شه — جمشید و ضحاک نامیرا هستن و شمرده نمی‌شن، <b>ارمایل جزوِ یارانِ جمشیده</b> (با اینکه در استعلام‌ها ضحاکی نشون داده می‌شه)، و سهرابِ نپیوسته برایِ هیچ‌کدوم شمرده نمی‌شه.</li>
-        </ul>
-      </div>
-      <div class="guide-section">
-        <h3>فازِ روز</h3>
+        </ul></section>
+      <section class="guide-section" id="guide-2"><h3><img src="assets/finale/icons/sun.svg" alt="">فازِ روز</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt="">
         <ul>
           <li>همه (به‌جز جمشید و ضحاک) نوبتِ صحبت دارن.</li>
           <li>هرکس بعدِ نوبتش یه کارتِ <b>پیمان</b> (اعتماد) و یه کارتِ <b>گمان</b> (بی‌اعتمادی) به دو نفرِ مجزا می‌ده.</li>
           <li>جمشید یکی از این مسیرها رو انتخاب می‌کنه: تشکیلِ مجلسِ مهان، مشورتِ عمومی، انتخابِ مستقیم، یا حذف‌نکردنِ کسی.</li>
-        </ul>
-      </div>
-      <div class="guide-section">
-        <h3>خوابِ نیم‌روزی</h3>
+        </ul></section>
+      <section class="guide-section" id="guide-3"><h3><img src="assets/finale/icons/moon.svg" alt="">خوابِ نیم‌روزی</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt="">
         <ul>
           <li>همه چشم می‌بندن؛ جمشید تصمیمش رو به گرداننده می‌گه.</li>
           <li>کیکاووس می‌تونه با نوشدارو کشته رو نجات بده.</li>
-        </ul>
-      </div>
-      <div class="guide-section">
-        <h3>فازِ شب</h3>
+        </ul></section>
+      <section class="guide-section" id="guide-4"><h3><img src="assets/finale/icons/moon.svg" alt="">فازِ شب</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt="">
         <ul>
           <li>ضحاک دو نفر رو برای مارهاش انتخاب می‌کنه؛ ارمایل یکی رو نجات می‌ده.</li>
           <li>اگه ضحاک دو شبِ پیاپی نتونه بکشه، ناتوان می‌شه (نامیرا می‌مونه ولی دیگه رهبری/کشتن نمی‌کنه).</li>
           <li>بقیه‌ی نقش‌ها به‌ترتیب از قابلیت‌شون استفاده می‌کنن؛ در پایان، جاماسپ از کشته‌های اخیر باخبر می‌شه.</li>
-        </ul>
-      </div>
-      <div class="guide-section">
-        <h3>کارت‌های پادشاهان</h3>
-        <p style="font-size:11.5px; color:var(--parchment-dim); margin-bottom:8px;">هر کارت فقط یک‌بار در کلِ بازی — نه هر روز.</p>
+        </ul></section>
+      <section class="guide-section" id="guide-5"><h3><img src="assets/finale/icons/crown.svg" alt="">کارت‌های پادشاهان</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt="">
+        <p>هر کارت فقط یک‌بار در کلِ بازی — نه هر روز.</p>
         <ul>
           <li><b>جمشید:</b> جامِ جم (تعدادِ یارانِ زنده‌ی هر دو طرف) و فراخواندنِ سروش.</li>
           <li><b>ضحاک:</b> اهریمن (روز بدونِ صحبت، مستقیم به نیم‌روز) و زندان (سکوتِ یک نفر تا پایانِ نیم‌روز؛ جمشید نمی‌تونه زندانی رو بکشه).</li>
-        </ul>
-      </div>
-      <div class="guide-section">
-        <h3>سروش — نامه‌نگاری</h3>
+        </ul></section>
+      <section class="guide-section" id="guide-6"><h3><img src="assets/finale/icons/dove.svg" alt="">سروش — نامه‌نگاری</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt=""><img class="inline-illustration" src="assets/finale/art/soroush-dove.webp" alt="کبوترِ حامل نامه">
         <ul>
           <li>با فراخوانیِ جمشید، تا پایانِ همون شب هرکس یک نامه می‌نویسه.</li>
           <li>نامه‌ها فقط در طولِ روز نوشته می‌شن؛ گیرنده می‌تونه یک بازیکن یا یک نقش باشه.</li>
           <li>نامه‌ها بی‌نامن — گیرنده هیچ‌وقت نمی‌فهمه از طرفِ کیه.</li>
           <li>جمشید، ضحاک و سهراب نمی‌تونن نامه بنویسن؛ ارمایل هم بعدِ ناتوانیِ ضحاک.</li>
           <li>ضحاک می‌تونه یک نفر رو شنود کنه — نامه‌های اون فرد (فرستاده یا گرفته) به ضحاک هم می‌رسه.</li>
-        </ul>
-      </div>
-      <div class="guide-section">
-        <h3>هنگامه‌های ویژه</h3>
+        </ul></section>
+      <section class="guide-section" id="guide-7"><h3><img src="assets/finale/icons/trumpet.svg" alt="">هنگامه‌های ویژه</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt="">
         <ul>
           <li><b>قیام:</b> مرگِ کارن به‌دستِ ضحاک (اگه کاوه زنده باشه) — کاوه و فریدون هر شب (بدونِ جمشید) با هم بیدار می‌شن و مشورت می‌کنن؛ فریدون هر شب یک نفر رو اضافه می‌کنه (حداکثر ۲ نفر). اگه ضحاکی اضافه بشه، شبِ بعد کاوه و شبِ بعدترش فریدون از بازی خارج می‌شن و قیام شکست می‌خوره.</li>
           <li><b>کودتا:</b> مرگِ کارن به‌دستِ جمشید — زال، رستم و جاماسپ رأی می‌دن قدرت به فریدون منتقل بشه یا نه.</li>
@@ -1254,65 +1443,16 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
           <li><b>جنگ:</b> مرگِ سهرابِ نپیوسته به‌دستِ جمشید — ضحاکیان و ارمایل همدیگه رو می‌شناسن.</li>
           <li><b>ناتوانیِ ضحاک:</b> دو شبِ پیاپیِ گرسنگی — ضحاک دیگه نمی‌کشه (نامیرا می‌مونه)؛ ضحاکیانِ بدونِ ارمایل همدیگه رو می‌شناسن.</li>
         </ul>
-        <p style="font-size:11px; color:var(--parchment-dim); margin-top:6px;">اجرای دقیقِ هرکدوم (جمعِ شبانه، رأیِ چشم‌بسته، شناساییِ متقابل) سرِ میز و با گرداننده‌ست.</p>
-      </div>
-      <div class="oct-wrap">
-        <button class="oct" style="width:auto; display:inline-block; padding:12px 24px; cursor:pointer; background:linear-gradient(180deg, #3a3020, #221b10); border:1.5px solid var(--gold); color:var(--gold-soft); font-family:'Vazirmatn'; font-size:13px; font-weight:700;" onclick="openGuide()">📜 دیدنِ لیستِ نقش‌ها</button>
-      </div>
-      <div class="oct-wrap" style="margin-top:8px;">
-        <button class="oct" style="width:auto; display:inline-block; padding:12px 24px; cursor:pointer; background:linear-gradient(180deg, #3a3020, #221b10); border:1.5px solid var(--gold); color:var(--gold-soft); font-family:'Vazirmatn'; font-size:13px; font-weight:700;" onclick="openRulebook()">📖 دفترچه‌ی کامل (با تصویر)</button>
-      </div>
+        <p>اجرای دقیقِ هرکدوم (جمعِ شبانه، رأیِ چشم‌بسته، شناساییِ متقابل) سرِ میز و با گرداننده‌ست.</p></section>
+      <div class="end-actions"><button class="btn secondary full" type="button" onclick="openGuide()"><img src="assets/finale/icons/group.svg" alt="">دیدنِ لیستِ نقش‌ها</button><button class="btn secondary full" type="button" onclick="openRulebook()"><img src="assets/finale/icons/book.svg" alt="">دفترچه‌یِ کامل</button></div>
     </div>
   </div>
 
   <!-- صفحه‌ی نقش‌های بازی -->
-  <div class="screen" id="screen-roles">
-    <div class="back-arrow" onclick="closeGuide()">→</div>
-    <div class="card ornate-frame">
-      <div class="oct-wrap"><div class="oct oct-title">نقش‌های بازی</div></div>
-      <!-- نقشِ خودِ بازیکن، بالای همه -->
-      <div id="myRoleGuide"></div>
-      <div class="oct-wrap" style="margin:6px 0 14px;">
-        <button class="oct" style="width:auto; display:inline-block; padding:12px 24px; cursor:pointer; background:linear-gradient(180deg, #3a3020, #221b10); border:1.5px solid var(--gold); color:var(--gold-soft); font-family:'Vazirmatn'; font-size:13px; font-weight:700;" onclick="openRulebook()">📖 دفترچه‌ی کامل (با تصویر)</button>
-      </div>
-
-      <div class="role-team t-jamshidi">پادشاهان (آشکار)</div>
-      <div class="role-item"><div class="rn">جمشید</div><div class="rd">پادشاهِ روز، نامیرا. جامِ جم (یک‌بار: تعدادِ یارانِ زنده‌اش) و فراخواندنِ سروش.</div></div>
-      <div class="role-item"><div class="rn">ضحاک</div><div class="rd">پادشاهِ شب، نامیرا. اهریمن (روز بدونِ صحبت) و زندان (سکوتِ یک نفر تا پایانِ نیم‌روز).</div></div>
-
-      <div class="role-team t-jamshidi">یارانِ جمشید</div>
-      <div class="role-item"><div class="rn">ارمایل</div><div class="rd">هر شب بینِ دو گزینه‌ی ضحاک، یکی رو نجات می‌ده.</div></div>
-      <div class="role-item"><div class="rn">سیاوش</div><div class="rd">اگه جمشید اشتباهاً بکشدش، برمی‌گرده و هنگامه‌ی سیاوشان شروع می‌شه.</div></div>
-      <div class="role-item"><div class="rn">کاوه</div><div class="rd">با کشته‌شدنِ کارن به‌دستِ ضحاک، هنگامه‌ی قیام رو فعال می‌کنه و هر شب با فریدون (بدونِ جمشید) بیدار می‌شه و مشورت می‌کنن.</div></div>
-      <div class="role-item"><div class="rn">فریدون</div><div class="rd">بعدِ قیام، هر شب با کاوه بیدار می‌شه و یک نفر رو به جمع اضافه می‌کنه (حداکثر ۲ نفر در کلِ بازی). اگه ضحاکی اضافه کنه، قیام شکست می‌خوره.</div></div>
-      <div class="role-item"><div class="rn">کارن</div><div class="rd">پسرِ کاوه — تریگرِ هنگامه‌ی قیام (اگه ضحاک بکشدش) یا کودتا (اگه جمشید اشتباهاً بکشدش).</div></div>
-      <div class="role-item"><div class="rn">کیکاووس</div><div class="rd">نوشدارو داره؛ یک‌بار می‌تونه کشته‌ی جمشید رو نجات بده.</div></div>
-      <div class="role-item"><div class="rn">رستم</div><div class="rd">زره‌ی یک‌بارمصرف؛ در کلِ بازی فقط دو تیر داره — هر شب می‌تونه یکیش رو به یه مظنونِ ضحاکی بزنه.</div></div>
-      <div class="role-item"><div class="rn">زال</div><div class="rd">پرِ سیمرغ: یک‌بار در کل بازی، همه‌ی کشته‌های اون شبِ ضحاک رو نجات می‌ده.</div></div>
-      <div class="role-item"><div class="rn">جاماسپ</div><div class="rd">پایانِ هر شب، گرداننده کشته‌های اخیر رو (با نقش) بهش می‌گه.</div></div>
-      <div class="role-item"><div class="rn">بیژن</div><div class="rd">تا وقتی منیژه زنده‌ست، عملاً نامیراست — فقط با رأیِ مستقیمِ جمشید حذف می‌شه.</div></div>
-      <div class="role-item"><div class="rn">منیژه</div><div class="rd">زندگیِ بیژن به زندگیِ اون گره خورده.</div></div>
-      <div class="role-item"><div class="rn">گردآفرید</div><div class="rd">اگه سهراب به ضحاکیان بپیونده، می‌شناسدش.</div></div>
-      <div class="role-item"><div class="rn">اسفندیار</div><div class="rd">باید هفت‌خان رو رد کنه: ۷ روز و شب زنده بمونه.</div></div>
-
-      <div class="role-team t-zahhaki">ضحاکیان (مخفی)</div>
-      <div class="role-item"><div class="rn">افراسیاب</div><div class="rd">هر شب از یک نفر استعلام می‌گیره (ضحاکی هست یا نه).</div></div>
-      <div class="role-item"><div class="rn">پیران</div><div class="rd">در هنگامه‌ی قیام می‌تونه کاوه/فریدون رو همون شب بکشه و قیام رو متوقف کنه.</div></div>
-      <div class="role-item"><div class="rn">سودابه</div><div class="rd">دو بار می‌تونه یک نفر رو افسون کنه (روی چندتا نقشِ خاص بی‌اثره).</div></div>
-      <div class="role-item"><div class="rn">گرسیوز</div><div class="rd">یک‌بار می‌تونه با فداکردنِ جانِ خودش، یک نفرِ دیگه رو هم حذف کنه.</div></div>
-      <div class="role-item"><div class="rn">هومان</div><div class="rd">اگه نقشِ یه ایرانی رو درست حدس بزنه می‌کشدش؛ اگه نقشِ ضحاکی رو حدس بزنه، قابلیتش رو کپی می‌کنه.</div></div>
-      <div class="role-item"><div class="rn">ارجاسب</div><div class="rd">اسفندیار رو می‌شناسه؛ اگه اسفندیار ۴ روز زنده بمونه، خودش می‌میره.</div></div>
-
-      <div class="role-team t-neutral">بی‌طرف</div>
-      <div class="role-item"><div class="rn">سهراب</div><div class="rd">اولش بی‌طرفه؛ شبِ سوم بر اساسِ حدسِ درست، به یکی از دو گروه می‌پیونده.</div></div>
-
-      <div class="role-team" style="background:rgba(201,151,47,0.14); color:var(--gold-soft);">هنگامه‌ها</div>
-      <div class="role-item"><div class="rn">قیام (درفشِ کاویانی)</div><div class="rd">با کشته‌شدنِ کارن به‌دستِ ضحاک (و زنده‌بودنِ کاوه) شروع می‌شه. کاوه و فریدون هر شب (بدونِ جمشید) با هم بیدار می‌شن، مشورت می‌کنن و فریدون یک نفر رو اضافه می‌کنه (حداکثر ۲ نفر). اگه ضحاکی اضافه بشه، شبِ بعد کاوه و شبِ بعدترش فریدون از بازی خارج می‌شن.</div></div>
-      <div class="role-item"><div class="rn">کودتا</div><div class="rd">با کشته‌شدنِ کارن به‌دستِ جمشید. رستم، زال و جاماسپ رأی می‌دن که قدرت به فریدون منتقل بشه یا نه.</div></div>
-      <div class="role-item"><div class="rn">سیاوشان</div><div class="rd">اگه جمشید اشتباهاً سیاوش رو بکشه، سیاوش برمی‌گرده. از اون به بعد اگه ضحاک بکشدش، «روزِ کینِ سیاوش» می‌شه: دو کشته به‌جای یکی و نوشدارو بی‌اثر.</div></div>
-      <div class="role-item"><div class="rn">جنگ</div><div class="rd">اگه سهراب پیش از پیوستن به تیمی به‌دستِ جمشید کشته بشه، همه‌ی ضحاکیان و ارمایل همدیگه رو می‌شناسن.</div></div>
-      <div class="role-item"><div class="rn">ناتوانیِ ضحاک</div><div class="rd">اگه ضحاک دو شبِ پیاپی نتونه کسی رو بکشه، دیگه نمی‌تونه بکشه (ولی نمی‌میره) و ضحاکیان همدیگه رو می‌شناسن.</div></div>
-    </div>
+  <div class="screen fin" id="screen-roles">
+    <header class="topbar"><button class="back-arrow" type="button" onclick="closeGuide()" aria-label="بازگشت">→</button><h1 id="rolesTitle">فهرستِ نقش‌ها</h1></header>
+    <div class="roles-hero"><img src="assets/finale/art/roles-hero-v2.webp" alt="رویارویی جمشید در نورِ طلایی و ضحاک با دو مار در فضایِ شرابی"><span class="roles-glow" aria-hidden="true"></span></div>
+    <div class="content roles-content"><section id="myRoleGuide" class="my-role" hidden></section><nav class="role-jumps" aria-label="گروه‌هایِ نقش"><a href="#roles-kings"><img src="assets/finale/icons/crown.svg" alt="">پادشاهان</a><a href="#roles-jamshidi"><img src="assets/finale/icons/sun.svg" alt="">یارانِ جمشید</a><a href="#roles-zahhaki"><img src="assets/finale/icons/snake.svg" alt="">ضحاکیان</a></nav><div id="roleGroups"></div><button class="btn secondary full" type="button" onclick="closeGuide()">بازگشت</button></div>
   </div>
 
   <!-- صفحه ۲: لابیِ گرداننده (طرحِ lobby-pack) -->
@@ -1431,26 +1571,19 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
   </div>
 
   <!-- دکمه‌ی همیشگیِ راهنما — از هر صفحه‌ای در دسترسه -->
-  <button class="guide-fab" id="guideFab" onclick="openGuide()" title="راهنما">؟</button>
+  <button class="fin" id="guideFab" type="button" onclick="openGuide()" aria-label="فهرستِ نقش‌ها">؟</button>
 
   <!-- دفترچه‌ی کامل و تصویرسازی‌شده -->
-  <div class="rb-view" id="rulebookView">
-    <div class="rb-bar">
-      <button onclick="closeRulebook()">→ بازگشت</button>
-      <b>دفترچه‌ی تخت جمشید</b>
-      <a href="assets/rulebook/rulebook.pdf" target="_blank" rel="noopener" download>PDF چاپی</a>
-    </div>
+  <div class="fin" id="rulebookView" role="dialog" aria-modal="true" aria-label="دفترچه‌یِ تصویری">
+    <header class="rb-bar"><button class="back-arrow" type="button" onclick="closeRulebook()" aria-label="بازگشت">→</button><h2>دفترچه‌یِ تخت جمشید</h2><a href="assets/rulebook/rulebook.pdf" target="_blank" rel="noopener" download>PDF چاپی</a></header>
     <iframe id="rulebookFrame" title="دفترچه‌ی تخت جمشید"></iframe>
   </div>
 
   <!-- صفحه ۸: پایانِ بازی -->
-  <div class="screen" id="screen-game-over">
-    <div class="card ornate-frame" style="text-align:center; padding:28px 20px;">
-      <div id="goEmoji" style="font-size:40px; margin-bottom:10px;">🏆</div>
-      <div id="goTitle" style="font-size:18px; font-weight:900; margin-bottom:8px;">—</div>
-      <div id="goSub" style="font-size:12.5px; color:var(--parchment-dim); line-height:2;"></div>
-      <div id="goRoster" style="margin-top:18px; text-align:right;"></div>
-    </div>
+  <div class="screen fin game-over" id="screen-game-over" data-winner="jamshidi" aria-labelledby="goTitle">
+    <div class="victory-art" aria-hidden="true"><img id="victoryArt" src="assets/finale/art/victory-dawn.webp" alt=""><div class="rays"></div><span class="particle p1"></span><span class="particle p2"></span><span class="particle p3"></span></div>
+    <header class="victory-heading"><div id="goEmoji" class="victory-seal"><img src="assets/finale/components/victory-sun.png" alt="نشانِ خورشید"></div><p class="eyebrow">پایانِ بازی</p><h1 id="goTitle">—</h1><p id="goSub"></p><img class="divider" src="assets/entry/components/divider_diamond.png" alt=""></header>
+    <div class="content"><section id="goRoster" class="ornate roster" aria-label="نقشِ همه"></section><button class="btn secondary full" type="button" id="goHomeBtn">بازگشت به صفحه‌یِ اول</button></div>
   </div>
 
   <!-- سروش: نوارِ شناور + پنجره‌یِ نامه‌ها + مودالِ زندان + تأیید -->
@@ -1523,9 +1656,18 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
     try{ localStorage.removeItem(SESSION_KEY); }catch(e){}
     showExitBtn(false);
   }
-  function showExitBtn(show){
+  // دکمه‌ی خروج بالا-راستِ صفحه است (دکمه‌ی «؟» بالا-چپه)؛ روی راهنما/نقش‌ها/پایانِ بازی نمایش داده نمی‌شه چون
+  // دکمه‌یِ بازگشتِ خودشون همون‌جاست.
+  let exitWanted = false;
+  const EXIT_HIDDEN_ON = ['screen-guide', 'screen-roles', 'screen-game-over', 'screen-splash', 'screen-entry'];
+  function paintExitBtn(){
     const b = document.getElementById('exitBtn');
-    if(b) b.style.display = show ? 'block' : 'none';
+    const active = document.querySelector('.screen.active');
+    if(b) b.style.display = (exitWanted && !(active && EXIT_HIDDEN_ON.includes(active.id))) ? 'block' : 'none';
+  }
+  function showExitBtn(show){
+    exitWanted = !!show;
+    paintExitBtn();
   }
   function handleExit(){
     const isHost = currentPlayer && currentPlayer.is_host;
@@ -1575,10 +1717,12 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
   function go(id){
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby' || id === 'screen-day-vote' || id === 'screen-night-wait' || id === 'screen-jamshid-dash' || id === 'screen-zahhak-dash');
+    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby' || id === 'screen-day-vote' || id === 'screen-night-wait' || id === 'screen-jamshid-dash' || id === 'screen-zahhak-dash' || id === 'screen-guide' || id === 'screen-roles' || id === 'screen-game-over');
     const brand = document.querySelector('.brand');
     if(brand) brand.style.display = isFull ? 'none' : '';
     document.body.classList.toggle('fullbleed', isFull);
+    paintExitBtn();
+    if(id === 'screen-guide' || id === 'screen-roles' || id === 'screen-game-over') window.scrollTo(0, 0);
 
     // دکمه‌ی راهنما همه‌جا هست، به‌جز خودِ صفحه‌های راهنما و اسپلش
     const fab = document.getElementById('guideFab');
@@ -1586,14 +1730,6 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
       const hideOn = ['screen-splash', 'screen-entry', 'screen-host-lobby', 'screen-player-lobby', 'screen-roles', 'screen-guide', 'screen-night-wait'];
       fab.style.display = hideOn.includes(id) ? 'none' : 'block';
     }
-  }
-  function showError(msg){
-    const box = document.getElementById('errBox');
-    box.textContent = msg;
-    box.classList.add('show');
-  }
-  function clearError(){
-    document.getElementById('errBox').classList.remove('show');
   }
   function showBusy(msg){
     const box = document.getElementById('busyBox');
@@ -2547,34 +2683,6 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
     }
   }
 
-  function showGameOver(winner, players){
-    const jamshidiWon = winner === 'jamshidi';
-    document.getElementById('goEmoji').textContent = jamshidiWon ? '☀️' : '🐍';
-    const title = document.getElementById('goTitle');
-    title.textContent = jamshidiWon ? 'یارانِ جمشید پیروز شدند' : 'ضحاکیان پیروز شدند';
-    title.style.color = jamshidiWon ? 'var(--gold-soft)' : 'var(--crimson-soft)';
-    document.getElementById('goSub').textContent = jamshidiWon
-      ? 'همه‌ی ضحاکیان از بازی خارج شدند.'
-      : 'همه‌ی یارانِ جمشید از بازی خارج شدند.';
-
-    // در پایانِ بازی همه‌ی نقش‌ها آشکار می‌شن
-    const rows = players.filter(p => !p.is_host).map(p => `
-      <div class="tally-row">
-        <span>${p.is_alive ? '' : '☠️ '}${p.display_name}
-          <b style="color:${p.side === 'zahhaki' ? 'var(--crimson-soft)' : 'var(--gold-soft)'};">
-            ${ROLE_NAMES_FA[p.role_id] || p.role_id || '—'}</b>
-        </span>
-      </div>`).join('');
-    document.getElementById('goRoster').innerHTML =
-      '<div style="font-size:11.5px; color:var(--gold-soft); font-weight:700; margin-bottom:7px;">نقشِ همه:</div>' + rows;
-
-    // پنجره‌ی نامه‌نگاری با پایانِ بازی بسته می‌شه
-    document.getElementById('soroushBar').classList.remove('show');
-    pwClose('soroushModal');
-    document.body.classList.remove('soroush-open');
-
-    go('screen-game-over');
-  }
 
   // ================= سروش — سمتِ گرداننده =================
   // فعال‌سازی فقط از کارتِ جمشید انجام می‌شه؛ گرداننده اینجا صرفاً وضعیت رو می‌بینه.
@@ -2753,14 +2861,6 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
     }
   }
 
-  function openCardLightbox(src, alt){
-    document.getElementById('cardLightboxImg').src = src;
-    document.getElementById('cardLightboxImg').alt = alt;
-    document.getElementById('cardLightbox').classList.add('show');
-  }
-  function closeCardLightbox(){
-    document.getElementById('cardLightbox').classList.remove('show');
-  }
 
   // ---------------- داشبوردِ جمشید ----------------
   // ================= راهنما =================
@@ -2790,42 +2890,384 @@ body.soroush-open{padding-bottom:calc(var(--soroush-height) + 16px)}
     sohrab:'اولش جزو هیچ گروهی نیستی. شبِ سوم گرداننده دو نفر رو نشونت می‌ده؛ اگه رستم رو درست حدس بزنی به یارانِ جمشید می‌پیوندی، وگرنه به ضحاکیان.',
   };
 
-  let guideReturnScreen = null;
-
-  function openGuide(){
-    // نقشِ خودت اول، بعد بقیه‌ی نقش‌ها و هنگامه‌ها
-    const box = document.getElementById('myRoleGuide');
-    if(myRoleId){
-      const sideLabel = mySide === 'jamshidi' ? 'یارانِ جمشید' : mySide === 'zahhaki' ? 'ضحاکیان' : 'بی‌طرف';
-      const cardImg = ROLE_CARD_IMG[myRoleId];
-      box.innerHTML = `
-        <div class="my-role-guide">
-          <div class="lbl">نقشِ تو — ${sideLabel}</div>
-          <div class="nm">${ROLE_NAMES_FA[myRoleId] || myRoleId}</div>
-          ${cardImg ? `<img class="role-card-img" style="max-width:220px; margin:8px auto 12px;" src="${cardImg}" alt="${ROLE_NAMES_FA[myRoleId]}" onclick="openCardLightbox('${cardImg}','${ROLE_NAMES_FA[myRoleId]}')">` : ''}
-          <div class="ds">${ROLE_DESC_FA[myRoleId] || 'توضیحی ثبت نشده.'}</div>
-        </div>`;
-    }else{
-      box.innerHTML = '';
-    }
-    const active = document.querySelector('.screen.active');
-    guideReturnScreen = active ? active.id : null;
-    go('screen-roles');
+  // ================= اعلان‌ها، لایت‌باکس، دفترچه (finale-pack) =================
+  // نامِ بازیکن/پیام همه با textContent؛ هیچ قالبِ innerHTML با دادهٔ کاربر نداریم.
+  let toastTimer = null;
+  function showToast(kind, msg){
+    const box = document.getElementById('errBox');
+    clearTimeout(toastTimer);
+    box.dataset.kind = kind;
+    box.setAttribute('role', kind === 'error' ? 'alert' : 'status');
+    document.getElementById('errText').textContent = msg;
+    document.getElementById('toastIcon').src = 'assets/finale/icons/' + (kind === 'error' ? 'warning' : kind === 'success' ? 'check' : 'info') + '.svg';
+    box.classList.add('show');
+    toastTimer = setTimeout(() => box.classList.remove('show'), 5000);
+  }
+  function showError(msg){ showToast('error', msg); }
+  function clearError(){
+    clearTimeout(toastTimer);
+    document.getElementById('errBox').classList.remove('show');
   }
 
+  // وقتی لایت‌باکس/دفترچه بازه، پس‌زمینه نه فوکوس می‌گیره نه با صفحه‌خوان خونده می‌شه
+  function finBgInert(on){
+    document.querySelectorAll('.screen').forEach(s => { s.inert = on; });
+    ['guideFab', 'soroushBar', 'exitBtn'].forEach(id => { const n = document.getElementById(id); if(n) n.inert = on; });
+    document.body.style.overflow = on ? 'hidden' : '';
+  }
+  let finLightboxReturn = null, finRulebookReturn = null;
+  function openCardLightbox(src, alt){
+    const box = document.getElementById('cardLightbox');
+    finLightboxReturn = document.activeElement;
+    document.getElementById('cardLightboxImg').src = src;
+    document.getElementById('cardLightboxImg').alt = alt || '';
+    box.classList.add('show');
+    box.setAttribute('aria-hidden', 'false');
+    finBgInert(true);
+    document.getElementById('cardLightboxClose').focus();
+  }
+  function closeCardLightbox(){
+    const box = document.getElementById('cardLightbox');
+    if(!box.classList.contains('show')) return;
+    box.classList.remove('show');
+    box.setAttribute('aria-hidden', 'true');
+    if(!document.getElementById('rulebookView').classList.contains('open')) finBgInert(false);
+    if(finLightboxReturn && finLightboxReturn.isConnected) finLightboxReturn.focus();
+  }
   // دفترچه‌ی کامل: iframe فقط بارِ اولِ باز شدن لود می‌شه (حجمِ تصاویر زیاده)
   function openRulebook(){
     const f = document.getElementById('rulebookFrame');
     if(!f.getAttribute('src')) f.setAttribute('src', 'assets/rulebook/index.html');
+    finRulebookReturn = document.activeElement;
     document.getElementById('rulebookView').classList.add('open');
+    finBgInert(true);
+    document.querySelector('#rulebookView .back-arrow').focus();
   }
   function closeRulebook(){
-    document.getElementById('rulebookView').classList.remove('open');
+    const v = document.getElementById('rulebookView');
+    if(!v.classList.contains('open')) return;
+    v.classList.remove('open');
+    finBgInert(false);
+    if(finRulebookReturn && finRulebookReturn.isConnected) finRulebookReturn.focus();
   }
+  document.addEventListener('keydown', e => {
+    const lb = document.getElementById('cardLightbox'), rb = document.getElementById('rulebookView');
+    if(e.key === 'Escape'){
+      if(lb.classList.contains('show')) closeCardLightbox();
+      else if(rb.classList.contains('open')) closeRulebook();
+    }else if(e.key === 'Tab' && lb.classList.contains('show')){
+      e.preventDefault(); document.getElementById('cardLightboxClose').focus();
+    }else if(e.key === 'Tab' && rb.classList.contains('open')){
+      const list = [...rb.querySelectorAll('button,a')];
+      const first = list[0], last = list[list.length - 1];
+      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    }
+  });
+  document.getElementById('cardLightbox').addEventListener('click', closeCardLightbox);
+  document.getElementById('toastClose').addEventListener('click', clearError);
 
+  // ================= پایانِ بازی =================
+  function finIcon(name){
+    const im = dvEl('img'); im.src = 'assets/finale/icons/' + name + '.svg'; im.alt = '';
+    return im;
+  }
+  const FIN_TEAM = {
+    jamshidi: { label:'یارانِ جمشید', icon:'sun', cls:'team-jam' },
+    zahhaki: { label:'ضحاکیان', icon:'snake', cls:'team-zah' },
+  };
+  function renderRoster(players){
+    const root = document.getElementById('goRoster');
+    root.replaceChildren();
+    const list = players.filter(p => !p.is_host);
+    const header = dvEl('header', 'roster-header');
+    header.append(dvEl('h2', null, 'نقشِ همه'), dvEl('span', null, list.length + ' بازیکن'));
+    root.append(header);
+    list.forEach(p => {
+      const team = FIN_TEAM[p.side] || { label:'بی‌طرف', icon:'star', cls:'team-neutral' };
+      const row = dvEl('div', 'tally-row' + (p.is_alive ? '' : ' eliminated'));
+      const right = dvEl('div');
+      const role = dvEl('div', 'role-side ' + team.cls);
+      role.append(finIcon(team.icon), dvEl('span', null, ROLE_NAMES_FA[p.role_id] || p.role_id || '—'));
+      right.append(role, dvEl('p', 'team-label', team.label));
+      row.append(dvEl('span', 'player-name', p.display_name), right);
+      if(!p.is_alive){
+        const gone = dvEl('span', 'eliminated-label');
+        gone.append(finIcon('skull'), dvEl('span', null, 'حذف‌شده'));
+        row.append(gone);
+      }
+      root.append(row);
+    });
+  }
+  function showGameOver(winner, players){
+    const dark = winner === 'zahhaki';
+    document.getElementById('screen-game-over').dataset.winner = winner;
+    const seal = dvEl('img');
+    seal.src = 'assets/finale/components/victory-' + (dark ? 'snake' : 'sun') + '.png';
+    seal.alt = dark ? 'نشانِ مار' : 'نشانِ خورشید';
+    document.getElementById('goEmoji').replaceChildren(seal);
+    document.getElementById('victoryArt').src = 'assets/finale/art/' + (dark ? 'victory-serpent' : 'victory-dawn') + '.webp';
+    document.getElementById('goTitle').textContent = dark ? 'ضحاکیان پیروز شدند' : 'یارانِ جمشید پیروز شدند';
+    document.getElementById('goSub').textContent = dark
+      ? 'همه‌یِ یارانِ جمشید از بازی خارج شدند.'
+      : 'همه‌یِ ضحاکیان از بازی خارج شدند.';
+    // در پایانِ بازی همه‌ی نقش‌ها آشکار می‌شن
+    renderRoster(players);
+
+    // پنجره‌ی نامه‌نگاری با پایانِ بازی بسته می‌شه
+    document.getElementById('soroushBar').classList.remove('show');
+    pwClose('soroushModal');
+    document.body.classList.remove('soroush-open');
+
+    go('screen-game-over');
+  }
+  // بازی تموم شده؛ نشستِ ذخیره‌شده پاک می‌شه تا اپ دوباره به همین صفحه برنگرده
+  function goHome(){
+    clearInterval(pollTimer);
+    clearSession();
+    currentGame = null; currentPlayer = null; myRoleId = null; mySide = null;
+    location.reload();
+  }
+  document.getElementById('goHomeBtn').addEventListener('click', goHome);
+
+  // ================= راهنما و فهرستِ نقش‌ها =================
+  const ROLE_CATALOG = [
+  {
+    "cls": "t-jamshidi",
+    "label": "پادشاهان (آشکار)",
+    "items": [
+      [
+        "جمشید",
+        "پادشاهِ روز، نامیرا. جامِ جم (یک‌بار: تعدادِ یارانِ زنده‌اش) و فراخواندنِ سروش."
+      ],
+      [
+        "ضحاک",
+        "پادشاهِ شب، نامیرا. اهریمن (روز بدونِ صحبت) و زندان (سکوتِ یک نفر تا پایانِ نیم‌روز)."
+      ]
+    ]
+  },
+  {
+    "cls": "t-jamshidi",
+    "label": "یارانِ جمشید",
+    "items": [
+      [
+        "ارمایل",
+        "هر شب بینِ دو گزینه‌ی ضحاک، یکی رو نجات می‌ده."
+      ],
+      [
+        "سیاوش",
+        "اگه جمشید اشتباهاً بکشدش، برمی‌گرده و هنگامه‌ی سیاوشان شروع می‌شه."
+      ],
+      [
+        "کاوه",
+        "با کشته‌شدنِ کارن به‌دستِ ضحاک، هنگامه‌ی قیام رو فعال می‌کنه و هر شب با فریدون (بدونِ جمشید) بیدار می‌شه و مشورت می‌کنن."
+      ],
+      [
+        "فریدون",
+        "بعدِ قیام، هر شب با کاوه بیدار می‌شه و یک نفر رو به جمع اضافه می‌کنه (حداکثر ۲ نفر در کلِ بازی). اگه ضحاکی اضافه کنه، قیام شکست می‌خوره."
+      ],
+      [
+        "کارن",
+        "پسرِ کاوه — تریگرِ هنگامه‌ی قیام (اگه ضحاک بکشدش) یا کودتا (اگه جمشید اشتباهاً بکشدش)."
+      ],
+      [
+        "کیکاووس",
+        "نوشدارو داره؛ یک‌بار می‌تونه کشته‌ی جمشید رو نجات بده."
+      ],
+      [
+        "رستم",
+        "زره‌ی یک‌بارمصرف؛ در کلِ بازی فقط دو تیر داره — هر شب می‌تونه یکیش رو به یه مظنونِ ضحاکی بزنه."
+      ],
+      [
+        "زال",
+        "پرِ سیمرغ: یک‌بار در کل بازی، همه‌ی کشته‌های اون شبِ ضحاک رو نجات می‌ده."
+      ],
+      [
+        "جاماسپ",
+        "پایانِ هر شب، گرداننده کشته‌های اخیر رو (با نقش) بهش می‌گه."
+      ],
+      [
+        "بیژن",
+        "تا وقتی منیژه زنده‌ست، عملاً نامیراست — فقط با رأیِ مستقیمِ جمشید حذف می‌شه."
+      ],
+      [
+        "منیژه",
+        "زندگیِ بیژن به زندگیِ اون گره خورده."
+      ],
+      [
+        "گردآفرید",
+        "اگه سهراب به ضحاکیان بپیونده، می‌شناسدش."
+      ],
+      [
+        "اسفندیار",
+        "باید هفت‌خان رو رد کنه: ۷ روز و شب زنده بمونه."
+      ]
+    ]
+  },
+  {
+    "cls": "t-zahhaki",
+    "label": "ضحاکیان (مخفی)",
+    "items": [
+      [
+        "افراسیاب",
+        "هر شب از یک نفر استعلام می‌گیره (ضحاکی هست یا نه)."
+      ],
+      [
+        "پیران",
+        "در هنگامه‌ی قیام می‌تونه کاوه/فریدون رو همون شب بکشه و قیام رو متوقف کنه."
+      ],
+      [
+        "سودابه",
+        "دو بار می‌تونه یک نفر رو افسون کنه (روی چندتا نقشِ خاص بی‌اثره)."
+      ],
+      [
+        "گرسیوز",
+        "یک‌بار می‌تونه با فداکردنِ جانِ خودش، یک نفرِ دیگه رو هم حذف کنه."
+      ],
+      [
+        "هومان",
+        "اگه نقشِ یه ایرانی رو درست حدس بزنه می‌کشدش؛ اگه نقشِ ضحاکی رو حدس بزنه، قابلیتش رو کپی می‌کنه."
+      ],
+      [
+        "ارجاسب",
+        "اسفندیار رو می‌شناسه؛ اگه اسفندیار ۴ روز زنده بمونه، خودش می‌میره."
+      ]
+    ]
+  },
+  {
+    "cls": "t-neutral",
+    "label": "بی‌طرف",
+    "items": [
+      [
+        "سهراب",
+        "اولش بی‌طرفه؛ شبِ سوم بر اساسِ حدسِ درست، به یکی از دو گروه می‌پیونده."
+      ],
+      [
+        "قیام (درفشِ کاویانی)",
+        "با کشته‌شدنِ کارن به‌دستِ ضحاک (و زنده‌بودنِ کاوه) شروع می‌شه. کاوه و فریدون هر شب (بدونِ جمشید) با هم بیدار می‌شن، مشورت می‌کنن و فریدون یک نفر رو اضافه می‌کنه (حداکثر ۲ نفر). اگه ضحاکی اضافه بشه، شبِ بعد کاوه و شبِ بعدترش فریدون از بازی خارج می‌شن."
+      ],
+      [
+        "کودتا",
+        "با کشته‌شدنِ کارن به‌دستِ جمشید. رستم، زال و جاماسپ رأی می‌دن که قدرت به فریدون منتقل بشه یا نه."
+      ],
+      [
+        "سیاوشان",
+        "اگه جمشید اشتباهاً سیاوش رو بکشه، سیاوش برمی‌گرده. از اون به بعد اگه ضحاک بکشدش، «روزِ کینِ سیاوش» می‌شه: دو کشته به‌جای یکی و نوشدارو بی‌اثر."
+      ],
+      [
+        "جنگ",
+        "اگه سهراب پیش از پیوستن به تیمی به‌دستِ جمشید کشته بشه، همه‌ی ضحاکیان و ارمایل همدیگه رو می‌شناسن."
+      ],
+      [
+        "ناتوانیِ ضحاک",
+        "اگه ضحاک دو شبِ پیاپی نتونه کسی رو بکشه، دیگه نمی‌تونه بکشه (ولی نمی‌میره) و ضحاکیان همدیگه رو می‌شناسن."
+      ]
+    ]
+  }
+];
+  const ROLE_ICON_BY_NAME = {
+    'ارمایل':'pot', 'سیاوش':'feather', 'کاوه':'trumpet', 'فریدون':'swords', 'کارن':'crown', 'کیکاووس':'pot', 'رستم':'swords',
+    'زال':'feather', 'جاماسپ':'star', 'بیژن':'bow', 'منیژه':'dagger', 'گردآفرید':'swords', 'اسفندیار':'swords', 'سهراب':'swords',
+    'افراسیاب':'eye', 'پیران':'eye', 'سودابه':'spell', 'گرسیوز':'lock', 'هومان':'dagger', 'ارجاسب':'swords',
+  };
+  const ROLE_GROUP_STYLE = {
+    'پادشاهان (آشکار)': { id:'roles-kings', cls:'kings', icon:'crown' },
+    'یارانِ جمشید': { id:'roles-jamshidi', cls:'t-jamshidi', icon:'sun' },
+    'ضحاکیان (مخفی)': { id:'roles-zahhaki', cls:'t-zahhaki', icon:'snake' },
+    'بی‌طرف': { id:'roles-neutral', cls:'t-neutral', icon:'group' },
+  };
+  let guideReturnScreen = null;
+
+  function renderMyRole(){
+    const root = document.getElementById('myRoleGuide');
+    root.replaceChildren();
+    root.hidden = !myRoleId;
+    if(!myRoleId) return;
+    const name = ROLE_NAMES_FA[myRoleId] || myRoleId;
+    // کارتِ طراحی‌شده اگه برایِ این نقش آماده باشه؛ وگرنه پرترهٔ جناح
+    const image = ROLE_CARD_IMG[myRoleId] || (mySide === 'zahhaki' ? 'assets/zahhak.jpg' : 'assets/jamshid-glory.jpg');
+    const heading = dvEl('header', 'my-role-heading');
+    heading.append(finIcon('crown'), dvEl('h2', null, 'نقشِ تو'));
+    const art = dvEl('button', 'role-card-button');
+    art.type = 'button';
+    art.setAttribute('aria-label', 'بزرگ‌نماییِ تصویرِ نقشِ ' + name);
+    const img = dvEl('img'); img.src = image; img.alt = 'تصویرِ نقشِ ' + name;
+    art.append(img);
+    art.addEventListener('click', () => openCardLightbox(image, img.alt));
+    const copy = dvEl('div', 'my-role-copy');
+    copy.append(dvEl('h3', null, name), dvEl('p', null, ROLE_DESC_FA[myRoleId] || 'توضیحی ثبت نشده.'), dvEl('span', 'card-hint', 'برایِ بزرگ‌نمایی، کارت را لمس کن'));
+    root.append(heading, art, copy);
+  }
+  function buildRoleGroups(){
+    const root = document.getElementById('roleGroups');
+    root.replaceChildren();
+    const myName = myRoleId ? (ROLE_NAMES_FA[myRoleId] || myRoleId) : null;
+    ROLE_CATALOG.forEach(g => {
+      const st = ROLE_GROUP_STYLE[g.label] || { id:'roles-' + g.cls, cls:g.cls, icon:'group' };
+      const group = dvEl('section', 'role-group ' + st.cls); group.id = st.id;
+      const head = dvEl('header', 'role-group-header');
+      const emblem = dvEl('span', 'group-emblem'); emblem.append(finIcon(st.icon));
+      head.append(emblem, dvEl('h2', 'role-team ' + st.cls, g.label));
+      group.append(head);
+      const list = dvEl('div', st.cls === 'kings' ? 'king-role-list' : 'role-list');
+      g.items.forEach(([name, desc]) => {
+        const mine = myName !== null && name === myName;
+        const item = dvEl('article', 'role-item' + (mine ? ' mine' : '') + (st.cls === 'kings' ? ' king-role' : ''));
+        const text = dvEl('div', 'role-text');
+        const rn = dvEl('span', 'rn', name);
+        if(mine) rn.append(dvEl('span', 'mine-label', 'نقشِ تو'));
+        text.append(rn, dvEl('span', 'rd', desc));
+        if(st.cls === 'kings'){
+          const king = name === 'جمشید' ? 'jamshid' : 'zahhak';
+          const src = 'assets/finale/art/' + king + '-bust.webp';
+          const portrait = dvEl('button', 'king-portrait'); portrait.type = 'button';
+          portrait.setAttribute('aria-label', 'بزرگ‌نماییِ تصویرِ ' + name);
+          const im = dvEl('img'); im.src = src; im.alt = 'تصویرِ ' + name;
+          portrait.append(im);
+          portrait.addEventListener('click', () => openCardLightbox(src, im.alt));
+          item.dataset.king = king;
+          item.append(portrait, text);
+        }else{
+          const em = dvEl('span', 'role-emblem'); em.append(finIcon(ROLE_ICON_BY_NAME[name] || st.icon));
+          item.append(em, text);
+        }
+        list.append(item);
+      });
+      group.append(list);
+      root.append(group);
+    });
+  }
+  // پرش‌ها بدونِ تغییرِ hash (تا رفتارِ دکمه‌یِ برگشت و ذخیره‌یِ نشست به‌هم نخوره)
+  function finJump(a, id){
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.getElementById(id);
+      if(t) t.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    });
+  }
+  function buildGuideJumps(){
+    const nav = document.getElementById('guideJumps');
+    nav.replaceChildren();
+    document.querySelectorAll('#screen-guide .guide-section').forEach(sec => {
+      const a = dvEl('a', null, sec.querySelector('h3').textContent.trim());
+      a.href = '#' + sec.id; finJump(a, sec.id); nav.append(a);
+    });
+    document.querySelectorAll('#screen-roles .role-jumps a').forEach(a => finJump(a, a.getAttribute('href').slice(1)));
+  }
+  buildGuideJumps();
+
+  // توجه: این تابع صفحه‌یِ «نقش‌ها» رو باز می‌کنه (دکمه‌ی «؟» و «دیدنِ لیستِ نقش‌ها» به همین وصلن)
+  function openGuide(){
+    renderMyRole();
+    buildRoleGroups();
+    const active = document.querySelector('.screen.active');
+    guideReturnScreen = active ? active.id : null;
+    go('screen-roles');
+  }
   function closeGuide(){
     go(guideReturnScreen || 'screen-entry');
   }
+
 
   // ================= تابلوی عمومیِ آرا =================
   async function refreshVoteBoard(game){
