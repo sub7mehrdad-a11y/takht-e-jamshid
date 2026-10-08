@@ -132,7 +132,24 @@ async function setup() {
   await waitFor('host', () => document.getElementById('hostPhaseBtn').textContent.includes('شروعِ روزِ اول'), null, 'start day1 button');
   // نقش‌ها: هر بازیکن کارتش رو می‌بینه
   for (const p of players().filter(x => !x.is_host)) {
-    await waitFor(p.display_name, () => !!document.querySelector('#playerLobbyBody .lb-role-panel'), null, 'role card', 15000).catch(e => issue(p.display_name, 'کارتِ نقش دیده نشد', String(e).slice(0, 100)));
+    await waitFor(p.display_name, () => document.getElementById('screen-my-role').classList.contains('active') && !!document.getElementById('roleRevealName').textContent, null, 'role screen', 15000).catch(e => issue(p.display_name, 'صفحهٔ «نقشِ تو» دیده نشد', String(e).slice(0, 100)));
+    const rv = await ev(p.display_name, () => ({ img: document.getElementById('roleCardImage').getAttribute('src'), tag: document.getElementById('roleSideTag').className, name: document.getElementById('roleRevealName').textContent, desc: document.getElementById('roleRevealDesc').textContent.length, btn: document.getElementById('roleHideBtn').getAttribute('aria-pressed') }));
+    if (!rv.img || !rv.img.includes('card-' + p.role_id)) issue(p.display_name, 'تصویرِ کارتِ نقش درست نیست', { role: p.role_id, img: rv.img });
+    if (!rv.tag.includes(p.side)) issue(p.display_name, 'برچسبِ جناح درست نیست', { side: p.side, tag: rv.tag });
+    if (!rv.name || rv.desc < 10) issue(p.display_name, 'نام/توضیحِ نقش خالی است', rv);
+  }
+  {
+    const t = players().filter(x => !x.is_host)[0].display_name;
+    await click(t, '#roleHideBtn'); await sleep(200);
+    const h = await ev(t, () => ({ pressed: document.getElementById('roleHideBtn').getAttribute('aria-pressed'), src: document.getElementById('roleCardImage').getAttribute('src'), nameHidden: document.querySelector('#screen-my-role .role-copy').hidden, tagHidden: document.getElementById('roleSideTag').hidden, alt: document.getElementById('roleCardImage').alt }));
+    if (h.pressed !== 'true' || !h.src.includes('role-back') || !h.nameHidden || !h.tagHidden) issue(t, 'پنهان‌کردنِ نقش درست کار نمی‌کند', h);
+    if (players().some(p => p.display_name && h.alt.includes(p.display_name))) issue(t, 'alt نامِ بازیکن را لو می‌دهد', h.alt);
+    await snap(t, 'role-hidden');
+    await click(t, '#roleHideBtn'); await sleep(200);
+    const s2 = await ev(t, () => document.getElementById('roleHideBtn').getAttribute('aria-pressed'));
+    if (s2 !== 'false') issue(t, 'نشان‌دادنِ دوبارهٔ نقش کار نکرد');
+    // رفرش در حینِ «نقشِ تو»: دوباره همان صفحه
+    await reloadPlayer(t, 'screen-my-role');
   }
   const roles = players().filter(p => !p.is_host).map(p => p.role_id + ':' + p.side);
   note('نقش‌ها: ' + roles.join(', '));
@@ -154,6 +171,11 @@ async function expectScreens(phase) {
     let got = await activeScreen(p.display_name);
     for (let k = 0; k < 20 && got !== want; k++) { await sleep(300); got = await activeScreen(p.display_name); }
     if (got !== want) issue(p.display_name, 'صفحه‌یِ اشتباه در ' + phase, { role: p.role_id, alive: p.is_alive, want, got });
+    if (got === 'screen-eliminated') {
+      const at = await ev(p.display_name, () => ({ st: document.getElementById('screen-eliminated').dataset.state, ph: document.getElementById('screen-eliminated').dataset.phase }));
+      const wantSt = p.is_alive ? 'jailed' : 'eliminated';
+      if (at.st !== wantSt || at.ph !== phase) issue(p.display_name, 'وضعیت/فازِ صفحهٔ بیرون‌ازبازی غلط است', { at, wantSt, phase });
+    }
     if (p.is_alive && p.state_flags.jailed && got === 'screen-eliminated') {
       const tt = await ev(p.display_name, () => document.getElementById('elimTitle').textContent);
       if (!/زندانی/.test(tt)) issue(p.display_name, 'صفحهٔ زندانی عنوانِ زندان ندارد', tt);
@@ -171,7 +193,7 @@ async function playersVote(day) {
   for (const v of voters) {
     const nm = v.display_name;
     if (!canVote) {
-      await waitFor(nm, () => document.getElementById('screen-day-vote').classList.contains('active') && !!document.querySelector('#dayVoteCardBody .locked-note'), null, 'few-voters note', 8000).catch(e => issue(nm, 'پیامِ «بازیکنِ کم» نیامد', ''));
+      await waitFor(nm, () => document.getElementById('screen-day-vote').classList.contains('active') && !!document.querySelector('#dayVoteCardBody .note.block'), null, 'few-voters note', 8000).catch(e => issue(nm, 'پیامِ «بازیکنِ کم» نیامد', ''));
       continue;
     }
     await waitFor(nm, () => document.getElementById('screen-day-vote').classList.contains('active') && document.querySelectorAll('#dayVoteCardBody .player-dot').length > 0, null, 'vote screen', 15000).catch(e => issue(nm, 'صفحه‌یِ رأی نیومد', String(e).slice(0, 80)));
@@ -390,6 +412,7 @@ async function nightPhase(night) {
     const jn = await ev(H, () => ({ shown: document.getElementById('jailedNightNote').style.display, text: document.getElementById('jailedNightNote').textContent }));
     if (jn.shown !== 'block' || !jailedNow.every(j => jn.text.includes(j.display_name))) issue('night' + night, 'یادداشتِ زندانی در کنسولِ شب نیست', jn);
     jailedNow.forEach(j => { if (cards.includes(j.role_id)) issue('night' + night, 'زندانی کارتِ شب دارد', j.role_id); });
+    await ev(H, () => document.getElementById('jailedNightNote').scrollIntoView({ block: 'center' })); await snap(H, 'jailed-note-n' + night);
     note('  ⛓ زندانیِ امشب: ' + jailedNow.map(j => j.display_name + '(' + j.role_id + ')').join('، '));
     global.JAILED_NIGHT = jailedNow.map(j => j.id);
   } else global.JAILED_NIGHT = [];
@@ -415,9 +438,13 @@ async function nightPhase(night) {
   if ((sb === 'block') !== !!sohrabShould) issue('night' + night, 'کارتِ سهراب', { shown: sb, should: sohrabShould });
   if (sohrabShould) {
     const side = chance(0.5) ? 'jamshidi' : 'zahhaki';
+    await ev(H, () => document.getElementById('sohrabNightBox').scrollIntoView({ block: 'center' })); await snap(H, 'sohrab-wait');
     await click(H, side === 'jamshidi' ? '#sohrabJamshidiBtn' : '#sohrabZahhakiBtn');
     await waitFor(H, () => document.getElementById('confirmDialog').open, null, 'sohrab confirm', 6000).catch(() => {});
     await click(H, '#acceptConfirm'); await sleep(700);
+    await snap(H, 'sohrab-done');
+    const sv = await ev(H, () => ({ res: document.getElementById('sohrabNightBox').dataset.result, st: document.getElementById('sohrabStatus').textContent, dis: [document.getElementById('sohrabJamshidiBtn').disabled, document.getElementById('sohrabZahhakiBtn').disabled], sel: [...document.querySelectorAll('#sohrabNightBox .nc-btn.selected')].map(b => b.id), noteCls: document.getElementById('sohrabNote').className }));
+    if (sv.res !== side || !sv.dis[0] || !sv.dis[1] || sv.sel.length !== 1 || !/ok/.test(sv.noteCls)) issue('night' + night, 'ظاهرِ کارتِ سهراب بعد از ثبت درست نیست', sv);
     if (players().find(p => p.id === sohrab.id).side !== side) issue('night' + night, 'پیوستنِ سهراب ثبت نشد');
     else note('  سهراب به ' + side + ' پیوست');
   }
@@ -540,7 +567,8 @@ async function nightPhase(night) {
     await waitFor(H, () => document.getElementById('hostNightPanel').style.display === 'block', null, 'host night after resolve reload', 15000).catch(() => issue('host', 'پنلِ شب بعد از رفرش برنگشت', ''));
     await sleep(1200);
     const st = await ev(H, () => ({ box: document.getElementById('nightResultBox').style.display, ann: document.getElementById('nightAnnounceText').textContent, btn: document.getElementById('nightResolveBtn').disabled, jam: document.getElementById('jamaspBox').style.display }));
-    if (st.box !== 'block' || st.ann !== announce) issue('night' + night, 'نتیجه/اعلامِ شب بعد از رفرش برنگشت', { announce, st });
+    const nm = t => t.replace(/ دیشب.*/, '').split(' و ').sort().join(',');
+    if (st.box !== 'block' || nm(st.ann) !== nm(announce)) issue('night' + night, 'نتیجه/اعلامِ شب بعد از رفرش برنگشت', { announce, st });
     if (!st.btn) issue('night' + night, 'بعد از رفرش دکمهٔ حلِ شب دوباره باز شد (خطرِ حلِ دوباره)', st);
     await ev(H, () => resolveNightPhase()).catch(() => {});
     await sleep(600);
@@ -591,6 +619,8 @@ async function finishCheck() {
   const t0 = Date.now();
   try {
     await setup();
+    await sleep(1500);
+    for (const p of players().filter(x => !x.is_host)) { const sc = await activeScreen(p.display_name); if (sc !== 'screen-my-role') issue(p.display_name, 'قبل از شروعِ روزِ اول از صفحهٔ نقش رفت', sc); }
     await click('host', '#hostPhaseBtn'); // شروعِ روزِ اول
     let round = 0;
     while (round < MAX_ROUNDS) {

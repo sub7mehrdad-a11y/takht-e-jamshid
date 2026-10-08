@@ -663,7 +663,107 @@
 /* دکمه‌ی «؟»ی سراسری بالا-چپ است؛ عنوان زیرش نرود */
 #screen-day-vote.play-screen{padding-top:56px}  /* زیرِ دکمه‌ی «خروج» (راست) و «؟» (چپ) */
 #screen-day-vote .day-header{padding-inline-end:42px}
-body:has(#screen-night-wait.active),body:has(#screen-eliminated.active){background:#211b17}
+body:has(#screen-night-wait.active){background:#211b17}
+/* ===== صفحه‌ی ۷: نقشِ تو، بیرون از بازی، کارتِ سهراب، یادداشت‌ها (role-pack) ===== */
+body:has(#screen-my-role.active){background:#dfd0b6}
+#screen-my-role{--paper:#f5ead6;--ink:#382613;--muted:#70543a;max-width:480px;margin:auto;min-height:100dvh;color:var(--ink);font:14px/1.9 Vazirmatn,Tahoma,sans-serif;overflow-wrap:anywhere;isolation:isolate;padding:58px 12px max(24px,env(safe-area-inset-bottom));background:radial-gradient(ellipse at 50% 25%,#fff9e8,#f5ead6 72%)}
+#screen-my-role h1,#screen-my-role h2,#screen-my-role p{margin:0}
+#screen-my-role button{width:auto;padding:0;border-radius:0;border:0;transition:none;font:inherit;cursor:pointer;touch-action:manipulation}
+#screen-my-role button:active{transform:none}
+#screen-my-role button:focus-visible{outline:3px solid #aa783a;outline-offset:3px}
+#screen-my-role [hidden]{display:none!important}
+#screen-my-role .reveal-heading{text-align:center;margin:0 0 8px}
+#screen-my-role .reveal-heading h1{font-size:15px;font-weight:400;color:#70543a}
+#screen-my-role .reveal-heading img{width:100px;height:11px;object-fit:contain}
+#screen-my-role .role-stage{display:flex;flex-direction:column;align-items:center;text-align:center}
+#screen-my-role .side-tag{display:inline-flex;align-items:center;gap:7px;border:1px solid #b48d50;border-radius:22px;min-height:34px;padding:4px 13px;margin-bottom:12px;background:#f1ddb7;color:#674214;font-weight:700;font-size:12px}
+#screen-my-role .side-tag>img{width:18px;height:18px}
+#screen-my-role .side-tag.zahhaki{background:#542631;border-color:#926247;color:#fff0d6}
+#screen-my-role .side-tag.zahhaki>img{filter:brightness(0) invert(.9)}
+#screen-my-role .side-tag.neutral{background:#e5ddd0;color:#514534;border-color:#a3937b}
+#screen-my-role .private-label{display:flex;align-items:center;min-height:34px;margin-bottom:12px;font-size:12px;color:#70543a}
+#screen-my-role #roleRevealCard{display:block;position:relative;width:min(92vw,calc(70svh * 2 / 3),100%);aspect-ratio:2/3;margin:0 auto;border:2px solid #b0884b;border-radius:9px;padding:0;background:radial-gradient(ellipse,#f6e3b7,#bf985e);overflow:hidden;box-shadow:0 12px 30px #5135163d}
+#screen-my-role #roleCardImage{width:100%;height:100%;display:block;object-fit:contain}
+#screen-my-role #roleRevealCard:disabled{cursor:default}
+#screen-my-role .role-copy{width:100%;padding:18px 12px 12px;min-height:92px}
+#screen-my-role .role-copy h2{font:700 34px/1.55 EntryAmiri,Vazirmatn,serif;color:#513411;margin-bottom:8px}
+#screen-my-role .role-copy p{font-size:14px;line-height:1.95;color:#65482b;max-width:410px;margin:auto}
+#screen-my-role .hidden-copy{font-size:14px;color:#70543a;min-height:92px;padding:26px 12px 12px;text-align:center}
+#screen-my-role .btn.privacy-dock{display:flex;gap:8px;align-items:center;justify-content:center;position:sticky;bottom:max(10px,env(safe-area-inset-bottom));z-index:8;width:min(100%,370px);min-height:52px;margin:10px auto 14px;border:solid transparent;border-width:4px 20px;border-image:url('assets/entry/components/btn_secondary_normal.png') 12 72 12 72 fill stretch;background:none;color:#382613;font-weight:700;font-size:15px;line-height:1.8;padding:5px 4px;box-shadow:0 4px 16px #4a351429}
+#screen-my-role .btn.privacy-dock>img{width:23px;height:23px}
+#screen-my-role .role-privacy-note{display:flex;align-items:flex-start;justify-content:center;gap:7px;font-size:12px;line-height:1.9;color:#70543a;max-width:400px;margin:14px auto 18px;padding:0 8px}
+#screen-my-role .role-privacy-note img{width:17px;height:17px;flex-shrink:0;margin-top:3px}
+#screen-my-role #roleWaitNote{display:flex;align-items:center;justify-content:center;gap:7px;border-top:1px solid #c1a16e5c;padding:14px 6px 0;font-size:12px;line-height:1.9;color:#70543a;text-align:center}
+#screen-my-role #roleWaitNote>img{width:18px;height:18px;flex-shrink:0;animation:roleHourglass 8s ease-in-out infinite}
+@keyframes roleHourglass{0%,35%,100%{transform:rotate(0)}45%,80%{transform:rotate(180deg)}}
+#screen-my-role #roleCardFallback{height:100%;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:28px;background:radial-gradient(ellipse at 50% 20%,#fff3d1,#ddbf89);border:9px double #b08c51;color:#674214}
+#screen-my-role #roleCardFallback>img{width:58px;height:58px}
+#screen-my-role #roleFallbackName{font:32px/1.6 EntryAmiri,Vazirmatn,serif}
+#screen-my-role #roleCardFallback>span{font-size:12px}
+#screen-my-role #roleFallbackDesc{font-size:14px;line-height:1.95}
+@media(max-width:350px){#screen-my-role{padding-inline:10px}#screen-my-role .role-copy h2{font-size:31px}}
+
+/* بیرون از بازی: ناظر (حذف‌شده) یا زندانی (یک شبانه‌روز) */
+body:has(#screen-eliminated.active){background:#e9e3da}
+body:has(#screen-eliminated[data-phase=night].active){background:#252323}
+body:has(#screen-eliminated[data-state=jailed].active){background:#f0e2cc}
+body:has(#screen-eliminated[data-state=jailed][data-phase=night].active){background:#30241d}
+#screen-eliminated{--paper:#e9e3da;--ink:#423e38;--muted:#655d51;max-width:480px;margin:auto;min-height:100dvh;flex-direction:column;background:var(--paper);color:var(--ink);font:14px/1.9 Vazirmatn,Tahoma,sans-serif;position:relative;overflow-wrap:anywhere;isolation:isolate;padding-bottom:max(24px,env(safe-area-inset-bottom))}
+#screen-eliminated h1,#screen-eliminated p{margin:0}
+#screen-eliminated .utility-bar{height:76px;flex-shrink:0}
+#screen-eliminated .elim-art{position:relative;overflow:hidden;aspect-ratio:3/2}
+#screen-eliminated .elim-art>img{width:100%;height:100%;object-fit:cover;display:block}
+#screen-eliminated .elim-art:after{content:'';position:absolute;inset:74% 0 0;background:linear-gradient(transparent,var(--paper))}
+#screen-eliminated .ambient-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 35%,#f0dac125,transparent 66%);animation:elimBreathe 10s ease-in-out infinite;pointer-events:none}
+@keyframes elimBreathe{0%,100%{opacity:.3}50%{opacity:.85}}
+#screen-eliminated .elim-copy{text-align:center;padding:0 26px 24px;margin-top:-5px;position:relative}
+#screen-eliminated .elim-copy h1{font:700 32px/1.7 EntryAmiri,Vazirmatn,serif;color:var(--ink);margin-top:10px}
+#screen-eliminated .elim-copy p{font-size:15px;line-height:2.05;color:var(--muted);max-width:390px;margin:auto}
+#screen-eliminated .elim-copy .divider{display:block;width:160px;height:16px;object-fit:contain;margin:14px auto}
+#screen-eliminated #elimStateBadge{display:inline-flex;min-height:30px;align-items:center;justify-content:center;padding:4px 14px;border:1px solid #aca28f;border-radius:20px;background:#dfd8cb;color:#554d40;font-size:12px}
+#screen-eliminated #elimPhaseNote{margin:auto 22px 0;display:flex;align-items:center;justify-content:center;gap:8px;border-top:1px solid #a89a7c55;color:var(--muted);text-align:center;padding:18px 8px 0;font-size:13px}
+#screen-eliminated[data-state=jailed]{--paper:#f0e2cc;--ink:#513918;--muted:#705334}
+#screen-eliminated[data-state=jailed] .elim-art{background:radial-gradient(ellipse,#bb9650,#f0e2cc 76%)}
+#screen-eliminated[data-state=jailed] .elim-art>img{object-fit:contain;padding:12px 8px}
+#screen-eliminated[data-state=jailed] #elimStateBadge{background:#ead1a4;border-color:#a97e3c;color:#654314}
+#screen-eliminated[data-phase=night]{--paper:#252323;--ink:#ede8dc;--muted:#c9c0b1;color-scheme:dark}
+#screen-eliminated[data-phase=night] .elim-art>img{filter:brightness(.63) saturate(.65)}
+#screen-eliminated[data-state=jailed][data-phase=night]{--paper:#30241d;--ink:#f4e5c9;--muted:#d2bfa0}
+#screen-eliminated[data-state=jailed][data-phase=night] .elim-art{background:radial-gradient(ellipse,#735736,#30241d 76%)}
+#screen-eliminated[data-state=jailed][data-phase=night] .elim-art>img{filter:brightness(.86) saturate(.75)}
+@media(max-width:350px){#screen-eliminated .elim-copy{padding-inline:22px}#screen-eliminated .elim-copy p{font-size:14px}}
+
+/* کارتِ سهراب در کنسولِ شب */
+.lbx #sohrabNightBox .sohrab-illustration{display:flex;gap:9px;align-items:center;justify-content:center;margin:20px 0;padding:18px 0;background:radial-gradient(ellipse,#dab77644,transparent 70%)}
+.lbx #sohrabNightBox .choice-symbol{width:58px;height:58px;flex-shrink:0;border:1px solid #aa783a;border-radius:50%;display:grid;place-items:center;background:#e8cc97;box-shadow:inset 0 0 0 4px #f5e6c5}
+.lbx #sohrabNightBox .choice-symbol>img{width:32px;height:32px}
+.lbx #sohrabNightBox .choice-symbol.crimson{background:#723241;box-shadow:inset 0 0 0 4px #8b4f58}
+.lbx #sohrabNightBox .choice-symbol.crimson img{filter:brightness(0) invert(.89)}
+.lbx #sohrabNightBox .choice-path{height:1px;background:#aa783a66;flex:1;max-width:40px}
+.lbx #sohrabNightBox .choice-swords{width:42px;height:42px}
+.lbx #sohrabNightBox .nc-btn{flex-direction:column;position:relative;gap:8px;min-height:128px;border:1px solid #a97a36;border-image:none;border-radius:4px;background:#f3e7d1;padding:14px 9px;font-size:14px;font-weight:700;line-height:1.9;color:#674214;overflow-wrap:anywhere;min-width:0;width:auto}
+.lbx #sohrabNightBox .nc-btn>img{width:29px;height:29px}
+.lbx #sohrabNightBox .nc-btn.zah-choice{background:#eddae0;border-color:#944353;color:#742338}
+.lbx #sohrabNightBox .nc-btn:disabled{filter:none;opacity:1;cursor:default}
+.lbx #sohrabNightBox[data-result=jamshidi] .zah-choice,.lbx #sohrabNightBox[data-result=zahhaki] .jam-choice{opacity:.62}
+.lbx #sohrabNightBox .nc-btn.selected{outline:2px solid currentColor;outline-offset:3px;box-shadow:inset 0 0 0 2px #fff5d444}
+.lbx #sohrabNightBox .choice-check{font-size:20px;line-height:1;min-height:20px;display:none}
+.lbx #sohrabNightBox .selected .choice-check{display:block}
+.lbx #sohrabNightBox[data-result=jamshidi] .nc-status,.lbx #sohrabNightBox[data-result=zahhaki] .nc-status{color:#325e43;border-color:#73906a}
+@media(max-width:350px){.lbx #sohrabNightBox .nc-btn{font-size:13px;min-height:142px;padding-inline:7px}.lbx #sohrabNightBox .choice-symbol{width:51px;height:51px}}
+
+/* یادداشتِ درون‌صفحه‌ای: info / warn / block / ok (آیکن با ::before تا textContent پاکش نکند) */
+.note{position:relative;display:block;padding:11px 12px;padding-inline-start:46px;margin:10px 0;border:1px solid #c4a271;border-inline-start-width:3px;border-radius:4px;background:#f1e4ca;color:#68451e;min-width:0;font-size:13px;line-height:1.95;overflow-wrap:anywhere;text-align:start}
+.note:before{content:'';position:absolute;inset-inline-start:12px;top:12px;width:22px;height:22px;background:url('assets/finale/icons/info.svg') center/contain no-repeat}
+.note.warn{color:#704a08;background:#fff0c7;border-color:#b78a31;border-inline-start-width:5px}
+.note.warn:before{background-image:url('assets/finale/icons/warning.svg')}
+.note.block{color:#802536;background:#f3e0e4;border-color:#b1707d;border-inline-start-style:double;border-inline-start-width:5px}
+.note.block:before{background-image:url('assets/finale/icons/lock.svg')}
+.note.ok{color:#28563f;background:#e2edde;border-color:#91ab86;border-inline-start-width:4px}
+.note.ok:before{background-image:url('assets/finale/icons/check.svg')}
+.note:empty{display:none!important}
+@media(prefers-reduced-motion:reduce){#screen-my-role #roleWaitNote>img,#screen-eliminated .ambient-glow{animation:none!important}}
+
 /* نشتِ CSSِ سراسریِ اپ (button{width:100%;padding:13px;border-radius;border:none}) به صفحه‌ی رأی */
 .play-screen{font:14px/1.8 Vazirmatn,Tahoma,sans-serif;color:var(--ink)}
 .play-screen button{width:auto;padding:0;border-radius:0;transition:none;font-size:inherit;font-weight:inherit}
@@ -1491,7 +1591,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
                 <div class="select-group"><label class="dp-label" for="mahaanAccused1">متهمِ اول (بیشترین گمان)</label><select id="mahaanAccused1" class="dp-select"></select><p class="select-value" hidden></p></div>
                 <div class="select-group"><label class="dp-label" for="mahaanAccused2">متهمِ دوم (بیشترین گمان)</label><select id="mahaanAccused2" class="dp-select"></select><p class="select-value" hidden></p></div>
               </div>
-              <p id="mahaanProblem" class="hint" role="status" style="display:none;"></p>
+              <p id="mahaanProblem" class="note warn" role="alert" style="display:none;"></p>
               <p class="hint timer-note"><img src="assets/lobby/icons/hourglass.svg" alt="">به هرکدوم از دو متهم ۱ دقیقه وقتِ دفاع بده. جمشید می‌تونه از یک نفرِ دیگه (غیر از دو عضوِ مجلس) هم یک سوال بپرسه — اختیاری، فقط برای یادداشت.</p>
               <div class="select-group"><label class="dp-label" for="mahaanExtraQuestion">سؤالِ اضافه · اختیاری</label><select id="mahaanExtraQuestion" class="dp-select"><option value="">— بدونِ سوالِ اضافه —</option></select><p class="select-value" hidden></p></div>
               <div class="select-group"><label class="dp-label" for="mahaanFinalAccused">مجلس کدوم متهم رو به جمشید معرفی می‌کنه؟</label><select id="mahaanFinalAccused" class="dp-select"><option value="">— اول دو متهم رو بالا مشخص کن —</option></select><p class="select-value" hidden></p></div>
@@ -1500,11 +1600,11 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
               <h2>تصمیمِ جمشید</h2>
               <p class="subtle">ابتدا متهمِ نهایی را مشخص کن.</p>
               <div class="decision-grid"><button id="decideKillBtn" class="btn-crimson" type="button" onclick="setJamshidDecision(true)" disabled>بکشدش</button><button id="decideSpareBtn" class="btn-outline" type="button" onclick="setJamshidDecision(false)" disabled>نکشدش</button></div>
-              <p id="kinDayNote" class="hint" style="display:none;">⚡ امروز «روزِ کینِ سیاوش» است: جمشید می‌تونه <strong>دو نفر</strong> رو برایِ مرگ انتخاب کنه و نوشدارویِ کیکاووس بی‌اثره. بعد از ثبتِ نفرِ اول، نفرِ دوم رو (با انتخابِ دوباره‌یِ متهم) ثبت کن.</p>
-              <p id="noshdaruBlocked" class="hint" style="display:none;">🏺 نوشدارو اینجا بی‌اثره (سهراب یا روزِ کینِ سیاوش) — لازم نیست از کیکاووس بپرسی.</p>
+              <p id="kinDayNote" class="note info" style="display:none;">امروز «روزِ کینِ سیاوش» است: جمشید می‌تونه <strong>دو نفر</strong> رو برایِ مرگ انتخاب کنه و نوشدارویِ کیکاووس بی‌اثره. بعد از ثبتِ نفرِ اول، نفرِ دوم رو (با انتخابِ دوباره‌یِ متهم) ثبت کن.</p>
+              <p id="noshdaruBlocked" class="note info" style="display:none;">نوشدارو اینجا بی‌اثره (سهراب یا روزِ کینِ سیاوش) — لازم نیست از کیکاووس بپرسی.</p>
               <div id="noshdaruBox" class="hint" style="display:none;"><strong>🏺 کیکاووس نوشدارو داد؟</strong> <span class="subtle">(کشته رو بهش نشون بده، بدونِ اینکه بگی چرا)</span><label class="check-row"><input id="noshdaruCheck" type="checkbox">بله، نجاتش داد</label></div>
               <button id="applyKillBtn" class="btn-gold" type="button" onclick="applyDayKill()" disabled>ثبتِ نتیجه‌یِ روز</button>
-              <p id="dayResultNote" class="subtle" role="status"></p>
+              <p id="dayResultNote" class="note info" role="status"></p>
             </section>
             <div id="dayAnnounceBox" class="announce" style="display:none;"><div class="box-label"><img src="assets/control/icons/trumpet.svg" alt="">فقط همینو بلند اعلام کن — چیزِ دیگه‌ای (دلیل/تصمیمِ کی) نگو:</div><p id="dayAnnounceText"></p></div>
           </section>
@@ -1514,10 +1614,10 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
             <p class="subtle">به‌ترتیب هر نقش رو بیدار کن، انتخابش رو اینجا ثبت کن، و آخر «حلِ شب» رو بزن.</p>
             <div class="night-progress"><div class="progress-track"><div id="nightProgressBar" role="progressbar" aria-label="ثبتِ نقش‌هایِ شبانه" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0"></div></div><p id="nightProgressLabel"></p></div>
             <div class="secret-warning"><img src="assets/control/icons/lock.svg" alt="">فقط برای خودت · نقش‌ها و انتخاب‌ها محرمانه‌اند.</div>
-            <p id="jailedNightNote" class="hint" role="status" style="display:none;"></p>
+            <p id="jailedNightNote" class="note info" role="status" style="display:none;"></p>
             <div id="nightCards"></div>
-            <div id="soroushNightBox" class="night-card" style="display:none;"><div class="nc-head"><img class="nc-icon" src="assets/control/icons/dove.svg" alt=""><h3 class="nc-title">سروش · نامه‌ها</h3><span id="soroushNightStatus" class="nc-status">—</span></div><p class="nc-desc">شنود رو خودِ ضحاک توی پنلش انتخاب می‌کنه. تو فقط آخرِ شب نامه‌ها رو تحویل بده.</p><button id="deliverLettersBtn" class="btn-gold" type="button" onclick="deliverLetters()">تحویلِ نامه‌ها به گیرنده‌ها</button><p id="deliverNote" class="subtle" role="status"></p></div>
-            <div id="sohrabNightBox" class="night-card" style="display:none;"><div class="nc-head"><img class="nc-icon" src="assets/finale/icons/swords.svg" alt=""><h3 class="nc-title">سهراب · پیوستن</h3><span id="sohrabStatus" class="nc-status">—</span></div><p class="nc-desc">شبِ سوم: دو نفر (که یکیشون رستمه) رو به سهراب نشون بده. اگه رستم رو درست حدس زد به یارانِ جمشید می‌پیونده، وگرنه به ضحاکیان.</p><div class="nc-actions"><button id="sohrabJamshidiBtn" class="nc-btn" type="button" onclick="sohrabJoin('jamshidi')">درست حدس زد ← یارانِ جمشید</button><button id="sohrabZahhakiBtn" class="nc-btn" type="button" onclick="sohrabJoin('zahhaki')">غلط حدس زد ← ضحاکیان</button></div><p id="sohrabNote" class="subtle" role="status"></p></div>
+            <div id="soroushNightBox" class="night-card" style="display:none;"><div class="nc-head"><img class="nc-icon" src="assets/control/icons/dove.svg" alt=""><h3 class="nc-title">سروش · نامه‌ها</h3><span id="soroushNightStatus" class="nc-status">—</span></div><p class="nc-desc">شنود رو خودِ ضحاک توی پنلش انتخاب می‌کنه. تو فقط آخرِ شب نامه‌ها رو تحویل بده.</p><button id="deliverLettersBtn" class="btn-gold" type="button" onclick="deliverLetters()">تحویلِ نامه‌ها به گیرنده‌ها</button><p id="deliverNote" class="note ok" role="status"></p></div>
+            <div id="sohrabNightBox" class="night-card" data-result="waiting" style="display:none;"><div class="nc-head"><img class="nc-icon" src="assets/finale/icons/swords.svg" alt=""><h3 class="nc-title">سهراب · پیوستن</h3><span id="sohrabStatus" class="nc-status">—</span></div><div class="sohrab-illustration" aria-hidden="true"><span class="choice-symbol gold"><img src="assets/finale/icons/sun.svg" alt=""></span><span class="choice-path"></span><img class="choice-swords" src="assets/finale/icons/swords.svg" alt=""><span class="choice-path"></span><span class="choice-symbol crimson"><img src="assets/finale/icons/snake.svg" alt=""></span></div><p class="nc-desc">شبِ سوم: دو نفر (که یکیشون رستمه) رو به سهراب نشون بده. اگه رستم رو درست حدس زد به یارانِ جمشید می‌پیونده، وگرنه به ضحاکیان.</p><div class="nc-actions"><button id="sohrabJamshidiBtn" class="nc-btn jam-choice" type="button" aria-pressed="false" onclick="sohrabJoin('jamshidi')"><img src="assets/finale/icons/sun.svg" alt=""><span>درست حدس زد ← یارانِ جمشید</span><span class="choice-check" aria-hidden="true"></span></button><button id="sohrabZahhakiBtn" class="nc-btn zah-choice" type="button" aria-pressed="false" onclick="sohrabJoin('zahhaki')"><img src="assets/finale/icons/snake.svg" alt=""><span>غلط حدس زد ← ضحاکیان</span><span class="choice-check" aria-hidden="true"></span></button></div><p id="sohrabNote" class="note info" role="status"></p></div>
             <button id="nightResolveBtn" class="btn-gold" type="button" onclick="resolveNightPhase()" disabled>حلِ شب و محاسبه‌یِ نتیجه 🌅</button>
             <p id="nightHint" class="subtle" role="status"></p>
             <div id="nightResultBox" class="secret" style="display:none;"><div class="box-label"><img src="assets/control/icons/lock.svg" alt="">فقط برای خودت · نتیجه‌یِ کاملِ شب</div><button class="btn-outline reveal" id="revealResult" type="button" aria-expanded="false" aria-controls="nightResultBody" onclick="toggleNightResult()">نمایشِ نتیجه‌یِ محرمانه</button><div id="nightResultBody" style="display:none;"></div></div>
@@ -1603,11 +1703,24 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     <p class="night-foot">منتظرِ اعلامِ گرداننده بمان</p>
   </div>
 
-  <!-- بازیکنِ حذف‌شده: فقط ناظره (نه رأی می‌ده، نه نامه می‌نویسه) -->
-  <div class="screen play-screen night-screen" id="screen-eliminated" data-phase="night">
-    <div class="night-art" aria-hidden="true"><span class="twinkle star-a">✦</span><span class="twinkle star-b">✧</span><span class="twinkle star-c">·</span><div class="night-mist"></div></div>
-    <section class="night-tablet"><span class="night-eyebrow">تخت جمشید</span><h1 id="elimTitle">از بازی خارج شدی</h1><p id="elimText">از این به بعد فقط ناظری. نقشت رو برایِ کسی فاش نکن و چیزی به بازیکن‌ها نگو — در پایانِ بازی نقشِ همه آشکار می‌شه.</p></section>
-    <p class="night-foot" id="elimPhaseNote">بازی ادامه داره…</p>
+  <!-- نقشِ تو: بعد از شروعِ بازی تا شروعِ روزِ اول (role-pack) -->
+  <div class="screen" id="screen-my-role" data-private="false" aria-labelledby="revealHeading">
+    <header class="reveal-heading"><h1 id="revealHeading">نقشِ تو</h1><img src="assets/entry/components/divider_diamond.png" alt=""></header>
+    <div class="role-stage"><div class="side-tag jamshidi" id="roleSideTag"></div><p class="private-label" hidden>نقش پنهان است</p>
+      <button id="roleRevealCard" type="button" aria-label="بزرگ‌نمایی تصویر نقش"><img id="roleCardImage" alt=""><span id="roleCardFallback" hidden><img src="assets/finale/icons/crown.svg" alt=""><strong id="roleFallbackName"></strong><span>تصویر کارت در دسترس نیست</span><small id="roleFallbackDesc"></small></span></button>
+      <div class="role-copy"><h2 id="roleRevealName"></h2><p id="roleRevealDesc"></p></div><p class="hidden-copy" hidden>نقشت پیش خودت می‌ماند.</p>
+    </div>
+    <button id="roleHideBtn" type="button" class="btn secondary privacy-dock" aria-pressed="false"><img id="roleHideIcon" src="assets/role/icons/eye-off.svg" alt=""><span id="roleHideText">پنهان کن</span></button>
+    <p class="role-privacy-note"><img src="assets/finale/icons/lock.svg" alt="">این نقش فقط برایِ خودِ توئه — به کسی نشونش نده.</p>
+    <div id="roleWaitNote" role="status"><img src="assets/finale/icons/hourglass.svg" alt=""><span>منتظرِ شروعِ روزِ اول توسطِ گرداننده…</span></div>
+  </div>
+
+  <!-- بیرون از بازی: ناظر (حذف‌شده) یا زندانیِ یک شبانه‌روز (role-pack) -->
+  <div class="screen" id="screen-eliminated" data-state="eliminated" data-phase="day" aria-labelledby="elimTitle">
+    <div class="utility-bar" aria-hidden="true"></div>
+    <div class="elim-art"><img id="elimArt" src="assets/role/observer-moon.webp" alt=""><span class="ambient-glow" aria-hidden="true"></span></div>
+    <div class="elim-copy"><span id="elimStateBadge">ناظرِ بازی</span><h1 id="elimTitle">از بازی خارج شدی</h1><img class="divider" src="assets/entry/components/divider_diamond.png" alt=""><p id="elimText"></p></div>
+    <div id="elimPhaseNote" role="status"></div>
   </div>
 
 </div>
@@ -1728,7 +1841,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   function go(id){
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby' || id === 'screen-day-vote' || id === 'screen-night-wait' || id === 'screen-eliminated' || id === 'screen-jamshid-dash' || id === 'screen-zahhak-dash' || id === 'screen-guide' || id === 'screen-roles' || id === 'screen-game-over');
+    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby' || id === 'screen-day-vote' || id === 'screen-night-wait' || id === 'screen-eliminated' || id === 'screen-my-role' || id === 'screen-jamshid-dash' || id === 'screen-zahhak-dash' || id === 'screen-guide' || id === 'screen-roles' || id === 'screen-game-over');
     const brand = document.querySelector('.brand');
     if(brand) brand.style.display = isFull ? 'none' : '';
     document.body.classList.toggle('fullbleed', isFull);
@@ -2137,11 +2250,11 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
           paintDayAnnounce();
           document.getElementById('mahaanFinalAccused').disabled = true;
           ['decideKillBtn', 'decideSpareBtn', 'applyKillBtn'].forEach(id => { document.getElementById(id).disabled = true; });
-          const nt = document.getElementById('dayResultNote'); nt.style.color = 'var(--ct-muted)';
+          const nt = document.getElementById('dayResultNote'); noteKind(nt, 'info');
           nt.textContent = 'نتیجه‌یِ امروز قبلاً ثبت شده — فقط اعلامِ زیر مونده.';
         } else if(dayKillsDone > 0){
           paintDayAnnounce();
-          document.getElementById('dayResultNote').textContent = '⚡ نفرِ اولِ روزِ کین ثبت شده؛ نفرِ دوم رو مشخص کن.';
+          document.getElementById('dayResultNote').textContent = 'نفرِ اولِ روزِ کین ثبت شده؛ نفرِ دوم رو مشخص کن.';
         }
         if(dr && dr.day === dayNumber && dr.fin && dayKillsDone === 0 && document.querySelector('#mahaanFinalAccused option[value="' + dr.fin + '"]')){
           document.getElementById('mahaanFinalAccused').value = dr.fin;
@@ -2170,7 +2283,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   function updateMahaanGate(){
     const problem = mahaanProblem();
     const box = document.getElementById('mahaanProblem');
-    box.textContent = problem ? '⚠ ' + problem : '';
+    box.textContent = problem || '';
     box.style.display = problem ? 'block' : 'none';
     document.getElementById('mahaanFinalAccused').disabled = !!problem;
   }
@@ -2198,8 +2311,8 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
       document.getElementById('noshdaruBlocked').style.display = 'none';
       document.getElementById('applyKillBtn').disabled = true;
       const nt = document.getElementById('dayResultNote');
-      nt.style.color = 'var(--ct-bad)';
-      nt.textContent = '⛓ ' + accused.display_name + ' زندانیِ ضحاکه (یک شبانه‌روز بیرونِ بازیه) — جمشید نمی‌تونه بکشدش. «نکشدش» رو بزن یا متهمِ دیگه‌ای رو انتخاب کن.';
+      noteKind(nt, 'block');
+      nt.textContent = accused.display_name + ' زندانیِ ضحاکه (یک شبانه‌روز بیرونِ بازیه) — جمشید نمی‌تونه بکشدش. «نکشدش» رو بزن یا متهمِ دیگه‌ای رو انتخاب کن.';
       return;
     }
     const nosh = kill && noshdaruAllowed(accused);
@@ -2211,6 +2324,8 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     document.getElementById('dayAnnounceBox').style.display = 'none';
   }
 
+  // نوعِ یادداشت (اطلاع/هشدار/مسدود/موفق) — جایگزینِ رنگِ inline
+  function noteKind(el, kind){ el.classList.remove('info', 'warn', 'block', 'ok'); el.classList.add('note', kind); }
   // اعلامِ عمومی: فقط نتیجه (در روزِ کینِ سیاوش ممکنه دو نفر باشه)
   function paintDayAnnounce(){
     document.getElementById('dayAnnounceText').textContent = (dayOutNames.length
@@ -2229,14 +2344,14 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
       const game = await tjGetGame(currentGame.id);
       const target = (await tjListPlayers(currentGame.id)).find(p => p.id === targetId);
       if(!target || !target.is_alive){
-        note.style.color = 'var(--ct-bad)';
+        noteKind(note, 'block');
         note.textContent = 'این نفر قبلاً از بازی خارج شده — یکی دیگه رو انتخاب کن.';
         btn.disabled = false;
         return;
       }
       if(jamshidWillKill && target.state_flags?.jailed){
-        note.style.color = 'var(--ct-bad)';
-        note.textContent = '⛓ ' + target.display_name + ' زندانیِ ضحاکه — جمشید نمی‌تونه بکشدش.';
+        noteKind(note, 'block');
+        note.textContent = target.display_name + ' زندانیِ ضحاکه — جمشید نمی‌تونه بکشدش.';
         btn.disabled = false;
         return;
       }
@@ -2253,11 +2368,11 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
           await tjSetHengamehFlags(currentGame.id, { siavashan: true });
           await tjLogEvent(currentGame.id, game.day_number, 'hengameh_start', { name: 'siavashan', playerId: target.id, mahaanCouncil: council, extraQuestion });
           dayReturnText = 'نقشِ ' + target.display_name + ' آشکار شد: او سیاوش است و به بازی برمی‌گردد (هنگامه‌یِ سیاوشان).';
-          note.style.color = 'var(--ct-bad)';
+          noteKind(note, 'info');
           note.textContent = 'ثبت شد (فقط برای خودت): ' + target.display_name + ' سیاوش بود! حذف نشد؛ نقشش رو برایِ همه آشکار کن و برش گردون به بازی — هنگامه‌یِ سیاوشان شروع شد.';
         }else{
           await tjEliminatePlayer(targetId, 'jamshid_day_vote', game.day_number, false);
-          note.style.color = 'var(--ct-bad)';
+          noteKind(note, 'info');
           note.textContent = 'ثبت شد (فقط برای خودت — چیزی که تویِ ‹اعلامِ عمومی› زیرشه رو بلند بخون): ' + target.display_name + ' حذف شد.';
           await tjLogEvent(currentGame.id, game.day_number, 'death', { playerId: targetId, cause: 'jamshid_day_vote', mahaanCouncil: council, extraQuestion });
           await checkHengameh(target);
@@ -2266,13 +2381,13 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
           const followed = await tjApplyBondAfterDeath(currentGame.id, target, game.day_number, false);
           if(followed){
             dayOutNames.push(followed.display_name);
-            note.textContent += ' — 💔 ' + followed.display_name + ' (بیژن) هم به‌دنبالِ منیژه از بازی خارج شد.';
+            note.textContent += ' — ' + followed.display_name + ' (بیژن) هم به‌دنبالِ منیژه از بازی خارج شد.';
           }
         }
       }else{
-        note.style.color = saved ? 'var(--ct-good)' : 'var(--ct-muted)';
+        noteKind(note, saved ? 'ok' : 'info');
         note.textContent = 'ثبت شد (فقط برای خودت): ' + (saved
-          ? '🏺 ' + target.display_name + ' با نوشدارویِ کیکاووس نجات پیدا کرد.'
+          ? target.display_name + ' با نوشدارویِ کیکاووس نجات پیدا کرد.'
           : 'جمشید تصمیم گرفت ' + target.display_name + ' رو نکشه.');
         await tjLogEvent(currentGame.id, game.day_number, 'statement', {
           text: saved ? 'noshdaru_saved' : 'jamshid_spared', playerId: targetId, mahaanCouncil: council, extraQuestion
@@ -2290,11 +2405,11 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
         jamshidWillKill = null;
         document.getElementById('noshdaruBox').style.display = 'none';
         document.getElementById('noshdaruBlocked').style.display = 'none';
-        note.textContent += ' — ⚡ روزِ کینِ سیاوش: نفرِ دوم رو هم مشخص کن (متهم‌ها رو دوباره انتخاب کن).';
+        note.textContent += ' — روزِ کینِ سیاوش: نفرِ دوم رو هم مشخص کن (متهم‌ها رو دوباره انتخاب کن).';
         syncSelectValues();
       }
     }catch(e){
-      note.style.color = 'var(--ct-bad)';
+      noteKind(note, 'block');
       note.textContent = 'خطا: ' + e.message;
       btn.disabled = false;
     }
@@ -2456,33 +2571,49 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     updateNightProgress();
   }
 
+  function sohrabPaint(result){
+    // result: 'waiting' | 'jamshidi' | 'zahhaki'
+    const box = document.getElementById('sohrabNightBox');
+    const done = result === 'jamshidi' || result === 'zahhaki';
+    box.dataset.result = result;
+    document.getElementById('sohrabStatus').textContent = done ? 'ثبت شد ✓' : 'در انتظار';
+    [['jamshidi', 'sohrabJamshidiBtn'], ['zahhaki', 'sohrabZahhakiBtn']].forEach(([team, id]) => {
+      const b = document.getElementById(id), sel = result === team;
+      b.disabled = done; b.classList.toggle('selected', sel); b.setAttribute('aria-pressed', String(sel));
+      b.querySelector('.choice-check').textContent = sel ? '✓' : '';
+    });
+  }
+  function sohrabNote(kind, text){
+    const n = document.getElementById('sohrabNote');
+    n.classList.remove('info', 'warn', 'block', 'ok'); n.classList.add('note', kind);
+    n.textContent = text || '';
+  }
   // سهراب: از شبِ سوم تا وقتی نپیوسته، گرداننده سرنوشتش رو ثبت می‌کنه
   function refreshSohrabBox(nightNumber){
     const sohrab = nightPlayers.find(p => p.role_id === 'sohrab' && p.is_alive && p.side === 'neutral');
     const box = document.getElementById('sohrabNightBox');
     box.style.display = (sohrab && nightNumber >= 3) ? 'block' : 'none';
-    document.getElementById('sohrabNote').textContent = '';
-    document.getElementById('sohrabStatus').textContent = 'در انتظار';
-    ['sohrabJamshidiBtn', 'sohrabZahhakiBtn'].forEach(id => { document.getElementById(id).disabled = false; });
+    sohrabNote('info', '');
+    sohrabPaint('waiting');
   }
   async function sohrabJoin(side){
     const sohrab = nightPlayers.find(p => p.role_id === 'sohrab' && p.is_alive && p.side === 'neutral');
     if(!sohrab) return;
+    if(document.getElementById('sohrabJamshidiBtn').disabled) return;
     const label = side === 'jamshidi' ? 'یارانِ جمشید' : 'ضحاکیان';
     if(!await uiConfirm('پیوستنِ سهراب', 'سهراب به «' + label + '» می‌پیونده و از این به بعد در شمارشِ پیروزی همون سو حساب می‌شه. مطمئنی؟')) return;
     ['sohrabJamshidiBtn', 'sohrabZahhakiBtn'].forEach(id => { document.getElementById(id).disabled = true; });
-    const note = document.getElementById('sohrabNote');
     try{
       await tjSetPlayerSide(sohrab.id, side);
       await tjLogEvent(currentGame.id, null, 'sohrab_joined', { playerId: sohrab.id, side });
       sohrab.side = side;
-      document.getElementById('sohrabStatus').textContent = 'ثبت شد ✓';
-      note.textContent = side === 'zahhaki'
+      sohrabPaint(side);
+      sohrabNote('ok', side === 'zahhaki'
         ? 'سهراب به ضحاکیان پیوست. (سرِ میز به خودش بگو؛ گردآفرید رو بیدار کن تا بشناسدش.)'
-        : 'سهراب به یارانِ جمشید پیوست. (سرِ میز به خودش بگو.)';
+        : 'سهراب به یارانِ جمشید پیوست. (سرِ میز به خودش بگو.)');
     }catch(e){
-      ['sohrabJamshidiBtn', 'sohrabZahhakiBtn'].forEach(id => { document.getElementById(id).disabled = false; });
-      note.textContent = e.message;
+      sohrabPaint('waiting');
+      sohrabNote('block', 'ثبت انجام نشد: ' + e.message);
       showError(e.message);
     }
   }
@@ -2520,7 +2651,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     box.innerHTML = '';
     const jailed = nightPlayers.filter(p => p.is_alive && p.state_flags?.jailed);
     const jn = document.getElementById('jailedNightNote');
-    jn.textContent = jailed.length ? '⛓ ' + jailed.map(p => p.display_name).join('، ') + ' زندانیِ ضحاکه: امشب بیدار نمی‌شه و هیچ‌کس/هیچ قابلیتی روش اثر نداره؛ صبح به بازی برمی‌گرده.' : '';
+    jn.textContent = jailed.length ? jailed.map(p => p.display_name).join('، ') + ' زندانیِ ضحاکه: امشب بیدار نمی‌شه و هیچ‌کس/هیچ قابلیتی روش اثر نداره؛ صبح به بازی برمی‌گرده.' : '';
     jn.style.display = jailed.length ? 'block' : 'none';
     activeNightRoles().forEach(cfg => {
       const actor = nightActor(cfg.role_id);
@@ -3042,6 +3173,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
 
   async function startPlayerPolling(){
     let roleShown = !!myRoleId;
+    let roleScreenShown = false;
     let lastRenderedKey = '';
 
     async function tick(){
@@ -3069,8 +3201,13 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
           return;
         }
 
+        // بعد از شروعِ بازی تا شروعِ روزِ اول، صفحه‌یِ «نقشِ تو» می‌مونه (با رفرش هم دوباره نشان داده می‌شه)
+        if(game.current_phase === 'role_reveal'){
+          if(!roleScreenShown){ await showMyRole(); roleScreenShown = true; }
+          roleShown = true;
+          return;
+        }
         if(!roleShown){
-          go('screen-player-lobby');
           await showMyRole();
           roleShown = true;
           return; // یه دورِ بعدی صبر کن تا نقش دیده بشه، بعد وارد فاز شو
@@ -3091,12 +3228,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
         lastRenderedKey = key;
 
         if(!myAlive || myJailed){
-          document.getElementById('elimTitle').textContent = myAlive ? 'زندانی شدی' : 'از بازی خارج شدی';
-          document.getElementById('elimText').textContent = myAlive
-            ? 'ضحاک تو را برایِ یک شبانه‌روز زندانی کرده: امروز و امشب از بازی بیرونی، کسی نمی‌تونه بهت کاری داشته باشه و بیدار نمی‌شی. فردا صبح به بازی برمی‌گردی.'
-            : 'از این به بعد فقط ناظری. نقشت رو برایِ کسی فاش نکن و چیزی به بازیکن‌ها نگو — در پایانِ بازی نقشِ همه آشکار می‌شه.';
-          document.getElementById('elimPhaseNote').textContent = (game.current_phase === 'day' ? 'روزِ ' : 'شبِ ') + game.day_number + ' · بازی ادامه داره…';
-          go('screen-eliminated');
+          showOutOfGame(game);
         } else if(myRoleId === 'jamshid'){
           showJamshidDashboard(game);
         } else if(myRoleId === 'zahhak' && game.current_phase === 'day'){
@@ -3114,35 +3246,77 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     pollTimer = setInterval(tick, 2000);
   }
 
+  // ---- نقشِ تو (role-pack): کارتِ بزرگ + پنهان‌کردنِ سریع برایِ حریمِ خصوصی ----
+  let roleView = null, roleHidden = false, roleImgFailed = false;
+  function renderRolePrivacy(){
+    const root = document.getElementById('screen-my-role'), img = document.getElementById('roleCardImage'), card = document.getElementById('roleRevealCard');
+    root.dataset.private = String(roleHidden);
+    document.getElementById('roleHideBtn').setAttribute('aria-pressed', String(roleHidden));
+    document.getElementById('roleHideText').textContent = roleHidden ? 'نشان بده' : 'پنهان کن';
+    document.getElementById('roleHideIcon').src = 'assets/role/icons/' + (roleHidden ? 'eye' : 'eye-off') + '.svg';
+    document.getElementById('roleSideTag').hidden = roleHidden;
+    root.querySelector('.private-label').hidden = !roleHidden;
+    root.querySelector('.hidden-copy').hidden = !roleHidden;
+    root.querySelector('.role-copy').hidden = roleHidden;
+    document.getElementById('roleCardFallback').hidden = roleHidden || !roleImgFailed;
+    img.hidden = !roleHidden && roleImgFailed;
+    card.disabled = roleHidden || roleImgFailed;
+    card.setAttribute('aria-label', roleHidden ? 'کارت پنهان' : roleImgFailed ? 'تصویر کارت در دسترس نیست' : 'بزرگ‌نمایی کارت ' + roleView.name);
+    img.alt = roleHidden ? 'پشت کارت نقش' : 'تصویر ' + roleView.name;
+    const src = roleHidden ? 'assets/role/role-back.webp' : roleView.image;
+    if(src && img.getAttribute('src') !== src) img.src = src;
+  }
+  function hideRole(){
+    if(!roleView) return;
+    roleHidden = true;
+    closeCardLightbox();
+    const li = document.getElementById('cardLightboxImg'); li.removeAttribute('src'); li.alt = '';
+    renderRolePrivacy();
+  }
+  function toggleRole(){ if(roleHidden){ roleHidden = false; renderRolePrivacy(); } else hideRole(); }
   async function showMyRole(){
     const me = await tjGetPlayer(currentPlayer.id);
     myRoleId = me.role_id; mySide = me.side;
-    const roleName = ROLE_NAMES_FA[me.role_id] || me.role_id;
-    const sideLabel = me.side === 'jamshidi' ? 'یارانِ جمشید' : me.side === 'zahhaki' ? 'ضحاکیان' : 'بی‌طرف';
-    const cardImg = ROLE_CARD_IMG[me.role_id];
-    const body = document.getElementById('playerLobbyBody');
+    roleView = { id: me.role_id, side: me.side, name: ROLE_NAMES_FA[me.role_id] || me.role_id, desc: ROLE_DESC_FA[me.role_id] || '', image: ROLE_CARD_IMG[me.role_id] || '' };
+    roleHidden = false; roleImgFailed = !roleView.image;
+    document.getElementById('roleRevealName').textContent = roleView.name;
+    document.getElementById('roleRevealDesc').textContent = roleView.desc;
+    document.getElementById('roleFallbackName').textContent = roleView.name;
+    document.getElementById('roleFallbackDesc').textContent = roleView.desc;
+    const side = me.side === 'jamshidi' ? ['یارانِ جمشید', 'assets/finale/icons/sun.svg'] : me.side === 'zahhaki' ? ['ضحاکیان', 'assets/finale/icons/snake.svg'] : ['بی‌طرف', 'assets/role/icons/neutral.svg'];
+    const tag = document.getElementById('roleSideTag');
+    tag.className = 'side-tag ' + (me.side || 'neutral');
+    const ico = document.createElement('img'); ico.src = side[1]; ico.alt = '';
+    const lab = document.createElement('span'); lab.textContent = side[0];
+    tag.replaceChildren(ico, lab);
+    document.getElementById('roleCardImage').onerror = () => { if(roleHidden) return; roleImgFailed = true; renderRolePrivacy(); };
+    renderRolePrivacy();
+    go('screen-my-role');
+  }
+  document.getElementById('roleHideBtn').addEventListener('click', toggleRole);
+  document.getElementById('roleRevealCard').addEventListener('click', () => { if(roleView && !roleHidden && !roleImgFailed) openCardLightbox(roleView.image, roleView.name); });
+  // حریمِ خصوصی: با رفتن از برنامه/تب نقش خودکار پنهان می‌شود (با برگشتن خودکار نمایش داده نمی‌شود)
+  const roleScreenActive = () => document.getElementById('screen-my-role').classList.contains('active');
+  document.addEventListener('visibilitychange', () => { if(document.hidden && roleScreenActive()) hideRole(); });
+  window.addEventListener('blur', () => { if(roleScreenActive()) hideRole(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && roleScreenActive() && !document.getElementById('cardLightbox').classList.contains('show')) hideRole(); });
 
-    if(cardImg){
-      // کارتِ کاملِ طراحی‌شده — اگه برای این نقش آماده باشه
-      body.innerHTML = `
-        <div class="lb-role-panel"><div class="role-reveal-card" style="padding:18px 16px;">
-          <span class="side-tag ${me.side}">${sideLabel}</span>
-          <img class="role-card-img" src="${cardImg}" alt="${roleName}" onclick="openCardLightbox('${cardImg}','${roleName}')">
-          <p style="font-size:11.5px; color:var(--parchment-dim); margin-top:10px;">این نقش فقط برای خودِ توئه — به کسی نشونش نده. برای دیدنِ بزرگ‌تر، لمسش کن.</p>
-        </div></div>
-      `;
-    }else{
-      // کارتِ متنیِ موقت، تا وقتی طراحیِ این نقش آماده بشه
-      const sidePortrait = me.side === 'jamshidi' ? 'assets/jamshid-glory.jpg' : me.side === 'zahhaki' ? 'assets/zahhak.jpg' : '';
-      body.innerHTML = `
-        <div class="lb-role-panel"><div class="role-reveal-card">
-          ${sidePortrait ? `<div class="portrait-badge" style="background-image:url('${sidePortrait}'); width:72px; height:72px;"></div>` : ''}
-          <span class="side-tag ${me.side}">${sideLabel}</span>
-          <div class="rname">${roleName}</div>
-          <p style="font-size:11.5px; color:var(--parchment-dim);">این نقش فقط برای خودِ توئه — به کسی نشونش نده</p>
-        </div></div>
-      `;
-    }
+  // ---- بیرون از بازی: ناظر (حذف‌شده) یا زندانی (یک شبانه‌روز) ----
+  function showOutOfGame(game){
+    const state = myAlive ? 'jailed' : 'eliminated';
+    const root = document.getElementById('screen-eliminated');
+    root.dataset.state = state;
+    root.dataset.phase = game.current_phase === 'night' ? 'night' : 'day';
+    document.getElementById('elimTitle').textContent = state === 'jailed' ? 'زندانی شدی' : 'از بازی خارج شدی';
+    document.getElementById('elimStateBadge').textContent = state === 'jailed' ? 'تا فردا صبح' : 'ناظرِ بازی';
+    document.getElementById('elimText').textContent = state === 'jailed'
+      ? 'ضحاک تو را برایِ یک شبانه‌روز زندانی کرده: امروز و امشب از بازی بیرونی، کسی نمی‌تونه بهت کاری داشته باشه و بیدار نمی‌شی. فردا صبح به بازی برمی‌گردی.'
+      : 'از این به بعد فقط ناظری. نقشت رو برایِ کسی فاش نکن و چیزی به بازیکن‌ها نگو — در پایانِ بازی نقشِ همه آشکار می‌شه.';
+    const art = document.getElementById('elimArt');
+    art.src = 'assets/role/' + (state === 'jailed' ? 'prison-chain' : 'observer-moon') + '.webp';
+    art.alt = state === 'jailed' ? 'زنجیر و قفل؛ زندانِ موقت' : 'ماهِ کم‌رنگ؛ ناظرِ بازی';
+    document.getElementById('elimPhaseNote').textContent = (game.current_phase === 'day' ? 'روزِ ' : 'شبِ ') + game.day_number + ' · بازی ادامه داره…';
+    go('screen-eliminated');
   }
 
 
@@ -4127,7 +4301,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
 
     // آخرِ بازی: وقتی کمتر از دو نفرِ دیگه مونده، رأیِ دوگانه (پیمان و گمان به دو نفرِ متفاوت) ممکن نیست
     if(others.length < 2){
-      body.append(dvEl('p', 'locked-note', 'تعدادِ بازیکن‌هایِ باقی‌مونده به‌اندازه‌یِ رأیِ دوگانه نیست (پیمان و گمان به دو نفرِ متفاوت). منتظرِ تصمیمِ گرداننده باش.'));
+      body.append(dvEl('p', 'note block', 'تعدادِ بازیکن‌هایِ باقی‌مونده به‌اندازه‌یِ رأیِ دوگانه نیست (پیمان و گمان به دو نفرِ متفاوت). منتظرِ تصمیمِ گرداننده باش.'));
       go('screen-day-vote');
       return;
     }
