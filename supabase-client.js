@@ -194,6 +194,38 @@ async function tjCountEliminated(gameId) {
   return { jamshidiEliminated, zahhakiEliminated };
 }
 
+// ---------- شمارشِ زنده‌هایِ هر سو (برایِ جامِ جم) ----------
+// دفترچه‌یِ نهایی: جامِ جم «فقط تعدادِ یارانِ زنده‌یِ هر دو سو را می‌فهمد — نه اینکه آن‌ها چه کسانی‌اند».
+// همون شمارشِ تشخیصِ برنده‌ست: جمشید و ضحاک شمرده نمی‌شن، ارمایل جزوِ یارانِ جمشیده،
+// و سهرابِ نپیوسته (side=neutral) برایِ هیچ‌کدوم شمرده نمی‌شه.
+async function tjCountAlive(gameId) {
+  const players = await tjListPlayers(gameId);
+  const { jamshidiAlive, zahhakiAlive } = tjEvaluateWin(players);
+  return { jamshidiAlive, zahhakiAlive };
+}
+
+// ---------- پرچم‌هایِ هنگامه‌ها (داخلِ games.hengameh_flags، بدونِ مهاجرتِ اسکیما) ----------
+async function tjSetHengamehFlags(gameId, patch) {
+  const game = await tjGetGame(gameId);
+  const flags = { ...(game.hengameh_flags || {}), ...patch };
+  const { error } = await sb.from('games').update({ hengameh_flags: flags }).eq('id', gameId);
+  if (error) throw new Error('خطا در ثبتِ هنگامه: ' + error.message);
+  return flags;
+}
+
+// ---------- پیوستنِ سهراب به یکی از دو سو (شبِ سوم) ----------
+async function tjSetPlayerSide(playerId, side) {
+  const { data, error } = await sb.from('players').update({ side }).eq('id', playerId).select().single();
+  if (error) throw new Error('خطا در تغییرِ سوِ بازیکن: ' + error.message);
+  return data;
+}
+
+// جمشید و ضحاک نه رأی می‌دن نه رأی می‌گیرن (نامیرا و بیرونِ رأی‌گیری‌ان). جدولِ آرا فقط شاملِ
+// بازیکنانِ عادیه؛ جلوگیری از رأیِ بازیکنِ حذف‌شده هم سمتِ صفحه‌یِ رأی انجام می‌شه.
+function tjIsVoter(p) {
+  return !p.is_host && p.role_id !== 'jamshid' && p.role_id !== 'zahhak';
+}
+
 // ---------- گرفتنِ آرای پیمان/گمانِ یک روز و ساختنِ جدولِ جمع‌بندی ----------
 async function tjGetDayTally(gameId, dayNumber) {
   const { data: votes, error } = await sb
@@ -205,10 +237,12 @@ async function tjGetDayTally(gameId, dayNumber) {
 
   const players = await tjListPlayers(gameId);
   const tally = {};
-  players.filter(p => !p.is_host).forEach(p => {
+  players.filter(tjIsVoter).forEach(p => {
     tally[p.id] = { id: p.id, name: p.display_name, is_alive: p.is_alive, peyman: 0, goman: 0 };
   });
-  (votes || []).forEach(v => {
+  const voterIds = new Set(players.filter(tjIsVoter).map(p => p.id));
+  const validVotes = (votes || []).filter(v => voterIds.has(v.voter_id));
+  validVotes.forEach(v => {
     if (!tally[v.target_id]) return;
     if (v.vote_type === 'peyman') tally[v.target_id].peyman += 1;
     else if (v.vote_type === 'goman') tally[v.target_id].goman += 1;
@@ -216,7 +250,7 @@ async function tjGetDayTally(gameId, dayNumber) {
 
   const rows = Object.values(tally).filter(r => r.is_alive);
   rows.sort((a, b) => (b.peyman - a.peyman) || (b.goman - a.goman));
-  const votersCount = new Set((votes || []).map(v => v.voter_id)).size;
+  const votersCount = new Set(validVotes.map(v => v.voter_id)).size;
   return { rows, votersCount };
 }
 
@@ -233,14 +267,16 @@ async function tjGetDayVoteBoard(gameId, dayNumber) {
 
   const players = await tjListPlayers(gameId);
   const byId = {};
-  players.filter(p => !p.is_host).forEach(p => {
+  players.filter(tjIsVoter).forEach(p => {
     byId[p.id] = {
       id: p.id, name: p.display_name, is_alive: p.is_alive,
       peyman: 0, goman: 0, gavePeymanTo: null, gaveGomanTo: null,
     };
   });
 
-  (votes || []).forEach(v => {
+  const voterIds = new Set(players.filter(tjIsVoter).map(p => p.id));
+  const validVotes = (votes || []).filter(v => voterIds.has(v.voter_id));
+  validVotes.forEach(v => {
     const target = byId[v.target_id];
     const voter = byId[v.voter_id];
     if (target) target[v.vote_type === 'peyman' ? 'peyman' : 'goman'] += 1;
@@ -251,7 +287,7 @@ async function tjGetDayVoteBoard(gameId, dayNumber) {
 
   const rows = Object.values(byId).filter(r => r.is_alive);
   rows.sort((a, b) => (b.peyman - a.peyman) || (b.goman - a.goman) || a.name.localeCompare(b.name, 'fa'));
-  const votersCount = new Set((votes || []).map(v => v.voter_id)).size;
+  const votersCount = new Set(validVotes.map(v => v.voter_id)).size;
   return { rows, votersCount };
 }
 
@@ -292,6 +328,18 @@ async function tjLogEvent(gameId, num, type, payload) {
     .from('events_log')
     .insert({ game_id: gameId, day_or_night_number: num, type, payload: payload || {} });
   if (error) console.error('خطا در ثبتِ رویداد:', error.message);
+}
+
+// ---------- رویدادهایِ یک روز/شب (برایِ بازسازیِ نتیجه‌یِ شب بعد از رفرش) ----------
+async function tjGetEvents(gameId, num) {
+  const { data, error } = await sb
+    .from('events_log')
+    .select('*')
+    .eq('game_id', gameId)
+    .eq('day_or_night_number', num)
+    .order('created_at', { ascending: true });
+  if (error) throw new Error('خطا در خواندنِ رویدادها: ' + error.message);
+  return data || [];
 }
 
 // ---------- کشته‌های یک روز/شبِ مشخص (برای اطلاعِ جاماسپ و اعلامِ صبح) ----------
@@ -590,9 +638,12 @@ async function tjApplyNightResolve(gameId, nightNumber, originalPlayers, result)
 
   // ۳) وضعیتِ بازی. ستونی برای zahhak_hungry_streak نداریم، پس داخلِ همون
   //    hengameh_flags نگهش می‌داریم تا نیازی به مهاجرتِ اسکیما نباشه.
+  //    resolved_night: علامتِ «این شب حل شده» — اگه گرداننده بعد از حل صفحه/برنامه رو دوباره باز کرد،
+  //    نباید همان شب دوباره حل بشه (شمارنده‌هایِ تیر/افسون/گرسنگی دوبار اعمال می‌شد).
   const flags = {
     ...(result.updatedGameState.hengameh_flags || {}),
     zahhak_hungry_streak: result.updatedGameState.zahhak_hungry_streak || 0,
+    resolved_night: nightNumber,
   };
   const { error: gErr } = await sb.from('games').update({ hengameh_flags: flags }).eq('id', gameId);
   if (gErr) throw new Error('خطا در ذخیره‌ی وضعیتِ بازی: ' + gErr.message);

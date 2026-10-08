@@ -192,7 +192,7 @@ t('Two hungry nights in a row => zahhak incapacitated', () => {
   eq(r.updatedGameState.hengameh_flags.zahhak_incapacitated, true);
 });
 t('Successful feed resets hunger streak', () => {
-  const ps = [P('z', 'zahhak', 'zahhaki'), P('x', 'rostam', 'jamshidi'), P('y', 'zaal', 'jamshidi')];
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('x', 'keykavous', 'jamshidi'), P('y', 'zaal', 'jamshidi')];
   const r = resolveNight(ps, [{ actor_player_id: 'z', action_type: 'kill_pick_two', target_player_id: 'x', target_player_id_2: 'y' }], gs({ zahhak_hungry_streak: 1 }));
   eq(r.updatedGameState.zahhak_hungry_streak, 0);
 });
@@ -361,6 +361,121 @@ t('an enchanted Afrasiab gets NO inquiry result (the host card must show the sam
   eq(r.events.some(x => x.type === 'inquiry_result'), false, 'enchanted Afrasiab must not get an answer');
   const r2 = resolveNight(ps, [acts[1]], gs());
   eq(r2.events.some(x => x.type === 'inquiry_result'), true, 'un-enchanted Afrasiab still gets one');
+});
+
+console.log('\n=== Final rulebook: hunger, immortality, incapacitated Zahhak ===');
+t('Rostam armor absorbing the kill => nobody died => Zahhak stays hungry', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('x', 'rostam', 'jamshidi'), P('y', 'zaal', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'z', action_type: 'kill_pick_two', target_player_id: 'x', target_player_id_2: 'y' }], gs({ zahhak_hungry_streak: 1 }));
+  eq(deaths(r), []);
+  eq(r.updatedGameState.zahhak_hungry_streak, 2, 'hungry');
+  eq(r.updatedGameState.hengameh_flags.zahhak_incapacitated, true, 'incapacitated after two hungry nights');
+});
+t('Zaal feather => Zahhak counts as hungry', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('zl', 'zaal', 'jamshidi'), P('x', 'keykavous', 'jamshidi'), P('y', 'karen', 'jamshidi')];
+  const r = resolveNight(ps, [
+    { actor_player_id: 'z', action_type: 'kill_pick_two', target_player_id: 'x', target_player_id_2: 'y' },
+    { actor_player_id: 'zl', action_type: 'block_all_kills' },
+  ], gs({ zahhak_hungry_streak: 0 }));
+  eq(deaths(r), []);
+  eq(r.updatedGameState.zahhak_hungry_streak, 1);
+});
+t('Bijan protected by Manijeh => nobody died => Zahhak stays hungry', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('b', 'bijan', 'jamshidi'), P('m', 'manijeh', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'z', action_type: 'kill_pick_two', target_player_id: 'b', target_player_id_2: 'm' }], gs());
+  // Manijeh is the second target; with no save the victim is the first one (Bijan), who is immune
+  eq(deaths(r), []);
+  eq(r.updatedGameState.zahhak_hungry_streak, 1);
+});
+t('Gersivaz sacrifice counts as feeding the snakes (resets the streak)', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('g', 'gersivaz', 'zahhaki'), P('x', 'keykavous', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'g', action_type: 'self_sacrifice', target_player_id: 'x' }], gs({ zahhak_hungry_streak: 1 }));
+  eq(deaths(r), ['g', 'x']);
+  eq(r.updatedGameState.zahhak_hungry_streak, 0);
+});
+t('Failed Gersivaz (only Zahhakis targeted) does NOT feed the snakes', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('g', 'gersivaz', 'zahhaki'), P('af', 'afrasiab', 'zahhaki')];
+  const r = resolveNight(ps, [{ actor_player_id: 'g', action_type: 'self_sacrifice', target_player_id: 'af' }], gs({ zahhak_hungry_streak: 0 }));
+  eq(deaths(r), []);
+  eq(r.updatedGameState.zahhak_hungry_streak, 1);
+});
+t('Kills by Rostam/Homan do NOT feed the snakes', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('r', 'rostam', 'jamshidi'), P('af', 'afrasiab', 'zahhaki')];
+  const r = resolveNight(ps, [{ actor_player_id: 'r', action_type: 'guess_shoot', target_player_id: 'af' }], gs({ zahhak_hungry_streak: 0 }));
+  eq(deaths(r), ['af']);
+  eq(r.updatedGameState.zahhak_hungry_streak, 1, 'still hungry');
+});
+t("Zahhak is immortal: Rostam's arrow at Zahhak does nothing", () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('r', 'rostam', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'r', action_type: 'guess_shoot', target_player_id: 'z' }], gs());
+  eq(deaths(r), []);
+  eq(r.events.some(e => e.type === 'immortal'), true, 'immortal event');
+});
+t('Jamshid is immortal: Homan guessing his role does nothing', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('h', 'homan', 'zahhaki'), P('j', 'jamshid', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'h', action_type: 'guess_kill_or_copy', target_player_id: 'j', extra: { guessed_role_id: 'jamshid' } }], gs());
+  eq(deaths(r), []);
+});
+t('Incapacitated Zahhak has no night pick: his action is ignored', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('x', 'keykavous', 'jamshidi'), P('y', 'karen', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'z', action_type: 'kill_pick_two', target_player_id: 'x', target_player_id_2: 'y' }], gs({ hengameh_flags: { zahhak_incapacitated: true }, zahhak_hungry_streak: 2 }));
+  eq(deaths(r), []);
+});
+
+console.log('\n=== Sudabeh wakes first: enchanting Zahhak ===');
+t('Enchanted Zahhak: his pick kills nobody and he counts as hungry', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('su', 'sudabeh', 'zahhaki'), P('x', 'keykavous', 'jamshidi'), P('y', 'karen', 'jamshidi')];
+  const r = resolveNight(ps, [
+    { actor_player_id: 'su', action_type: 'enchant', target_player_id: 'z' },
+    { actor_player_id: 'z', action_type: 'kill_pick_two', target_player_id: 'x', target_player_id_2: 'y' },
+  ], gs({ zahhak_hungry_streak: 0 }));
+  eq(deaths(r), [], 'no deaths');
+  eq(r.updatedGameState.zahhak_hungry_streak, 1, 'hungry');
+  eq(r.events.some(e => e.type === 'zahhak_enchanted'), true, 'event');
+});
+t('Enchanted Zahhak twice in a row => incapacitated', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('su', 'sudabeh', 'zahhaki'), P('x', 'keykavous', 'jamshidi'), P('y', 'karen', 'jamshidi')];
+  const r = resolveNight(ps, [
+    { actor_player_id: 'su', action_type: 'enchant', target_player_id: 'z' },
+    { actor_player_id: 'z', action_type: 'kill_pick_two', target_player_id: 'x', target_player_id_2: 'y' },
+  ], gs({ zahhak_hungry_streak: 1 }));
+  eq(r.updatedGameState.hengameh_flags.zahhak_incapacitated, true, 'incapacitated');
+});
+t('Sudabeh enchanting someone else leaves Zahhak free to kill', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('su', 'sudabeh', 'zahhaki'), P('x', 'keykavous', 'jamshidi'), P('y', 'karen', 'jamshidi'), P('w', 'zaal', 'jamshidi')];
+  const r = resolveNight(ps, [
+    { actor_player_id: 'su', action_type: 'enchant', target_player_id: 'w' },
+    { actor_player_id: 'z', action_type: 'kill_pick_two', target_player_id: 'x', target_player_id_2: 'y' },
+  ], gs());
+  eq(deaths(r), ['x'], 'first target dies');
+});
+
+console.log('\n=== Jail: one full day-and-night out of the game ===');
+const J = (id, role, side) => ({ ...P(id, role, side), state_flags: { jailed: true } });
+t('Jailed player cannot be killed by Zahhak (his pick is void, Zahhak hungry)', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), J('x', 'keykavous', 'jamshidi'), P('y', 'karen', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'z', action_type: 'kill_pick_two', target_player_id: 'x', target_player_id_2: 'y' }], gs());
+  eq(deaths(r), [], 'nobody dies');
+  eq(r.updatedGameState.zahhak_hungry_streak, 1, 'hungry');
+});
+t('Jailed player cannot be shot by Rostam, guessed by Homan, or sacrificed by Gersivaz', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('r', 'rostam', 'jamshidi'), P('h', 'homan', 'zahhaki'), P('g', 'gersivaz', 'zahhaki'), J('af', 'afrasiab', 'zahhaki'), J('k', 'keykavous', 'jamshidi')];
+  const r = resolveNight(ps, [
+    { actor_player_id: 'r', action_type: 'guess_shoot', target_player_id: 'af' },
+    { actor_player_id: 'h', action_type: 'guess_kill_or_copy', target_player_id: 'k', extra: { guessed_role_id: 'keykavous' } },
+    { actor_player_id: 'g', action_type: 'self_sacrifice', target_player_id: 'k' },
+  ], gs());
+  eq(deaths(r), [], 'nobody dies, Gersivaz keeps his sacrifice');
+});
+t('Jailed player does not act at night (his action is ignored)', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), J('r', 'rostam', 'jamshidi'), P('af', 'afrasiab', 'zahhaki'), P('x', 'karen', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'r', action_type: 'guess_shoot', target_player_id: 'af' }], gs());
+  eq(deaths(r), [], 'jailed Rostam cannot shoot');
+});
+t('Jailed player cannot be enchanted either, and Manijeh bond does not take a jailed Bijan', () => {
+  const ps = [P('z', 'zahhak', 'zahhaki'), P('m', 'manijeh', 'jamshidi'), J('b', 'bijan', 'jamshidi'), P('y', 'karen', 'jamshidi')];
+  const r = resolveNight(ps, [{ actor_player_id: 'z', action_type: 'kill_pick_two', target_player_id: 'm', target_player_id_2: 'y' }], gs());
+  eq(deaths(r), ['m'], 'only Manijeh dies');
 });
 
 console.log('\n=== Input purity ===');

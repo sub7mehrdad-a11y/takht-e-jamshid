@@ -1,0 +1,7 @@
+{
+  "name": "tj-sim",
+  "private": true,
+  "description": "شبیه‌ساز بازیِ کامل تخت جمشید با Chrome واقعی و پایگاه‌دادهٔ ساختگی",
+  "scripts": { "sim": "node sim.js" },
+  "devDependencies": { "puppeteer-core": "^24.0.0" }
+}

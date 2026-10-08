@@ -16,3 +16,7 @@ _backup-pre-sync-*/
 !assets/control/**/*.png
 !assets/play/**/*.png
 !assets/finale/**/*.png
+
+# شبیه‌ساز
+tests/sim/node_modules/
+tests/sim/package-lock.json

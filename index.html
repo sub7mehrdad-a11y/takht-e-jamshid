@@ -659,11 +659,11 @@
 .play-screen .vb-counts{gap:3px}
 .play-screen .tc-g,.play-screen .tc-r{font-size:11px;padding-inline:3px}}
 @media(prefers-reduced-motion:reduce){.play-screen .spinner,.play-screen .twinkle,.play-screen .night-mist{animation:none!important}}
-#screen-night-wait.active{display:flex}
+#screen-night-wait.active,#screen-eliminated.active{display:flex}
 /* دکمه‌ی «؟»ی سراسری بالا-چپ است؛ عنوان زیرش نرود */
 #screen-day-vote.play-screen{padding-top:56px}  /* زیرِ دکمه‌ی «خروج» (راست) و «؟» (چپ) */
 #screen-day-vote .day-header{padding-inline-end:42px}
-body:has(#screen-night-wait.active){background:#211b17}
+body:has(#screen-night-wait.active),body:has(#screen-eliminated.active){background:#211b17}
 /* نشتِ CSSِ سراسریِ اپ (button{width:100%;padding:13px;border-radius;border:none}) به صفحه‌ی رأی */
 .play-screen{font:14px/1.8 Vazirmatn,Tahoma,sans-serif;color:var(--ink)}
 .play-screen button{width:auto;padding:0;border-radius:0;transition:none;font-size:inherit;font-weight:inherit}
@@ -1397,53 +1397,51 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     <header class="topbar"><button class="back-arrow" type="button" onclick="go('screen-entry')" aria-label="بازگشت">→</button><h1 id="guideTitle">راهنمایِ بازی</h1></header>
     <div class="guide-art"><img src="assets/finale/art/guide-book.webp" alt="دفترِ گشوده، قلم و نامه‌یِ مهرشده"></div>
     <div class="content reading"><p class="eyebrow center">داستان را بشناس، نقشِ خود را بازی کن</p><nav class="jump-links" id="guideJumps" aria-label="پرش به بخش‌هایِ راهنما"></nav>
-      <section class="guide-section" id="guide-1"><h3><img src="assets/finale/icons/group.svg" alt="">ساختار کلی</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt="">
-        <ul>
-          <li>بازی دو گروه داره: <b class="team-jam">یارانِ جمشید</b> (اکثریت، نقشِ هم رو نمی‌دونن) و <b class="team-zah">ضحاکیان</b> (اقلیت، فقط توسطِ ضحاک شناخته می‌شن).</li>
-          <li>جمشید و ضحاک از ابتدا برای همه آشکارن.</li>
-          <li>بازی تو چرخه‌ی <b>روز → مجلسِ مهان/مشورت → خوابِ نیم‌روزی → شب</b> پیش می‌ره.</li>
-          <li>با مرگِ تمامِ یارانِ یک پادشاه، بازی به نفعِ پادشاهِ دیگه تموم می‌شه — جمشید و ضحاک نامیرا هستن و شمرده نمی‌شن، <b>ارمایل جزوِ یارانِ جمشیده</b> (با اینکه در استعلام‌ها ضحاکی نشون داده می‌شه)، و سهرابِ نپیوسته برایِ هیچ‌کدوم شمرده نمی‌شه.</li>
+      <section class="guide-section" id="guide-1"><h3><img src="assets/finale/icons/group.svg" alt="">ساختار کلی</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt=""><ul>
+          <li>بازی دو سو داره: <b class="team-jam">یارانِ جمشید</b> (اکثریت؛ نقشِ همدیگه رو نمی‌دونن) و <b class="team-zah">ضحاکیان</b> (اقلیت؛ فقط ضحاک نقشِ همه‌شون رو می‌دونه، ولی خودشون همدیگه رو نمی‌شناسن). سهراب اولش بی‌طرفه و بعداً به یکی از دو سو می‌پیونده.</li>
+          <li>جمشید و ضحاک از ابتدا برایِ همه آشکارن و هر دو نامیرا هستن: هیچ قابلیتی، هیچ حدسی و هیچ رأیی نمی‌تونه از بازی خارجشون کنه.</li>
+          <li>بازی میانِ دو فاز در نوسانه: <b>روز</b> (گفت‌وگو، رأی و تصمیمِ جمشید) ← <b>خوابِ نیم‌روزی</b> ← <b>شب</b> (ضحاک شکار می‌کنه و یارانش قابلیت به‌کار می‌برن).</li>
+          <li>خروج از بازی فقط به دو راه ممکنه: رأیِ روزِ جمشید، یا کشتنِ شبانه (عمدتاً به‌دستِ ضحاک؛ چند نقشِ دیگه هم می‌تونن بکشن). کسی که خارج می‌شه از اون به بعد فقط ناظره.</li>
+          <li>با مرگِ تمامِ یارانِ یک پادشاه، بازی به نفعِ پادشاهِ دیگه تموم می‌شه. جمشید و ضحاک شمرده نمی‌شن، ارمایل جزوِ یارانِ جمشیده (با اینکه در استعلام‌ها ضحاکی نشون داده می‌شه) و سهرابِ نپیوسته برایِ هیچ‌کدوم شمرده نمی‌شه. در پایانِ بازی نقشِ همه — زنده و مرده — آشکار می‌شه.</li>
         </ul></section>
-      <section class="guide-section" id="guide-2"><h3><img src="assets/finale/icons/sun.svg" alt="">فازِ روز</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt="">
-        <ul>
+      <section class="guide-section" id="guide-2"><h3><img src="assets/finale/icons/sun.svg" alt="">فازِ روز</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt=""><ul>
           <li>همه (به‌جز جمشید و ضحاک) نوبتِ صحبت دارن.</li>
-          <li>هرکس بعدِ نوبتش یه کارتِ <b>پیمان</b> (اعتماد) و یه کارتِ <b>گمان</b> (بی‌اعتمادی) به دو نفرِ مجزا می‌ده.</li>
-          <li>جمشید یکی از این مسیرها رو انتخاب می‌کنه: تشکیلِ مجلسِ مهان، مشورتِ عمومی، انتخابِ مستقیم، یا حذف‌نکردنِ کسی.</li>
+          <li>هر بازیکن بعدِ نوبتش به دو نفرِ متفاوت (نه به خودش) یک کارتِ <b>پیمان</b> (اعتماد) و یک کارتِ <b>گمان</b> (بی‌اعتمادی) می‌ده. کارت‌ها علنی‌ان و جمعِ آرا در طولِ روز برایِ همه دیدنیه — هرکس هر لحظه می‌دونه چند پیمان و چند گمان گرفته و رأیش رو به کی داده.</li>
+          <li>بعدِ پایانِ گفت‌وگوها، <b>مجلسِ مهان</b> همیشه تشکیل می‌شه (اجباریه): دو یا سه نفرِ باپیمان‌ترین در جمع مشورت می‌کنن و دو نفر رو به‌عنوانِ متهم به جمشید معرفی می‌کنن. اگه برایِ ورود به مجلس تساوی بود، خودِ جمشید از میانِ برابرها انتخاب می‌کنه.</li>
+          <li>جمشید از میانِ دو متهمِ مجلس یکی رو برایِ مرگ برمی‌گزینه — یا هیچ‌کدوم رو؛ او همیشه می‌تونه کسی رو نکشه.</li>
         </ul></section>
-      <section class="guide-section" id="guide-3"><h3><img src="assets/finale/icons/moon.svg" alt="">خوابِ نیم‌روزی</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt="">
-        <ul>
-          <li>همه چشم می‌بندن؛ جمشید تصمیمش رو به گرداننده می‌گه.</li>
-          <li>کیکاووس می‌تونه با نوشدارو کشته رو نجات بده.</li>
+      <section class="guide-section" id="guide-3"><h3><img src="assets/finale/icons/moon.svg" alt="">خوابِ نیم‌روزی</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt=""><ul>
+          <li>همه چشم می‌بندن. جمشید از میانِ دو متهمِ مجلسِ مهان یکی رو برایِ مرگ برمی‌گزینه (یا هیچ‌کدوم رو) و تصمیمش رو آهسته به گرداننده می‌گه.</li>
+          <li>بعد کیکاووس بیدار می‌شه؛ کشته‌یِ احتمالیِ روز — بدونِ گفتنِ دلیل — بهش نشون داده می‌شه و می‌تونه با نوشدارو نجاتش بده. نوشدارو روی سهراب و در «روزِ کینِ سیاوش» بی‌اثره.</li>
+          <li>اعلامِ عمومی فقط نتیجه‌ست: «فلانی امروز از بازی خارج شد» یا «امروز کسی خارج نشد». هیچ‌وقت دلیل، رأیِ کی، یا نقشِ اعضایِ مجلسِ مهان گفته نمی‌شه.</li>
         </ul></section>
-      <section class="guide-section" id="guide-4"><h3><img src="assets/finale/icons/moon.svg" alt="">فازِ شب</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt="">
-        <ul>
-          <li>ضحاک دو نفر رو برای مارهاش انتخاب می‌کنه؛ ارمایل یکی رو نجات می‌ده.</li>
-          <li>اگه ضحاک دو شبِ پیاپی نتونه بکشه، ناتوان می‌شه (نامیرا می‌مونه ولی دیگه رهبری/کشتن نمی‌کنه).</li>
-          <li>بقیه‌ی نقش‌ها به‌ترتیب از قابلیت‌شون استفاده می‌کنن؛ در پایان، جاماسپ از کشته‌های اخیر باخبر می‌شه.</li>
+      <section class="guide-section" id="guide-4"><h3><img src="assets/finale/icons/moon.svg" alt="">فازِ شب</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt=""><ul>
+          <li>ضحاک دو نفر رو برایِ طعمه‌یِ مارهاش انتخاب می‌کنه؛ ارمایل یکی رو نجات می‌ده و دیگری کشته می‌شه. اگه خودِ ارمایل جزوِ اون دو نفر باشه، هر دو کشته می‌شن؛ اگه ضحاک اشتباهاً یکی از یارانِ خودش رو انتخاب کنه، هیچ‌کس نمی‌میره.</li>
+          <li>ترتیبِ بیداری (سودابه همیشه اولِ شبه، چون افسونش قابلیتِ هدف رو همون شب باطل می‌کنه): سودابه ← ضحاک ← ارمایل ← افراسیاب ← هومان ← رستم ← زال؛ گرسیوز خارج از نوبت و هر لحظه. نتیجه‌یِ همه‌یِ اکشن‌ها یک‌جا در پایانِ شب حساب می‌شه، نه فوریِ هر اکشن.</li>
+          <li>اگه ضحاک نتونه کسی رو بکشه، فردا اعلام می‌شه «ضحاک گرسنه مونده». فقط کشته‌یِ مستقیمِ ضحاک و خودکشیِ گرسیوز خوراکِ مارها حساب می‌شن. اگه ضحاک دو شبِ پیاپی گرسنه بمونه، ناتوان می‌شه: نامیرا می‌مونه ولی دیگه نمی‌تونه بکشه یا رهبری کنه؛ از اون شب ضحاکیان (بدونِ ارمایل) همدیگه رو می‌شناسن.</li>
+          <li>در پایانِ هر شب، جاماسپ بیدار می‌شه و فقط نقشِ کشته‌هایِ روز و شب رو می‌شنوه — نه اینکه کدوم اسم صاحبِ کدوم نقش بود.</li>
         </ul></section>
-      <section class="guide-section" id="guide-5"><h3><img src="assets/finale/icons/crown.svg" alt="">کارت‌های پادشاهان</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt="">
-        <p>هر کارت فقط یک‌بار در کلِ بازی — نه هر روز.</p>
+      <section class="guide-section" id="guide-5"><h3><img src="assets/finale/icons/crown.svg" alt="">کارت‌های پادشاهان</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt=""><p>هر کارت فقط یک‌بار در کلِ بازی — نه هر روز.</p>
         <ul>
-          <li><b>جمشید:</b> جامِ جم (تعدادِ یارانِ زنده‌ی هر دو طرف) و فراخواندنِ سروش.</li>
-          <li><b>ضحاک:</b> اهریمن (روز بدونِ صحبت، مستقیم به نیم‌روز) و زندان (سکوتِ یک نفر تا پایانِ نیم‌روز؛ جمشید نمی‌تونه زندانی رو بکشه).</li>
+          <li><b>جمشید:</b> جامِ جم (فقط تعدادِ یارانِ زنده‌یِ هر دو سو، نه اینکه کی‌ان) و فراخواندنِ سروش (دروازه‌یِ نامه‌نگاری برایِ همه).</li>
+          <li><b>ضحاک:</b> اهریمن (اون روز بدونِ صحبت، مستقیم به خوابِ نیم‌روزی می‌ریم) و زندان (یک نفر برایِ یک شبانه‌روز — همون روز و شبِ بعدش — از بازی بیرون می‌ره: جمشید نمی‌تونه بکشدش، شب هیچ‌کس و هیچ قابلیتی روش اثر نداره و خودش هم بیدار نمی‌شه؛ صبحِ روزِ بعد برمی‌گرده).</li>
+          <li>اگه فراخوانیِ سروش و اهریمن هم‌زمان بشن، اون روز کسی صحبت نمی‌کنه — فقط نامه‌نگاری ممکنه.</li>
         </ul></section>
-      <section class="guide-section" id="guide-6"><h3><img src="assets/finale/icons/dove.svg" alt="">سروش — نامه‌نگاری</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt=""><img class="inline-illustration" src="assets/finale/art/soroush-dove.webp" alt="کبوترِ حامل نامه">
-        <ul>
-          <li>با فراخوانیِ جمشید، تا پایانِ همون شب هرکس یک نامه می‌نویسه.</li>
-          <li>نامه‌ها فقط در طولِ روز نوشته می‌شن؛ گیرنده می‌تونه یک بازیکن یا یک نقش باشه.</li>
-          <li>نامه‌ها بی‌نامن — گیرنده هیچ‌وقت نمی‌فهمه از طرفِ کیه.</li>
+      <section class="guide-section" id="guide-6"><h3><img src="assets/finale/icons/dove.svg" alt="">سروش — نامه‌نگاری</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt=""><img class="inline-illustration" src="assets/finale/art/soroush-dove.webp" alt="کبوترِ حامل نامه"><ul>
+          <li>جمشید یک‌بار در کلِ بازی، فقط در طولِ روز، سروش رو فرا می‌خونه؛ تا پایانِ همون شب هر بازیکن می‌تونه یک نامه بنویسه.</li>
+          <li>نامه‌ها فقط در طولِ روز نوشته می‌شن؛ شب فقط تحویل گرفته می‌شن. گیرنده می‌تونه یک بازیکنِ مشخص یا یک نقش (بدونِ دونستنِ صاحبش) باشه.</li>
+          <li>نامه‌ها بی‌نامن — گیرنده هیچ‌وقت نمی‌فهمه از طرفِ کیه. آخرِ شب نامه‌ها به گیرنده‌ها تحویل داده می‌شه.</li>
           <li>جمشید، ضحاک و سهراب نمی‌تونن نامه بنویسن؛ ارمایل هم بعدِ ناتوانیِ ضحاک.</li>
-          <li>ضحاک می‌تونه یک نفر رو شنود کنه — نامه‌های اون فرد (فرستاده یا گرفته) به ضحاک هم می‌رسه.</li>
+          <li>ضحاک می‌تونه یک نفر رو شنود کنه: همه‌یِ نامه‌هایِ اون فرد — چه فرستاده، چه گرفته، حتی خطاب به نقشش — به ضحاک هم می‌رسه؛ ولی نامه به گیرنده‌یِ اصلی هم می‌رسه و شنود مانعِ تحویل نمی‌شه.</li>
         </ul></section>
-      <section class="guide-section" id="guide-7"><h3><img src="assets/finale/icons/trumpet.svg" alt="">هنگامه‌های ویژه</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt="">
-        <ul>
-          <li><b>قیام:</b> مرگِ کارن به‌دستِ ضحاک (اگه کاوه زنده باشه) — کاوه و فریدون هر شب (بدونِ جمشید) با هم بیدار می‌شن و مشورت می‌کنن؛ فریدون هر شب یک نفر رو اضافه می‌کنه (حداکثر ۲ نفر). اگه ضحاکی اضافه بشه، شبِ بعد کاوه و شبِ بعدترش فریدون از بازی خارج می‌شن و قیام شکست می‌خوره.</li>
-          <li><b>کودتا:</b> مرگِ کارن به‌دستِ جمشید — زال، رستم و جاماسپ رأی می‌دن قدرت به فریدون منتقل بشه یا نه.</li>
-          <li><b>سیاوشان:</b> حذفِ اشتباهیِ سیاوش به‌دستِ جمشید — برمی‌گرده؛ بعدش اگه ضحاک بکشدش، «روزِ کینِ سیاوش» می‌شه (۲ کشته، نوشدارو بی‌اثر).</li>
-          <li><b>جنگ:</b> مرگِ سهرابِ نپیوسته به‌دستِ جمشید — ضحاکیان و ارمایل همدیگه رو می‌شناسن.</li>
-          <li><b>ناتوانیِ ضحاک:</b> دو شبِ پیاپیِ گرسنگی — ضحاک دیگه نمی‌کشه (نامیرا می‌مونه)؛ ضحاکیانِ بدونِ ارمایل همدیگه رو می‌شناسن.</li>
+      <section class="guide-section" id="guide-7"><h3><img src="assets/finale/icons/trumpet.svg" alt="">هنگامه‌های ویژه</h3><img class="section-divider" src="assets/entry/components/divider_diamond.png" alt=""><ul>
+          <li><b>قیام (درفشِ کاویانی):</b> مرگِ کارن به‌دستِ ضحاک، به شرطِ اینکه کاوه زنده باشه (وگرنه قیام اصلاً آغاز نمی‌شه). از اولین شبِ بعد کاوه و فریدون با هم (بدونِ جمشید) بیدار می‌شن و مشورت می‌کنن؛ فریدون هر شب یک نفر رو به جمع اضافه می‌کنه (حداکثر دو نفر در کلِ بازی). اگه ضحاکی اضافه بشه، همون شب بیدار می‌شه؛ شبِ بعد کاوه و شبِ بعدترش خودِ فریدون از بازی خارج می‌شن و قیام شکست می‌خوره.</li>
+          <li><b>کودتا:</b> مرگِ کارن به‌دستِ جمشید. زال، رستم و جاماسپ چشم‌بسته رأی می‌دن که قدرت به فریدون منتقل بشه یا نه؛ با اکثریت، فریدون به‌جایِ جمشید کشته‌یِ روز رو انتخاب می‌کنه و با مرگِ فریدون قدرت به جمشید برمی‌گرده.</li>
+          <li><b>سیاوشان:</b> حذفِ اشتباهیِ سیاوش به‌دستِ جمشید — نقشش آشکار می‌شه و به بازی برمی‌گرده؛ بعدش اگه ضحاک بکشدش، «روزِ کینِ سیاوش» می‌شه: جمشید می‌تونه دو نفر رو برایِ مرگ انتخاب کنه و نوشدارو بی‌اثره.</li>
+          <li><b>جنگ:</b> مرگِ سهرابِ نپیوسته به‌دستِ جمشید — همه‌یِ ضحاکیان به‌همراهِ ارمایل چشم باز می‌کنن و بدونِ دونستنِ نقشِ دقیقِ هم همدیگه رو می‌شناسن.</li>
+          <li><b>ناتوانیِ ضحاک:</b> دو شبِ پیاپیِ گرسنگی — ضحاک نامیرا می‌مونه ولی دیگه نمی‌تونه بکشه یا رهبری کنه؛ از اون شب ضحاکیان (بدونِ ارمایل) همدیگه رو می‌شناسن. نرم‌افزار این هنگامه رو خودش تشخیص می‌ده.</li>
         </ul>
-        <p>اجرای دقیقِ هرکدوم (جمعِ شبانه، رأیِ چشم‌بسته، شناساییِ متقابل) سرِ میز و با گرداننده‌ست.</p></section>
+        <p>اجرایِ جمعِ شبانه، رأیِ چشم‌بسته و شناساییِ متقابل سرِ میز و با گرداننده‌ست.</p></section>
       <div class="end-actions"><button class="btn secondary full" type="button" onclick="openGuide()"><img src="assets/finale/icons/group.svg" alt="">دیدنِ لیستِ نقش‌ها</button><button class="btn secondary full" type="button" onclick="openRulebook()"><img src="assets/finale/icons/book.svg" alt="">دفترچه‌یِ کامل</button></div>
     </div>
   </div>
@@ -1489,9 +1487,11 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
               <div class="two-grid">
                 <div class="select-group"><label class="dp-label" for="mahaanMember1">عضوِ اولِ مهان (بیشترین پیمان)</label><select id="mahaanMember1" class="dp-select"></select><p class="select-value" hidden></p></div>
                 <div class="select-group"><label class="dp-label" for="mahaanMember2">عضوِ دومِ مهان (بیشترین پیمان)</label><select id="mahaanMember2" class="dp-select"></select><p class="select-value" hidden></p></div>
+                <div class="select-group"><label class="dp-label" for="mahaanMember3">عضوِ سومِ مهان · اختیاری</label><select id="mahaanMember3" class="dp-select"></select><p class="select-value" hidden></p></div>
                 <div class="select-group"><label class="dp-label" for="mahaanAccused1">متهمِ اول (بیشترین گمان)</label><select id="mahaanAccused1" class="dp-select"></select><p class="select-value" hidden></p></div>
                 <div class="select-group"><label class="dp-label" for="mahaanAccused2">متهمِ دوم (بیشترین گمان)</label><select id="mahaanAccused2" class="dp-select"></select><p class="select-value" hidden></p></div>
               </div>
+              <p id="mahaanProblem" class="hint" role="status" style="display:none;"></p>
               <p class="hint timer-note"><img src="assets/lobby/icons/hourglass.svg" alt="">به هرکدوم از دو متهم ۱ دقیقه وقتِ دفاع بده. جمشید می‌تونه از یک نفرِ دیگه (غیر از دو عضوِ مجلس) هم یک سوال بپرسه — اختیاری، فقط برای یادداشت.</p>
               <div class="select-group"><label class="dp-label" for="mahaanExtraQuestion">سؤالِ اضافه · اختیاری</label><select id="mahaanExtraQuestion" class="dp-select"><option value="">— بدونِ سوالِ اضافه —</option></select><p class="select-value" hidden></p></div>
               <div class="select-group"><label class="dp-label" for="mahaanFinalAccused">مجلس کدوم متهم رو به جمشید معرفی می‌کنه؟</label><select id="mahaanFinalAccused" class="dp-select"><option value="">— اول دو متهم رو بالا مشخص کن —</option></select><p class="select-value" hidden></p></div>
@@ -1500,6 +1500,8 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
               <h2>تصمیمِ جمشید</h2>
               <p class="subtle">ابتدا متهمِ نهایی را مشخص کن.</p>
               <div class="decision-grid"><button id="decideKillBtn" class="btn-crimson" type="button" onclick="setJamshidDecision(true)" disabled>بکشدش</button><button id="decideSpareBtn" class="btn-outline" type="button" onclick="setJamshidDecision(false)" disabled>نکشدش</button></div>
+              <p id="kinDayNote" class="hint" style="display:none;">⚡ امروز «روزِ کینِ سیاوش» است: جمشید می‌تونه <strong>دو نفر</strong> رو برایِ مرگ انتخاب کنه و نوشدارویِ کیکاووس بی‌اثره. بعد از ثبتِ نفرِ اول، نفرِ دوم رو (با انتخابِ دوباره‌یِ متهم) ثبت کن.</p>
+              <p id="noshdaruBlocked" class="hint" style="display:none;">🏺 نوشدارو اینجا بی‌اثره (سهراب یا روزِ کینِ سیاوش) — لازم نیست از کیکاووس بپرسی.</p>
               <div id="noshdaruBox" class="hint" style="display:none;"><strong>🏺 کیکاووس نوشدارو داد؟</strong> <span class="subtle">(کشته رو بهش نشون بده، بدونِ اینکه بگی چرا)</span><label class="check-row"><input id="noshdaruCheck" type="checkbox">بله، نجاتش داد</label></div>
               <button id="applyKillBtn" class="btn-gold" type="button" onclick="applyDayKill()" disabled>ثبتِ نتیجه‌یِ روز</button>
               <p id="dayResultNote" class="subtle" role="status"></p>
@@ -1512,8 +1514,10 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
             <p class="subtle">به‌ترتیب هر نقش رو بیدار کن، انتخابش رو اینجا ثبت کن، و آخر «حلِ شب» رو بزن.</p>
             <div class="night-progress"><div class="progress-track"><div id="nightProgressBar" role="progressbar" aria-label="ثبتِ نقش‌هایِ شبانه" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0"></div></div><p id="nightProgressLabel"></p></div>
             <div class="secret-warning"><img src="assets/control/icons/lock.svg" alt="">فقط برای خودت · نقش‌ها و انتخاب‌ها محرمانه‌اند.</div>
+            <p id="jailedNightNote" class="hint" role="status" style="display:none;"></p>
             <div id="nightCards"></div>
             <div id="soroushNightBox" class="night-card" style="display:none;"><div class="nc-head"><img class="nc-icon" src="assets/control/icons/dove.svg" alt=""><h3 class="nc-title">سروش · نامه‌ها</h3><span id="soroushNightStatus" class="nc-status">—</span></div><p class="nc-desc">شنود رو خودِ ضحاک توی پنلش انتخاب می‌کنه. تو فقط آخرِ شب نامه‌ها رو تحویل بده.</p><button id="deliverLettersBtn" class="btn-gold" type="button" onclick="deliverLetters()">تحویلِ نامه‌ها به گیرنده‌ها</button><p id="deliverNote" class="subtle" role="status"></p></div>
+            <div id="sohrabNightBox" class="night-card" style="display:none;"><div class="nc-head"><img class="nc-icon" src="assets/finale/icons/swords.svg" alt=""><h3 class="nc-title">سهراب · پیوستن</h3><span id="sohrabStatus" class="nc-status">—</span></div><p class="nc-desc">شبِ سوم: دو نفر (که یکیشون رستمه) رو به سهراب نشون بده. اگه رستم رو درست حدس زد به یارانِ جمشید می‌پیونده، وگرنه به ضحاکیان.</p><div class="nc-actions"><button id="sohrabJamshidiBtn" class="nc-btn" type="button" onclick="sohrabJoin('jamshidi')">درست حدس زد ← یارانِ جمشید</button><button id="sohrabZahhakiBtn" class="nc-btn" type="button" onclick="sohrabJoin('zahhaki')">غلط حدس زد ← ضحاکیان</button></div><p id="sohrabNote" class="subtle" role="status"></p></div>
             <button id="nightResolveBtn" class="btn-gold" type="button" onclick="resolveNightPhase()" disabled>حلِ شب و محاسبه‌یِ نتیجه 🌅</button>
             <p id="nightHint" class="subtle" role="status"></p>
             <div id="nightResultBox" class="secret" style="display:none;"><div class="box-label"><img src="assets/control/icons/lock.svg" alt="">فقط برای خودت · نتیجه‌یِ کاملِ شب</div><button class="btn-outline reveal" id="revealResult" type="button" aria-expanded="false" aria-controls="nightResultBody" onclick="toggleNightResult()">نمایشِ نتیجه‌یِ محرمانه</button><div id="nightResultBody" style="display:none;"></div></div>
@@ -1554,8 +1558,8 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   <!-- صفحه ۵: داشبوردِ جمشید -->
   <div class="screen powers-screen pw" id="screen-jamshid-dash" data-theme="jamshid">
     <header class="powers-header"><div class="hero-copy"><span class="eyebrow">داشبورد</span><h1>جمشید</h1><span id="jamPhasePill" class="phase-pill">—</span></div></header>
-    <section class="power-card" data-card="cup"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/goblet.svg" alt=""><h2>جامِ جم</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — فقط تعدادِ حذف‌شده‌هایِ هر ساید رو می‌بینی</p><button id="jamEJamBtn" class="card-use-btn btn-gold" type="button" onclick="useJamEJam()">درخواست</button><p class="power-note" role="status"></p></div></section>
-    <div id="jamEJamResult" class="jam-result-external" hidden><div><span>☀ یارانِ جمشیدِ حذف‌شده</span><strong class="result-gold" id="jamResJ">0</strong></div><div><span><img src="assets/play/icons/snake.svg" alt=""> ضحاکیانِ حذف‌شده</span><strong class="result-crimson" id="jamResZ">0</strong></div></div>
+    <section class="power-card" data-card="cup"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/goblet.svg" alt=""><h2>جامِ جم</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — فقط تعدادِ یارانِ زنده‌یِ هر دو سو رو می‌بینی (نه اینکه کی‌ان)</p><button id="jamEJamBtn" class="card-use-btn btn-gold" type="button" onclick="useJamEJam()">درخواست</button><p class="power-note" role="status"></p></div></section>
+    <div id="jamEJamResult" class="jam-result-external" hidden><div><span>☀ یارانِ جمشیدِ زنده</span><strong class="result-gold" id="jamResJ">0</strong></div><div><span><img src="assets/play/icons/snake.svg" alt=""> ضحاکیانِ زنده</span><strong class="result-crimson" id="jamResZ">0</strong></div></div>
     <section class="power-card" data-card="soroush"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/dove.svg" alt=""><h2>فراخواندنِ سروش</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — بازکردنِ پنجره‌یِ نامه‌نگاری برایِ همه</p><button id="jamSoroushBtn" class="card-use-btn btn-gold" type="button" onclick="useJamSoroush()">فراخوانی</button><p class="power-note" role="status"></p></div></section>
     <footer class="powers-footer">گروه بازی‌سازی بزرگمهر</footer>
   </div>
@@ -1563,8 +1567,8 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   <!-- صفحه ۶: داشبوردِ ضحاک -->
   <div class="screen powers-screen pw" id="screen-zahhak-dash" data-theme="zahhak">
     <header class="powers-header"><div class="hero-copy"><span class="eyebrow">داشبورد</span><h1>ضحاک</h1><span id="zahPhasePill" class="phase-pill">—</span></div></header>
-    <section class="power-card" data-card="prison"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/chain.svg" alt=""><h2>زندان</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — یه بازیکن رو تا پایانِ امروز غیرفعال کن</p><button id="zahZendanBtn" class="card-use-btn btn-crimson" type="button" onclick="openZahZendanPicker()">انتخاب</button><p class="power-note" role="status"></p></div></section>
-    <section class="power-card" data-card="ahriman"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/ahriman.svg" alt=""><h2>اهریمن</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — لغوِ گفتگو/رأیِ امروز</p><button id="zahAhrimanBtn" class="card-use-btn btn-crimson" type="button" onclick="useZahAhriman()">فراخوانی</button><p class="power-note" role="status"></p></div></section>
+    <section class="power-card" data-card="prison"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/chain.svg" alt=""><h2>زندان</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — یه بازیکن رو برایِ یک شبانه‌روز (همین روز و شبِ بعدش) از بازی بیرون ببر: هیچ‌کس نمی‌تونه بهش کاری داشته باشه؛ فردا صبح برمی‌گرده</p><button id="zahZendanBtn" class="card-use-btn btn-crimson" type="button" onclick="openZahZendanPicker()">انتخاب</button><p class="power-note" role="status"></p></div></section>
+    <section class="power-card" data-card="ahriman"><div class="power-copy"><div class="power-head"><img src="assets/play/icons/ahriman.svg" alt=""><h2>اهریمن</h2><span class="used-tag" hidden><img src="assets/play/icons/cracked_seal.svg" alt="">مصرف شد</span></div><p>یک‌بار — اون روز بدونِ صحبت، مستقیم می‌ریم به خوابِ نیم‌روزی</p><button id="zahAhrimanBtn" class="card-use-btn btn-crimson" type="button" onclick="useZahAhriman()">فراخوانی</button><p class="power-note" role="status"></p></div></section>
     <!-- فقط وقتی سروش فعال باشه دیده می‌شه -->
     <section id="zahSpyBox" class="power-card spy-box" style="display:none;"><div class="power-head"><img src="assets/play/icons/ear.svg" alt=""><h2>شنودِ نامه‌ها</h2></div><p>یک نفر رو انتخاب کن — همه‌یِ نامه‌هایِ اون (چه فرستاده چه گرفته) به تو هم می‌رسه.</p><label for="zahSpySelect">بازیکن</label><select id="zahSpySelect" class="dp-select" onchange="zahSetSpy()"><option value="">— کسی رو شنود نمی‌کنم —</option></select><p id="zahSpyNote" class="power-note" role="status"></p></section>
     <footer class="powers-footer">گروه بازی‌سازی بزرگمهر</footer>
@@ -1597,6 +1601,13 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     <div class="night-art" aria-hidden="true"><span class="twinkle star-a">✦</span><span class="twinkle star-b">✧</span><span class="twinkle star-c">·</span><div class="night-mist"></div></div>
     <section class="night-tablet"><span class="night-eyebrow">تخت جمشید</span><h1>شب است</h1><p>چشمانت را ببند — اگه نقشِ فعالِ شبانه داری، به‌زودی نوبتت اعلام می‌شه.</p></section>
     <p class="night-foot">منتظرِ اعلامِ گرداننده بمان</p>
+  </div>
+
+  <!-- بازیکنِ حذف‌شده: فقط ناظره (نه رأی می‌ده، نه نامه می‌نویسه) -->
+  <div class="screen play-screen night-screen" id="screen-eliminated" data-phase="night">
+    <div class="night-art" aria-hidden="true"><span class="twinkle star-a">✦</span><span class="twinkle star-b">✧</span><span class="twinkle star-c">·</span><div class="night-mist"></div></div>
+    <section class="night-tablet"><span class="night-eyebrow">تخت جمشید</span><h1 id="elimTitle">از بازی خارج شدی</h1><p id="elimText">از این به بعد فقط ناظری. نقشت رو برایِ کسی فاش نکن و چیزی به بازیکن‌ها نگو — در پایانِ بازی نقشِ همه آشکار می‌شه.</p></section>
+    <p class="night-foot" id="elimPhaseNote">بازی ادامه داره…</p>
   </div>
 
 </div>
@@ -1642,7 +1653,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   let currentGame = null;
   let currentPlayer = null;
   let pollTimer = null;
-  let myRoleId = null, mySide = null;
+  let myRoleId = null, mySide = null, myAlive = true, myJailed = false;
 
   // ---------------- حافظه‌ی جلسه (تا رفرشِ صفحه از بازی خارجت نکنه) ----------------
   const SESSION_KEY = 'tj_session_v1';
@@ -1717,7 +1728,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   function go(id){
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby' || id === 'screen-day-vote' || id === 'screen-night-wait' || id === 'screen-jamshid-dash' || id === 'screen-zahhak-dash' || id === 'screen-guide' || id === 'screen-roles' || id === 'screen-game-over');
+    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby' || id === 'screen-day-vote' || id === 'screen-night-wait' || id === 'screen-eliminated' || id === 'screen-jamshid-dash' || id === 'screen-zahhak-dash' || id === 'screen-guide' || id === 'screen-roles' || id === 'screen-game-over');
     const brand = document.querySelector('.brand');
     if(brand) brand.style.display = isFull ? 'none' : '';
     document.body.classList.toggle('fullbleed', isFull);
@@ -2000,6 +2011,8 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   let dayPanelForDay = 0;
   let jamshidWillKill = null;
 
+  let dayPlayers = [], dayHengameh = {};
+  let dayKillsDone = 0, dayOutNames = [], dayReturnText = '';   // «روزِ کینِ سیاوش» دو کشته داره
   async function refreshDayPanel(dayNumber){
     try{
       const { rows, votersCount } = await tjGetDayTally(currentGame.id, dayNumber);
@@ -2039,19 +2052,29 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
         mh.replaceChildren(
           line('پیشنهادِ بیشترین پیمان: ', 'gold', peymanTop2),
           line('پیشنهادِ بیشترین گمان: ', 'crimson', gomanTop2),
-          Object.assign(document.createElement('p'), { textContent: 'این‌ها فقط پیشنهادِ خودکاره — در تساوی یا هر حالتِ دیگه، خودت پایین دستی اصلاح کن.' })
+          Object.assign(document.createElement('p'), { textContent: 'این‌ها فقط پیشنهادِ خودکاره. اگه برایِ ورود به مجلس تساوی بود، خودِ جمشید از میانِ برابرها انتخاب می‌کنه — پایین دستی اصلاح کن (مجلس دو یا سه نفره).' })
         );
       }
 
+      // وضعیتِ بازیکن‌ها هر تیک تازه می‌شه (مثلاً زندانیِ امروزِ ضحاک)؛ ولی خودِ پنل فقط یک‌بار در روز ساخته می‌شه
+      dayPlayers = await tjListPlayers(currentGame.id);
       // فقط یک‌بار در هر روز پنل رو بساز تا انتخاب‌های گرداننده هر ۲ ثانیه پاک نشه
       if(dayPanelForDay !== dayNumber){
         dayPanelForDay = dayNumber;
         jamshidWillKill = null;
+        dayAliveCount = rows.length;
 
         const optionsHtml = '<option value="">— انتخاب کن —</option>' + rows.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join('');
         ['mahaanMember1', 'mahaanMember2', 'mahaanAccused1', 'mahaanAccused2'].forEach(id => {
           document.getElementById(id).innerHTML = optionsHtml;
         });
+        document.getElementById('mahaanMember3').innerHTML = '<option value="">— بدونِ عضوِ سوم —</option>' + rows.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join('');
+        // وضعیتِ این روز: بازیکن‌ها و پرچمِ هنگامه‌ها (برایِ نوشدارو، سیاوش و روزِ کینِ سیاوش)
+        dayHengameh = (await tjGetGame(currentGame.id)).hengameh_flags || {};
+        dayKillsDone = 0; dayOutNames = []; dayReturnText = '';
+        const dk = dayHengameh.day_kills;
+        if(dk && dk.day === dayNumber){ dayKillsDone = dk.n || 0; dayOutNames = dk.out || []; dayReturnText = dk.ret || ''; }
+        document.getElementById('kinDayNote').style.display = dayHengameh.kin_e_siavash_day ? 'block' : 'none';
         document.getElementById('mahaanExtraQuestion').innerHTML = '<option value="">— بدونِ سوالِ اضافه —</option>' +
           rows.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join('');
 
@@ -2065,12 +2088,19 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
           document.getElementById('decideKillBtn').classList.remove('active');
           document.getElementById('decideSpareBtn').classList.remove('active');
           document.getElementById('noshdaruBox').style.display = 'none';
+          document.getElementById('noshdaruBlocked').style.display = 'none';
           document.getElementById('noshdaruCheck').checked = false;
           document.getElementById('applyKillBtn').disabled = true;
           document.getElementById('dayResultNote').textContent = '';
           document.getElementById('dayAnnounceBox').style.display = 'none';
         }
+        function saveMahaanDraft(){
+          const v = id => document.getElementById(id).value;
+          draftSet('mahaan', { day: dayNumber, m1: v('mahaanMember1'), m2: v('mahaanMember2'), m3: v('mahaanMember3'), a1: v('mahaanAccused1'), a2: v('mahaanAccused2'), extra: v('mahaanExtraQuestion'), fin: v('mahaanFinalAccused') });
+        }
         function rebuildFinalAccused(){
+          updateMahaanGate();
+          saveMahaanDraft();
           const a1 = document.getElementById('mahaanAccused1');
           const a2 = document.getElementById('mahaanAccused2');
           const sel = document.getElementById('mahaanFinalAccused');
@@ -2084,61 +2114,160 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
         }
         document.getElementById('mahaanAccused1').onchange = rebuildFinalAccused;
         document.getElementById('mahaanAccused2').onchange = rebuildFinalAccused;
+        ['mahaanMember1', 'mahaanMember2', 'mahaanMember3'].forEach(id => { document.getElementById(id).onchange = rebuildFinalAccused; });
+        document.getElementById('mahaanExtraQuestion').onchange = saveMahaanDraft;
         document.getElementById('mahaanFinalAccused').onchange = () => {
-          const has = !!document.getElementById('mahaanFinalAccused').value;
+          saveMahaanDraft();
+          const has = !!document.getElementById('mahaanFinalAccused').value && !mahaanProblem();
           document.getElementById('decideKillBtn').disabled = !has;
           document.getElementById('decideSpareBtn').disabled = !has;
           resetDecision();
         };
+        // اگه گرداننده وسطِ همین روز برنامه رو بسته/رفرش کرده، انتخاب‌هایِ مجلس برمی‌گرده
+        const dr = draftGet('mahaan');
+        if(dr && dr.day === dayNumber){
+          const has = (id, v) => v && document.querySelector('#' + id + ' option[value="' + v + '"]');
+          [['mahaanMember1', dr.m1], ['mahaanMember2', dr.m2], ['mahaanMember3', dr.m3], ['mahaanAccused1', dr.a1], ['mahaanAccused2', dr.a2], ['mahaanExtraQuestion', dr.extra]]
+            .forEach(([id, v]) => { if(has(id, v)) document.getElementById(id).value = v; });
+        }
         rebuildFinalAccused();
+        // نتیجه‌یِ امروز قبلاً ثبت شده (برنامه وسطِ کار بسته/رفرش شده بود): دوباره قابلِ ثبت نیست
+        const allowedKills = dayHengameh.kin_e_siavash_day ? 2 : 1;
+        if(dayKillsDone >= allowedKills){
+          paintDayAnnounce();
+          document.getElementById('mahaanFinalAccused').disabled = true;
+          ['decideKillBtn', 'decideSpareBtn', 'applyKillBtn'].forEach(id => { document.getElementById(id).disabled = true; });
+          const nt = document.getElementById('dayResultNote'); nt.style.color = 'var(--ct-muted)';
+          nt.textContent = 'نتیجه‌یِ امروز قبلاً ثبت شده — فقط اعلامِ زیر مونده.';
+        } else if(dayKillsDone > 0){
+          paintDayAnnounce();
+          document.getElementById('dayResultNote').textContent = '⚡ نفرِ اولِ روزِ کین ثبت شده؛ نفرِ دوم رو مشخص کن.';
+        }
+        if(dr && dr.day === dayNumber && dr.fin && dayKillsDone === 0 && document.querySelector('#mahaanFinalAccused option[value="' + dr.fin + '"]')){
+          document.getElementById('mahaanFinalAccused').value = dr.fin;
+          document.getElementById('mahaanFinalAccused').onchange();
+        }
       }
       syncSelectValues();
     }catch(e){ console.error(e); }
   }
   document.getElementById('hostDayPanel').addEventListener('change', syncSelectValues);
 
+  // مجلسِ مهان اجباریه: هر روز باید ۲ یا ۳ عضو و دو متهمِ متفاوت مشخص بشه، وگرنه تصمیمِ جمشید باز نمی‌شه.
+  // اگه تعدادِ زنده‌ها کمتر از ۲ باشه، سقفِ لازم همون تعدادِ زنده‌هاست.
+  let dayAliveCount = 0;
+  function mahaanProblem(){
+    const v = id => document.getElementById(id).value;
+    const need = Math.min(2, dayAliveCount);
+    const members = ['mahaanMember1', 'mahaanMember2', 'mahaanMember3'].map(v).filter(Boolean);
+    const accused = ['mahaanAccused1', 'mahaanAccused2'].map(v).filter(Boolean);
+    if(new Set(members).size !== members.length) return 'عضوهایِ مجلس باید متفاوت باشن.';
+    if(members.length < need) return 'مجلسِ مهان اجباریه — اول ' + (need === 2 ? 'دو یا سه' : need) + ' عضو مشخص کن.';
+    if(new Set(accused).size !== accused.length) return 'دو متهم باید متفاوت باشن.';
+    if(accused.length < need) return 'مجلسِ مهان باید دو متهم معرفی کنه — هر دو رو مشخص کن.';
+    return null;
+  }
+  function updateMahaanGate(){
+    const problem = mahaanProblem();
+    const box = document.getElementById('mahaanProblem');
+    box.textContent = problem ? '⚠ ' + problem : '';
+    box.style.display = problem ? 'block' : 'none';
+    document.getElementById('mahaanFinalAccused').disabled = !!problem;
+  }
+
+  // دفترچه: نوشدارویِ کیکاووس روی سهراب و در روزِ کینِ سیاوش بی‌اثره
+  function noshdaruAllowed(target){
+    if(!target) return true;
+    if(target.role_id === 'sohrab') return false;
+    if(dayHengameh.kin_e_siavash_day) return false;
+    return true;
+  }
   function setJamshidDecision(kill){
     jamshidWillKill = kill;
     document.getElementById('decideKillBtn').classList.toggle('active', kill === true);
     document.getElementById('decideSpareBtn').classList.toggle('active', kill === false);
     document.getElementById('decideKillBtn').setAttribute('aria-pressed', String(kill === true));
     document.getElementById('decideSpareBtn').setAttribute('aria-pressed', String(kill === false));
-    document.getElementById('noshdaruBox').style.display = kill ? 'block' : 'none';
-    if(!kill){ document.getElementById('noshdaruCheck').checked = false; }
+    const accused = dayPlayers.find(p => p.id === document.getElementById('mahaanFinalAccused').value);
+    // زندانِ ضحاک: «جمشید نمی‌تواند زندانی را بکشد»
+    if(kill && accused && accused.state_flags?.jailed){
+      jamshidWillKill = null;
+      document.getElementById('decideKillBtn').classList.remove('active');
+      document.getElementById('decideKillBtn').setAttribute('aria-pressed', 'false');
+      document.getElementById('noshdaruBox').style.display = 'none';
+      document.getElementById('noshdaruBlocked').style.display = 'none';
+      document.getElementById('applyKillBtn').disabled = true;
+      const nt = document.getElementById('dayResultNote');
+      nt.style.color = 'var(--ct-bad)';
+      nt.textContent = '⛓ ' + accused.display_name + ' زندانیِ ضحاکه (یک شبانه‌روز بیرونِ بازیه) — جمشید نمی‌تونه بکشدش. «نکشدش» رو بزن یا متهمِ دیگه‌ای رو انتخاب کن.';
+      return;
+    }
+    const nosh = kill && noshdaruAllowed(accused);
+    document.getElementById('noshdaruBox').style.display = nosh ? 'block' : 'none';
+    document.getElementById('noshdaruBlocked').style.display = (kill && !nosh) ? 'block' : 'none';
+    if(!nosh){ document.getElementById('noshdaruCheck').checked = false; }
     document.getElementById('applyKillBtn').disabled = false;
     document.getElementById('dayResultNote').textContent = '';
     document.getElementById('dayAnnounceBox').style.display = 'none';
   }
 
+  // اعلامِ عمومی: فقط نتیجه (در روزِ کینِ سیاوش ممکنه دو نفر باشه)
+  function paintDayAnnounce(){
+    document.getElementById('dayAnnounceText').textContent = (dayOutNames.length
+      ? dayOutNames.join(' و ') + (dayOutNames.length > 1 ? ' امروز از بازی خارج شدند.' : ' امروز از بازی خارج شد.')
+      : (dayReturnText ? '' : 'امروز کسی از بازی خارج نشد.')) + (dayReturnText ? (dayOutNames.length ? ' ' : '') + dayReturnText : '');
+    document.getElementById('dayAnnounceBox').style.display = 'block';
+  }
   async function applyDayKill(){
     if(jamshidWillKill === null) return;
     const note = document.getElementById('dayResultNote');
     const btn = document.getElementById('applyKillBtn');
-    const announceBox = document.getElementById('dayAnnounceBox');
-    const announceText = document.getElementById('dayAnnounceText');
     const targetId = document.getElementById('mahaanFinalAccused').value;
     if(!targetId) return;
     btn.disabled = true;
     try{
       const game = await tjGetGame(currentGame.id);
       const target = (await tjListPlayers(currentGame.id)).find(p => p.id === targetId);
-      const council = [document.getElementById('mahaanMember1').value, document.getElementById('mahaanMember2').value].filter(Boolean);
+      if(!target || !target.is_alive){
+        note.style.color = 'var(--ct-bad)';
+        note.textContent = 'این نفر قبلاً از بازی خارج شده — یکی دیگه رو انتخاب کن.';
+        btn.disabled = false;
+        return;
+      }
+      if(jamshidWillKill && target.state_flags?.jailed){
+        note.style.color = 'var(--ct-bad)';
+        note.textContent = '⛓ ' + target.display_name + ' زندانیِ ضحاکه — جمشید نمی‌تونه بکشدش.';
+        btn.disabled = false;
+        return;
+      }
+      const kinDay = !!game.hengameh_flags?.kin_e_siavash_day;
+      const council = [document.getElementById('mahaanMember1').value, document.getElementById('mahaanMember2').value, document.getElementById('mahaanMember3').value].filter(Boolean);
       const extraQuestion = document.getElementById('mahaanExtraQuestion').value || null;
-      const saved = jamshidWillKill && document.getElementById('noshdaruCheck').checked;
+      // نوشدارو روی سهراب و در روزِ کینِ سیاوش بی‌اثره (دفترچه‌یِ نهایی)
+      const saved = jamshidWillKill && noshdaruAllowed(target) && document.getElementById('noshdaruCheck').checked;
 
       if(jamshidWillKill && !saved){
-        await tjEliminatePlayer(targetId, 'jamshid_day_vote', game.day_number, false);
-        note.style.color = 'var(--ct-bad)';
-        note.textContent = 'ثبت شد (فقط برای خودت — چیزی که تویِ ‹اعلامِ عمومی› زیرشه رو بلند بخون): ' + target.display_name + ' با تصمیمِ جمشید از بازی خارج شد.';
-        await tjLogEvent(currentGame.id, game.day_number, 'death', { playerId: targetId, cause: 'jamshid_day_vote', mahaanCouncil: council, extraQuestion });
-        checkHengameh(target);
-        // اگه منیژه بود، بیژن هم به‌دنبالش می‌ره
-        const followed = await tjApplyBondAfterDeath(currentGame.id, target, game.day_number, false);
-        announceText.textContent = followed
-          ? target.display_name + ' و ' + followed.display_name + ' امروز از بازی خارج شدند.'
-          : target.display_name + ' امروز از بازی خارج شد.';
-        if(followed){
-          note.textContent += ' — 💔 ' + followed.display_name + ' (بیژن) هم به‌دنبالِ منیژه از بازی خارج شد.';
+        if(target.role_id === 'siavash' && !target.state_flags?.siavash_returned){
+          // هنگامه‌یِ سیاوشان: سیاوش حذف نمی‌شه؛ نقشش آشکار می‌شه و به بازی برمی‌گرده
+          await tjUpdatePlayerFlags(target.id, { siavash_returned: true });
+          await tjSetHengamehFlags(currentGame.id, { siavashan: true });
+          await tjLogEvent(currentGame.id, game.day_number, 'hengameh_start', { name: 'siavashan', playerId: target.id, mahaanCouncil: council, extraQuestion });
+          dayReturnText = 'نقشِ ' + target.display_name + ' آشکار شد: او سیاوش است و به بازی برمی‌گردد (هنگامه‌یِ سیاوشان).';
+          note.style.color = 'var(--ct-bad)';
+          note.textContent = 'ثبت شد (فقط برای خودت): ' + target.display_name + ' سیاوش بود! حذف نشد؛ نقشش رو برایِ همه آشکار کن و برش گردون به بازی — هنگامه‌یِ سیاوشان شروع شد.';
+        }else{
+          await tjEliminatePlayer(targetId, 'jamshid_day_vote', game.day_number, false);
+          note.style.color = 'var(--ct-bad)';
+          note.textContent = 'ثبت شد (فقط برای خودت — چیزی که تویِ ‹اعلامِ عمومی› زیرشه رو بلند بخون): ' + target.display_name + ' حذف شد.';
+          await tjLogEvent(currentGame.id, game.day_number, 'death', { playerId: targetId, cause: 'jamshid_day_vote', mahaanCouncil: council, extraQuestion });
+          await checkHengameh(target);
+          dayOutNames.push(target.display_name);
+          // اگه منیژه بود، بیژن هم به‌دنبالش می‌ره
+          const followed = await tjApplyBondAfterDeath(currentGame.id, target, game.day_number, false);
+          if(followed){
+            dayOutNames.push(followed.display_name);
+            note.textContent += ' — 💔 ' + followed.display_name + ' (بیژن) هم به‌دنبالِ منیژه از بازی خارج شد.';
+          }
         }
       }else{
         note.style.color = saved ? 'var(--ct-good)' : 'var(--ct-muted)';
@@ -2148,10 +2277,22 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
         await tjLogEvent(currentGame.id, game.day_number, 'statement', {
           text: saved ? 'noshdaru_saved' : 'jamshid_spared', playerId: targetId, mahaanCouncil: council, extraQuestion
         });
-        announceText.textContent = 'امروز کسی از بازی خارج نشد.';
       }
-      announceBox.style.display = 'block';
-      await checkGameOver();
+      dayKillsDone++;
+      // ثبتِ «نتیجه‌یِ روز ثبت شد» در دیتابیس تا بعد از بسته‌شدن/رفرشِ برنامه دوباره قابلِ ثبت نباشه
+      await tjSetHengamehFlags(currentGame.id, { day_kills: { day: game.day_number, n: dayKillsDone, out: dayOutNames, ret: dayReturnText } });
+      paintDayAnnounce();
+      const over = await checkGameOver();
+      if(kinDay && dayKillsDone < 2 && !over){
+        // روزِ کینِ سیاوش: نفرِ دوم
+        document.getElementById('mahaanFinalAccused').value = '';
+        ['decideKillBtn', 'decideSpareBtn'].forEach(id => { const b = document.getElementById(id); b.disabled = true; b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
+        jamshidWillKill = null;
+        document.getElementById('noshdaruBox').style.display = 'none';
+        document.getElementById('noshdaruBlocked').style.display = 'none';
+        note.textContent += ' — ⚡ روزِ کینِ سیاوش: نفرِ دوم رو هم مشخص کن (متهم‌ها رو دوباره انتخاب کن).';
+        syncSelectValues();
+      }
     }catch(e){
       note.style.color = 'var(--ct-bad)';
       note.textContent = 'خطا: ' + e.message;
@@ -2159,13 +2300,36 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     }
   }
 
-  function checkHengameh(target){
-    if(target.role_id === 'siavash'){
-      alert('⚡ هنگامه‌ی سیاوشان!\n\nسیاوش نباید حذف بشه — نقشش رو برای همه آشکار کن و برش گردون به بازی.');
-    } else if(target.role_id === 'sohrab' && target.side === 'neutral'){
-      alert('⚔️ هنگامه‌ی جنگ برپا شد!\n\nضحاکیان و ارمایل امشب همدیگه رو می‌شناسن.');
+  // هنگامه‌هایِ روز. سیاوش جداگانه (حذف نمی‌شه، برمی‌گرده) در applyDayKill رسیدگی می‌شه.
+  // اجرایِ شناساییِ متقابل و رأی‌گیریِ چشم‌بسته سرِ میز و با گرداننده‌ست.
+  async function checkHengameh(target){
+    if(target.role_id === 'sohrab' && target.side === 'neutral'){
+      await tjSetHengamehFlags(currentGame.id, { jang: true }).catch(e => showError(e.message));
+      alert('⚔️ هنگامه‌ی جنگ برپا شد!\n\nهمه‌یِ ضحاکیان به‌همراهِ ارمایل چشم باز می‌کنن و بدونِ دونستنِ نقشِ دقیقِ هم همدیگه رو می‌شناسن.');
     } else if(target.role_id === 'karen'){
-      alert('⚡ هنگامه‌ی کودتا!\n\nاز رستم، زال و جاماسپ (زنده‌ها) مخفیانه بپرس آیا قدرت به فریدون منتقل بشه.');
+      await tjSetHengamehFlags(currentGame.id, { kudeta: true }).catch(e => showError(e.message));
+      alert('⚡ هنگامه‌ی کودتا!\n\nاز رستم، زال و جاماسپ (زنده‌ها) چشم‌بسته و مخفیانه بپرس آیا قدرت به فریدون منتقل بشه. با اکثریت، فریدون به‌جایِ جمشید کشته‌یِ روز رو انتخاب می‌کنه؛ با مرگِ فریدون قدرت به جمشید برمی‌گرده.');
+    }
+  }
+
+  // پایانِ روز: قاعده‌هایی که خودکار اجرا می‌شن (دفترچه: «نرم‌افزار انجام می‌دهد»)
+  //  - روزِ کینِ سیاوش فقط یک روز می‌مونه
+  //  - پایانِ روزِ چهارم، اگه اسفندیار زنده‌ست، ارجاسب خودبه‌خود از بازی خارج می‌شه
+  async function endOfDayRules(){
+    const game = await tjGetGame(currentGame.id);
+    if(game.current_phase !== 'day') return;
+    if(game.hengameh_flags?.kin_e_siavash_day) await tjSetHengamehFlags(currentGame.id, { kin_e_siavash_day: false });
+    // (زندان یک شبانه‌روزه: پرچمش تا صبحِ روزِ بعد می‌مونه — در releaseJailed پاک می‌شه)
+    if(game.day_number === 4){
+      const players = await tjListPlayers(currentGame.id);
+      const esfandiar = players.find(p => p.role_id === 'esfandiar' && p.is_alive);
+      const arjasb = players.find(p => p.role_id === 'arjasb' && p.is_alive);
+      if(esfandiar && arjasb){
+        await tjEliminatePlayer(arjasb.id, 'esfandiar_seven_khan', 4, false);
+        await tjLogEvent(currentGame.id, 4, 'death', { playerId: arjasb.id, cause: 'esfandiar_seven_khan' });
+        showToast('info', 'پایانِ روزِ چهارم: ' + arjasb.display_name + ' (ارجاسب) خودکار از بازی خارج شد، چون اسفندیار هنوز زنده‌ست. این رو در اعلامِ شب هم بگو.');
+        await checkGameOver();
+      }
     }
   }
 
@@ -2207,23 +2371,39 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
 
   // ================= کنسولِ شبِ گرداننده =================
   // نقش‌هایی که اکشنِ فعالِ شبانه دارن، به همون ترتیبی که باید بیدار بشن.
-  // سودابه عمداً قبل از افراسیاب/هومان/رستمه: افسونش جوابِ فوریِ اون‌ها رو باطل می‌کنه،
-  // پس باید اول معلوم باشه کی افسون شده.
+  // سودابه همیشه اولِ شبه (قبل از ضحاک): افسونش قابلیتِ هدف رو همون شب باطل می‌کنه،
+  // پس باید اول معلوم باشه کی افسون شده — چه ضحاک، چه افراسیاب، هومان یا رستم.
   const NIGHT_ROLES = [
-    { role_id:'zahhak',   icon:'snake', title:'ضحاک — انتخابِ دو نفر',   desc:'دو نفر رو برای طعمه‌ی مارها انتخاب کن.', type:'pick_two', action:'kill_pick_two' },
-    { role_id:'armayil',  icon:'pot', title:'ارمایل — نجاتِ یکی',      desc:'از بینِ دو انتخابِ ضحاک، یکی رو نجات بده.', type:'save_from_zahhak', action:'save_one_of_two' },
-    { role_id:'sudabeh',  icon:'spell', title:'سودابه — افسون',          desc:'اختیاری. یک نفر رو افسون کن یا رد شو. (قبل از افراسیاب، هومان و رستم بیدار می‌شه تا جوابِ فوریِ اون‌ها درست باشه.)', type:'pick_one', optional:true, action:'enchant', immune:['kaveh','fereydun','siavash','armayil'], maxCharges:2, chargeFlag:'sudabeh_charges_used' },
+    { role_id:'sudabeh',  icon:'spell', title:'سودابه — افسون',          desc:'اختیاری. یک نفر رو افسون کن یا رد شو. (اولِ شب بیدار می‌شه؛ قابلیتِ هدف همون شب باطل می‌شه.)', type:'pick_one', optional:true, action:'enchant', immune:['kaveh','fereydun','siavash','armayil'], maxCharges:2, chargeFlag:'sudabeh_charges_used' },
+    { role_id:'zahhak',   icon:'snake', title:'ضحاک — انتخابِ دو نفر',   desc:'دو نفر رو برایِ طعمه‌یِ مارها انتخاب کن. اگه یکی‌شون از یارانِ ضحاک باشه امشب هیچ‌کس نمی‌میره؛ اگه ارمایل جزوشون باشه هر دو می‌میرن.', type:'pick_two', lethal:true, action:'kill_pick_two', enchantNote:true },
+    { role_id:'armayil',  icon:'pot', title:'ارمایل — نجاتِ یکی',      desc:'از بینِ دو انتخابِ ضحاک، یکی رو نجات بده. (اگه خودش جزوِ اون دو نفر باشه، هر دو کشته می‌شن.)', type:'save_from_zahhak', action:'save_one_of_two' },
     { role_id:'afrasiab', icon:'eye', title:'افراسیاب — استعلام',      desc:'یک نفر رو انتخاب کن — جوابش همین‌جا می‌آد تا به افراسیاب بگی.', type:'pick_one', action:'inquiry', instantAnswer:true },
     { role_id:'homan',    icon:'dagger', title:'هومان — حدسِ نقش',        desc:'یک نفر و یک نقشِ حدسی انتخاب کن — نتیجه همین‌جا می‌آد.', type:'guess', optional:true, lethal:true, action:'guess_kill_or_copy', instantAnswer:true },
-    { role_id:'rostam',   icon:'bow', title:'رستم — تیر',              desc:'یک مظنونِ ضحاکی رو نشونه بگیر — نتیجه همین‌جا می‌آد.', type:'pick_one', optional:true, lethal:true, action:'guess_shoot', instantAnswer:true, maxCharges:2, chargeFlag:'rostam_arrows_used' },
-    { role_id:'zaal',     icon:'feather', title:'زال — پرِ سیمرغ',         desc:'اختیاری و فقط یک‌بار در کلِ بازی. همه‌ی کشته‌های ضحاکِ امشب باطل می‌شه.', type:'toggle', optional:true, action:'block_all_kills', oncePerGame:'zaal_feather_used' },
-    { role_id:'gersivaz', icon:'broken_sword', title:'گرسیوز — فداکاری',        desc:'اختیاری و فقط یک‌بار. خودش می‌میره و هدفش رو هم با خودش می‌بره.', type:'pick_one', optional:true, lethal:true, action:'self_sacrifice', oncePerGame:'gersivaz_used' },
+    { role_id:'rostam',   icon:'bow', title:'رستم — تیر',              desc:'یک مظنونِ ضحاکی رو نشونه بگیر (حداکثر ۲ تیر در کلِ بازی؛ هر تیر چه درست چه غلط حساب می‌شه) — نتیجه همین‌جا می‌آد.', type:'pick_one', optional:true, lethal:true, action:'guess_shoot', instantAnswer:true, maxCharges:2, chargeFlag:'rostam_arrows_used' },
+    { role_id:'zaal',     icon:'feather', title:'زال — پرِ سیمرغ',         desc:'اختیاری و فقط یک‌بار در کلِ بازی. همه‌یِ کشته‌هایِ ضحاکِ امشب باطل می‌شه (ضحاک گرسنه حساب می‌شه؛ بقیه‌یِ نقش‌ها همچنان کار می‌کنن).', type:'toggle', optional:true, action:'block_all_kills', oncePerGame:'zaal_feather_used' },
+    { role_id:'gersivaz', icon:'broken_sword', title:'گرسیوز — فداکاری',        desc:'اختیاری و فقط یک‌بار. خودش می‌میره و هدفش رو هم با خودش می‌بره (خودکشیِ گرسیوز خوراکِ مارها حساب می‌شه). اگه هدفِ اول ضحاکی بود، یک شانسِ دیگه داره.', type:'pick_one', optional:true, lethal:true, action:'self_sacrifice', oncePerGame:'gersivaz_used' },
   ];
+
+  // پیش‌نویسِ گرداننده (رد‌کردن‌هایِ شب، مجلسِ مهان) در حافظه‌یِ دستگاه نگه داشته می‌شه تا اگه برنامه
+  // وسطِ کار بسته/ری‌استارت شد (مثلاً اندروید برنامه‌یِ پس‌زمینه رو می‌کشه) از اول شروع نکنه.
+  function draftGet(key){
+    try{ return JSON.parse(localStorage.getItem('tj_' + key + '_' + currentGame.id)) || null; }catch(e){ return null; }
+  }
+  function draftSet(key, val){
+    try{ localStorage.setItem('tj_' + key + '_' + currentGame.id, JSON.stringify(val)); }catch(e){}
+  }
+  function skipDraft(){ const d = draftGet('skips'); return (d && d.night === nightPanelForNight) ? d.roles : []; }
+  function saveSkip(roleId, on){
+    const roles = skipDraft().filter(r => r !== roleId);
+    if(on) roles.push(roleId);
+    draftSet('skips', { night: nightPanelForNight, roles });
+  }
 
   let nightSelections = {};   // role_id -> {target, target2, guessedRole, skipped, done}
   let nightPlayers = [];      // بازیکن‌های زنده‌ی همین شب
   let nightPanelForNight = -1;
   let nightResolved = false;
+  let nightHengameh = {};     // hengameh_flags همین بازی (ناتوانیِ ضحاک و…)
 
   async function refreshNightPanel(nightNumber){
     // فقط یک‌بار برای هر شب ساخته می‌شه؛ وگرنه پولینگِ هر ۲ ثانیه انتخاب‌ها رو پاک می‌کنه.
@@ -2239,6 +2419,8 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     try{
       const all = await tjListPlayers(currentGame.id);
       nightPlayers = all.filter(p => !p.is_host);
+      nightHengameh = (await tjGetGame(currentGame.id)).hengameh_flags || {};
+      refreshSohrabBox(nightNumber);
 
       // اگه گرداننده صفحه رو رفرش کرده باشه، اکشن‌های قبلاً ثبت‌شده رو برگردون
       const saved = await tjGetNightActions(currentGame.id, nightNumber);
@@ -2251,19 +2433,68 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
         };
       });
 
+      // «این شب کاری نمی‌کنه»ها اکشنی در دیتابیس ندارن؛ از پیش‌نویسِ دستگاه برمی‌گردن
+      skipDraft().forEach(r => { if(!nightSelections[r] && NIGHT_ROLES.some(c => c.role_id === r)) nightSelections[r] = { skipped:true, done:true }; });
+
       renderNightCards();
+      // شب قبلاً حل شده (مثلاً گرداننده بعد از حل، صفحه/برنامه رو دوباره باز کرد): نتیجه برمی‌گرده و دوباره حل نمی‌شه
+      if(nightHengameh.resolved_night === nightNumber) await restoreNightResult(nightNumber);
     }catch(e){
       showError('خطا در آماده‌سازیِ کنسولِ شب: ' + e.message);
       nightPanelForNight = -1; // بذار دفعه‌ی بعد دوباره تلاش کنه
     }
   }
 
+  async function restoreNightResult(n){
+    const all = await tjListPlayers(currentGame.id);
+    const dead = all.filter(p => !p.is_alive && p.eliminated_on_night === n);
+    const evs = (await tjGetEvents(currentGame.id, n)).filter(e => e.payload && typeof e.payload.type === 'string' && e.payload.type !== 'game_over');
+    nightResolved = true;
+    showNightResult({ deaths: dead.map(p => ({ playerId: p.id, cause: p.eliminated_by })), events: evs.map(e => e.payload) }, all);
+    await refreshJamaspInfo(n);
+    document.getElementById('jamaspBox').style.display = 'block';
+    updateNightProgress();
+  }
+
+  // سهراب: از شبِ سوم تا وقتی نپیوسته، گرداننده سرنوشتش رو ثبت می‌کنه
+  function refreshSohrabBox(nightNumber){
+    const sohrab = nightPlayers.find(p => p.role_id === 'sohrab' && p.is_alive && p.side === 'neutral');
+    const box = document.getElementById('sohrabNightBox');
+    box.style.display = (sohrab && nightNumber >= 3) ? 'block' : 'none';
+    document.getElementById('sohrabNote').textContent = '';
+    document.getElementById('sohrabStatus').textContent = 'در انتظار';
+    ['sohrabJamshidiBtn', 'sohrabZahhakiBtn'].forEach(id => { document.getElementById(id).disabled = false; });
+  }
+  async function sohrabJoin(side){
+    const sohrab = nightPlayers.find(p => p.role_id === 'sohrab' && p.is_alive && p.side === 'neutral');
+    if(!sohrab) return;
+    const label = side === 'jamshidi' ? 'یارانِ جمشید' : 'ضحاکیان';
+    if(!await uiConfirm('پیوستنِ سهراب', 'سهراب به «' + label + '» می‌پیونده و از این به بعد در شمارشِ پیروزی همون سو حساب می‌شه. مطمئنی؟')) return;
+    ['sohrabJamshidiBtn', 'sohrabZahhakiBtn'].forEach(id => { document.getElementById(id).disabled = true; });
+    const note = document.getElementById('sohrabNote');
+    try{
+      await tjSetPlayerSide(sohrab.id, side);
+      await tjLogEvent(currentGame.id, null, 'sohrab_joined', { playerId: sohrab.id, side });
+      sohrab.side = side;
+      document.getElementById('sohrabStatus').textContent = 'ثبت شد ✓';
+      note.textContent = side === 'zahhaki'
+        ? 'سهراب به ضحاکیان پیوست. (سرِ میز به خودش بگو؛ گردآفرید رو بیدار کن تا بشناسدش.)'
+        : 'سهراب به یارانِ جمشید پیوست. (سرِ میز به خودش بگو.)';
+    }catch(e){
+      ['sohrabJamshidiBtn', 'sohrabZahhakiBtn'].forEach(id => { document.getElementById(id).disabled = false; });
+      note.textContent = e.message;
+      showError(e.message);
+    }
+  }
+
   function nightActor(roleId){
-    return nightPlayers.find(p => p.role_id === roleId && p.is_alive) || null;
+    // زندانیِ ضحاک یک شبانه‌روز بیرونِ بازیه: در شب بیدار نمی‌شه و کارتی نداره
+    return nightPlayers.find(p => p.role_id === roleId && p.is_alive && !p.state_flags?.jailed) || null;
   }
   // جمشید و ضحاک نامیرا هستن و نباید هدفِ هیچ اکشنِ کشنده‌ای باشن.
   function nightTargets(cfg, actorId){
-    let list = nightPlayers.filter(p => p.is_alive && p.id !== actorId);
+    // زندانی هدفِ هیچ اکشنی نیست (یک شبانه‌روز بیرونِ بازیه)
+    let list = nightPlayers.filter(p => p.is_alive && p.id !== actorId && !p.state_flags?.jailed);
     if(cfg.lethal) list = list.filter(p => p.role_id !== 'jamshid' && p.role_id !== 'zahhak');
     if(cfg.immune) list = list.filter(p => !cfg.immune.includes(p.role_id));
     return list;
@@ -2272,6 +2503,10 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     return NIGHT_ROLES.filter(cfg => {
       const actor = nightActor(cfg.role_id);
       if(!actor) return false;
+      // ضحاکِ ناتوان (دو شبِ پیاپی گرسنگی) دیگه انتخابِ شبانه نداره
+      if(cfg.role_id === 'zahhak' && nightHengameh.zahhak_incapacitated) return false;
+      // وقتی ضحاک انتخابی نداره، ارمایل چیزی برایِ نجات دادن نداره — کارتش بمونه، شب هیچ‌وقت قابلِ حل نمی‌شه
+      if(cfg.role_id === 'armayil' && nightHengameh.zahhak_incapacitated) return false;
       // توانایی‌های یک‌بارمصرفی که قبلاً خرج شدن، اصلاً کارت نمی‌گیرن
       if(cfg.oncePerGame && actor.state_flags?.[cfg.oncePerGame]) return false;
       // توانایی‌های چندبارمصرف (سودابه) وقتی سقفشون پر شد هم کارت نمی‌گیرن
@@ -2283,6 +2518,10 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   function renderNightCards(){
     const box = document.getElementById('nightCards');
     box.innerHTML = '';
+    const jailed = nightPlayers.filter(p => p.is_alive && p.state_flags?.jailed);
+    const jn = document.getElementById('jailedNightNote');
+    jn.textContent = jailed.length ? '⛓ ' + jailed.map(p => p.display_name).join('، ') + ' زندانیِ ضحاکه: امشب بیدار نمی‌شه و هیچ‌کس/هیچ قابلیتی روش اثر نداره؛ صبح به بازی برمی‌گرده.' : '';
+    jn.style.display = jailed.length ? 'block' : 'none';
     activeNightRoles().forEach(cfg => {
       const actor = nightActor(cfg.role_id);
       const div = document.createElement('div');
@@ -2350,7 +2589,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
       </div>
       <div class="nc-desc">${cfg.desc}${charge} <b class="gold">(${esc(actor.display_name)})</b></div>
       ${body}
-      ${cfg.instantAnswer ? `<div class="nc-answer" id="nans_${cfg.role_id}"></div>` : ''}
+      ${(cfg.instantAnswer || cfg.enchantNote) ? `<div class="nc-answer" id="nans_${cfg.role_id}"></div>` : ''}
       <div class="nc-err" id="nerr_${cfg.role_id}"></div>`;
   }
 
@@ -2381,6 +2620,16 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   function renderInstantAnswer(roleId){
     const box = document.getElementById('nans_' + roleId);
     if(!box) return;
+    // ضحاکِ افسون‌شده: انتخابش امشب باطله (جوابِ فوری نداره، فقط یادآوری)
+    const cfgE = NIGHT_ROLES.find(c => c.role_id === roleId);
+    if(cfgE && cfgE.enchantNote){
+      const a = nightActor(roleId);
+      if(a && isEnchantedTonight(a.id)){
+        setAnswer(box, DIM, 'افسون شده — انتخابش امشب باطله',
+          'امشب کسی کشته نمی‌شه و ضحاک گرسنه حساب می‌شه. طوری رفتار کن که خودش نفهمه افسون شده.');
+      }else{ box.innerHTML = ''; box.className = 'nc-answer'; }
+      return;
+    }
     const sel = nightSelections[roleId];
     if(!sel || sel.skipped || !sel.target){ box.innerHTML = ''; box.className = 'nc-answer'; return; }
     const target = nightPlayers.find(p => p.id === sel.target);
@@ -2429,7 +2678,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   // افسونِ سودابه روی جوابِ هومان و رستم اثر داره، پس اگه گرداننده هدفِ سودابه
   // رو عوض کنه باید کارت‌های اون‌ها هم دوباره حساب بشن.
   function refreshAllInstantAnswers(){
-    NIGHT_ROLES.filter(c => c.instantAnswer).forEach(c => renderInstantAnswer(c.role_id));
+    NIGHT_ROLES.filter(c => c.instantAnswer || c.enchantNote).forEach(c => renderInstantAnswer(c.role_id));
   }
 
   async function nightChange(roleId){
@@ -2454,6 +2703,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     }
 
     nightSelections[roleId] = sel;
+    if(sel) saveSkip(roleId, false);
     if(sel) await persistNightAction(cfg, sel);
     if(roleId === 'zahhak') renderArmayilChoices();
     paintNightCard(roleId);
@@ -2466,6 +2716,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     const card = document.getElementById('ncard_' + roleId);
     card.querySelectorAll('select').forEach(s => s.value = '');
     nightSelections[roleId] = { skipped:true, done:true };
+    saveSkip(roleId, true);
     try{
       const actor = nightActor(roleId);
       await tjDeleteNightAction(currentGame.id, nightPanelForNight, actor.id, cfg.action);
@@ -2478,6 +2729,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   async function nightToggle(roleId, use){
     const cfg = NIGHT_ROLES.find(c => c.role_id === roleId);
     nightSelections[roleId] = use ? { done:true, toggled:true } : { skipped:true, done:true };
+    saveSkip(roleId, !use);
     try{
       const actor = nightActor(roleId);
       if(use) await tjSubmitNightAction(currentGame.id, nightPanelForNight, actor.id, cfg.action, null, null, {});
@@ -2510,6 +2762,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   }
 
   async function pickArmayilSave(playerId){
+    saveSkip('armayil', false);
     nightSelections['armayil'] = { target: playerId, done:true };
     const cfg = NIGHT_ROLES.find(c => c.role_id === 'armayil');
     await persistNightAction(cfg, nightSelections['armayil']);
@@ -2527,6 +2780,9 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     card.classList.toggle('skipped', !!(sel && sel.skipped));
     stat.textContent = !sel || !sel.done ? 'در انتظار' : (sel.skipped ? 'رد شد' : 'ثبت شد ✓');
 
+    // دکمه‌هایِ «بله/نه»ِ زال بعد از رفرش
+    const yesB = document.getElementById('ntog_yes_' + roleId), noB = document.getElementById('ntog_no_' + roleId);
+    if(yesB && noB){ yesB.classList.toggle('active', !!(sel && sel.toggled)); noB.classList.toggle('active', !!(sel && sel.skipped)); }
     // بازگردانیِ مقادیر بعد از رفرشِ صفحه
     if(sel && !sel.skipped){
       const s1 = document.getElementById('nsel1_' + roleId);
@@ -2573,6 +2829,11 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
       // جدا افتاده باشن، اکشن‌های ثبت‌شده زیرِ شماره‌ی دیگه‌ای هستن و resolve
       // روی شبِ خالی اجرا می‌شد — همون کلاسِ باگی که نامه‌ها رو زمین گذاشت.
       const nightNumber = game.day_number;
+      if(game.hengameh_flags?.resolved_night === nightNumber){
+        showError('این شب قبلاً حل شده — نتیجه دوباره نمایش داده می‌شه.');
+        await restoreNightResult(nightNumber);
+        return;
+      }
       if(nightPanelForNight !== nightNumber){
         showError('شماره‌ی شب عوض شده — کنسول دوباره ساخته می‌شه.');
         nightPanelForNight = -1;
@@ -2635,7 +2896,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   const NIGHT_CAUSE_FA = {
     zahhak_night:'کشته‌ی ضحاک', homan_guess:'حدسِ درستِ هومان', rostam_arrow:'تیرِ رستم',
     gersivaz:'فداکاریِ گرسیوز', gersivaz_self:'خودکشیِ گرسیوز', rostam_self_miss:'تیرِ اشتباهِ رستم',
-    manijeh_bond:'پیوند با منیژه', jamshid_day_vote:'رأیِ جمشید',
+    manijeh_bond:'پیوند با منیژه', jamshid_day_vote:'رأیِ جمشید', esfandiar_seven_khan:'هفت‌خانِ اسفندیار',
   };
   function nightEventLabel(e){
     switch(e.type){
@@ -2650,7 +2911,9 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
       case 'homan_copied_ability': return 'هومان قابلیتِ ' + (ROLE_NAMES_FA[e.copiedFrom] || e.copiedFrom) + ' رو کپی کرد';
       case 'gersivaz_sacrifice': return 'گرسیوز خودش رو فدا کرد';
       case 'gersivaz_failed_both_zahhaki': return 'گرسیوز فقط ضحاکی هدف گرفت — بی‌اثر موند';
+      case 'zahhak_enchanted': return 'ضحاک افسون شد — انتخابش امشب باطل بود و گرسنه موند';
       case 'immune': return 'یک نفر در برابرِ حمله مصون بود';
+      case 'immortal': return 'جمشید/ضحاک نامیراست — قابلیت اثری نداشت';
       case 'inquiry_result': return 'نتیجه‌ی استعلامِ افراسیاب: هدفش ' + (e.isZahhaki ? 'ضحاکیه' : 'ضحاکی نیست');
       case 'hengameh_start': return '⚡ هنگامه‌ی «' + (HENGAMEH_FA[e.name] || e.name) + '» شروع شد!';
       default: return e.type;
@@ -2751,6 +3014,12 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     }catch(e){ console.error(e); }
   }
 
+  // صبحِ روزِ بعد: زندانی‌ها به بازی برمی‌گردن (زندان = همان روز + شبِ بعدش)
+  async function releaseJailed(){
+    for(const p of await tjListPlayers(currentGame.id)){
+      if(p.state_flags?.jailed) await tjUpdatePlayerFlags(p.id, { jailed: false });
+    }
+  }
   async function handlePhaseAdvance(updates){
     const btn = document.getElementById('hostPhaseBtn');
     const prevText = btn.textContent;
@@ -2758,7 +3027,10 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     btn.setAttribute('aria-busy', 'true');
     btn.textContent = 'در حالِ اعمال…';
     try{
+      if(updates && updates.current_phase === 'night') await endOfDayRules();
+      const wasNight = updates && updates.current_phase === 'day' && (await tjGetGame(currentGame.id)).current_phase === 'night';
       const game = await tjUpdatePhaseRetry(updates);
+      if(wasNight) await releaseJailed();
       renderHostPhaseUI(game); // به‌روزرسانیِ فوری — منتظرِ پولینگِ بعدی نمی‌مونیم
     }catch(e){
       showError('خطا در تغییرِ فازِ بازی: ' + e.message + ' — (اگه از VPN استفاده می‌کنی، امتحان کن خاموشش کنی یا سرورش رو عوض کنی)');
@@ -2804,16 +3076,28 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
           return; // یه دورِ بعدی صبر کن تا نقش دیده بشه، بعد وارد فاز شو
         }
 
+        // بازیکنِ حذف‌شده فقط ناظره: رأی نمی‌ده و نامه نمی‌نویسه
+        const me = await tjGetPlayer(currentPlayer.id);
+        myAlive = me.is_alive !== false;
+        myJailed = myAlive && !!me.state_flags?.jailed;
+
         // قبل از early-return زیر صدا زده می‌شه: پنجره‌ی سروش و رسیدنِ نامه‌ها
         // مستقل از تغییرِ فازن و باید هر دور چک بشن.
         await refreshSoroush(game);
         await refreshVoteBoard(game);
 
-        const key = game.current_phase + '-' + game.day_number;
+        const key = game.current_phase + '-' + game.day_number + '-' + (myAlive ? (myJailed ? 'j' : 'a') : 'd');
         if(lastRenderedKey === key) return; // چیزی عوض نشده، دوباره رندر نکن
         lastRenderedKey = key;
 
-        if(myRoleId === 'jamshid'){
+        if(!myAlive || myJailed){
+          document.getElementById('elimTitle').textContent = myAlive ? 'زندانی شدی' : 'از بازی خارج شدی';
+          document.getElementById('elimText').textContent = myAlive
+            ? 'ضحاک تو را برایِ یک شبانه‌روز زندانی کرده: امروز و امشب از بازی بیرونی، کسی نمی‌تونه بهت کاری داشته باشه و بیدار نمی‌شی. فردا صبح به بازی برمی‌گردی.'
+            : 'از این به بعد فقط ناظری. نقشت رو برایِ کسی فاش نکن و چیزی به بازیکن‌ها نگو — در پایانِ بازی نقشِ همه آشکار می‌شه.';
+          document.getElementById('elimPhaseNote').textContent = (game.current_phase === 'day' ? 'روزِ ' : 'شبِ ') + game.day_number + ' · بازی ادامه داره…';
+          go('screen-eliminated');
+        } else if(myRoleId === 'jamshid'){
           showJamshidDashboard(game);
         } else if(myRoleId === 'zahhak' && game.current_phase === 'day'){
           showZahhakDashboard(game);
@@ -2866,28 +3150,28 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   // ================= راهنما =================
   // توضیحِ کوتاهِ هر نقش، برای نمایشِ نقشِ خودِ بازیکن در بالای راهنما.
   const ROLE_DESC_FA = {
-    jamshid:'پادشاهِ روز و نامیرا. دو کارتِ یک‌بارمصرف داری: جامِ جم (تعدادِ حذف‌شده‌های هر طرف) و فراخواندنِ سروش (بازکردنِ نامه‌نگاری برای همه).',
-    zahhak:'پادشاهِ شب و نامیرا. هر شب دو نفر رو برای طعمه انتخاب می‌کنی. دو کارتِ یک‌بارمصرف داری: اهریمن و زندان. اگه دو شبِ پیاپی کسی رو نکشی، ناتوان می‌شی.',
-    armayil:'ایرانی هستی ولی آشپزِ دربارِ ضحاکی. هر شب بینِ دو گزینه‌ی ضحاک یکی رو نجات می‌دی. در همه‌ی استعلام‌ها «ضحاکی» نشون داده می‌شی، ولی در شمارشِ پیروزی ایرانی حساب می‌شی.',
-    siavash:'اگه جمشید اشتباهاً بکشدت، نقشت آشکار می‌شه و برمی‌گردی — هنگامه‌ی سیاوشان.',
-    kaveh:'پدرِ کارن. اگه ضحاک کارن رو بکشه، هنگامه‌ی قیام شروع می‌شه.',
-    fereydun:'با شروعِ قیام، هر شب (بدونِ جمشید) با کاوه بیدار می‌شی و مشورت می‌کنین. هر شب یک نفر رو به جمع اضافه می‌کنی، حداکثر دو نفر. اگه ضحاکی رو اضافه کنی، شبِ بعد کاوه و شبِ بعدترش خودت از بازی خارج می‌شین.',
-    karen:'پسرِ کاوه. مرگت به‌دستِ ضحاک قیام رو شروع می‌کنه؛ مرگت به‌دستِ جمشید کودتا رو.',
-    keykavous:'نوشدارو داری: یک‌بار می‌تونی کشته‌ی جمشید رو نجات بدی. ارمایل رو می‌شناسی.',
-    rostam:'زره‌ی پوستِ ببر: یک‌بار در برابرِ انتخابِ ضحاک زنده می‌مونی. دو تیر داری؛ درست بزنی اون ضحاکی می‌میره، اشتباه بزنی زره‌ات می‌ره (و اگه زره نداشته باشی، خودت).',
-    zaal:'پرِ سیمرغ: یک‌بار در کلِ بازی می‌تونی بسوزونیش تا اون شب هیچ‌کس به‌دستِ ضحاک کشته نشه.',
-    jamasp:'پایانِ هر شب، گرداننده نقشِ کشته‌های اخیر رو بهت می‌گه.',
-    bijan:'عاشقِ منیژه‌ای. تا وقتی منیژه زنده‌ست فقط با رأیِ مستقیمِ جمشید حذف می‌شی. ولی با مرگِ منیژه، تو هم می‌میری.',
-    manijeh:'زندگیِ بیژن به زندگیِ تو گره خورده — با مرگِ تو، بیژن هم می‌میره.',
+    jamshid:'پادشاهِ روز و نامیرا. دو کارتِ یک‌بارمصرف داری: جامِ جم (تعدادِ یارانِ زنده‌یِ هر دو سو) و فراخواندنِ سروش (بازکردنِ نامه‌نگاری برایِ همه).',
+    zahhak:'پادشاهِ شب و نامیرا. هر شب دو نفر رو برایِ طعمه انتخاب می‌کنی. دو کارتِ یک‌بارمصرف داری: اهریمن و زندان. اگه دو شبِ پیاپی کسی رو نکشی، ناتوان می‌شی.',
+    armayil:'ایرانی هستی ولی آشپزِ دربارِ ضحاکی. هر شب از میانِ دو انتخابِ ضحاک یکی رو نجات می‌دی. در همه‌یِ استعلام‌ها «ضحاکی» نشون داده می‌شی، ولی برایِ پیروزی ایرانی حساب می‌شی.',
+    siavash:'اگه جمشید اشتباهاً متهم و حذفت کنه، نقشت آشکار می‌شه و به بازی برمی‌گردی — هنگامه‌یِ سیاوشان. سودابه تو رو از ابتدا می‌شناسه و نمی‌تونه افسونت کنه.',
+    kaveh:'پدرِ کارن. اگه ضحاک کارن رو بکشه، هنگامه‌یِ قیام شروع می‌شه و از اون به بعد هر شب همراهِ فریدون (بدونِ جمشید) بیدار می‌شی و مشورت می‌کنین.',
+    fereydun:'با آغازِ قیام، هر شب همراهِ کاوه بیدار می‌شی و می‌تونی یک نفر رو به جمع اضافه کنی (حداکثر دو نفر در کلِ بازی). اگه ضحاکی رو اضافه کنی، شبِ بعد کاوه و شبِ بعدترش خودت از بازی خارج می‌شین و قیام شکست می‌خوره. کارن رو می‌شناسی.',
+    karen:'پسرِ کاوه. مرگت به‌دستِ ضحاک قیام رو شروع می‌کنه؛ مرگِ اشتباهیت به‌دستِ جمشید کودتا رو.',
+    keykavous:'نوشدارو داری: یک‌بار می‌تونی کشته‌یِ روزِ جمشید رو نجات بدی (روی سهراب و در روزِ کینِ سیاوش بی‌اثره). ارمایل رو می‌شناسی.',
+    rostam:'زره‌یِ پوستِ ببر داری: یک‌بار در برابرِ انتخابِ ضحاک زنده می‌مونی. دو تیر داری؛ درست بزنی اون ضحاکی می‌میره، اشتباه بزنی زره‌ات می‌ره (و اگه زره نداشته باشی، خودت).',
+    zaal:'پرِ سیمرغ: یک‌بار در کلِ بازی می‌تونی بسوزونیش تا اون شب هیچ‌کس به‌دستِ ضحاک کشته نشه — بقیه‌یِ نقش‌ها همچنان می‌تونن قدرت اعمال کنن یا حتی بکشن.',
+    jamasp:'پایانِ هر شب، گرداننده نقشِ کشته‌هایِ روز و شب رو (بدونِ اسم) بهت می‌گه.',
+    bijan:'عاشقِ منیژه‌ای. تا وقتی منیژه زنده‌ست فقط با رأیِ مستقیمِ جمشید حذف می‌شی — نه با کشتنِ شبانه، نه با هیچ قابلیتِ دیگه. با مرگِ منیژه به هر دلیلی، تو هم می‌میری.',
+    manijeh:'زندگیِ بیژن در گروِ زندگیِ توئه — اگه کشته بشی، بیژن هم به هر دلیلی که مرده همراهت می‌ره.',
     gordafarid:'اگه سهراب به ضحاکیان بپیونده، می‌شناسیش.',
-    esfandiar:'باید هفت‌خان رو رد کنی: ۷ روز و شب زنده بمونی. پایانِ روزِ چهارم، ارجاسب می‌میره.',
-    afrasiab:'هر شب از یک نفر استعلام می‌گیری که ضحاکی هست یا نه. سهراب از ابتدا بهت معرفی می‌شه.',
-    pirans:'خردمندِ ضحاکیان. در هنگامه‌ی قیام می‌تونی کاوه و فریدون رو بکشی و قیام رو متوقف کنی. بیژن و منیژه رو می‌شناسی.',
-    sudabeh:'دو بار در کلِ بازی می‌تونی یک نفر رو افسون کنی و قابلیتش رو اون شب باطل کنی. روی کاوه، فریدون، سیاوش و ارمایل بی‌اثره. سیاوش رو از ابتدا می‌شناسی.',
-    gersivaz:'یک‌بار در کلِ بازی، هر لحظه، می‌تونی جانت رو فدا کنی و یک نفرِ دیگه رو هم با خودت ببری.',
-    homan:'اگه نقشِ یک ایرانی رو درست حدس بزنی می‌کشیش (به‌جز ارمایل). اگه نقشِ یک ضحاکی رو درست حدس بزنی، قابلیتش رو کپی می‌کنی.',
-    arjasb:'اسفندیار رو می‌شناسی. اگه اسفندیار ۴ روز زنده بمونه، خودت می‌میری.',
-    sohrab:'اولش جزو هیچ گروهی نیستی. شبِ سوم گرداننده دو نفر رو نشونت می‌ده؛ اگه رستم رو درست حدس بزنی به یارانِ جمشید می‌پیوندی، وگرنه به ضحاکیان.',
+    esfandiar:'عبورکننده‌یِ هفت‌خانی. اگه تا پایانِ روزِ چهارم زنده باشی، ارجاسبِ ضحاکی خودبه‌خود از بازی خارج می‌شه. هفت‌خان جز این هیچ پیامدِ دیگه‌ای نداره.',
+    afrasiab:'هر شب از یک نفر استعلام می‌گیری و همون لحظه می‌فهمی ضحاکی هست یا نه. سهراب از ابتدا بهت معرفی می‌شه.',
+    pirans:'خردمندِ ضحاکیان. در هنگامه‌یِ قیام، با اشاره می‌تونی کاوه و فریدون رو همون شب بکشی و قیام رو متوقف کنی. بیژن و منیژه رو بدونِ دونستنِ نقشِ دقیقشون می‌شناسی.',
+    sudabeh:'در کلِ بازی فقط دو بار می‌تونی یک نفر رو افسون کنی؛ قابلیتش همون شب باطل می‌شه. روی کاوه، فریدون، سیاوش و ارمایل بی‌اثره. اگه بیژن یا منیژه رو افسون کنی، پیوندشون برایِ همیشه می‌شکنه. سیاوش رو از ابتدا می‌شناسی.',
+    gersivaz:'یک‌بار در کلِ بازی، هر لحظه — روز یا شب — می‌تونی با اعلامِ نقشت به گرداننده جونت رو فدا کنی و یک نفرِ دیگه رو هم با خودت ببری. اگه هدفِ اول ضحاکی باشه، یک شانسِ دیگه داری.',
+    homan:'با حدسِ درستِ نقشِ یک ایرانی بلافاصله می‌کشیش (به‌جز ارمایل). با حدسِ درستِ نقشِ یک ضحاکی، قابلیتش رو برایِ خودت کپی می‌کنی.',
+    arjasb:'اسفندیار رو می‌شناسی. اگه اسفندیار چهار روز زنده بمونه، پایانِ روزِ چهارم خودت می‌میری.',
+    sohrab:'اولش جزوِ هیچ گروهی نیستی. شبِ سوم گرداننده دو نفر رو نشونت می‌ده؛ اگه رستم رو درست حدس بزنی به یارانِ جمشید می‌پیوندی، وگرنه به ضحاکیان. در شبِ سروش نمی‌تونی نامه بدی.'
   };
 
   // ================= اعلان‌ها، لایت‌باکس، دفترچه (finale-pack) =================
@@ -3038,11 +3322,11 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     "items": [
       [
         "جمشید",
-        "پادشاهِ روز، نامیرا. جامِ جم (یک‌بار: تعدادِ یارانِ زنده‌اش) و فراخواندنِ سروش."
+        "پادشاهِ روز، نامیرا. در پایانِ هر روز مجلسِ مهان تشکیل می‌شه و جمشید از میانِ دو متهمِ مجلس یکی رو برایِ مرگ برمی‌گزینه (یا هیچ‌کدوم رو). دو کارتِ یک‌بارمصرف داره: جامِ جم (تعدادِ یارانِ زنده‌یِ هر دو سو) و فراخواندنِ سروش."
       ],
       [
         "ضحاک",
-        "پادشاهِ شب، نامیرا. اهریمن (روز بدونِ صحبت) و زندان (سکوتِ یک نفر تا پایانِ نیم‌روز)."
+        "پادشاهِ شب، نامیرا. هر شب دو نفر رو برایِ مارهاش برمی‌گزینه و از نقشِ دقیقِ یارانش خبر نداره. دو شبِ پیاپیِ گرسنگی ناتوانش می‌کنه. دو کارتِ یک‌بارمصرف داره: اهریمن و زندان."
       ]
     ]
   },
@@ -3052,47 +3336,47 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     "items": [
       [
         "ارمایل",
-        "هر شب بینِ دو گزینه‌ی ضحاک، یکی رو نجات می‌ده."
-      ],
-      [
-        "سیاوش",
-        "اگه جمشید اشتباهاً بکشدش، برمی‌گرده و هنگامه‌ی سیاوشان شروع می‌شه."
-      ],
-      [
-        "کاوه",
-        "با کشته‌شدنِ کارن به‌دستِ ضحاک، هنگامه‌ی قیام رو فعال می‌کنه و هر شب با فریدون (بدونِ جمشید) بیدار می‌شه و مشورت می‌کنن."
-      ],
-      [
-        "فریدون",
-        "بعدِ قیام، هر شب با کاوه بیدار می‌شه و یک نفر رو به جمع اضافه می‌کنه (حداکثر ۲ نفر در کلِ بازی). اگه ضحاکی اضافه کنه، قیام شکست می‌خوره."
-      ],
-      [
-        "کارن",
-        "پسرِ کاوه — تریگرِ هنگامه‌ی قیام (اگه ضحاک بکشدش) یا کودتا (اگه جمشید اشتباهاً بکشدش)."
-      ],
-      [
-        "کیکاووس",
-        "نوشدارو داره؛ یک‌بار می‌تونه کشته‌ی جمشید رو نجات بده."
+        "ایرانیه ولی در دربارِ ضحاک آشپزی می‌کنه. هر شب از میانِ دو انتخابِ ضحاک یکی رو نجات می‌ده. در همه‌یِ استعلام‌ها «ضحاکی» نشون داده می‌شه، اما برایِ پیروزی ایرانی حساب می‌شه."
       ],
       [
         "رستم",
-        "زره‌ی یک‌بارمصرف؛ در کلِ بازی فقط دو تیر داره — هر شب می‌تونه یکیش رو به یه مظنونِ ضحاکی بزنه."
+        "زره‌یِ پوستِ ببر داره: یک‌بار در برابرِ انتخابِ ضحاک زنده می‌مونه. در کلِ بازی فقط دو تیر داره؛ هر شب می‌تونه یکی رو پرتاب کنه. درست بزنه، اون ضحاکی می‌میره؛ اشتباه بزنه، زره‌اش می‌ره (یا اگه زره نداشته باشه، خودش)."
       ],
       [
         "زال",
-        "پرِ سیمرغ: یک‌بار در کل بازی، همه‌ی کشته‌های اون شبِ ضحاک رو نجات می‌ده."
+        "یک پرِ سیمرغ داره. یک‌بار در کلِ بازی می‌تونه بسوزوندش تا اون شب هیچ‌کس به‌دستِ ضحاک کشته نشه — بقیه‌یِ نقش‌ها همچنان می‌تونن قدرت اعمال کنن یا حتی بکشن."
       ],
       [
-        "جاماسپ",
-        "پایانِ هر شب، گرداننده کشته‌های اخیر رو (با نقش) بهش می‌گه."
+        "کیکاووس",
+        "جامِ نوشدارو دستشه؛ یک‌بار می‌تونه کشته‌یِ روزِ جمشید رو نجات بده. ارمایل رو از ابتدا می‌شناسه. نوشدارو روی سهراب و در روزِ کینِ سیاوش بی‌اثره."
+      ],
+      [
+        "کاوه",
+        "با کشته‌شدنِ کارن به‌دستِ ضحاک هنگامه‌یِ قیام رو آغاز می‌کنه و از اون به بعد هر شب همراهِ فریدون (بدونِ جمشید) بیدار می‌شه و مشورت می‌کنن."
+      ],
+      [
+        "فریدون",
+        "با آغازِ قیام هر شب همراهِ کاوه بیدار می‌شه و می‌تونه یک نفر رو به جمعِ قیام اضافه کنه (حداکثر دو نفر در کلِ بازی). اگه ضحاکی رو اضافه کنه، قیام شکست می‌خوره. کارن رو از ابتدا می‌شناسه."
+      ],
+      [
+        "کارن",
+        "پسرِ کاوه. مرگش به‌دستِ ضحاک قیام رو آغاز می‌کنه؛ مرگِ اشتباهیش به‌دستِ جمشید، کودتا رو."
+      ],
+      [
+        "سیاوش",
+        "اگه جمشید اشتباهاً متهم و حذفش کنه، نقشش آشکار می‌شه و به بازی برمی‌گرده — هنگامه‌یِ سیاوشان. سودابه از ابتدا می‌شناسدش و نمی‌تونه افسونش کنه."
       ],
       [
         "بیژن",
-        "تا وقتی منیژه زنده‌ست، عملاً نامیراست — فقط با رأیِ مستقیمِ جمشید حذف می‌شه."
+        "تا وقتی منیژه زنده‌ست، فقط با رأیِ مستقیمِ جمشید حذف می‌شه — نه با کشتنِ شبانه، نه با هیچ قابلیتِ دیگه. با مرگِ منیژه به هر دلیلی، بیژن هم می‌میره."
       ],
       [
         "منیژه",
-        "زندگیِ بیژن به زندگیِ اون گره خورده."
+        "زندگیِ بیژن در گروِ زندگیِ اونه. اگه منیژه کشته بشه، بیژن هم — به هر دلیلی که مرده — همراهش می‌ره."
+      ],
+      [
+        "جاماسپ",
+        "پایانِ هر شب، گرداننده نقشِ کشته‌هایِ روز و شب رو (بدونِ اسم) بهش می‌گه."
       ],
       [
         "گردآفرید",
@@ -3100,7 +3384,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
       ],
       [
         "اسفندیار",
-        "باید هفت‌خان رو رد کنه: ۷ روز و شب زنده بمونه."
+        "عبورکننده‌یِ هفت‌خان. اگه تا پایانِ روزِ چهارم زنده باشه، ارجاسبِ ضحاکی خودبه‌خود از بازی خارج می‌شه؛ هفت‌خان جز این هیچ پیامدِ دیگه‌ای نداره."
       ]
     ]
   },
@@ -3110,27 +3394,27 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     "items": [
       [
         "افراسیاب",
-        "هر شب از یک نفر استعلام می‌گیره (ضحاکی هست یا نه)."
-      ],
-      [
-        "پیران",
-        "در هنگامه‌ی قیام می‌تونه کاوه/فریدون رو همون شب بکشه و قیام رو متوقف کنه."
+        "هر شب از یک نفر استعلام می‌گیره و همون لحظه می‌فهمه ضحاکی هست یا نه. سهراب از ابتدایِ بازی بهش معرفی می‌شه."
       ],
       [
         "سودابه",
-        "دو بار می‌تونه یک نفر رو افسون کنه (روی چندتا نقشِ خاص بی‌اثره)."
-      ],
-      [
-        "گرسیوز",
-        "یک‌بار می‌تونه با فداکردنِ جانِ خودش، یک نفرِ دیگه رو هم حذف کنه."
+        "در کلِ بازی فقط دو بار می‌تونه یک نفر رو افسون کنه؛ قابلیتِ اون همون شب باطل می‌شه. روی کاوه، فریدون، سیاوش و ارمایل بی‌اثره. اگه بیژن یا منیژه رو افسون کنه، پیوندشون برایِ همیشه می‌شکنه."
       ],
       [
         "هومان",
-        "اگه نقشِ یه ایرانی رو درست حدس بزنه می‌کشدش؛ اگه نقشِ ضحاکی رو حدس بزنه، قابلیتش رو کپی می‌کنه."
+        "با حدسِ درستِ نقشِ یک ایرانی بلافاصله می‌کشدش (روی ارمایل اثر نداره). با حدسِ درستِ نقشِ یک ضحاکی، قابلیتش رو برایِ خودش کپی می‌کنه."
+      ],
+      [
+        "پیران",
+        "در هنگامه‌یِ قیام، با اشاره (بدونِ حدسِ نقشِ دقیق) می‌تونه کاوه و فریدون رو همون شب بکشه و قیام رو متوقف کنه. بیژن و منیژه رو بدونِ دونستنِ نقشِ دقیقشون می‌شناسه."
+      ],
+      [
+        "گرسیوز",
+        "یک‌بار در کلِ بازی، هر لحظه — روز یا شب — می‌تونه با اعلامِ نقشش به گرداننده جونش رو فدا کنه و یک نفرِ دیگه رو هم با خودش ببره. اگه هدفِ اول ضحاکی باشه، یک شانسِ دیگه داره."
       ],
       [
         "ارجاسب",
-        "اسفندیار رو می‌شناسه؛ اگه اسفندیار ۴ روز زنده بمونه، خودش می‌میره."
+        "اسفندیار رو می‌شناسه. اگه اسفندیار چهار روز زنده بمونه، پایانِ روزِ چهارم خودش می‌میره."
       ]
     ]
   },
@@ -3140,27 +3424,33 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     "items": [
       [
         "سهراب",
-        "اولش بی‌طرفه؛ شبِ سوم بر اساسِ حدسِ درست، به یکی از دو گروه می‌پیونده."
-      ],
+        "ابتدا جزوِ هیچ گروهی نیست. شبِ سوم گرداننده دو نفر رو نشونش می‌ده؛ اگه رستم رو درست حدس بزنه به یارانِ جمشید می‌پیونده، وگرنه به ضحاکیان. اگه پیش از پیوستن به‌دستِ جمشید کشته بشه، هنگامه‌یِ جنگ آغاز می‌شه. در شبِ سروش نمی‌تونه نامه بده."
+      ]
+    ]
+  },
+  {
+    "cls": "t-events",
+    "label": "هنگامه‌ها",
+    "items": [
       [
-        "قیام (درفشِ کاویانی)",
-        "با کشته‌شدنِ کارن به‌دستِ ضحاک (و زنده‌بودنِ کاوه) شروع می‌شه. کاوه و فریدون هر شب (بدونِ جمشید) با هم بیدار می‌شن، مشورت می‌کنن و فریدون یک نفر رو اضافه می‌کنه (حداکثر ۲ نفر). اگه ضحاکی اضافه بشه، شبِ بعد کاوه و شبِ بعدترش فریدون از بازی خارج می‌شن."
+        "قیام — درفشِ کاویانی",
+        "با مرگِ کارن به‌دستِ ضحاک شروع می‌شه، به شرطِ زنده‌بودنِ کاوه (وگرنه اصلاً آغاز نمی‌شه). از اولین شبِ بعد کاوه و فریدون با هم (بدونِ جمشید) بیدار می‌شن و مشورت می‌کنن؛ فریدون هر شب یک نفر رو اضافه می‌کنه (حداکثر دو نفر). اگه ضحاکی اضافه بشه، شبِ بعد کاوه و شبِ بعدترش فریدون از بازی خارج می‌شن و قیام شکست می‌خوره."
       ],
       [
         "کودتا",
-        "با کشته‌شدنِ کارن به‌دستِ جمشید. رستم، زال و جاماسپ رأی می‌دن که قدرت به فریدون منتقل بشه یا نه."
+        "با مرگِ کارن به‌دستِ جمشید. زال، رستم و جاماسپ چشم‌بسته رأی می‌دن که قدرت به فریدون منتقل بشه یا نه. با اکثریت، فریدون به‌جایِ جمشید کشته‌یِ روز رو انتخاب می‌کنه؛ با مرگِ فریدون قدرت به جمشید برمی‌گرده."
       ],
       [
         "سیاوشان",
-        "اگه جمشید اشتباهاً سیاوش رو بکشه، سیاوش برمی‌گرده. از اون به بعد اگه ضحاک بکشدش، «روزِ کینِ سیاوش» می‌شه: دو کشته به‌جای یکی و نوشدارو بی‌اثر."
+        "اگه جمشید اشتباهاً سیاوش رو حذف کنه، نقشِ سیاوش آشکار می‌شه و برمی‌گرده. از اون به بعد اگه ضحاک بکشدش، «روزِ کینِ سیاوش» می‌شه: جمشید می‌تونه دو نفر رو برایِ مرگ انتخاب کنه و نوشدارو بی‌اثره."
       ],
       [
         "جنگ",
-        "اگه سهراب پیش از پیوستن به تیمی به‌دستِ جمشید کشته بشه، همه‌ی ضحاکیان و ارمایل همدیگه رو می‌شناسن."
+        "اگه سهراب پیش از پیوستن به یک سو به‌دستِ جمشید کشته بشه، همه‌یِ ضحاکیان به‌همراهِ ارمایل چشم باز می‌کنن و بدونِ دونستنِ نقشِ دقیقِ هم، همدیگه رو می‌شناسن."
       ],
       [
         "ناتوانیِ ضحاک",
-        "اگه ضحاک دو شبِ پیاپی نتونه کسی رو بکشه، دیگه نمی‌تونه بکشه (ولی نمی‌میره) و ضحاکیان همدیگه رو می‌شناسن."
+        "اگه ضحاک دو شبِ پیاپی گرسنه بمونه، دیگه نمی‌تونه بکشه یا رهبری کنه (ولی نمی‌میره). از اون شب ضحاکیان (بدونِ ارمایل) همدیگه رو می‌شناسن."
       ]
     ]
   }
@@ -3175,6 +3465,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     'یارانِ جمشید': { id:'roles-jamshidi', cls:'t-jamshidi', icon:'sun' },
     'ضحاکیان (مخفی)': { id:'roles-zahhaki', cls:'t-zahhaki', icon:'snake' },
     'بی‌طرف': { id:'roles-neutral', cls:'t-neutral', icon:'group' },
+    'هنگامه‌ها': { id:'roles-events', cls:'t-events', icon:'trumpet' },
   };
   let guideReturnScreen = null;
 
@@ -3330,6 +3621,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   // جمشید و ضحاک نامه نمی‌نویسن. سهراب و (بعد از ناتوانیِ ضحاک) ارمایل هم طبقِ
   // سطرهای ۱۲۰ و ۷۸ سند نمی‌تونن.
   function canWriteLetter(game){
+    if(!myAlive || myJailed) return false;
     if(myRoleId === 'jamshid' || myRoleId === 'zahhak') return false;
     if(myRoleId === 'sohrab') return false;
     if(myRoleId === 'armayil' && game.hengameh_flags?.zahhak_incapacitated) return false;
@@ -3696,9 +3988,10 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   }
   async function useJamEJam(){
     await runPower('cup', 'جامِ جم', 'این کارت یک‌بارمصرفه. مطمئنی؟', async () => {
-      const c = await tjCountEliminated(currentGame.id);
+      const c = await tjCountAlive(currentGame.id);
       // اول مصرف قطعی می‌شه، نتیجه هم ذخیره می‌شه تا بعد از رفرش دوباره دیده بشه
-      await tjUpdatePlayerFlags(currentPlayer.id, { jam_e_jam_used: true, jam_e_jam_result: { jamshidi: c.jamshidiEliminated, zahhaki: c.zahhakiEliminated } });
+      // (جامِ جم تعدادِ یارانِ *زنده‌یِ* هر دو سو رو نشون می‌ده — دفترچه‌یِ نهایی)
+      await tjUpdatePlayerFlags(currentPlayer.id, { jam_e_jam_used: true, jam_e_jam_result: { jamshidi: c.jamshidiAlive, zahhaki: c.zahhakiAlive, kind: 'alive' } });
     });
   }
   async function useJamSoroush(){
@@ -3719,7 +4012,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     try{ await loadPowerFlags(); }catch(e){ console.error(e); }
   }
   async function useZahAhriman(){
-    await runPower('ahriman', 'اهریمن', 'لغوِ گفتگو/رأیِ امروز. این کارت یک‌بارمصرفه؛ مطمئنی؟', async () => {
+    await runPower('ahriman', 'اهریمن', 'اون روز بدونِ صحبت، مستقیم به خوابِ نیم‌روزی می‌ریم. این کارت یک‌بارمصرفه؛ مطمئنی؟', async () => {
       await tjUpdatePlayerFlags(currentPlayer.id, { ahriman_used: true });
     });
   }
@@ -3766,7 +4059,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     const target = zendanTargets.find(p => p.id === zendanSelected);
     if(!target) return;
     pwClose('zendanModal');
-    await runPower('prison', 'زندان', 'کارتِ یک‌بارمصرفه. «' + target.display_name + '» تا پایانِ امروز غیرفعال می‌شه. مطمئنی؟', async () => {
+    await runPower('prison', 'زندان', 'کارتِ یک‌بارمصرفه. «' + target.display_name + '» یک شبانه‌روز (همین روز و شبِ بعدش) از بازی بیرون می‌ره: جمشید و هیچ‌کس دیگه نمی‌تونه بهش کاری داشته باشه و فردا صبح برمی‌گرده. مطمئنی؟', async () => {
       await tjUpdatePlayerFlags(target.id, { jailed: true });
       await tjUpdatePlayerFlags(currentPlayer.id, { zendan_used: true });
     });
@@ -3831,6 +4124,13 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
 
     const body = document.getElementById('dayVoteCardBody');
     body.replaceChildren();
+
+    // آخرِ بازی: وقتی کمتر از دو نفرِ دیگه مونده، رأیِ دوگانه (پیمان و گمان به دو نفرِ متفاوت) ممکن نیست
+    if(others.length < 2){
+      body.append(dvEl('p', 'locked-note', 'تعدادِ بازیکن‌هایِ باقی‌مونده به‌اندازه‌یِ رأیِ دوگانه نیست (پیمان و گمان به دو نفرِ متفاوت). منتظرِ تصمیمِ گرداننده باش.'));
+      go('screen-day-vote');
+      return;
+    }
 
     const modes = dvEl('div', 'mode-switch');
     modes.setAttribute('role', 'group'); modes.setAttribute('aria-label', 'نوع رأی');

@@ -47,6 +47,17 @@ function resolveNight(players, actions, gameState) {
   // یک کپیِ قابل‌تغییر از بازیکن‌ها می‌سازیم تا اصل داده دست‌نخورده بمونه
   const state = players.map(p => ({ ...p, state_flags: { ...p.state_flags } }));
   const events = [];
+
+  // --- زندانِ ضحاک: یک شبانه‌روزِ کامل (همون روز + شبِ بعدش) بیرون از بازی ---
+  // زندانی در شب بیدار نمی‌شه (اکشنش نادیده‌ست) و هیچ‌کس/هیچ قابلیتی هم روی اون اثر نداره
+  // (اکشنی که او رو هدف گرفته باطله). صبحِ روزِ بعد به بازی برمی‌گرده.
+  const jailedIds = new Set(state.filter(p => p.state_flags && p.state_flags.jailed).map(p => p.id));
+  const isJailed = id => !!id && jailedIds.has(id);
+  if (jailedIds.size) {
+    const kept = actions.filter(a => !isJailed(a.actor_player_id) && !isJailed(a.target_player_id) && !isJailed(a.target_player_id_2));
+    if (kept.length !== actions.length) events.push({ type: 'jailed_action_ignored', count: actions.length - kept.length });
+    actions = kept;
+  }
   const deaths = new Map(); // playerId -> cause
 
   const alive = id => {
@@ -58,6 +69,20 @@ function resolveNight(players, actions, gameState) {
     if (!playerId || deaths.has(playerId)) return;
     const p = findPlayer(state, playerId);
     if (!p || !p.is_alive) return;
+
+    // --- جمشید و ضحاک نامیرا هستن: هیچ قابلیتی (تیر، حدس، فداکاری، انتخابِ ضحاک) نمی‌تونه حذفشون کنه ---
+    // (دفترچه‌یِ نهایی: «هیچ قابلیتی، هیچ حدسی، هیچ رأیی نمی‌تواند آن‌ها را از بازی خارج کند»).
+    // UI هم این دو رو از فهرستِ هدف‌ها کنار می‌ذاره؛ این گارد برایِ وقتیه که کسی از کنسول دور بزنه.
+    if (p.role_id === 'jamshid' || p.role_id === 'zahhak') {
+      events.push({ type: 'immortal', playerId });
+      return;
+    }
+
+    // --- زندانی بیرونِ بازیه: هیچ علتی (حتی پیوندِ بیژن‌ومنیژه از طریقِ kill) نمی‌تونه حذفش کنه ---
+    if (isJailed(playerId)) {
+      events.push({ type: 'jailed_protected', playerId });
+      return;
+    }
 
     // --- مصونیتِ بیژن: تا وقتی منیژه زنده‌ست، بیژن فقط با رأیِ روزِ جمشید حذف می‌شه ---
     // نکته: اگه سودابه پیوند رو شکسته باشه، مصونیت هم از بین می‌ره. هر دو اثر
@@ -78,7 +103,7 @@ function resolveNight(players, actions, gameState) {
   };
 
   // ============================================================
-  // مرحله‌ی ۱: اعمالِ افسونِ سودابه — همیشه اول، چون قابلیتِ بقیه رو باطل می‌کنه
+  // مرحله‌ی ۱: اعمالِ افسونِ سودابه — همیشه اول (سودابه اولِ شب بیدار می‌شه)، چون قابلیتِ بقیه رو باطل می‌کنه
   // ============================================================
   const enchantedPlayerIds = new Set();
   const sudabeh = state.find(p => p.role_id === 'sudabeh' && p.is_alive);
@@ -126,7 +151,15 @@ function resolveNight(players, actions, gameState) {
   let zahhakVictimId = null;
   let zahhakFedTonight = false;
 
-  if (zahhakAction && !zaalBlockActive) {
+  // ضحاکِ ناتوان (دو شبِ پیاپی گرسنگی) دیگه انتخابِ شبانه نداره
+  const zahhakIncapacitated = !!gameState.hengameh_flags?.zahhak_incapacitated;
+
+  // ضحاکِ افسون‌شده: قابلیتِ هدفِ افسون امشب باطله — پس انتخابِ ضحاک هم کسی رو نمی‌کشه
+  // (دفترچه: «قابلیتِ هدفِ افسون‌شده امشب باطل است»؛ ضحاک جزوِ مستثناهایِ افسون نیست).
+  const zahhakEnchanted = !!(zahhak && isEnchanted(zahhak.id));
+  if (zahhakEnchanted) events.push({ type: 'zahhak_enchanted' });
+
+  if (zahhakAction && !zaalBlockActive && !zahhakIncapacitated && !zahhakEnchanted) {
     const t1 = zahhakAction.target_player_id;
     const t2 = zahhakAction.target_player_id_2;
     const targets = [t1, t2].filter(Boolean);
@@ -160,16 +193,7 @@ function resolveNight(players, actions, gameState) {
     }
   }
 
-  // پیگیریِ گرسنگیِ پیاپی برای هنگامه‌ی ناتوانیِ ضحاک
   const updatedGameState = { ...gameState };
-  if (zahhak) {
-    const prevHungryStreak = gameState.zahhak_hungry_streak || 0;
-    updatedGameState.zahhak_hungry_streak = zahhakFedTonight ? 0 : prevHungryStreak + 1;
-    if (updatedGameState.zahhak_hungry_streak >= 2 && !gameState.hengameh_flags?.zahhak_incapacitated) {
-      updatedGameState.hengameh_flags = { ...(gameState.hengameh_flags || {}), zahhak_incapacitated: true };
-      events.push({ type: 'hengameh_start', name: 'zahhak_incapacitated' });
-    }
-  }
 
   // ============================================================
   // مرحله‌ی ۴: هومان — حدسِ نقش
@@ -251,6 +275,7 @@ function resolveNight(players, actions, gameState) {
       const attempts = sacrificeAction.extra?.attempted_targets || [sacrificeAction.target_player_id];
       let successTargetId = null;
       for (const tId of attempts) {
+        if (isJailed(tId)) continue;   // زندانی هدفِ معتبر نیست
         const t = findPlayer(state, tId);
         if (t && t.side !== 'zahhaki') { successTargetId = tId; break; }
       }
@@ -277,11 +302,32 @@ function resolveNight(players, actions, gameState) {
   const bijanP = state.find(p => p.role_id === 'bijan');
   if (manijehP && bijanP && deaths.has(manijehP.id) && !deaths.has(bijanP.id) && bijanP.is_alive) {
     const bondBroken = manijehP.state_flags.bond_broken || bijanP.state_flags.bond_broken;
-    if (!bondBroken) {
+    if (isJailed(bijanP.id)) {
+      // بیژنِ زندانی امشب بیرونِ بازیه و هیچ اثری رویش نمی‌گذارد
+      events.push({ type: 'jailed_protected', playerId: bijanP.id });
+    } else if (!bondBroken) {
       deaths.set(bijanP.id, 'manijeh_bond');
       events.push({ type: 'bijan_followed_manijeh' });
     } else {
       events.push({ type: 'bond_was_broken_bijan_survives' });
+    }
+  }
+
+  // ============================================================
+  // مرحله‌ی ۸.۷: گرسنگیِ ضحاک — بعد از همه‌یِ کشتن‌ها حساب می‌شه، نه وسطِ راه
+  //   دفترچه‌یِ نهایی: «فقط کشته‌یِ مستقیمِ ضحاک و خودکشیِ گرسیوز خوراکِ مارها حساب می‌شوند».
+  //   یعنی اگه زرهِ رستم، مصونیتِ بیژن یا پرِ زال جلوی مرگ رو گرفته باشه، ضحاک گرسنه مونده؛
+  //   و اگه گرسیوز خودش رو فدا کرده باشه، مارها سیر شدن (حتی اگه ضحاک کسی رو نکشته).
+  // ============================================================
+  if (zahhak) {
+    const fedBySnakes = Array.from(deaths.values()).includes('zahhak_night');
+    const fedByGersivaz = Array.from(deaths.values()).includes('gersivaz_self');
+    zahhakFedTonight = fedBySnakes || fedByGersivaz;
+    const prevHungryStreak = gameState.zahhak_hungry_streak || 0;
+    updatedGameState.zahhak_hungry_streak = zahhakFedTonight ? 0 : prevHungryStreak + 1;
+    if (updatedGameState.zahhak_hungry_streak >= 2 && !gameState.hengameh_flags?.zahhak_incapacitated) {
+      updatedGameState.hengameh_flags = { ...(gameState.hengameh_flags || {}), zahhak_incapacitated: true };
+      events.push({ type: 'hengameh_start', name: 'zahhak_incapacitated' });
     }
   }
 
