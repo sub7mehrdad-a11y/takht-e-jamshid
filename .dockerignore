@@ -1,0 +1,11 @@
+.git
+.claude
+ui
+tests
+*.md
+*-prototype.html
+lobby-live.html
+schema.sql
+game-layouts.json
+takht-e-jamshid-*.json
+_backup-pre-sync-*

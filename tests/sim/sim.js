@@ -34,6 +34,10 @@ const server = http.createServer((req, res) => {
   fs.readFile(f, (e, d) => { if (e) { res.writeHead(404); res.end(); return; } res.writeHead(200, { 'Content-Type': MIME[path.extname(f)] || 'application/octet-stream' }); res.end(d); });
 });
 
+// ---------- شمارشِ ترافیک (TRAFFIC=1) ----------
+const TRAF = { calls: {}, ticks: {} };
+const phaseKey = () => { const g = T.games[0]; return g ? g.status + '/' + (g.current_phase || '-') : 'none'; };
+
 // ---------- صفحه‌ها ----------
 let browser, PORT;
 const pages = {}; // name -> { page, ctx, errors }
@@ -45,15 +49,21 @@ async function newPage(name) {
   page.on('pageerror', e => { errors.push('pageerror: ' + e.message); issue(name, 'خطای جاوااسکریپت', e.message); });
   page.on('console', m => { if (m.type() === 'error') { const t = m.text(); if (!/Failed to load resource|favicon/.test(t)) { errors.push('console: ' + t); issue(name, 'console.error', t); } } });
   page.on('dialog', async d => { (pages[name].dialogs = pages[name].dialogs || []).push(d.message()); await d.accept(); });
-  await page.exposeFunction('__dbcall', q => exec(q));
+  const role = name === 'host' ? 'host' : 'player';
+  await page.exposeFunction('__dbcall', q => {
+    const r = exec(q);
+    if (process.env.TRAFFIC) { const k = role + '|' + phaseKey() + '|' + q.op + ' ' + q.table; const s = TRAF.calls[k] = TRAF.calls[k] || { n: 0, bytes: 0 }; s.n++; s.bytes += JSON.stringify(r.data === undefined ? null : r.data).length; }
+    return r;
+  });
+  await page.exposeFunction('__tickmark', () => { if (process.env.TRAFFIC) { const k = role + '|' + phaseKey(); TRAF.ticks[k] = (TRAF.ticks[k] || 0) + 1; } });
   await page.evaluateOnNewDocument(() => {
-    const si = window.setInterval; window.setInterval = (f, ms, ...a) => si(f, ms === 2000 ? 300 : ms, ...a);
+    const si = window.setInterval; window.setInterval = (f, ms, ...a) => si(ms === 2000 ? (() => { try { window.__tickmark(); } catch (e) {} return f(); }) : f, ms === 2000 ? 300 : ms, ...a);
   });
   await page.setRequestInterception(true);
   page.on('request', req => {
     const u = req.url();
-    if (u.includes('unpkg.com')) return req.respond({ status: 200, contentType: 'text/javascript', body: CLIENT_JS });
-    if (!u.startsWith('http://localhost:' + PORT) && !u.startsWith('data:') && !u.startsWith('blob:')) return req.abort();
+    if (u.includes('assets/vendor/supabase.js')) return req.respond({ status: 200, contentType: 'text/javascript', body: CLIENT_JS });
+    if (!u.startsWith('http://localhost:' + PORT) && !u.startsWith('data:') && !u.startsWith('blob:')) { if (!global.EXT) global.EXT = new Set(); if (!global.EXT.has(u)) { global.EXT.add(u); issue(name, 'درخواستِ بیرونی (وابستگیِ خارجی)', u); } return req.abort(); }
     req.continue();
   });
   pages[name] = { page, ctx, errors, dialogs: [] };
@@ -687,6 +697,7 @@ async function finishCheck() {
   console.log('\n===== پایان (' + dt + 's) — issues: ' + issues.length);
   const uniq = new Map(); issues.forEach(i => { const k = i.where.replace(/\d+/g, '#') + '|' + i.msg; uniq.set(k, (uniq.get(k) || 0) + 1); });
   uniq.forEach((c, k) => console.log(' ×' + c + '  ' + k));
+  if (process.env.TRAFFIC) fs.writeFileSync(process.env.TRAFFIC_OUT || path.join(SHOTS, 'traffic.json'), JSON.stringify(TRAF, null, 1));
   fs.writeFileSync(path.join(SHOTS, 'report.json'), JSON.stringify({ layout: LAYOUT, seed: SEED, issues, log }, null, 1));
   await browser.close(); server.close(); process.exit(0);
 })();

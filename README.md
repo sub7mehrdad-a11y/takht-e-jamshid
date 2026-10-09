@@ -60,4 +60,11 @@ takht-e-jamshid/
 
 از این به بعد، هر بارِ که فایل‌های `index.html` یا `supabase-client.js` رو تو گیت‌هاب آپدیت کنی، Vercel خودکار دوباره دیپلویش می‌کنه.
 
+### دیپلوی روی Liara (از GitHub)
+بازی یک سایتِ ایستاست؛ `Dockerfile` (nginx) و `liara.json` (`platform: docker`، `port: 80`) در ریشه آماده‌اند.
+1. در کنسولِ Liara یک برنامه از نوعِ **Docker** بساز و **GitHub** را وصل کن (ریپوی `takht-e-jamshid`، شاخه‌یِ `main`).
+2. هر `git push` به `main` خودکار دیپلوی می‌شود. دامنه یا ساب‌دامین را در بخشِ «دامنه‌ها»یِ همان برنامه وصل کن.
+3. فونت (Vazirmatn) و کتابخانه‌یِ Supabase از خودِ سایت لود می‌شوند (`assets/vendor/`)؛ هیچ وابستگی به Google Fonts یا unpkg نیست.
+4. بازی هنوز به Supabase وصل است؛ پروژه‌یِ Supabase باید فعال (Restore) باشد.
+
 </div>
