@@ -4651,6 +4651,26 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
       if(confirm('از برنامه خارج می‌شوی؟\nبازی ادامه دارد و می‌توانی دوباره وارد شوی.')) capApp.exitApp();
     });
   }catch(e){}
+  // اپِ اندروید: «PDF چاپی» در WebView دانلود نمی‌شود (download ignore می‌شود)؛ فایل را در کش می‌نویسیم و برگه‌یِ اشتراک‌گذاریِ اندروید را باز می‌کنیم
+  // (کاربر می‌تواند با PDF‌خوان باز کند یا در Drive/فایل‌ها ذخیره کند). در وب/PWA همان لینکِ معمولی کار می‌کند.
+  try{
+    const C = window.Capacitor;
+    const fsP = C && C.Plugins && C.Plugins.Filesystem, shP = C && C.Plugins && C.Plugins.Share;
+    const link = document.querySelector('#rulebookView .rb-bar a[download]');
+    if(link && fsP && shP && C.isNativePlatform && C.isNativePlatform()){
+      link.addEventListener('click', async ev => {
+        ev.preventDefault();
+        try{
+          const blob = await (await fetch(link.getAttribute('href'))).blob();
+          const data = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(blob); });
+          const w = await fsP.writeFile({ path: 'takht-e-jamshid-rulebook.pdf', data, directory: 'CACHE' });
+          await shP.share({ title: 'دفترچه‌یِ تخت جمشید', url: w.uri, dialogTitle: 'باز کردن یا ذخیره‌یِ دفترچه' });
+        }catch(err){
+          if(!/cancel/i.test(String(err && (err.message || err)))) alert('باز کردنِ فایلِ دفترچه ممکن نشد. دفترچه را از داخلِ خودِ برنامه بخوانید.');
+        }
+      });
+    }
+  }catch(e){}
   // service worker: نه داخلِ اپِ Capacitor، نه زیرِ خودکارسازی (شبیه‌ساز)، نه روی localhost مگر با ?pwa=1
   if('serviceWorker' in navigator && !window.Capacitor && !navigator.webdriver && /^https?:$/.test(location.protocol)
      && (location.hostname !== 'localhost' || location.search.includes('pwa=1'))){

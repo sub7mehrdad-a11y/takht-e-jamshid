@@ -20,6 +20,7 @@ cd T:\android
 
 - `build-www.js` فایل‌های اجرایی را از ریشه‌ی مخزن به `www/` کپی می‌کند (assets از `git ls-files` + فایل‌های ردیابی‌نشده‌یِ `assets/vendor`؛ بقیه‌یِ فایل‌های ردیابی‌نشده داخل اپ نمی‌روند).
 - اگر اینترنت از پراکسی/VPN می‌گذرد، Gradle باید پراکسی را بداند: `~/.gradle/gradle.properties` (`systemProp.https.proxyHost/Port`).
+- اگر در cmd به‌جایِ PowerShell اجرا می‌کنی `.\gradlew.bat` بنویس (نه `gradlew.bat`: این محیط پوشه‌یِ جاری را در PATH نمی‌گیرد).
 - بار اول ≈ ۲۰ دقیقه (دانلود وابستگی‌ها)؛ دفعه‌های بعد چند دقیقه. برای هر نسخه‌یِ جدید `versionCode` را در `android/app/build.gradle` بالا ببر.
 - `appId = com.takhtjamshid.game` در `capacitor.config.json` و `build.gradle` — **قبل از انتشار در بازار** نهایی کن (بعد از انتشار قابل تغییر نیست).
 
@@ -29,6 +30,7 @@ cd T:\android
 - گواهی: `CN=Takht-e-Jamshid, O=Bozorgmehr Games, C=IR`، RSA 2048، ۱۰٬۰۰۰ روز.
 
 ## ویژگی‌هایِ اپ
+- دفترچه‌یِ کامل (`assets/rulebook`) داخلِ اپ است؛ «PDF چاپی» با `@capacitor/filesystem` + `@capacitor/share` در کش نوشته و با برگه‌یِ اشتراکِ اندروید باز می‌شود (WebView `download` را اجرا نمی‌کند).
 - دکمه‌یِ «بازگشت» پنجره‌یِ QR/لایت‌باکس را می‌بندد و در غیرِ این صورت می‌پرسد «خارج می‌شوی؟» (`@capacitor/app`).
 - اسکنِ QRِ اتاق (دوربینِ وب + `assets/vendor/jsQR.js`، بدونِ پلاگینِ Google/ML Kit؛ پس بدونِ Play Services هم کار می‌کند) و نمایشِ QR برایِ گرداننده (`assets/vendor/qrcode.js`). محتویِ QR همان کدِ ۶ رقمی است. لینکِ `?code=123456` هم کد را پر می‌کند. هر سه در وب/PWA هم کار می‌کنند.
 - فقط عمودی؛ مجوزِ `CAMERA` (اختیاری، `required=false`).

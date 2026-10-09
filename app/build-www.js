@@ -21,9 +21,8 @@ const tracked = [...new Set([
   ...ls('assets'),
   // کتابخانه‌هایِ vendor حتی اگر هنوز commit نشده باشند (git ردیابی نمی‌کند ولی ignore هم نیست) داخلِ اپ بروند
   ...ls('-o', '--exclude-standard', 'assets/vendor'),
-])]
-  // دفترچه‌یِ قوانین و پوشه‌یِ rulebook فقط برایِ وب‌اند؛ اپ از داخلِ خودِ بازی راهنما دارد
-  .filter(f => !f.startsWith('assets/rulebook/'));
+])];
+// (دفترچه‌یِ کامل assets/rulebook هم داخلِ اپ است: دکمه‌یِ «دفترچه» و «PDF چاپی» به آن نیاز دارند)
 tracked.forEach(copy);
 
 let bytes = 0;
