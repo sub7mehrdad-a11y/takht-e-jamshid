@@ -3,7 +3,7 @@
 FROM nginx:alpine
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY index.html supabase-client.js resolveNight.js /usr/share/nginx/html/
+COPY index.html supabase-client.js resolveNight.js sw.js manifest.webmanifest /usr/share/nginx/html/
 COPY assets /usr/share/nginx/html/assets
 
 EXPOSE 80

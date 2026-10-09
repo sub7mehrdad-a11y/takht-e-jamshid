@@ -1,0 +1,13 @@
+{
+  "appId": "com.takhtjamshid.game",
+  "appName": "تخت جمشید",
+  "webDir": "www",
+  "backgroundColor": "#1b1209",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#1b1209"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "takht-e-jamshid-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "پوسته‌ی اندروید (Capacitor) برای بازی تخت جمشید — همان index.html را داخل اپ می‌گذارد",
+  "scripts": {
+    "build:www": "node build-www.js",
+    "sync": "node build-www.js && npx cap sync android",
+    "apk:debug": "node build-www.js && npx cap sync android && cd android && gradlew.bat assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/core": "^8.5.3"
+  }
+}

@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1b1209">
+<!-- PWA / نصب روی صفحه‌یِ اصلی (آیفون: Safari ← Share ← Add to Home Screen) -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/pwa/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/pwa/favicon-48.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="تخت جمشید">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
 <title>تخت جمشید</title>
 <!-- فونت و کتابخانه‌یِ Supabase از خودِ سایت لود می‌شن (بدونِ وابستگی به Google Fonts/unpkg که در ایران کند یا فیلترن) -->
 <link rel="stylesheet" href="assets/vendor/fonts/vazirmatn.css">
@@ -1480,7 +1490,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
             <p class="tj-error" id="joinNameError" hidden></p>
             <div class="tj-field tj-code-field">
               <input id="joinCodeInput" name="roomCode" dir="ltr" maxlength="6" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="کد اتاق" aria-label="کد شش‌رقمی اتاق" aria-describedby="joinCodeError" required>
-              <!-- خواندنِ QR هنوز در وب پیاده نشده؛ در نسخه‌ی اندروید فعال می‌شه -->
+              <!-- خواندنِ QR با دوربین (jsQR، لودِ تنبل)؛ فقط وقتی دوربین در دسترس باشد نشان داده می‌شود -->
               <button id="joinQrBtn" class="tj-qr" type="button" aria-label="خواندن کد QR اتاق" hidden><img src="assets/entry/icons/qr.svg" alt=""></button>
             </div>
             <p class="tj-error" id="joinCodeError" hidden></p>
@@ -1558,7 +1568,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     <div class="lbx" id="hostLbx" data-phase="lobby">
       <header class="lb-hero"><h1>اتاق بازی</h1><button class="lb-guide" id="hostGuideBtn" type="button" aria-label="دفترچه راهنما" onclick="openGuide()"><img src="assets/lobby/icons/book.svg" alt=""></button></header>
       <div class="lb-body">
-        <section aria-labelledby="hostCodeHeading"><h2 class="lb-heading" id="hostCodeHeading">کد اتاق</h2><div class="lb-code-row"><output id="hostRoomCode" class="lb-code" dir="ltr" aria-label="کد اتاق">——————</output><button class="lb-btn lb-copy" type="button" onclick="copyCode()" aria-label="کپی کد اتاق"><img class="copy-icon" src="assets/lobby/icons/copy.svg" alt=""><span>کپی</span></button></div><p class="lb-code-help">این کد را با سایرین به اشتراک بگذارید.</p></section><img class="lb-divider" src="assets/entry/components/divider_diamond.png" alt="" aria-hidden="true">
+        <section aria-labelledby="hostCodeHeading"><h2 class="lb-heading" id="hostCodeHeading">کد اتاق</h2><div class="lb-code-row"><output id="hostRoomCode" class="lb-code" dir="ltr" aria-label="کد اتاق">——————</output><button class="lb-btn lb-copy" type="button" onclick="copyCode()" aria-label="کپی کد اتاق"><img class="copy-icon" src="assets/lobby/icons/copy.svg" alt=""><span>کپی</span></button><button class="lb-btn lb-copy" id="hostQrBtn" type="button" aria-label="نمایش QR کد اتاق"><img class="copy-icon" src="assets/entry/icons/qr.svg" alt=""><span>QR</span></button></div><p class="lb-code-help">این کد را با سایرین به اشتراک بگذارید یا QR را نشانشان بدهید.</p></section><img class="lb-divider" src="assets/entry/components/divider_diamond.png" alt="" aria-hidden="true">
         <section aria-labelledby="hostRosterHeading"><h2 class="lb-heading lb-roster-title" id="hostRosterHeading"><span class="lb-heading-text"><img src="assets/lobby/icons/group.svg" alt="" aria-hidden="true"> بازیکنانِ حاضر (<span id="hostPlayerCount">0</span> از ۱۵)</span></h2><ul class="lb-roster" id="hostPlayerList"></ul></section>
         <section class="lb-settings" id="scenarioPicker" aria-labelledby="settingsHeading" style="display:none;">
           <h2 class="lb-heading" id="settingsHeading">تنظیماتِ بازی</h2>
@@ -4497,6 +4507,156 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
       setTimeout(() => go('screen-entry'), 700);
     }
   })();
+</script>
+
+<!-- QR اتاق: نمایش (گرداننده) و اسکن با دوربین (بازیکن). کتابخانه‌ها فقط وقتی لازم شدند لود می‌شن -->
+<style>
+.tjq{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:rgba(14,10,5,.94);color:#f1e3c3;padding:18px;text-align:center;direction:rtl;font:14px/1.9 Vazirmatn,system-ui,sans-serif}
+.tjq.open{display:flex}
+.tjq button.tjq-close{width:auto;margin:0;padding:8px 22px;background:#1b1209;border:1px solid #c9972f;border-radius:12px;color:#e3b85a;font:700 15px/1.4 Vazirmatn,system-ui,sans-serif;cursor:pointer}
+#hostQrBox{background:#fff;border-radius:14px;padding:10px;width:min(78vw,340px);aspect-ratio:1}
+#hostQrBox svg{display:block;width:100%;height:100%}
+#hostQrCode{font:700 30px/1.2 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.18em;direction:ltr;color:#e3b85a}
+#qrScanFrame{position:relative;width:min(86vw,360px);aspect-ratio:1;border:2px solid #c9972f;border-radius:16px;overflow:hidden;background:#000}
+#qrScanVideo{width:100%;height:100%;object-fit:cover}
+#qrScanMsg{min-height:2.6em;color:#f1e3c3}
+#qrScanMsg.err{color:#ff9a9a}
+</style>
+<div class="tjq" id="hostQrModal" role="dialog" aria-modal="true" aria-label="QR کد اتاق">
+  <div>این QR را به بازیکن‌ها نشان بدهید</div>
+  <div id="hostQrBox" aria-hidden="true"></div>
+  <div id="hostQrCode" dir="ltr"></div>
+  <button type="button" class="tjq-close" id="hostQrClose">بستن</button>
+</div>
+<div class="tjq" id="qrScanOverlay" role="dialog" aria-modal="true" aria-label="اسکن QR اتاق">
+  <div id="qrScanFrame"><video id="qrScanVideo" playsinline muted></video></div>
+  <div id="qrScanMsg" role="status">دوربین را روی QR اتاق بگیرید</div>
+  <button type="button" class="tjq-close" id="qrScanClose">بستن</button>
+</div>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const libs = {};
+  const loadLib = src => libs[src] || (libs[src] = new Promise((res, rej) => {
+    const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => { delete libs[src]; rej(new Error('بارگذاریِ ' + src + ' نشد')); };
+    document.head.appendChild(s);
+  }));
+
+  // ---- نمایشِ QR توسطِ گرداننده ----
+  function qrSvg(text){
+    const qr = qrcode(0, 'M'); qr.addData(text); qr.make();
+    const n = qr.getModuleCount(), q = 4; let d = '';
+    for(let r = 0; r < n; r++) for(let c = 0; c < n; c++) if(qr.isDark(r, c)) d += 'M' + (c + q) + ' ' + (r + q) + 'h1v1h-1z';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + (n + 2 * q) + ' ' + (n + 2 * q) + '" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="' + d + '" fill="#000"/></svg>';
+  }
+  $('hostQrBtn').addEventListener('click', async () => {
+    const code = $('hostRoomCode').textContent.trim();
+    if(!/^\d{6}$/.test(code)) return;
+    try{ await loadLib('assets/vendor/qrcode.js'); }catch(e){ alert('ساختِ QR ممکن نشد؛ کد را دستی بگویید.'); return; }
+    $('hostQrBox').innerHTML = qrSvg(code);
+    $('hostQrCode').textContent = code;
+    $('hostQrModal').classList.add('open');
+  });
+  $('hostQrClose').addEventListener('click', () => $('hostQrModal').classList.remove('open'));
+
+  // ---- اسکنِ QR توسطِ بازیکن ----
+  let stream = null, raf = 0, scanning = false;
+  const msg = (t, err) => { const m = $('qrScanMsg'); m.textContent = t; m.classList.toggle('err', !!err); };
+  function stopScan(){
+    scanning = false; cancelAnimationFrame(raf);
+    if(stream){ stream.getTracks().forEach(t => t.stop()); stream = null; }
+    $('qrScanVideo').srcObject = null;
+    $('qrScanOverlay').classList.remove('open');
+  }
+  async function startScan(){
+    $('qrScanOverlay').classList.add('open'); msg('دوربین را روی QR اتاق بگیرید');
+    try{
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false });
+    }catch(e){
+      msg(e && e.name === 'NotAllowedError' ? 'اجازه‌یِ دوربین داده نشد. از تنظیماتِ گوشی اجازه بدهید یا کد را دستی بنویسید.' : 'دوربین در دسترس نیست. کد را دستی بنویسید.', true);
+      return;
+    }
+    const v = $('qrScanVideo'); v.srcObject = stream;
+    try{ await v.play(); await loadLib('assets/vendor/jsQR.js'); }catch(e){ msg('اسکنر لود نشد. کد را دستی بنویسید.', true); return; }
+    const cv = document.createElement('canvas'), cx = cv.getContext('2d', { willReadFrequently: true });
+    scanning = true; let last = 0;
+    const loop = t => {
+      if(!scanning) return;
+      raf = requestAnimationFrame(loop);
+      if(t - last < 120 || v.readyState < 2 || !v.videoWidth) return; // ≈۸ فریم در ثانیه
+      last = t;
+      const k = Math.min(1, 480 / Math.max(v.videoWidth, v.videoHeight));
+      cv.width = Math.round(v.videoWidth * k); cv.height = Math.round(v.videoHeight * k);
+      cx.drawImage(v, 0, 0, cv.width, cv.height);
+      const img = cx.getImageData(0, 0, cv.width, cv.height);
+      const res = window.jsQR(img.data, cv.width, cv.height, { inversionAttempts: 'dontInvert' });
+      const m = res && /(?:^|\D)(\d{6})(?:\D|$)/.exec(res.data);
+      if(m){
+        stopScan();
+        const inp = $('joinCodeInput'); inp.value = m[1];
+        inp.dispatchEvent(new Event('input', { bubbles: true }));
+        const nm = $('joinNameInput'); if(nm && !nm.value.trim()) nm.focus();
+      }
+    };
+    raf = requestAnimationFrame(loop);
+  }
+  $('qrScanClose').addEventListener('click', stopScan);
+  const qrBtn = $('joinQrBtn');
+  if(qrBtn && navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.isSecureContext){
+    qrBtn.hidden = false; qrBtn.addEventListener('click', startScan);
+  }
+
+  // دکمه‌یِ «بازگشت»ِ اندروید اول پنجره‌هایِ QR را می‌بندد
+  window.tjCloseOverlay = () => {
+    if($('qrScanOverlay').classList.contains('open')){ stopScan(); return true; }
+    if($('hostQrModal').classList.contains('open')){ $('hostQrModal').classList.remove('open'); return true; }
+    return false;
+  };
+
+  // لینکِ دعوت: ?code=123456 کدِ اتاق را از پیش پر می‌کند
+  try{
+    const c = new URLSearchParams(location.search).get('code');
+    if(c && /^\d{6}$/.test(c) && $('joinCodeInput')) $('joinCodeInput').value = c;
+  }catch(e){}
+})();
+</script>
+
+<!-- راهنمای نصب روی آیفون (فقط در Safari و فقط تا وقتی نصب نشده/بسته نشده) -->
+<style>
+#iosInstallHint{position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;display:none;background:#1b1209;color:#f1e3c3;border:1px solid #c9972f;border-radius:14px;padding:12px 14px;box-shadow:0 6px 24px rgba(0,0,0,.55);font:13px/1.9 Vazirmatn,system-ui,sans-serif;direction:rtl;text-align:right}
+#iosInstallHint b{color:#e3b85a}
+#iosInstallHint button{position:absolute;top:6px;left:8px;width:auto;margin:0;padding:2px 8px;background:transparent;border:0;color:#e3b85a;font:700 18px/1 system-ui;cursor:pointer}
+</style>
+<div id="iosInstallHint" role="note"><button type="button" aria-label="بستن" id="iosInstallClose">×</button>برای نصب بازی روی آیفون: دکمه <b>Share</b> (مربع با فلش) پایین Safari ← <b>Add to Home Screen</b> ← <b>Add</b></div>
+<script>
+(function(){
+  try{
+    const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isSafari = /safari/i.test(navigator.userAgent) && !/crios|fxios|edgios|opios/i.test(navigator.userAgent);
+    let dismissed = false; try{ dismissed = localStorage.getItem('tj_ios_hint') === '1'; }catch(e){}
+    if(isIOS && isSafari && !standalone && !dismissed && !window.Capacitor){
+      const box = document.getElementById('iosInstallHint');
+      box.style.display = 'block';
+      document.getElementById('iosInstallClose').addEventListener('click', () => { box.style.display = 'none'; try{ localStorage.setItem('tj_ios_hint', '1'); }catch(e){} });
+    }
+  }catch(e){}
+  // اپِ اندروید (Capacitor): دکمه‌یِ «بازگشت» بدونِ پرسش برنامه را نبندد
+  try{
+    const capApp = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+    if(capApp) capApp.addListener('backButton', () => {
+      if(window.tjCloseOverlay && window.tjCloseOverlay()) return;
+      const lb = document.querySelector('.lbx-lightbox.open, .lightbox.open, [data-lightbox].open');
+      if(lb){ lb.click(); return; }
+      if(confirm('از برنامه خارج می‌شوی؟\nبازی ادامه دارد و می‌توانی دوباره وارد شوی.')) capApp.exitApp();
+    });
+  }catch(e){}
+  // service worker: نه داخلِ اپِ Capacitor، نه زیرِ خودکارسازی (شبیه‌ساز)، نه روی localhost مگر با ?pwa=1
+  if('serviceWorker' in navigator && !window.Capacitor && !navigator.webdriver && /^https?:$/.test(location.protocol)
+     && (location.hostname !== 'localhost' || location.search.includes('pwa=1'))){
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  }
+})();
 </script>
 </body>
 </html>
