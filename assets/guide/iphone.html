@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1b1209">
+<title>نصب تخت جمشید روی آیفون</title>
+<link rel="stylesheet" href="../vendor/fonts/vazirmatn.css">
+<link rel="apple-touch-icon" href="../pwa/apple-touch-icon.png">
+<style>
+  :root{--bg:#1b1209;--card:#2a1d10;--ink:#f1e3c3;--muted:#c9b48a;--gold:#c9972f;--gold2:#e3b85a}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/2 Vazirmatn,Tahoma,system-ui,sans-serif}
+  main{max-width:640px;margin:0 auto;padding:22px 16px 48px}
+  h1{font-size:26px;line-height:1.5;color:var(--gold2);margin:8px 0 4px;text-align:center}
+  .sub{color:var(--muted);text-align:center;margin:0 0 22px}
+  .play{display:block;text-align:center;margin:0 auto 26px;padding:12px 18px;max-width:340px;border:1px solid var(--gold);border-radius:14px;background:#3a2812;color:var(--gold2);font-weight:700;text-decoration:none}
+  ol{list-style:none;margin:0;padding:0;counter-reset:s}
+  li{counter-increment:s;position:relative;background:var(--card);border:1px solid #4a3318;border-radius:14px;padding:12px 58px 12px 14px;margin:0 0 12px}
+  li::before{content:counter(s);position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:50%;background:var(--gold);color:#1b1209;font-weight:900;display:grid;place-items:center;line-height:1}
+  li b{color:var(--gold2)}
+  .ic{display:inline-block;vertical-align:-6px;width:26px;height:26px;margin:0 2px}
+  h2{font-size:19px;color:var(--gold2);margin:28px 0 6px}
+  ul{margin:0;padding:0 20px 0 0;color:var(--ink)}
+  ul li{all:unset;display:list-item;list-style:disc;margin:0 0 4px}
+  ul li::before{content:none}
+  .note{background:#33210f;border-right:3px solid var(--gold);border-radius:10px;padding:10px 14px;margin:14px 0;color:var(--muted)}
+  code{direction:ltr;unicode-bidi:embed;background:#000;padding:1px 6px;border-radius:6px;color:var(--gold2)}
+  @media print{body{background:#fff;color:#000}h1,h2,li b{color:#000}li,.note{background:#fff;border-color:#999}.play{display:none}}
+</style>
+</head>
+<body>
+<main>
+  <h1>نصب «تخت جمشید» روی آیفون</h1>
+  <p class="sub">بدون اپ‌استور و بدون هیچ دانلودی؛ فقط ۴ مرحله.</p>
+
+  <a class="play" id="playLink" href="../../index.html">همین حالا بدون نصب بازی کن ←</a>
+
+  <ol>
+    <li>بازی را در مرورگر <b>Safari</b> باز کنید (آدرس بازی را از گرداننده یا سایت بگیرید).</li>
+    <li>روی دکمه‌یِ <b>اشتراک‌گذاری (Share)</b> بزنید؛ مربعی با فلشِ رو به بالا
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#e3b85a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>
+      که پایینِ صفحه است (در آیپد، بالایِ صفحه).</li>
+    <li>در فهرست کمی پایین بروید و <b>Add to Home Screen</b> (افزودن به صفحه‌یِ اصلی) را بزنید.</li>
+    <li>در پنجره‌یِ بعد روی <b>Add</b> (افزودن) بزنید. آیکنِ «تخت جمشید» روی صفحه‌یِ اصلیِ گوشی می‌آید؛ از همان‌جا مثلِ یک برنامه، تمام‌صفحه باز می‌شود.</li>
+  </ol>
+
+  <h2>ورود به بازی</h2>
+  <ul>
+    <li>نام خود را بنویسید و <b>کدِ ۶ رقمیِ اتاق</b> را وارد کنید، یا روی آیکنِ QR کنارِ کد بزنید و QRِ گرداننده را اسکن کنید.</li>
+    <li>اولین باری که دوربین خواسته شد روی <b>Allow</b> (اجازه) بزنید؛ فقط برایِ اسکنِ QR است و کدِ دستی هم کار می‌کند.</li>
+    <li>اگر گرداننده «لینکِ دعوت» فرستاد، فقط لینک را بزنید؛ کدِ اتاق خودکار پر می‌شود.</li>
+  </ul>
+
+  <h2>نکته‌ها</h2>
+  <ul>
+    <li>نصب لازم نیست: بازی در خودِ Safari هم کامل کار می‌کند؛ نصب فقط تمام‌صفحه‌اش می‌کند.</li>
+    <li>حالتِ <b>Private</b> (خصوصی) در Safari را خاموش کنید، وگرنه با بستنِ صفحه از اتاق جدا می‌شوید.</li>
+    <li>قفلِ خودکارِ گوشی بازی را متوقف می‌کند: از <code>Settings ← Display &amp; Brightness ← Auto-Lock</code> زمانِ طولانی‌تری بگذارید.</li>
+    <li>اگر اپ را بستید یا گوشی خاموش شد، دوباره بازش کنید؛ به همان اتاق برمی‌گردید.</li>
+    <li>اگر بازی نسخه‌یِ قدیمی نشان داد، اپ را کاملاً ببندید (از لیستِ برنامه‌هایِ اخیر) و دوباره باز کنید.</li>
+    <li>در مرورگرهایِ دیگرِ آیفون (Chrome و ...) هم می‌شود بازی کرد، ولی برایِ نصب Safari را استفاده کنید.</li>
+  </ul>
+
+  <div class="note">نسخه‌یِ اندروید فایلِ جداگانه (APK) دارد؛ این راهنما فقط برایِ آیفون و آیپد است.</div>
+</main>
+<script>
+  // لینکِ «بازی کن» در نسخه‌یِ کپی‌شده (بیرون از سایتِ بازی) به نشانیِ سایت اشاره کند
+  try{
+    if(location.protocol === 'file:') document.getElementById('playLink').style.display = 'none';
+  }catch(e){}
+</script>
+</body>
+</html>

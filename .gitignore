@@ -21,3 +21,6 @@ _backup-pre-sync-*/
 # شبیه‌ساز
 tests/sim/node_modules/
 tests/sim/package-lock.json
+
+# بسته‌ی انتشار (ساخته‌ی tools/build-release-bundle.py؛ حاویِ APK و zip، منبعِ اصلی در مخزن است)
+بسته-انتشار/
