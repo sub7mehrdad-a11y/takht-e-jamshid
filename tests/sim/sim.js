@@ -44,7 +44,7 @@ const pages = {}; // name -> { page, ctx, errors }
 async function newPage(name) {
   const ctx = await browser.createBrowserContext();
   const page = await ctx.newPage();
-  await page.setViewport({ width: 420, height: 900 });
+  await page.setViewport(process.env.STORE_SHOTS ? { width: 360, height: 640, deviceScaleFactor: 3, isMobile: true, hasTouch: true } : { width: 420, height: 900 });
   const errors = [];
   page.on('pageerror', e => { errors.push('pageerror: ' + e.message); issue(name, 'خطای جاوااسکریپت', e.message); });
   page.on('console', m => { if (m.type() === 'error') { const t = m.text(); if (!/Failed to load resource|favicon/.test(t)) { errors.push('console: ' + t); issue(name, 'console.error', t); } } });
@@ -91,6 +91,13 @@ async function setSelect(name, id, val) {
 const click = (name, sel) => ev(name, s => { const e = document.querySelector(s); if (!e) return false; e.click(); return true; }, sel);
 const activeScreen = name => ev(name, () => (document.querySelector('.screen.active') || {}).id);
 
+// عکس‌هایِ فروشگاه (STORE_SHOTS=پوشه): پنجره‌یِ ۳۶۰×۶۴۰ با ضریبِ ۳ ← ۱۰۸۰×۱۹۲۰؛ هر برچسب فقط یک بار
+const STORE = process.env.STORE_SHOTS; const stored = new Set();
+async function store(name, label) {
+  if (!STORE || stored.has(label) || !pages[name]) return; stored.add(label);
+  fs.mkdirSync(STORE, { recursive: true }); await sleep(450);
+  try { await P(name).screenshot({ path: path.join(STORE, label + '.png') }); } catch (e) {}
+}
 async function snap(name, tag) { try { await P(name).screenshot({ path: path.join(SHOTS, tag + '-' + name + '.png') }); } catch (e) {} }
 
 // ---------- حالت بازی از DB (حقیقتِ مبنا) ----------
@@ -121,6 +128,7 @@ async function setup() {
   const count = layout.player_count;
   await newPage('host');
   await waitFor('host', () => document.getElementById('screen-entry').classList.contains('active'), null, 'host entry');
+  await store('host', '01-entry');
   await ev('host', () => { document.getElementById('hostNameInput').value = 'گرداننده'; document.getElementById('createBtn').click(); });
   const code = await waitFor('host', () => { const t = document.getElementById('hostRoomCode').textContent.trim(); return /^\d{6}$/.test(t) ? t : null; }, null, 'room code');
   note('کد اتاق ' + code);
@@ -133,6 +141,7 @@ async function setup() {
     await waitFor(n, () => document.getElementById('screen-player-lobby').classList.contains('active'), null, 'player lobby ' + n);
   }
   await waitFor('host', c => document.getElementById('scenarioPicker').style.display === 'block' && document.getElementById('hostPlayerCount').textContent == c, count, 'scenario picker');
+  await store('host', '02-host-lobby');
   const opts = await ev('host', () => [...document.querySelectorAll('#scenarioSelect option')].map(o => o.value));
   if (!opts.includes(LAYOUT)) throw new Error('layout ' + LAYOUT + ' not in picker ' + opts);
   await setSelect('host', 'scenarioSelect', LAYOUT);
@@ -144,6 +153,7 @@ async function setup() {
   for (const p of players().filter(x => !x.is_host)) {
     await waitFor(p.display_name, () => document.getElementById('screen-my-role').classList.contains('active') && !!document.getElementById('roleRevealName').textContent, null, 'role screen', 15000).catch(e => issue(p.display_name, 'صفحهٔ «نقشِ تو» دیده نشد', String(e).slice(0, 100)));
     const rv = await ev(p.display_name, () => ({ img: document.getElementById('roleCardImage').getAttribute('src'), tag: document.getElementById('roleSideTag').className, name: document.getElementById('roleRevealName').textContent, desc: document.getElementById('roleRevealDesc').textContent.length, btn: document.getElementById('roleHideBtn').getAttribute('aria-pressed') }));
+    if (p.role_id === 'rostam' || (STORE && !stored.has('03-role') && p.role_id === 'esfandiar')) await store(p.display_name, '03-role');
     if (!rv.img || !rv.img.includes('card-' + p.role_id)) issue(p.display_name, 'تصویرِ کارتِ نقش درست نیست', { role: p.role_id, img: rv.img });
     if (!rv.tag.includes(p.side)) issue(p.display_name, 'برچسبِ جناح درست نیست', { side: p.side, tag: rv.tag });
     if (!rv.name || rv.desc < 10) issue(p.display_name, 'نام/توضیحِ نقش خالی است', rv);
@@ -181,6 +191,10 @@ async function expectScreens(phase) {
     let got = await activeScreen(p.display_name);
     for (let k = 0; k < 20 && got !== want; k++) { await sleep(300); got = await activeScreen(p.display_name); }
     if (got !== want) issue(p.display_name, 'صفحه‌یِ اشتباه در ' + phase, { role: p.role_id, alive: p.is_alive, want, got });
+    if (got === 'screen-day-vote') await store(p.display_name, '04-day-vote');
+    if (got === 'screen-night-wait') await store(p.display_name, '07-night');
+    if (got === 'screen-jamshid-dash') await store(p.display_name, '05-jamshid-powers');
+    if (got === 'screen-zahhak-dash') await store(p.display_name, '06-zahhak-powers');
     if (got === 'screen-eliminated') {
       const at = await ev(p.display_name, () => ({ st: document.getElementById('screen-eliminated').dataset.state, ph: document.getElementById('screen-eliminated').dataset.phase }));
       const wantSt = p.is_alive ? 'jailed' : 'eliminated';
@@ -621,6 +635,7 @@ async function finishCheck() {
     }
   }
   await snap('host', 'final'); await snap(players().find(p => !p.is_host).display_name, 'final');
+  { const pl = players().find(p => !p.is_host && pages[p.display_name]); if (pl) { await store(pl.display_name, '08-game-over'); await ev(pl.display_name, () => { try { openRulebook(); } catch (e) {} }).catch(() => {}); await sleep(1800); await store(pl.display_name, '09-rulebook'); } }
 }
 
 (async () => {

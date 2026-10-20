@@ -15,14 +15,16 @@ cd "E:\مهرداد\بزرگمهر\تخت جمشید\app"; node build-www.js; np
 cd T:\android
 .\gradlew.bat assembleRelease --no-daemon   # امضادار (به keystore.properties نیاز دارد)
 .\gradlew.bat assembleDebug --no-daemon     # آزمایشی (امضای debug)
-# خروجی: android\app\build\outputs\apk\{release,debug}\
+.\gradlew.bat bundleRelease --no-daemon     # AAB برای گوگل پلی (امضادار)
+# خروجی: android\app\build\outputs\{apk\release, apk\debug, bundle\release}\
 ```
 
 - `build-www.js` فایل‌های اجرایی را از ریشه‌ی مخزن به `www/` کپی می‌کند (assets از `git ls-files` + فایل‌های ردیابی‌نشده‌یِ `assets/vendor`؛ بقیه‌یِ فایل‌های ردیابی‌نشده داخل اپ نمی‌روند).
 - اگر اینترنت از پراکسی/VPN می‌گذرد، Gradle باید پراکسی را بداند: `~/.gradle/gradle.properties` (`systemProp.https.proxyHost/Port`).
 - اگر در cmd به‌جایِ PowerShell اجرا می‌کنی `.\gradlew.bat` بنویس (نه `gradlew.bat`: این محیط پوشه‌یِ جاری را در PATH نمی‌گیرد).
 - بار اول ≈ ۲۰ دقیقه (دانلود وابستگی‌ها)؛ دفعه‌های بعد چند دقیقه. برای هر نسخه‌یِ جدید `versionCode` را در `android/app/build.gradle` بالا ببر.
-- `appId = com.takhtjamshid.game` در `capacitor.config.json` و `build.gradle` — **قبل از انتشار در بازار** نهایی کن (بعد از انتشار قابل تغییر نیست).
+- شناسه‌یِ پکیج **`com.bozorgmehr.takhtjamshid`** (نهایی؛ در `capacitor.config.json`، `applicationId` در `build.gradle` و `strings.xml`). `namespace` عمداً `com.takhtjamshid.game` ماند (فقط نامِ پکیجِ جاوا؛ به کاربر/فروشگاه ربطی ندارد). نسخه‌یِ فعلی 1.2 (versionCode 3).
+- مسیرِ انتشار در گوگل پلی: پوشه‌یِ `../گوگل-پلی/` (AAB، گرافیک، متن، فرم‌ها) — `شروع-از-اینجا.md` را بخوان.
 
 ## امضای انتشار — مهم
 - `android/takht-release.jks` + `android/keystore.properties` (حاویِ رمز) ساخته شده‌اند و در `.gitignore` هستند، یعنی **در GitHub نیستند**.

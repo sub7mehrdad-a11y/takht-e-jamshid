@@ -24,3 +24,8 @@ tests/sim/package-lock.json
 
 # بسته‌ی انتشار (ساخته‌ی tools/build-release-bundle.py؛ حاویِ APK و zip، منبعِ اصلی در مخزن است)
 بسته-انتشار/
+
+# گوگل پلی: فایل AAB در مخزن نیست؛ آیکن/بنر PNG هستند
+*.aab
+!گوگل-پلی/گرافیک/*.png
+!گوگل-پلی/گرافیک/screenshots-phone/*.jpg

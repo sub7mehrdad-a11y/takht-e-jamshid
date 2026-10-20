@@ -1,0 +1,8 @@
+کلید آپلود (Upload key) — تخت جمشید
+(اطلاعاتِ عمومیِ گواهی؛ محرمانه نیست. خودِ کلید و رمز: app/android/takht-release.jks و keystore.properties — فقط روی ماشینِ مالک)
+
+شناسه‌یِ پکیج: com.bozorgmehr.takhtjamshid
+نسخه: 1.2 (versionCode 3) — targetSdk 36، minSdk 24
+گواهی: CN=Takht-e-Jamshid, O=Bozorgmehr Games, C=IR  (RSA 2048، اعتبار ۱۰٬۰۰۰ روز از ۹ اکتبر ۲۰۲۶)
+SHA-1:   2F:0F:42:14:69:85:48:60:5E:07:19:51:FE:DC:2C:DB:1A:B6:89:05
+SHA-256: 08:60:69:90:EF:22:EB:6D:49:18:66:2C:2E:DC:5B:F5:8C:EE:B7:08:29:21:A1:7A:96:20:ED:74:3D:04:FE:2F
