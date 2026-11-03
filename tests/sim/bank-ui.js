@@ -55,7 +55,7 @@ let pass = 0, fail = 0; const t = (n, c, x) => { c ? pass++ : (fail++, console.l
   await ev(() => document.getElementById('bkDailyBtn').click()); await waitF(() => !document.getElementById('bkDailyBtn'));
   t('پاداشِ روزانه موجودی را زیاد کرد و دکمه رفت', (await ev(() => TJBank.cached().balance)) > start, dtxt);
   await waitF(() => document.querySelectorAll('#bkAccount .bk-hist li').length >= 2);
-  t('تاریخچه: هدیه و پاداشِ روزانه با برچسبِ فارسی', await ev(() => { const x = [...document.querySelectorAll('#bkAccount .bk-hist li span:first-child')].map(e => e.textContent); return x.includes('هدیه‌یِ شروع') && x.includes('پاداشِ روزانه'); }));
+  t('تاریخچه: هدیه و پاداشِ روزانه با برچسبِ فارسی', await ev(() => { const x = [...document.querySelectorAll('#bkAccount .bk-hist li .tx')].map(e => e.textContent); return x.includes('هدیه‌یِ شروع') && x.includes('پاداشِ روزانه'); }));
   await shot('04-bank-account');
   // ۴) ماندگاری: بارگذاریِ دوباره
   await page.reload({ waitUntil: 'load' }); await waitF(() => document.getElementById('screen-entry').classList.contains('active'));

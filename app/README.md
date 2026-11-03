@@ -23,7 +23,7 @@ cd T:\android
 - اگر اینترنت از پراکسی/VPN می‌گذرد، Gradle باید پراکسی را بداند: `~/.gradle/gradle.properties` (`systemProp.https.proxyHost/Port`).
 - اگر در cmd به‌جایِ PowerShell اجرا می‌کنی `.\gradlew.bat` بنویس (نه `gradlew.bat`: این محیط پوشه‌یِ جاری را در PATH نمی‌گیرد).
 - بار اول ≈ ۲۰ دقیقه (دانلود وابستگی‌ها)؛ دفعه‌های بعد چند دقیقه. برای هر نسخه‌یِ جدید `versionCode` را در `android/app/build.gradle` بالا ببر.
-- شناسه‌یِ پکیج **`com.bozorgmehr.takhtjamshid`** (نهایی؛ در `capacitor.config.json`، `applicationId` در `build.gradle` و `strings.xml`). `namespace` عمداً `com.takhtjamshid.game` ماند (فقط نامِ پکیجِ جاوا؛ به کاربر/فروشگاه ربطی ندارد). نسخه‌یِ فعلی 1.2 (versionCode 3).
+- شناسه‌یِ پکیج **`com.bozorgmehr.takhtjamshid`** (نهایی؛ در `capacitor.config.json`، `applicationId` در `build.gradle` و `strings.xml`). `namespace` عمداً `com.takhtjamshid.game` ماند (فقط نامِ پکیجِ جاوا؛ به کاربر/فروشگاه ربطی ندارد). نسخه‌یِ فعلی 1.4 (versionCode 5).
 - مسیرِ انتشار در گوگل پلی: پوشه‌یِ `../گوگل-پلی/` (AAB، گرافیک، متن، فرم‌ها) — `شروع-از-اینجا.md` را بخوان.
 
 ## امضای انتشار — مهم
