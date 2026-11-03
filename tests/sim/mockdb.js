@@ -1,6 +1,6 @@
 // پایگاه‌دادهٔ ساختگیِ درون‌حافظه‌ای که جای Supabase می‌نشیند (فقط برای شبیه‌سازی)
 let seq = 0;
-const uid = () => 'id-' + (++seq).toString(16).padStart(6, '0');
+const uid = () => '00000000-0000-4000-8000-' + (++seq).toString(16).padStart(12, '0');       // شکلِ UUID مثلِ Supabase واقعی (بانکِ بزرگمهر UUID را بررسی می‌کند)
 const T = { games: [], players: [], day_votes: [], night_actions: [], letters: [], events_log: [] };
 let clock = 0;
 const now = () => new Date(Date.UTC(2026, 0, 1) + (++clock) * 1000).toISOString();

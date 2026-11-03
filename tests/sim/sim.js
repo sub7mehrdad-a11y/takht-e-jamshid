@@ -26,6 +26,69 @@ const log = [];
 function note(s) { log.push(s); console.log(s); }
 function issue(where, msg, extra) { const it = { where, msg, extra }; issues.push(it); console.log('  ⚠ ISSUE [' + where + '] ' + msg + (extra ? ' :: ' + JSON.stringify(extra).slice(0, 300) : '')); }
 
+// ---------- بانکِ بزرگمهر (BANK=1): سرورِ واقعیِ واژو + برنامه‌یِ ما، با دیتابیسِ ساختگیِ همین شبیه‌ساز به‌جایِ Supabase ----------
+const BANK = process.env.BANK === '1'; let bankSrv = null, BANK_PORT = 0; const BANK_USERS = {};
+async function startBank() {
+  const { createServer } = require(path.resolve(ROOT, '..', 'واژو', 'server', 'server.js'));
+  const snapOf = gid => { const g = T.games.find(x => x.id === gid); if (!g) return null; const cl = o => JSON.parse(JSON.stringify(o));
+    return { game: cl(g), players: cl(T.players.filter(p => p.game_id === gid)), votes: cl(T.day_votes.filter(v => v.game_id === gid)), actions: cl(T.night_actions.filter(a => a.game_id === gid)) }; };
+  bankSrv = createServer({ dataDir: null, extFetch: async gid => snapOf(gid) });
+  await new Promise(r => bankSrv.server.listen(0, r)); BANK_PORT = bankSrv.server.address().port;
+  note('بانکِ آزمایشی روی پورتِ ' + BANK_PORT);
+}
+async function bankMakeUser(name) { const r = await bankSrv.accounts.register('u_' + Math.random().toString(36).slice(2, 8), 'password-' + name.length + 'xyz', { name }); BANK_USERS[name] = { username: r.user.username, password: 'password-' + name.length + 'xyz', id: r.user.id }; return BANK_USERS[name]; }
+
+
+// --- سناریویِ بانک: چند بازیکن با حساب وارد می‌شوند و با دریک شرکت می‌کنند (BANK=1) ---
+const BANK_N = 4;
+async function bankSetup() {
+  if (!BANK) return;
+  const names = players().filter(p => !p.is_host).map(p => p.display_name);
+  for (let i = 0; i < Math.min(BANK_N + 1, names.length); i++) {
+    const n = names[i], u = await bankMakeUser(n), poor = i === BANK_N; u.joined = false;
+    if (poor) bankSrv.accounts.s.users.get(u.id).wallet.bal = 2;                       // موجودیِ ناکافی
+    await ev(n, () => TJBankUI.open());
+    await waitFor(n, () => document.getElementById('bkUser'), null, 'bank form ' + n);
+    await ev(n, ({ us, pw }) => { document.getElementById('bkUser').value = us; document.getElementById('bkPass').value = pw; document.getElementById('bkSubmit').click(); }, { us: u.username, pw: u.password });
+    await waitFor(n, () => !document.getElementById('bkAccount').hidden, null, 'bank login ' + n);
+    u.start = await ev(n, () => TJBank.cached().balance);
+    if (i === 0) { await store(n, '10-bank-account'); const hist = await ev(n, () => document.querySelectorAll('#bkAccount .bk-hist li').length); if (!hist) issue(n, 'تاریخچه‌یِ بانک خالی است'); }
+    await click(n, '#screen-bank .bk-back');
+    await waitFor(n, () => document.getElementById('bkLobby') && document.getElementById('bkLobby').textContent.includes('دریک'), null, 'bank lobby card ' + n);
+    if (poor) {
+      const dis = await ev(n, () => { const b = document.getElementById('bkJoinBtn'); return b ? { d: b.disabled, t: b.textContent } : null; });
+      if (!dis || !dis.d || !/کافی/.test(dis.t)) issue(n, 'دکمه‌یِ شرکت با موجودیِ ناکافی قفل نشد', dis);
+      continue;
+    }
+    await ev(n, () => document.getElementById('bkLobby').scrollIntoView({ block: 'center' })); await store(n, '11-bank-lobby');
+    await click(n, '#bkJoinBtn');
+    await waitFor(n, () => /شرکت داری/.test((document.getElementById('bkLobby') || {}).textContent || ''), null, 'bank joined ' + n, 15000).catch(async e => { note('bkLobby: ' + (await ev(n, () => document.getElementById('bkLobby').textContent).catch(() => '?'))); throw e; });
+    u.joined = true; u.paid = u.start - (await ev(n, () => TJBank.cached().balance));
+    if (u.paid !== 5) issue(n, 'ورودیه ۵ نبود', { start: u.start, paid: u.paid });
+  }
+  note('بانک: ' + Object.values(BANK_USERS).filter(x => x.joined).length + ' حساب با دریک شرکت کردند');
+}
+async function bankFinish() {
+  if (!BANK) return;
+  const gid = game().id, rec = bankSrv.ext.rec('takht', gid), joined = Object.entries(BANK_USERS).filter(([, u]) => u.joined);
+  if (game().status !== 'ended') { note('بانک: بازی تمام نشد؛ تسویه آزموده نشد'); return; }
+  for (const [n] of joined) await waitFor(n, () => { const e = document.getElementById('bkResult'); return e && !e.hidden && /خالصِ این بازی/.test(e.textContent); }, null, 'bank result card ' + n, 25000).catch(e => issue(n, 'کارتِ نتیجه‌یِ بانک نیامد', String(e).slice(0, 120)));
+  if (!rec || rec.status !== 'settled') return issue('bank', 'بازیِ بانک تسویه نشد', rec && rec.status);
+  let pools = 0, wins = 0;
+  for (const [n, u] of joined) {
+    const r = rec.result.results[u.id], acct = bankSrv.accounts.s.users.get(u.id); pools += r.pool; if (r.win) wins++;
+    const expect = u.start - 5 + (rec.result.refund ? 5 : 0) + r.pool + (r.paidBonus || 0);
+    if (acct.wallet.bal !== expect) issue(n, 'موجودیِ سرور با حسابِ مورد انتظار نمی‌خواند', { bal: acct.wallet.bal, expect });
+    const ui = await ev(n, () => ({ bal: TJBank.cached().balance, text: document.getElementById('bkResult').textContent }));
+    if (ui.bal !== acct.wallet.bal) issue(n, 'موجودیِ نمایش‌داده‌شده با سرور نمی‌خواند', { ui: ui.bal, server: acct.wallet.bal });
+    if (r.win && !/برد/.test(ui.text)) issue(n, 'نتیجه‌یِ بردِ بانک نمایش داده نشد', ui.text.slice(0, 80));
+    if (!r.win && !rec.result.refund && !/نبرد/.test(ui.text)) issue(n, 'نتیجه‌یِ باخت نمایش داده نشد', ui.text.slice(0, 80));
+  }
+  if (pools > rec.result.pot) issue('bank', 'جمعِ سهمِ استخر از استخر بیشتر است', { pools, pot: rec.result.pot });
+  note('بانک: برنده‌یِ ' + rec.result.winner + '؛ استخر ' + rec.result.pot + '؛ حساب‌هایِ برنده ' + wins + '؛ پاداش‌ها ' + JSON.stringify(joined.map(([n, u]) => [n, rec.result.results[u.id].bonus.total, rec.result.results[u.id].paidBonus])));
+  const R = u => rec.result.results[u.id], first = joined.slice().sort((a, b) => (R(b[1]).win - R(a[1]).win) || (R(b[1]).bonus.total - R(a[1]).bonus.total))[0][0]; await ev(first, () => document.getElementById('bkResult').scrollIntoView({ block: 'center' })); await store(first, '12-bank-result');
+}
+
 // ---------- سرور ایستا ----------
 const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.ttf': 'font/ttf', '.woff2': 'font/woff2', '.json': 'application/json' };
 const server = http.createServer((req, res) => {
@@ -56,6 +119,7 @@ async function newPage(name) {
     return r;
   });
   await page.exposeFunction('__tickmark', () => { if (process.env.TRAFFIC) { const k = role + '|' + phaseKey(); TRAF.ticks[k] = (TRAF.ticks[k] || 0) + 1; } });
+  if (BANK) await page.evaluateOnNewDocument(u => { window.TJ_BANK_URL = u; }, 'http://localhost:' + BANK_PORT);
   await page.evaluateOnNewDocument(() => {
     const si = window.setInterval; window.setInterval = (f, ms, ...a) => si(ms === 2000 ? (() => { try { window.__tickmark(); } catch (e) {} return f(); }) : f, ms === 2000 ? 300 : ms, ...a);
   });
@@ -140,6 +204,7 @@ async function setup() {
     await ev(n, ({ n, code }) => { document.getElementById('joinNameInput').value = n; document.getElementById('joinCodeInput').value = code; document.getElementById('joinBtn').click(); }, { n, code });
     await waitFor(n, () => document.getElementById('screen-player-lobby').classList.contains('active'), null, 'player lobby ' + n);
   }
+  await bankSetup();
   await waitFor('host', c => document.getElementById('scenarioPicker').style.display === 'block' && document.getElementById('hostPlayerCount').textContent == c, count, 'scenario picker');
   await store('host', '02-host-lobby');
   const opts = await ev('host', () => [...document.querySelectorAll('#scenarioSelect option')].map(o => o.value));
@@ -635,12 +700,13 @@ async function finishCheck() {
     }
   }
   await snap('host', 'final'); await snap(players().find(p => !p.is_host).display_name, 'final');
-  { const pl = players().find(p => !p.is_host && pages[p.display_name]); if (pl) { await store(pl.display_name, '08-game-over'); await ev(pl.display_name, () => { try { openRulebook(); } catch (e) {} }).catch(() => {}); await sleep(1800); await store(pl.display_name, '09-rulebook'); } }
+  { const pl = players().filter(p => !p.is_host && pages[p.display_name]).slice(-1)[0]; if (pl) { await store(pl.display_name, '08-game-over'); await ev(pl.display_name, () => { try { openRulebook(); } catch (e) {} }).catch(() => {}); await sleep(1800); await store(pl.display_name, '09-rulebook'); } }
 }
 
 (async () => {
   await new Promise(r => server.listen(0, r)); PORT = server.address().port;
   browser = await puppeteer.launch({ executablePath: CHROME, headless: true, args: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage', '--window-size=480,900'] });
+  if (BANK) await startBank();
   const t0 = Date.now();
   try {
     await setup();
@@ -703,6 +769,7 @@ async function finishCheck() {
       await startNextDay(day);
     }
     await finishCheck();
+    await bankFinish();
   } catch (e) {
     issue('FATAL', String(e && e.stack || e).slice(0, 600));
     try { await snap('host', 'fatal'); } catch (x) {}
@@ -714,5 +781,6 @@ async function finishCheck() {
   uniq.forEach((c, k) => console.log(' ×' + c + '  ' + k));
   if (process.env.TRAFFIC) fs.writeFileSync(process.env.TRAFFIC_OUT || path.join(SHOTS, 'traffic.json'), JSON.stringify(TRAF, null, 1));
   fs.writeFileSync(path.join(SHOTS, 'report.json'), JSON.stringify({ layout: LAYOUT, seed: SEED, issues, log }, null, 1));
+  if (bankSrv) { try { await bankSrv.close(); } catch (e) {} }
   await browser.close(); server.close(); process.exit(0);
 })();

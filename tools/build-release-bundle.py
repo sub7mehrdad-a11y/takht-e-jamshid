@@ -49,7 +49,7 @@ def main():
         shutil.copy2(APK_DIR / 'راهنما.txt', OUT / '1-اندروید' / 'راهنما.txt')
 
     # ۲) وب: فایل‌های اجرایی (ردیابی‌شده + راهنمای آیفون که شاید هنوز commit نشده) → zip
-    files = WEB_TOP + git_files('assets') + git_files('-o', '--exclude-standard', 'assets/guide')
+    files = WEB_TOP + git_files('assets') + git_files('-o', '--exclude-standard', 'assets/guide', 'assets/bank')
     files = list(dict.fromkeys(files))
     zpath = OUT / '2-وب' / 'takht-web.zip'
     with zipfile.ZipFile(zpath, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as z:

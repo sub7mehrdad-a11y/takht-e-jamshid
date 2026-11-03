@@ -20,7 +20,7 @@ const ls = (...args) => execFileSync('git', ['-c', 'core.quotepath=off', 'ls-fil
 const tracked = [...new Set([
   ...ls('assets'),
   // کتابخانه‌هایِ vendor حتی اگر هنوز commit نشده باشند (git ردیابی نمی‌کند ولی ignore هم نیست) داخلِ اپ بروند
-  ...ls('-o', '--exclude-standard', 'assets/vendor'),
+  ...ls('-o', '--exclude-standard', 'assets/vendor', 'assets/bank', 'assets/guide'),
 ])];
 // (دفترچه‌یِ کامل assets/rulebook هم داخلِ اپ است: دکمه‌یِ «دفترچه» و «PDF چاپی» به آن نیاز دارند)
 tracked.forEach(copy);

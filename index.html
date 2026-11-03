@@ -17,6 +17,7 @@
 <title>تخت جمشید</title>
 <!-- فونت و کتابخانه‌یِ Supabase از خودِ سایت لود می‌شن (بدونِ وابستگی به Google Fonts/unpkg که در ایران کند یا فیلترن) -->
 <link rel="stylesheet" href="assets/vendor/fonts/vazirmatn.css">
+<link rel="stylesheet" href="assets/bank/bank.css">
 <script src="assets/vendor/supabase.js"></script>
 <style>
   :root{
@@ -1793,7 +1794,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   // دکمه‌ی خروج بالا-راستِ صفحه است (دکمه‌ی «؟» بالا-چپه)؛ روی راهنما/نقش‌ها/پایانِ بازی نمایش داده نمی‌شه چون
   // دکمه‌یِ بازگشتِ خودشون همون‌جاست.
   let exitWanted = false;
-  const EXIT_HIDDEN_ON = ['screen-guide', 'screen-roles', 'screen-game-over', 'screen-splash', 'screen-entry'];
+  const EXIT_HIDDEN_ON = ['screen-guide', 'screen-roles', 'screen-game-over', 'screen-splash', 'screen-entry', 'screen-bank'];
   function paintExitBtn(){
     const b = document.getElementById('exitBtn');
     const active = document.querySelector('.screen.active');
@@ -1851,7 +1852,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   function go(id){
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby' || id === 'screen-day-vote' || id === 'screen-night-wait' || id === 'screen-eliminated' || id === 'screen-my-role' || id === 'screen-jamshid-dash' || id === 'screen-zahhak-dash' || id === 'screen-guide' || id === 'screen-roles' || id === 'screen-game-over');
+    const isFull = (id === 'screen-splash' || id === 'screen-entry' || id === 'screen-host-lobby' || id === 'screen-player-lobby' || id === 'screen-day-vote' || id === 'screen-night-wait' || id === 'screen-eliminated' || id === 'screen-my-role' || id === 'screen-jamshid-dash' || id === 'screen-zahhak-dash' || id === 'screen-guide' || id === 'screen-roles' || id === 'screen-game-over' || id === 'screen-bank');
     const brand = document.querySelector('.brand');
     if(brand) brand.style.display = isFull ? 'none' : '';
     document.body.classList.toggle('fullbleed', isFull);
@@ -1861,7 +1862,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     // دکمه‌ی راهنما همه‌جا هست، به‌جز خودِ صفحه‌های راهنما و اسپلش
     const fab = document.getElementById('guideFab');
     if(fab){
-      const hideOn = ['screen-splash', 'screen-entry', 'screen-host-lobby', 'screen-player-lobby', 'screen-roles', 'screen-guide', 'screen-night-wait'];
+      const hideOn = ['screen-splash', 'screen-entry', 'screen-host-lobby', 'screen-player-lobby', 'screen-roles', 'screen-guide', 'screen-night-wait', 'screen-bank'];
       fab.style.display = hideOn.includes(id) ? 'none' : 'block';
     }
   }
@@ -1943,6 +1944,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
       currentGame = game; currentPlayer = player;
       saveSession();
       document.getElementById('playerRoomCodeDisplay').textContent = game.code;
+      if(window.TJBankUI) TJBankUI.onJoined();
       go('screen-player-lobby');
       startPlayerPolling();
     }catch(e){
@@ -3202,6 +3204,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
           document.getElementById('playerRoomCodeDisplay').textContent = game.code;
           document.getElementById('playerVisibleCount').textContent = nonHost.length;
           renderLobbyPlayerList('playerLobbyList', players);
+          if(window.TJBankUI) TJBankUI.lobbyTick(game, currentPlayer);
           const host = players.find(p => p.is_host);
           if(host){
             const info = document.getElementById('playerHostInfo');
@@ -3468,6 +3471,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
     });
   }
   function showGameOver(winner, players){
+    if(window.TJBankUI && currentGame) TJBankUI.onGameOver(currentGame, currentPlayer);
     const dark = winner === 'zahhaki';
     document.getElementById('screen-game-over').dataset.winner = winner;
     const seal = dvEl('img');
@@ -4509,6 +4513,9 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
   })();
 </script>
 
+<script src="assets/bank/bank-client.js"></script>
+<script src="assets/bank/bank-ui.js"></script>
+
 <!-- QR اتاق: نمایش (گرداننده) و اسکن با دوربین (بازیکن). کتابخانه‌ها فقط وقتی لازم شدند لود می‌شن -->
 <style>
 .tjq{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:rgba(14,10,5,.94);color:#f1e3c3;padding:18px;text-align:center;direction:rtl;font:14px/1.9 Vazirmatn,system-ui,sans-serif}
@@ -4608,6 +4615,7 @@ body.motion-paused #screen-roles .roles-glow{animation-play-state:paused}
 
   // دکمه‌یِ «بازگشت»ِ اندروید اول پنجره‌هایِ QR را می‌بندد
   window.tjCloseOverlay = () => {
+    if(window.tjCloseBank && window.tjCloseBank()) return true;
     if($('qrScanOverlay').classList.contains('open')){ stopScan(); return true; }
     if($('hostQrModal').classList.contains('open')){ $('hostQrModal').classList.remove('open'); return true; }
     return false;
